@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+    {% load static %}
+    {% block content %}
+        <style>
+            img {
+                width: auto; 
+                height: auto;
+                max-width: 80px;
+                max-height: 80px;
+            }
+
+            .row > div[class*='col-'] {
+                display: flex;
+                flex:1 0 auto;
+            }
+
+            .card_id {
+                width: auto; 
+                height: auto;
+                min-width: 80px;
+                min-height: 80px;
+                max-width: 250px;
+                max-height: 250px;
+            }
+
+        </style>
+        <div class="container">
+            <div class="row">
+                {% for game in games %}
+                    <div class="col-md-3 col-xs-6 card_id">
+                        <div class="card mt-4" >
+                            <div class="card-header">
+                                <img class="card-img" src="{% static game.2 %}" alt="Card image cap"></img>
+                                <img class="card-img" src="{% static game.3 %}" alt="Card image cap"></img>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text" style="text-align:center;">{{game.0}} at {{game.1}}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endblock %}
