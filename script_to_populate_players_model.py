@@ -1,10 +1,3 @@
-from django.shortcuts import redirect, render
-
-def home(request):
-    #populate()
-    return render(request, 'base.html')
-
-
 from nba_api.stats.endpoints import commonplayerinfo
 from nba_api.stats.endpoints import playercareerstats
 from nba_api.stats.static import players
@@ -46,16 +39,20 @@ def populate():
                 if year_stats[1]=='2019-20':
                     year_array=year_stats
 
-            player_name = players.find_player_by_id(year_array[0])['full_name']
+            player_name = players.find_player_by_id(year_array[0])
 
             player = Player(full_name=player_name,player_id=year_array[0],point_per_game=year_array[26]/year_array[6],
                 assists_per_game=year_array[21]/year_array[6],rebounds_per_game=year_array[20]/year_array[6],
                 blocks_per_game=year_array[23]/year_array[6],steals_per_game=year_array[22]/year_array[6],
                 turnovers_per_game=year_array[24]/year_array[6],personal_fouls_per_game=year_array[25]/year_array[6],
-                free_throw_percentage=(year_array[17]/year_array[6])*100,field_goal_percentage=year_array[11]*100,
-                minutes_per_game=year_array[8]/year_array[6],three_point_percentage=year_array[14]*100,
+                free_throw_percentage=year_array[17]/year_array[6],field_goal_percentage=year_array[11],
+                minutes_per_game=year_array[8]/year_array[6],three_point_percentage=year_array[14],
                 games_played=year_array[6],team_id=year_array[3]
             )
-            print(player_stats_current_year)
+
             player.save()
             break
+
+
+if __name__ == "__main__":
+    populate()

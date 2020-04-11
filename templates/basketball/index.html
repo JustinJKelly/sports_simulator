@@ -9,7 +9,7 @@
                 max-height: 80px;
             }
 
-            .row > div[class*='col-'] {
+            #row_id > div[class*='col-'] {
                 display: flex;
                 flex:1 0 auto;
             }
@@ -18,14 +18,14 @@
                 width: auto; 
                 height: auto;
                 min-width: 80px;
-                min-height: 80px;
+                min-height: 180px;
                 max-width: 250px;
                 max-height: 250px;
             }
 
         </style>
         <div class="container">
-            <div class="row">
+            <div class="row" id="row_id">
                 {% for game in games %}
                     <div class="col-md-3 col-xs-6 card_id">
                         <div class="card mt-4" >
@@ -35,6 +35,7 @@
                             </div>
                             <div class="card-body">
                                 <p class="card-text" style="text-align:center;">{{game.0}} at {{game.1}}</p>
+                             <!--   <a style="text-align:center;" href="basketball/{{">{{game.0}} at {{game.1}}</a>-->
                             </div>
                         </div>
                     </div>
