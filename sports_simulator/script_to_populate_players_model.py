@@ -46,17 +46,18 @@ def populate():
             #print(year_array)
 
             if year_array != None:
-                player = Player(full_name=p['full_name'],player_id=year_array[0],point_per_game=round(year_array[26]/year_array[6],1),
-                    assists_per_game=year_array[21]/year_array[6],rebounds_per_game=year_array[20]/year_array[6],
-                    blocks_per_game=year_array[23]/year_array[6],steals_per_game=year_array[22]/year_array[6],
-                    turnovers_per_game=year_array[24]/year_array[6],personal_fouls_per_game=year_array[25]/year_array[6],
-                    free_throw_percentage=year_array[17]*100,field_goal_percentage=year_array[11]*100,
-                    minutes_per_game=year_array[8]/year_array[6],three_point_percentage=year_array[14]*100,
-                    games_played=year_array[6],team_id=year_array[3]
-                )
+                if year_array[6]>5:
+                    player = Player(full_name=p['full_name'],player_id=year_array[0],point_per_game=round(year_array[26]/year_array[6],1),
+                        assists_per_game=year_array[21]/year_array[6],rebounds_per_game=year_array[20]/year_array[6],
+                        blocks_per_game=year_array[23]/year_array[6],steals_per_game=year_array[22]/year_array[6],
+                        turnovers_per_game=year_array[24]/year_array[6],personal_fouls_per_game=year_array[25]/year_array[6],
+                        free_throw_percentage=year_array[17]*100,field_goal_percentage=year_array[11]*100,
+                        minutes_per_game=year_array[8]/year_array[6],three_point_percentage=year_array[14]*100,
+                        games_played=year_array[6],team_id=year_array[3]
+                    )
 
-                player.save()
-                print(p['full_name'])
+                    player.save()
+                    print(p['full_name'])
 
 
 if __name__ == "__main__":

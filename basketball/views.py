@@ -40,7 +40,9 @@ def home(request):
 
 def player_page(request,id):
     player = Player.objects.get(player_id=id)
-    player_img = get_image(id)
+    if player == None:
+        return render("404 player not found")
+    player_image = "https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{}.png".format(id)
     
     context = {
         "full_name": player.full_name,"player_id":player.player_id,"point_per_game":player.point_per_game,
@@ -49,19 +51,9 @@ def player_page(request,id):
         "personal_fouls_per_game":player.personal_fouls_per_game,"free_throw_percentage":player.free_throw_percentage,
         "field_goal_percentage":player.field_goal_percentage,"minutes_per_game":player.minutes_per_game,
         "three_point_percentage":player.three_point_percentage,"games_played":player.games_played,
-        "team_id":player.team_id,"player_img":player_img
+        "team_id":player.team_id,"player_image":player_image
     }
     return render(request,'basketball/player_page.html',context=context)
-
-
-def get_image(id):
-    url = "https://stats.nba.com/player/"+str(id)
-    response = requests.get(url)
-
-    data = response.text
-    soup = BeautifulSoup(data,features='html.parser')
-
-    img_url = soup.findAll('span', {'class': 'TeamName'})
 
 
 def find_team_logos(team1, team2):
