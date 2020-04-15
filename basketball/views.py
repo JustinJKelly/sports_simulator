@@ -5,6 +5,13 @@ from nba_api.stats.static import players
 from bs4 import BeautifulSoup
 import requests
 from .models import Player
+# importing datetime module 
+import datetime
+'''
+# creating an instance of  
+# datetime.date 
+d = datetime(2015, 10, 09, 23, 55, 59, 342380) 
+'''
 
 from random import seed
 from random import randint
@@ -38,6 +45,11 @@ def home(request):
 
     return render(request, 'basketball/index.html', context)
 
+#height,weight,jersey_number,player_age, team_name
+#full_name,player_id,points_total,assists_total,rebounds_total,blocks_total
+#steals_total, turnovers_total, personal_fouls_total,free_throws_attempted
+#free_throws_made,minutes_total,three_point_attempted,three_point_made,
+#field_goals_attempted,field_goals_made,games_played,team_id
 def player_page(request,id):
     player = Player.objects.get(player_id=id)
     if player == None:
@@ -45,42 +57,103 @@ def player_page(request,id):
     player_image = "https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{}.png".format(id)
     
     context = {
-        "full_name": player.full_name,"player_id":player.player_id,"point_per_game":player.point_per_game,
-        "assists_per_game":player.assists_per_game,"rebounds_per_game":player.rebounds_per_game,"blocks_per_game":player.blocks_per_game,
-        "steals_per_game":player.steals_per_game,"turnovers_per_game":player.turnovers_per_game,
-        "personal_fouls_per_game":player.personal_fouls_per_game,"free_throw_percentage":player.free_throw_percentage,
-        "field_goal_percentage":player.field_goal_percentage,"minutes_per_game":player.minutes_per_game,
-        "three_point_percentage":player.three_point_percentage,"games_played":player.games_played,
-        "team_id":player.team_id,"player_image":player_image
+        "full_name": player.full_name,"player_id":player.player_id,
+        "point_per_game":round(player.points_total/player.games_played,1),
+        "assists_per_game":round(player.assists_total/player.games_played,1),
+        "rebounds_per_game":round(player.rebounds_total/player.games_played),
+        "blocks_per_game":round(player.blocks_total/player.games_played,1),
+        "steals_per_game":round(player.steals_total/player.games_played,1),
+        "turnovers_per_game":round(player.turnovers_total/player.games_played,1),
+        "personal_fouls_per_game":round(player.personal_fouls_total/player.games_played,1),
+        "free_throw_percentage":round((player.free_throws_made/player.free_throws_attempted)*100,1),
+        "field_goal_percentage":round((player.field_goals_made/player.field_goals_attempted)*100,1),
+        "minutes_per_game":round(player.minutes_total/player.games_played,1),
+        "three_point_percentage":round((player.three_point_made/player.three_point_attempted)*100,1),
+        "games_played":player.games_played,"team_image":find_team_image(player.team_id),"player_image":player_image,
+        "height":player.height,"weight":player.weight,"jersey_number":player.jersey_number,
+        "player_age":player.player_age,"team_name":player.team_name,
+        "free_throws_attempted":round(player.free_throws_attempted/player.games_played,1),
+        "free_throws_made":round(player.free_throws_made/player.games_played,1),
+        "three_point_attempted":round(player.three_point_attempted/player.games_played,1),
+        "three_point_made":round(player.three_point_made/player.games_played,1),
+        "field_goals_attempted":round(player.field_goals_attempted/player.games_played,1),
+        "field_goals_made":round(player.field_goals_made/player.games_played,1),"position":player.position
     }
     return render(request,'basketball/player_page.html',context=context)
 
+def find_team_image(team_id):
+    list_teams = {
+        1610612737:"img/atlanta-hawks.png",
+        1610612738:"img/boston-celtics.png",
+        1610612751:"img/brooklyn-nets.png",
+        1610612766:"img/charlotte-hornets.png",
+        1610612741:"img/chicago-bulls.png",
+        1610612739:"img/cleveland-cavaliers.png",
+        1610612742:"img/dallas-mavericks.png",
+        1610612743:"img/denver-nuggets.png",
+        1610612765:"img/detroit-pistons.png",
+        1610612744:"img/golden-state-warriors.png",
+        1610612745:"img/houston-rockets.png",
+        1610612754:"img/indiana-pacers.png",
+        1610612746:"img/los-angeles-clippers.png",
+        1610612747:"img/los-angeles-lakers.png",
+        1610612763:"img/memphis-grizzlies.png",
+        1610612748:"img/miami-heat.png",
+        1610612749:"img/milwaukee-bucks.png",
+        1610612750:"img/minnesota-timberwolves.png",
+        1610612740:"img/new-orleans-pelicans.png",
+        1610612752:"img/new-york-knicks.png",
+        1610612760:"img/oklahoma-city-thunder.png",
+        1610612753:"img/orlando-magic.png",
+        1610612755:"img/philadelphia-76ers.png",
+        1610612756:"img/phoenix-suns.png",
+        1610612757:"img/portland-trail-blazers.png",
+        1610612758:"img/sacramento-kings.png",
+        1610612759:"img/san-antonio-spurs.png",
+        1610612761:"img/toronto-raptors.png",
+        1610612762:"img/utah-jazz.png",
+        1610612764:"img/washington-wizards.png"
+    }
+    print(list_teams[team_id])
+
+    return list_teams[team_id]
 
 def find_team_logos(team1, team2):
     return_list = []
 
-    list_teams = [
-        "atlanta","boston","brooklyn","charlotte","chicago","cleveland","dallas","denver",
-        "detroit","golden st.","houston","indiana","l.a. clippers","l.a. lakers","memphis","miami","milwaukee",
-        "minnesota","new orleans","new york","oklahoma city","orlando","philadelphia","phoenix","portland",
-        "sacramento","san antonio","toronto","utah","washington"
-    ]
-    list_teams_logo = [
-        "atlanta-hawks","boston-celtics","brooklyn-nets","charlotte-bobcats","chicago-bulls",
-        "cleveland-cavaliers","dallas-mavericks","denver-nuggets","detroit-pistons","golden-state-warriors",
-        "houston-rockets","indiana-pacers","los-angeles-clippers","los-angeles-lakers","memphis-grizzlies",
-        "miami-heat","milwaukee-bucks","minnesota-timberwolves","new-orleans-hornets","new-york-knicks",
-        "oklahoma-city-thunder","orlando-magic","philadelphia-76ers","phoenix-suns","portland-trail-blazers",
-        "sacramento-kings","san-antonio-spurs","toronto-raptors","utah-jazz","washington-wizards"
-    ]
-
-    for i in range(0,len(list_teams)):
-        if list_teams[i]==team1:
-            img_file = "img/"+list_teams_logo[i]+".png"
-            return_list.append(img_file)
-        elif list_teams[i]==team2:
-            img_file = "img/"+list_teams_logo[i]+".png"
-            return_list.append(img_file)
+    list_teams = {
+        "atlanta":"img/atlanta-hawks.png",
+        "boston":"img/boston-celtics.png",
+        "brooklyn":"img/brooklyn-nets.png",
+        "charlotte":"img/charlotte-hornets.png",
+        "chicago":"img/chicago-bulls.png",
+        "cleveland":"img/cleveland-cavaliers.png",
+        "dallas":"img/dallas-mavericks.png",
+        "denver":"img/denver-nuggets.png",
+        "detroit":"img/detroit-pistons.png",
+        "golden st.":"img/golden-state-warriors.png",
+        "houston":"img/houston-rockets.png",
+        "indiana":"img/indiana-pacers.png",
+        "l.a. clippers":"img/los-angeles-clippers.png",
+        "l.a. lakers":"img/los-angeles-lakers.png",
+        "memphis":"img/memphis-grizzlies.png",
+        "miami":"img/miami-heat.png",
+        "milwaukee":"img/milwaukee-bucks.png",
+        "minnesota":"img/minnesota-timberwolves.png",
+        "new orleans":"img/new-orleans-pelicans.png",
+        "new york":"img/new-york-knicks.png",
+        "oklahoma city":"img/oklahoma-city-thunder.png",
+        "orlando":"img/orlando-magic.png",
+        "philadelphia":"img/philadelphia-76ers.png",
+        "phoenix":"img/phoenix-suns.png",
+        "portland":"img/portland-trail-blazers.png",
+        "sacramento":"img/sacramento-kings.png",
+        "san antonio":"img/san-antonio-spurs.png",
+        "toronto":"img/toronto-raptors.png",
+        "utah":"img/utah-jazz.png",
+        "washington":"img/washington-wizards.png"
+    }
+    return_list = [list_teams[team1],list_teams[team2]]
         
     
     #to-do -> create game model so can show score/top scorers and add link to game stats
