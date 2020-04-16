@@ -3,17 +3,17 @@ from nba_api.stats.library.parameters import Season, SeasonTypeAllStar, LeagueID
 #from basketball.models import Game
 
 """
-    home_team = models.IntegerField(null=False)
-    away_team = models.IntegerField(null=False)
-    game_id = models.IntegerField(primary_key=True)
-    winning_team_id = models.IntegerField(null=False)
-    losing_team_id = models.IntegerField(null=False)
+    -home_team = models.IntegerField(null=False)
+    -away_team = models.IntegerField(null=False)
+    -game_id = models.IntegerField(primary_key=True)
+    -winning_team_id = models.IntegerField(null=False)
+    -losing_team_id = models.IntegerField(null=False)
     home_team_score = models.IntegerField(null=False)
     away_team_score = models.IntegerField(null=False)
     top_scorer_home = models.IntegerField(null=False)
     top_scorer_away = models.IntegerField(null=False)
     attendance = models.IntegerField(null=False)
-    date_time = models.DateTimeField(null=False)
+    -date_time = models.DateTimeField(null=False)
 """
 
 """
@@ -60,12 +60,55 @@ def populate():
     data = TeamGameLog(team_id='1610612745').get_dict()# Houston Rockets
     game_ids=[]
     for game in data['resultSets']:
+        for games in game['rowSet']:
+            home_team = 0
+            away_team = 0
+            winning_team_id = 0
+            losing_team_id = 0
+            if "@" in games[3]:#not a home game for the rockets
+                away_team = games[0]
+                # need to make a dict to reference the teams to get the home team
+                #print(away_team)
+            else: # home game for rockets
+                home_team = games[0]
+                # need to make a dict to reference the teams to get the away team
+            if games[4] == "W":
+                winning_team_id = games[0]
+            else:
+                losing_team_id = games[0]
+            game_date = games[2]
+            home_team_score = games[26]
+            away_team_score = 0
+            boxScore = BoxScoreTraditionalV2(game_id = games[1]).get_dict()
+            highestScorerTeam1=0
+            highestScorerTeam2=0
+            highestScorerTeam1ID=0
+            highestScorerTeam2ID=0
+            for stats in boxScore['resultSets']:
+                if(stats['name'] == 'TeamStats'):
+                    if(stats['rowSet'][0][23] == home_team_score):
+                        away_team_score = stats['rowSet'][1][23]      
+                    else:
+                        away_team_score = stats['rowSet'][0][23]
+                elif(stats['name'] == 'PlayerStats'):
+                    ###########
+                    ## THIS CODE BLOCK NEEDS TO FIGURE OUT WHO THE HIGHEST SCORER ON BOTH TEAMS IS
+
+
+                    ##########
+    print("HELLO")
+
+
+
+
+"""
+    for game in data['resultSets']:
        # print(game['rowSet'])
        #print(game, "\n\n")
        #count=0
        for games in game['rowSet']:
             # Getting game ID for Houston Rockets
-            #print("GameID: ", games[1])
+            print("MATCHUP: ", games[3])
             game_ids.append(games[1])
 
     #print(game_ids, "\n", len(game_ids)) PRINTING ALL GAME_IDS FOR ROCKETS
@@ -76,7 +119,10 @@ def populate():
         #print(info, "\n")
         if(info['name'] == 'TeamStats'):
             # Theres not a reliable way to check which team is hosting
-             game_id = info['rowSet'][0][0]
+            game_id = info['rowSet'][0][0]
+            
+            # gameinfo = GAME(home_team=)
+
             # Whichever has high points in the winner... duh
             # if(info['rowSet'][0][23] > info['rowSet'][1][23]): # comparing scores
             #     winning_team_id = info['rowSet'][0][1] 
@@ -108,6 +154,7 @@ def populate():
 
 
     print("end Function")
+"""
     
 
 
