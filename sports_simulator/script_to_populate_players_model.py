@@ -59,9 +59,10 @@ def populate():
                         steals_total=year_array[22],turnovers_total=year_array[24],personal_fouls_total=year_array[25],
                         free_throws_attempted=year_array[16],free_throws_made=year_array[15],minutes_total=year_array[8],
                         three_point_attempted=year_array[13],three_point_made=year_array[12],field_goals_attempted=year_array[10],
-                        field_goals_made=year_array[9],games_played=year_array[6],team_id=year_array[3],height=player[10],
+                        field_goals_made=year_array[9],games_played=year_array[6],team_id=player[16],height=player[10],
                         weight=player[11],position=player[14],jersey_number=player[13],player_age=int(year_array[5]),
-                        team_name=player[20]+" "+player[17],offensive_rebounds_total=player[18],defensive_rebounds_total=player[19]
+                        team_name=player[20]+" "+player[17],offensive_rebounds_total=year_array[18],
+                        defensive_rebounds_total=year_array[19]
                     )
 
                     player.save()
