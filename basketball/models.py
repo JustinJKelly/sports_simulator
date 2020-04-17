@@ -1,5 +1,6 @@
 from django.db import models
 from jsonfield import JSONField
+from datetime import date
 
 #all stats are for 2019-2020 season
 class Player(models.Model):
@@ -13,6 +14,8 @@ class Player(models.Model):
     team_name = models.CharField(max_length=50,null=False)
     points_total = models.IntegerField(null=False)
     assists_total = models.IntegerField(null=False)
+    offensive_rebounds_total = models.IntegerField(null=False)
+    defensive_rebounds_total = models.IntegerField(null=False)
     rebounds_total = models.IntegerField(null=False)
     blocks_total = models.IntegerField(null=False)
     steals_total = models.IntegerField(null=False)
@@ -35,19 +38,46 @@ class Player(models.Model):
 class Game(models.Model):
     home_team = models.IntegerField(null=False)
     away_team = models.IntegerField(null=False)
+    home_team_name = models.CharField(max_length=35,null=False)
+    away_team_name = models.CharField(max_length=35,null=False)
     game_id = models.IntegerField(primary_key=True)
     winning_team_id = models.IntegerField(null=False)
+    winner_name = models.CharField(max_length=35,null=False)
+    loser_name = models.CharField(max_length=35,null=False)
     losing_team_id = models.IntegerField(null=False)
     home_team_score = models.IntegerField(null=False)
     away_team_score = models.IntegerField(null=False)
     top_scorer_home = models.IntegerField(null=False)
     top_scorer_away = models.IntegerField(null=False)
     attendance = models.IntegerField(null=False)
-    date_time = models.DateTimeField(null=False)
+    date = models.DateField(default=date.today)
+    time = models.TimeField(default=None, null=True)
     json = JSONField()
 
     def __str__(self):
         return str(self.game_id)
+
+class GameLog(models.Model):
+    player_id = models.ForeignKey(Player, on_delete=models.CASCADE)
+    date_time = models.DateField(default=date.today)
+    opponent = models.CharField(max_length=4,null=False)
+    game_id = models.ForeignKey(Game, on_delete=models.CASCADE)
+    win_loss = models.CharField(max_length=1) #W or L
+    minutes = models.IntegerField(null=False,default=0)
+    field_goals_made = models.IntegerField(null=False,default=0)
+    field_goals_attempted = models.IntegerField(null=False,default=0)
+    three_point_made = models.IntegerField(null=False,default=0)
+    three_point_attempted = models.IntegerField(null=False,default=0)
+    free_throws_made = models.IntegerField(null=False,default=0)
+    free_throws_attempted = models.IntegerField(null=False,default=0)
+    rebounds = models.IntegerField(null=False,default=0)
+    assists = models.IntegerField(null=False,default=0)
+    steals = models.IntegerField(null=False,default=0)
+    blocks = models.IntegerField(null=False,default=0)
+    turnovers = models.IntegerField(null=False,default=0)
+    personal_fouls = models.IntegerField(null=False,default=0)
+    points = models.IntegerField(null=False,default=0)
+
 
     
 
