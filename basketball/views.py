@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from nba_api.stats.endpoints import commonplayerinfo
 from nba_api.stats.endpoints import playercareerstats
-from nba_api.stats.static import players
+from nba_api.stats.static import players, teams
 from bs4 import BeautifulSoup
 import requests
 from .models import Player, Game
@@ -135,12 +135,12 @@ def find_team_image(team_id):
     attendance = models.IntegerField(null=False)
     date = models.DateField(default=date.today)
     time = models.TimeField(default=None, null=True)
-    json = JSONField()'''
+    data = JSONField()'''
 def game_page(request, id):
     game = Game.objects.get(game_id=id)
 
-    player_stats = game.json['player_stats']
-    team_stats = game.json['team_stats']
+    player_stats = game.data['player_stats']
+    team_stats = game.data['team_stats']
     home_team_player_stats = []
     away_team_player_stats = []
 
@@ -151,13 +151,24 @@ def game_page(request, id):
             away_team_player_stats.append(player)
 
 
+    points_by_quarter = game.data["points_by_quarter_id"]
+    home_points_by_quarter = points_by_quarter[str(game.home_team)]
+    away_points_by_quarter = points_by_quarter[str(game.away_team)]
+
+    #DOESNT HAVE OVERTIME POINTS BY QUARTER
     context = {
         "home_team_name": game.home_team_name,"game_id":game.game_id,"away_team_name": game.away_team_name,
         "home_team_image":find_team_image(game.home_team),"away_team_image":find_team_image(game.away_team),
         "home_team_score":game.home_team_score,"away_team_score":game.away_team_score,
         "top_scorer_home":game.top_scorer_home,"top_scorer_away":game.top_scorer_away,"attendance":game.attendance,
         "day":game.date.day, "month":game.date.month,"year":game.date.year,"team_stats":team_stats,
-        "home_team_player_stats":home_team_player_stats, "away_team_player_stats":away_team_player_stats
+        "home_team_player_stats":home_team_player_stats, "away_team_player_stats":away_team_player_stats,
+        "top_scorer_home_points":game.top_scorer_home_points,"top_scorer_away_points":game.top_scorer_away_points,
+        "top_scorer_home_name":Player.objects.get(player_id=game.top_scorer_home),
+        "top_scorer_away_name":Player.objects.get(player_id=game.top_scorer_away),
+        "away_points_by_quarter":away_points_by_quarter[:4], "home_points_by_quarter": home_points_by_quarter[:4],
+        "home_team_abv":teams.find_team_name_by_id(game.home_team)['abbreviation'],
+        "away_team_abv":teams.find_team_name_by_id(game.away_team)['abbreviation']
     }
 
     return render(request,'basketball/game_page.html',context)

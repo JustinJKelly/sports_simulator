@@ -154,7 +154,12 @@ def populate():
                     this_game['away_team_record']=game_lineScore[0][7]
 
                 this_game['all_stats']['points_by_quarter_id']={
-                    game_lineScore[0][3]: {
+                    game_lineScore[0][3]: [game_lineScore[0][x] for x in range(8,16)],
+                    game_lineScore[1][3]: [game_lineScore[1][x] for x in range(8,16)]
+                }
+
+                """
+                    game_lineScore[0][3]:{
                         'pts_1st':game_lineScore[0][8],
                         'pts_2nd':game_lineScore[0][9],
                         'pts_3rd':game_lineScore[0][10],
@@ -173,8 +178,7 @@ def populate():
                         'pts_ot2':game_lineScore[1][13],
                         'pts_ot3':game_lineScore[1][14],
                         'pts_ot4':game_lineScore[1][15]
-                    }
-                }
+                    }"""
 
                 #['GAME_ID'0, 'TEAM_ID'1, 'TEAM_ABBREVIATION'2, 'TEAM_CITY'3, 'PLAYER_ID'4, 'PLAYER_NAME'5, 'START_POSITION'6,
                 #  'COMMENT'7, 'MIN'8, 'FGM'9, 'FGA'10, 'FG_PCT'11, 'FG3M'12, 'FG3A'13, 'FG3_PCT'14, 'FTM'15, 'FTA'16, 'FT_PCT'17, 

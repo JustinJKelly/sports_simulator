@@ -5,20 +5,67 @@
         "top_scorer_home":game.top_scorer_home,"top_scorer_away":game.top_scorer_away,"attendance":game.attendance,
         "day":game.date.day, "month":game.date.month,"year":game.date.year,"team_stats":team_stats,
         "home_team_player_stats":home_team_player_stats, "away_team_player_stats":away_team_player_stats
+        "top_scorer_home_points":game.top_scorer_home_points,"top_scorer_away_points":game.top_scorer_away_points,
+        "top_scorer_home_name":Player.objects.get(player_id=game.top_scorer_home),
+        "top_scorer_away_name":Player.objects.get(player_id=game.top_scorer_away),
+        "away_points_by_quarter":away_points_by_quarter, "home_points_by_quarter": home_points_by_quarter,
+        "home_team_abv":teams.find_team_name_by_id(game.home_team)['abbreviation'],
+        "away_team_abv":teams.find_team_name_by_id(game.away_team)['abbreviation']
+    }
     }
 -->
 
 {% extends 'base.html' %}
     {% load static %}
     {% block content %}
-        <div class="container text-center">
-            <h3> {{away_team_name}} <img style=";max-height:80px;max-width:80px" src="{% static away_team_image %}"></img>
-                    <b>{{away_team_score}}</b>
-                    <b> Final </b>
-                    <b>{{home_team_score}}</b>
-                    <img style=";max-height:80px;max-width:80px" src="{% static home_team_image %}"></img>
-                    {{home_team_name}}  
-            </h3>
+    <br/>
+    <div class="container text-center">
+        <div class="text-center" style="font-size:18px;" id="header">
+            <div class="row">
+                <div class="col-sm-4">
+                    <p> <b>{{away_team_name}} </b>
+                        <img style=";max-height:65px;max-width:65px" src="{% static away_team_image %}"></img>
+                        <b>{{away_team_score}}</b>
+                    </p>
+                </div>
+                <div class="col-sm-4">
+                    <!--<b> Final </b>-->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-light table-sm" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">1st</th>
+                                    <th scope="col">2nd</th>
+                                    <th scope="col">3rd</th>
+                                    <th scope="col">4th</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">{{away_team_abv}}</th>
+                                        {% for p in away_points_by_quarter %}
+                                        <td>{{p}}</td>
+                                    {% endfor %}
+                                </tr>
+                                <tr>
+                                    <th scope="row">{{home_team_abv}}</th>
+                                    {% for p in home_points_by_quarter %}
+                                        <td>{{p}}</td>
+                                    {% endfor %}
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <p>
+                        <b>{{home_team_score}}</b>
+                        <img style=";max-height:65px;max-width:65px" src="{% static home_team_image %}"></img>
+                        <b>{{home_team_name}}</b>
+                    </p>
+                </div>
+            </div>
         </div>
         
           <div class="table-responsive">
@@ -64,7 +111,7 @@
             </table>
         </div>
         
-
+    </div>
 
 
 
