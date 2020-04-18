@@ -191,7 +191,6 @@ def populate():
                                 this_player = {
                                     'player_id':player[4],
                                     'team_id':player[1],
-                                    'points':player[26],
                                     'name':player[5],
                                     'min':player[8].split(':')[0],
                                     'FG_made':player[9],
@@ -207,6 +206,7 @@ def populate():
                                     'blocks':player[23],
                                     'turnovers':player[24],
                                     'personal_fouls':player[25],
+                                    'points':player[26],
                                     'comment':'OK'
                                 }
                                 if this_game['home_team_id']==player[1]:
