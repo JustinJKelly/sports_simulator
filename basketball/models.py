@@ -47,12 +47,16 @@ class Game(models.Model):
     losing_team_id = models.IntegerField(null=False)
     home_team_score = models.IntegerField(null=False)
     away_team_score = models.IntegerField(null=False)
+    top_scorer_home_points = models.IntegerField(null=False)
+    top_scorer_away_points = models.IntegerField(null=False)
     top_scorer_home = models.IntegerField(null=False)
     top_scorer_away = models.IntegerField(null=False)
     attendance = models.IntegerField(null=False)
     date = models.DateField(default=date.today)
     time = models.TimeField(default=None, null=True)
-    json = JSONField()
+    home_team_record = models.CharField(max_length=10,null=False)
+    away_team_record = models.CharField(max_length=10,null=False)
+    data = JSONField()
 
     def __str__(self):
         return str(self.game_id)

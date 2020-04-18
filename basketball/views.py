@@ -4,7 +4,7 @@ from nba_api.stats.endpoints import playercareerstats
 from nba_api.stats.static import players
 from bs4 import BeautifulSoup
 import requests
-from .models import Player
+from .models import Player, Game
 # importing datetime module 
 import datetime
 '''
@@ -117,6 +117,59 @@ def find_team_image(team_id):
     print(list_teams[team_id])
 
     return list_teams[team_id]
+
+
+''' home_team = models.IntegerField(null=False)
+    away_team = models.IntegerField(null=False)
+    home_team_name = models.CharField(max_length=35,null=False)
+    away_team_name = models.CharField(max_length=35,null=False)
+    game_id = models.IntegerField(primary_key=True)
+    winning_team_id = models.IntegerField(null=False)
+    winner_name = models.CharField(max_length=35,null=False)
+    loser_name = models.CharField(max_length=35,null=False)
+    losing_team_id = models.IntegerField(null=False)
+    home_team_score = models.IntegerField(null=False)
+    away_team_score = models.IntegerField(null=False)
+    top_scorer_home = models.IntegerField(null=False)
+    top_scorer_away = models.IntegerField(null=False)
+    attendance = models.IntegerField(null=False)
+    date = models.DateField(default=date.today)
+    time = models.TimeField(default=None, null=True)
+    json = JSONField()'''
+def game_page(request, id):
+    game = Game.objects.get(game_id=id)
+
+    player_stats = game.json['player_stats']
+    team_stats = game.json['team_stats']
+    home_team_player_stats = []
+    away_team_player_stats = []
+
+    for player in player_stats:
+        if player['player_id']==game.home_team:
+            home_team_player_stats.append(player)
+        else:
+            away_team_player_stats.append(player)
+
+
+    context = {
+        "home_team_name": game.home_team_name,"game_id":game.game_id,"away_team_name": game.away_team_name,
+        "home_team_image":find_team_image(game.home_team),"away_team_image":find_team_image(game.away_team),
+        "home_team_score":game.home_team_score,"away_team_score":game.away_team_score,
+        "top_scorer_home":game.top_scorer_home,"top_scorer_away":game.top_scorer_away,"attendance":game.attendance,
+        "day":game.date.day, "month":game.date.month,"year":game.date.year,"team_stats":team_stats,
+        "home_team_player_stats":home_team_player_stats, "away_team_player_stats":away_team_player_stats
+    }
+
+    return render(request,'basketball/game_page.html',context)
+
+
+
+
+
+
+
+
+
 
 def find_team_logos(team1, team2):
     return_list = []

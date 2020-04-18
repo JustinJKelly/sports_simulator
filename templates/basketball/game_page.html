@@ -1,0 +1,74 @@
+ <!--context = {
+        "home_team_name": game.home_team_name,"game_id":game.game_id,"away_team_name": game.away_team_name,
+        "home_team_image":find_team_image(game.home_team_id),"away_team_image":find_team_image(game.away_team_id),
+        "home_team_score":game.home_team_score,"away_team_score":game.away_team_score,
+        "top_scorer_home":game.top_scorer_home,"top_scorer_away":game.top_scorer_away,"attendance":game.attendance,
+        "day":game.date.day, "month":game.date.month,"year":game.date.year,"team_stats":team_stats,
+        "home_team_player_stats":home_team_player_stats, "away_team_player_stats":away_team_player_stats
+    }
+-->
+
+{% extends 'base.html' %}
+    {% load static %}
+    {% block content %}
+        <div class="container text-center">
+            <h3> {{away_team_name}} <img style=";max-height:80px;max-width:80px" src="{% static away_team_image %}"></img>
+                    <b>{{away_team_score}}</b>
+                    <b> Final </b>
+                    <b>{{home_team_score}}</b>
+                    <img style=";max-height:80px;max-width:80px" src="{% static home_team_image %}"></img>
+                    {{home_team_name}}  
+            </h3>
+        </div>
+        
+          <div class="table-responsive">
+            <table class="table table-striped table-light">
+                <thead>
+                    <tr>
+                        <th scope="col">GP</th>
+                        <th scope="col">MIN</th>
+                        <th scope="col">FG</th>
+                        <th scope="col">FG%</th>
+                        <th scope="col">3PT</th>
+                        <th scope="col">3PT%</th>
+                        <th scope="col">FT</th>
+                        <th scope="col">FT%</th>
+                        <th scope="col">REB</th>
+                        <th scope="col">AST</th>
+                        <th scope="col">BLK</th>
+                        <th scope="col">STL</th>
+                        <th scope="col">PF</th>
+                        <th scope="col">TO</th>
+                        <th scope="col">PTS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{games_played}}</td>
+                        <td>{{minutes_per_game}}</td>
+                        <td>{{field_goals_made}}-{{field_goals_attempted}}</td>
+                        <td>{{field_goal_percentage}}%</td>
+                        <td>{{three_point_made}}-{{three_point_attempted}}</td>
+                        <td>{{three_point_percentage}}%</td>
+                        <td>{{free_throws_made}}-{{free_throws_attempted}}</td>
+                        <td>{{free_throw_percentage}}%</td>
+                        <td>{{rebounds_per_game}}</td>
+                        <td>{{assists_per_game}}</td>
+                        <td>{{blocks_per_game}}</td>
+                        <td>{{steals_per_game}}</td>
+                        <td>{{personal_fouls_per_game}}</td>
+                        <td>{{turnovers_per_game}}</td>
+                        <td>{{point_per_game}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+
+
+
+
+
+
+
+{% endblock %}

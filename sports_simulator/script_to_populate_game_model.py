@@ -1,4 +1,4 @@
-from nba_api.stats.endpoints import TeamGameLog, BoxScoreTraditionalV2
+from nba_api.stats.endpoints import TeamGameLog, BoxScoreTraditionalV2,BoxScoreSummaryV2, Scoreboard
 from nba_api.stats.library.parameters import Season, SeasonTypeAllStar, LeagueIDNullable
 from nba_api.stats.static import teams
 from datetime import date
@@ -107,7 +107,7 @@ def populate():
         count = 0
         for game in data['resultSets'][0]['rowSet']:
             count += 1
-            if count == 11:
+            if count == 2:
                 return
             this_game = {}
             home_team_player_scores = {}
@@ -134,23 +134,55 @@ def populate():
 
                 data2 = BoxScoreTraditionalV2(game_id = game[1]).get_dict()['resultSets']
                 #print(data2)
-                #this_game['home_team_player_stats'] = {}
-                #this_game['away_team_player_stats'] = {}
-                #print('\n\n\n\n\n\n')
+
                 player_stats = []
                 team_stats = []
                 this_game['all_stats'] = {}
-                #print(data2['resultSets'][0])
+
+                data3 = BoxScoreSummaryV2(game_id=game[1]).get_dict()['resultSets']
+                print(len(data3))
+                game_info = data3[4]['rowSet'] #GameInfo
+                print(game_info)
+                this_game['attendance']=game_info[0][1]
+                game_lineScore = data3[5]['rowSet'] #linescore
+                season_series = data3[8]['rowSet']
+                if game_lineScore[0][3]==this_game['home_team_id']:
+                    this_game['home_team_record']=game_lineScore[0][7]
+                    this_game['away_team_record']=game_lineScore[1][7]
+                else:
+                    this_game['home_team_record']=game_lineScore[1][7]
+                    this_game['away_team_record']=game_lineScore[0][7]
+
+                this_game['all_stats']['points_by_quarter_id']={
+                    game_lineScore[0][3]: {
+                        'pts_1st':game_lineScore[0][8],
+                        'pts_2nd':game_lineScore[0][9],
+                        'pts_3rd':game_lineScore[0][10],
+                        'pts_4th':game_lineScore[0][11],
+                        'pts_ot1':game_lineScore[0][12],
+                        'pts_ot2':game_lineScore[0][13],
+                        'pts_ot3':game_lineScore[0][14],
+                        'pts_ot4':game_lineScore[0][15]
+                    },
+                    game_lineScore[1][3]: {
+                        'pts_1st':game_lineScore[1][8],
+                        'pts_2nd':game_lineScore[1][9],
+                        'pts_3rd':game_lineScore[1][10],
+                        'pts_4th':game_lineScore[1][11],
+                        'pts_ot1':game_lineScore[1][12],
+                        'pts_ot2':game_lineScore[1][13],
+                        'pts_ot3':game_lineScore[1][14],
+                        'pts_ot4':game_lineScore[1][15]
+                    }
+                }
+
                 #['GAME_ID'0, 'TEAM_ID'1, 'TEAM_ABBREVIATION'2, 'TEAM_CITY'3, 'PLAYER_ID'4, 'PLAYER_NAME'5, 'START_POSITION'6,
                 #  'COMMENT'7, 'MIN'8, 'FGM'9, 'FGA'10, 'FG_PCT'11, 'FG3M'12, 'FG3A'13, 'FG3_PCT'14, 'FTM'15, 'FTA'16, 'FT_PCT'17, 
                 # 'OREB'18, 'DREB'19, 'REB'20, 'AST'21, 'STL'22, 'BLK'23, 'TO'24, 'PF'25, 'PTS'26, 'PLUS_MINUS'27]
                 for info in data2:
                     if (info['name'] == 'PlayerStats'):
-                        #print('Player Stats:')
-                        #print(print(info['headers']))
-                        #print(info)
+
                         for player in info['rowSet']:
-                            #print(player[7], " ",type(player[7]))
                             if not player[7]:
                                 this_player = {
                                     'player_id':player[4],
@@ -189,17 +221,15 @@ def populate():
                         max_value_away=max(away_team_player_scores.values())
                         this_game['top_scorer_home']=[k for k, v in home_team_player_scores.items() if v == max_value_home][0]
                         this_game['top_scorer_away']=[k for k, v in away_team_player_scores.items() if v == max_value_away][0]
+                        this_game['top_scorer_home_points']=max_value_home[0]
+                        this_game['top_scorer_away_points']=max_value_away[0]
                         
                         this_game['all_stats']['player_stats']=player_stats
-                        #print(player_stats)
-                        #print('\n\n\n')
+
                     #['GAME_ID'0, 'TEAM_ID'1, 'TEAM_NAME'2, 'TEAM_ABBREVIATION'3, 'TEAM_CITY'4, 'MIN'5, 'FGM'6, 'FGA'7, 'FG_PCT'8, 
                     # 'FG3M'9, 'FG3A'10, 'FG3_PCT'11, 'FTM'12, 'FTA'13, 'FT_PCT'14, 'OREB'15, 'DREB'16, 'REB'17, 'AST'18,
                     # 'STL'19, 'BLK'20, 'TO'21, 'PF'22, 'PTS'23, 'PLUS_MINUS'24]
                     elif (info['name'] == 'TeamStats'):
-                        #print('Team Stats:')
-                        #print(print(info['headers']))
-                        #print(info)
 
                         for team in info['rowSet']:
                             this_team = {
@@ -244,33 +274,22 @@ def populate():
 
                 #print(this_game)
                 print("Winning id:",this_game['winner_id'])
-                print("Losing id:",this_game['loser_id'])
-                        
-                        #print(info)
-                        # Whichever has high points in the winner... duh
-                        # if(info['rowSet'][0][23] > info['rowSet'][1][23]): # comparing scores
-                        #     winning_team_id = info['rowSet'][0][1] 
-                        #     losing_team_id = info['rowSet'][1][1]
-                        # else: 
-                        #      winning_team_id = info['rowSet'][1][1]
-                        #      losing_team_id = info['rowSet'][0][1]
-                        #print(info['rowSet'][0], "points: ", info['rowSet'][0][23])
-                        #print(info['rowSet'][1], "points: ", info['rowSet'][1][23])
+                print("Losing id:",this_game['loser_id'])                  
                     
-                        
-                    
-                this_game['date']=get_date(this_game['date'])
+                this_game['date']=get_game_date(this_game['date'])
                 #print(this_game)
                 print("Winning id:",this_game['winner_id'])
                 print("Losing id:",this_game['loser_id'])
                 game = Game(home_team_name=this_game['home_team'],away_team_name=this_game['away_team'],
                         home_team=this_game['home_team_id'],away_team=this_game['away_team_id'],
-                        json=this_game['all_stats'],winning_team_id=this_game['winner_id'],
+                        data=this_game['all_stats'],winning_team_id=this_game['winner_id'],
                         losing_team_id=this_game["loser_id"],loser_name=this_game["loser_name"],
                         winner_name=this_game["winner_name"],home_team_score=this_game['home_team_score'],
-                        away_team_score=this_game['away_team_score'],date=this_game['date'],attendance=get_attendance(this_game['home_team_id']),
+                        away_team_score=this_game['away_team_score'],date=this_game['date'],attendance=this_game['attendance'],#attendance=get_attendance(this_game['home_team_id']),
                         top_scorer_home=this_game['top_scorer_home'],top_scorer_away=this_game['top_scorer_away'],
-                        game_id=this_game["game_id"]
+                        game_id=this_game["game_id"],home_team_record=this_game['home_team_record'],
+                        away_team_record=this_game['away_team_record'],top_scorer_home_points=this_game['top_scorer_home_points'],
+                        top_scorer_away_points=this_game['top_scorer_away_points']
                 )
 
                 game_data[this_game['game_id']]= this_game
@@ -278,10 +297,8 @@ def populate():
                 print(this_game['game_id'])
                 this_game={}
         
-
-    #print("end Function")
     
-def get_date(this_date):
+def get_game_date(this_date):
     items = this_date.split(' ')
     #print(items)
     months = {
