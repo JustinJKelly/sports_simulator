@@ -150,6 +150,42 @@ def game_page(request, id):
         else:
             away_team_player_stats.append(player)
 
+    home_team_stats = []
+    away_team_stats = []
+    home_team = 1
+    away_team = 1
+    if team_stats[0]['team_id']==game.home_team:
+        home_team = 0
+    else:
+        away_team = 0
+
+    home_team_stats= [
+        team_stats[home_team]['FG_made'], team_stats[home_team]["FG_attempted"], 
+        round((team_stats[home_team]['FG_made']/team_stats[home_team]["FG_attempted"])*100,1),
+        team_stats[home_team]['3P_made'], team_stats[home_team]["3P_attempted"], 
+        round((team_stats[home_team]['3P_made']/team_stats[home_team]["3P_attempted"])*100,1),
+        team_stats[home_team]['FT_made'], team_stats[home_team]["FT_attempted"],
+        round((team_stats[home_team]['FT_made']/team_stats[home_team]["FT_attempted"])*100,1),
+        team_stats[home_team]['off_rebounds']+team_stats[home_team]["def_rebounds"],
+        team_stats[home_team]['off_rebounds'], team_stats[home_team]["def_rebounds"],
+        team_stats[home_team]['assists'],team_stats[home_team]['steals'],team_stats[home_team]['blocks'],
+        team_stats[home_team]['turnovers'],team_stats[home_team]['personal_fouls']
+    ]
+    away_team_stats= [
+        team_stats[away_team]['FG_made'], team_stats[away_team]["FG_attempted"], 
+        round((team_stats[away_team]['FG_made']/team_stats[away_team]["FG_attempted"])*100,1),
+        team_stats[away_team]['3P_made'], team_stats[away_team]["3P_attempted"], 
+        round((team_stats[away_team]['3P_made']/team_stats[away_team]["3P_attempted"])*100,1),
+        team_stats[away_team]['FT_made'], team_stats[away_team]["FT_attempted"],
+        round((team_stats[away_team]['FT_made']/team_stats[away_team]["FT_attempted"])*100,1),
+        team_stats[away_team]['off_rebounds']+team_stats[away_team]["def_rebounds"],
+        team_stats[away_team]['off_rebounds'], team_stats[away_team]["def_rebounds"],
+        team_stats[away_team]['assists'],team_stats[away_team]['steals'],team_stats[away_team]['blocks'],
+        team_stats[away_team]['turnovers'],team_stats[away_team]['personal_fouls']
+    ]
+    
+
+
 
     points_by_quarter = game.data["points_by_quarter_id"]
     home_points_by_quarter = points_by_quarter[str(game.home_team)]
@@ -161,7 +197,8 @@ def game_page(request, id):
         "home_team_image":find_team_image(game.home_team),"away_team_image":find_team_image(game.away_team),
         "home_team_score":game.home_team_score,"away_team_score":game.away_team_score,
         "top_scorer_home":game.top_scorer_home,"top_scorer_away":game.top_scorer_away,"attendance":game.attendance,
-        "day":game.date.day, "month":game.date.month,"year":game.date.year,"team_stats":team_stats,
+        "day":game.date.day, "month":game.date.month,"year":game.date.year,
+        "home_team_stats":home_team_stats,"away_team_stats":away_team_stats,
         "home_team_player_stats":home_team_player_stats, "away_team_player_stats":away_team_player_stats,
         "top_scorer_home_points":game.top_scorer_home_points,"top_scorer_away_points":game.top_scorer_away_points,
         "top_scorer_home_name":Player.objects.get(player_id=game.top_scorer_home),

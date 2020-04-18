@@ -20,18 +20,17 @@
     {% block content %}
     <br/>
     <div class="container text-center">
-        <div class="text-center" style="font-size:18px;" id="header">
+        <div class="text-center" id="header">
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-4" style="font-size:20px;">
                     <p> <b>{{away_team_name}} </b>
                         <img style=";max-height:65px;max-width:65px" src="{% static away_team_image %}"></img>
                         <b>{{away_team_score}}</b>
                     </p>
                 </div>
                 <div class="col-sm-4">
-                    <!--<b> Final </b>-->
                     <div class="table-responsive">
-                        <table class="table table-striped table-light table-sm" style="width:100%">
+                        <table class="table table-striped table-light table-sm" style="width:80%; font-size:14px; margin-left:10%; margin-right:10%;">
                             <thead>
                                 <tr>
                                     <th scope="col"></th>
@@ -39,6 +38,7 @@
                                     <th scope="col">2nd</th>
                                     <th scope="col">3rd</th>
                                     <th scope="col">4th</th>
+                                    <th scope="col">Final</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -46,19 +46,21 @@
                                     <th scope="row">{{away_team_abv}}</th>
                                         {% for p in away_points_by_quarter %}
                                         <td>{{p}}</td>
-                                    {% endfor %}
+                                        {% endfor %}
+                                        <td>{{away_team_score}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">{{home_team_abv}}</th>
                                     {% for p in home_points_by_quarter %}
                                         <td>{{p}}</td>
                                     {% endfor %}
+                                    <td>{{home_team_score}}</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-4" style="font-size:20px;">
                     <p>
                         <b>{{home_team_score}}</b>
                         <img style=";max-height:65px;max-width:65px" src="{% static home_team_image %}"></img>
@@ -67,70 +69,96 @@
                 </div>
             </div>
         </div>
-        
-          <div class="table-responsive">
-            <table class="table table-striped table-light">
+    </div>
+        <div class="table-responsive container">
+            <table class="table table-striped table-light" style="width:50%; font-size:15px; margin-left:25%; margin-right:25%;">
                 <thead>
                     <tr>
-                        <th scope="col">GP</th>
-                        <th scope="col">MIN</th>
-                        <th scope="col">FG</th>
-                        <th scope="col">FG%</th>
-                        <th scope="col">3PT</th>
-                        <th scope="col">3PT%</th>
-                        <th scope="col">FT</th>
-                        <th scope="col">FT%</th>
-                        <th scope="col">REB</th>
-                        <th scope="col">AST</th>
-                        <th scope="col">BLK</th>
-                        <th scope="col">STL</th>
-                        <th scope="col">PF</th>
-                        <th scope="col">TO</th>
-                        <th scope="col">PTS</th>
-                    </tr>
+                        <th scope="col"><b>Matchup</b></th>
+                        <th><img style=";max-height:55px;max-width:55px" src="{% static away_team_image %}"></img></th>
+                        <th><img style=";max-height:55px;max-width:55px" src="{% static home_team_image %}"></img></th>
+                    <tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <th scope="row">{{away_team_abv}}</th>
-                        <td>{{games_played}}</td>
-                        <td>{{minutes_per_game}}</td>
-                        <td>{{field_goals_made}}-{{field_goals_attempted}}</td>
-                        <td>{{field_goal_percentage}}%</td>
-                        <td>{{three_point_made}}-{{three_point_attempted}}</td>
-                        <td>{{three_point_percentage}}%</td>
-                        <td>{{free_throws_made}}-{{free_throws_attempted}}</td>
-                        <td>{{free_throw_percentage}}%</td>
-                        <td>{{rebounds_per_game}}</td>
-                        <td>{{assists_per_game}}</td>
-                        <td>{{blocks_per_game}}</td>
-                        <td>{{steals_per_game}}</td>
-                        <td>{{personal_fouls_per_game}}</td>
-                        <td>{{turnovers_per_game}}</td>
-                        <td>{{point_per_game}}</td>
+                        <td scope="row">FG</th>
+                        <td>{{away_team_stats.0}}-{{away_team_stats.1}}</td>
+                        <td>{{home_team_stats.0}}-{{home_team_stats.1}}</td>
                     </tr>
                     <tr>
-                        <th scope="row">{{home_team_abv}}</th>
-                        <td>{{games_played}}</td>
-                        <td>{{minutes_per_game}}</td>
-                        <td>{{field_goals_made}}-{{field_goals_attempted}}</td>
-                        <td>{{field_goal_percentage}}%</td>
-                        <td>{{three_point_made}}-{{three_point_attempted}}</td>
-                        <td>{{three_point_percentage}}%</td>
-                        <td>{{free_throws_made}}-{{free_throws_attempted}}</td>
-                        <td>{{free_throw_percentage}}%</td>
-                        <td>{{rebounds_per_game}}</td>
-                        <td>{{assists_per_game}}</td>
-                        <td>{{blocks_per_game}}</td>
-                        <td>{{steals_per_game}}</td>
-                        <td>{{personal_fouls_per_game}}</td>
-                        <td>{{turnovers_per_game}}</td>
-                        <td>{{point_per_game}}</td>
+                        <th scope="row">Field Goal %</th>
+                        <td>{{away_team_stats.2}} %</td>
+                        <td>{{home_team_stats.2}} %</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3PT</th>
+                        <td>{{away_team_stats.3}}-{{home_team_stats.4}}</td>
+                        <td>{{home_team_stats.3}}-{{home_team_stats.4}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Three Point %</th>
+                        <td>{{away_team_stats.5}}%</td>
+                        <td>{{home_team_stats.5}}%</td>
+                    </tr>
+                    <tr>
+                            <th scope="row">FT</th>
+                            <td>{{away_team_stats.6}}-{{away_team_stats.7}}</td>
+                            <td>{{home_team_stats.6}}-{{home_team_stats.7}}</td>
+                    </tr>
+                    <tr>
+                            <th scope="row">Free Throw %</th>
+                            <td>{{away_team_stats.8}} %</td>
+                            <td>{{home_team_stats.8}} %</td>
+                    </tr>
+                    <tr>    
+                            <th scope="row">Rebounds</th>
+                            <td>{{away_team_stats.9}}</td>
+                            <td>{{home_team_stats.9}}</td>
+                    </tr>
+                    <tr>
+                            <th scope="row">Offensive Rebounds</th>
+                            <td>{{away_team_stats.10}}</td>
+                            <td>{{home_team_stats.10}}</td>
+                    </tr>
+                    <tr>
+                            <th scope="row">Defensive Rebounds</th>
+                            <td>{{away_team_stats.11}}</td>
+                            <td>{{home_team_stats.11}}</td>
+                    </tr>
+                    <tr>
+                            <th scope="row">Assists</th>
+                            <td>{{away_team_stats.12}}</td>
+                            <td>{{home_team_stats.12}}</td>
+                    </tr>
+                    <tr>
+                            <th scope="row">Steals</th>
+                            <td>{{away_team_stats.13}}</td>
+                            <td>{{home_team_stats.13}}</td>
+                    </tr>
+                    <tr>
+                            <th scope="row">Blocks</th>
+                            <td>{{away_team_stats.14}}</td>
+                            <td>{{home_team_stats.14}}</td>
+                    </tr>
+                    <tr>
+                            <th scope="row">Turnovers</th>
+                            <td>{{away_team_stats.15}}</td>
+                            <td>{{home_team_stats.15}}</td>
+                    </tr>
+                    <tr>
+                            <th scope="row">Personal Fouls</th>
+                            <td>{{away_team_stats.16}}</td>
+                            <td>{{home_team_stats.16}}</td>
+                    </tr>
+                    <tr>
+                            <th scope="row">Points</th>
+                            <td>{{away_team_score}}</td>
+                            <td>{{home_team_score}}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
         
-    </div>
 
 
 
