@@ -215,6 +215,7 @@ def populate():
                                     away_team_player_scores[player[4]]=[player[26],player[5]]
                             else:
                                 this_player= {
+                                    'team_id':player[1],
                                     'player_id':player[4],
                                     'name':player[5],
                                     'comment': player[7]

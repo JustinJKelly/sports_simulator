@@ -145,10 +145,37 @@ def game_page(request, id):
     away_team_player_stats = []
 
     for player in player_stats:
-        if player['player_id']==game.home_team:
-            home_team_player_stats.append(player)
+        if player['team_id']==game.home_team:
+            if player['comment']=='OK':
+                home_team_player_stats.append([
+                    player['player_id'],player['name'],player['min'],player['FG_made'],
+                    player['FG_attempted'],player['3P_made'],player['3P_attempted'],
+                    player['FT_made'],player['FT_attempted'],player['off_rebounds'],
+                    player['def_rebounds'],player['off_rebounds']+player['def_rebounds'],
+                    player['assists'],player['steals'],player['blocks'],player['turnovers'],
+                    player['personal_fouls'],player['points']
+                ])
+            else:
+                home_team_player_stats.append([
+                    player['player_id'],player['name'],'N/A',0,
+                    0,0,0,0,0,0,0,0,0,0,0,0,0,0
+                ])
         else:
-            away_team_player_stats.append(player)
+            if player['comment']=='OK':
+                away_team_player_stats.append([
+                    player['player_id'],player['name'],player['min'],player['FG_made'],
+                    player['FG_attempted'],player['3P_made'],player['3P_attempted'],
+                    player['FT_made'],player['FT_attempted'],player['off_rebounds'],
+                    player['def_rebounds'],player['off_rebounds']+player['def_rebounds'],
+                    player['assists'],player['steals'],player['blocks'],player['turnovers'],
+                    player['personal_fouls'],player['points']
+                ])
+            else:
+                away_team_player_stats.append([
+                    player['player_id'],player['name'],'N/A',0,
+                    0,0,0,0,0,0,0,0,0,0,0,0,0,0
+                ])
+                
 
     home_team_stats = []
     away_team_stats = []
