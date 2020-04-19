@@ -59,7 +59,7 @@ class Game(models.Model):
     data = JSONField()
 
     def __str__(self):
-        return str(self.game_id)
+        return '%s @ %s %s' % (self.home_team_name,self.away_team_name, self.date) 
 
 class GameLog(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
@@ -83,6 +83,38 @@ class GameLog(models.Model):
     turnovers = models.IntegerField(null=False,default=0)
     personal_fouls = models.IntegerField(null=False,default=0)
     points = models.IntegerField(null=False,default=0)
+
+class Team(models.Model):
+    team_name = models.CharField(max_length=40,null=False)
+    team_abv = models.CharField(max_length=5,null=False)
+    team_wins = models.IntegerField(null=False)
+    team_loses = models.IntegerField(null=False)
+    conference = models.CharField(max_length=20,null=False)
+    division = models.CharField(max_length=20,null=False)
+    conference_rank = models.CharField(max_length=2,null=False)
+    points_total = models.IntegerField(null=False)
+    assists_total = models.IntegerField(null=False)
+    offensive_rebounds_total = models.IntegerField(null=False)
+    defensive_rebounds_total = models.IntegerField(null=False)
+    rebounds_total = models.IntegerField(null=False)
+    blocks_total = models.IntegerField(null=False)
+    steals_total = models.IntegerField(null=False)
+    turnovers_total = models.IntegerField(null=False)
+    personal_fouls_total = models.IntegerField(null=False)
+    free_throws_made = models.IntegerField(null=False)
+    free_throws_attempted = models.IntegerField(null=False)
+    three_point_made = models.IntegerField(null=False)
+    three_point_attempted = models.IntegerField(null=False)
+    field_goals_made = models.IntegerField(null=False)
+    field_goals_attempted = models.IntegerField(null=False)
+    games_played = models.IntegerField(null=False)
+    team_id = models.IntegerField(primary_key=True)
+    players = JSONField()
+
+    def __str__(self):
+        return str(self.team_name)
+    
+
 
 
     
