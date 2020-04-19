@@ -4,6 +4,7 @@ from nba_api.stats.static import teams
 from datetime import date
 from basketball.models import Game
 import random
+import time
 
 """
     home_team = models.IntegerField(null=False)
@@ -101,14 +102,13 @@ def populate():
     count = 1
     all_teams = teams.get_teams()
     for t in all_teams:
+        time.sleep(2)
         #data = TeamGameLog(team_id='1610612745').get_dict()# Houston Rockets
         data = TeamGameLog(team_id=t['id']).get_dict()# Houston Rockets
         game_data = {}
         count = 0
         for game in data['resultSets'][0]['rowSet']:
-            count += 1
-            if count == 2:
-                return
+            time.sleep(3)
             this_game = {}
             home_team_player_scores = {}
             away_team_player_scores = {}
@@ -140,9 +140,9 @@ def populate():
                 this_game['all_stats'] = {}
 
                 data3 = BoxScoreSummaryV2(game_id=game[1]).get_dict()['resultSets']
-                print(len(data3))
+                #print(len(data3))
                 game_info = data3[4]['rowSet'] #GameInfo
-                print(game_info)
+                #print(game_info)
                 this_game['attendance']=game_info[0][1]
                 game_lineScore = data3[5]['rowSet'] #linescore
                 season_series = data3[8]['rowSet']
@@ -278,13 +278,13 @@ def populate():
                             this_game['loser_name']="%s %s" % (team_stats[0]['team_city'], team_stats[0]['team_name'])
 
                 #print(this_game)
-                print("Winning id:",this_game['winner_id'])
-                print("Losing id:",this_game['loser_id'])                  
+                #print("Winning id:",this_game['winner_id'])
+                #print("Losing id:",this_game['loser_id'])                  
                     
                 this_game['date']=get_game_date(this_game['date'])
                 #print(this_game)
-                print("Winning id:",this_game['winner_id'])
-                print("Losing id:",this_game['loser_id'])
+                #print("Winning id:",this_game['winner_id'])
+                #print("Losing id:",this_game['loser_id'])
                 game = Game(home_team_name=this_game['home_team'],away_team_name=this_game['away_team'],
                         home_team=this_game['home_team_id'],away_team=this_game['away_team_id'],
                         data=this_game['all_stats'],winning_team_id=this_game['winner_id'],

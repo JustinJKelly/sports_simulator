@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
     {% load static %}
     {% block content %}
+        {% if messages %}
+            <div class="span12 container text-center" style="color:red; font-size:18px;">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message|safe }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
         <style>
             img {
                 width: auto; 
@@ -24,17 +33,57 @@
             }
 
         </style>
+
+        <br/>
+        <div class="bootstrap-iso container" style="margin-left:20%; margin-right:20%;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <!-- Form code begins -->
+                        <form method="post">{% csrf_token %}
+                            <div class="form-group"> <!-- Date input -->
+                                <label class="control-label" for="date">Pick Date</label>
+                                <input class="form-control" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+                            </div>
+                            <div class="form-group"> <!-- Submit button -->
+                                <button class="btn btn-primary " name="submit" type="submit">Submit</button>
+                            </div>
+                        </form>
+                        <!-- Form code ends --> 
+                    </div>
+                </div>    
+            </div>
+        </div>
+
+
+        <script>
+            $(document).ready(function() {
+                var date_input=$('input[name="date"]'); //our date input has the name "date"
+                var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+                var options={
+                    format: 'mm/dd/yyyy',
+                    container: container,
+                    todayHighlight: true,
+                    autoclose: true,
+                };
+                date_input.datepicker(options);
+            });
+        </script>
+
+
         <div class="container">
             <div class="row" id="row_id">
                 {% for game in games %}
                     <div class="col-md-3 col-xs-6 card_id">
                         <div class="card mt-4" >
                             <div class="card-header">
-                                <img class="card-img" src="{% static game.2 %}" alt="Card image cap"></img>
+                                <img class="card-img" src="{% static game.4 %}" alt="Card image cap"></img>
                                 <img class="card-img" src="{% static game.3 %}" alt="Card image cap"></img>
                             </div>
                             <div class="card-body">
-                                <p class="card-text" style="text-align:center;">{{game.0}} at {{game.1}}</p>
+                                <a href='/basketball/game/{{ game.0 }}'> 
+                                    <p class="card-text" style="text-align:center;"> {{game.2}} @ {{game.1}}</p>
+                                </a>
                                 <!-- add link to game here-->
                             </div>
                         </div>

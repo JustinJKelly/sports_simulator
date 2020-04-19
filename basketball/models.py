@@ -62,7 +62,7 @@ class Game(models.Model):
         return str(self.game_id)
 
 class GameLog(models.Model):
-    player_id = models.ForeignKey(Player, on_delete=models.CASCADE)
+    player = models.ForeignKey(Player, on_delete=models.CASCADE)
     date_time = models.DateField(default=date.today)
     opponent = models.CharField(max_length=4,null=False)
     game_id = models.ForeignKey(Game, on_delete=models.CASCADE)
@@ -74,6 +74,8 @@ class GameLog(models.Model):
     three_point_attempted = models.IntegerField(null=False,default=0)
     free_throws_made = models.IntegerField(null=False,default=0)
     free_throws_attempted = models.IntegerField(null=False,default=0)
+    off_rebounds = models.IntegerField(null=False,default=0)
+    def_rebounds = models.IntegerField(null=False,default=0)
     rebounds = models.IntegerField(null=False,default=0)
     assists = models.IntegerField(null=False,default=0)
     steals = models.IntegerField(null=False,default=0)

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from nba_api.stats.endpoints import commonplayerinfo
 from nba_api.stats.endpoints import playercareerstats
 from nba_api.stats.static import players, teams
@@ -15,9 +15,38 @@ d = datetime(2015, 10, 09, 23, 55, 59, 342380)
 
 from random import seed
 from random import randint
+from django.http import HttpResponse
+from django.contrib import messages
 
 def home(request):
-    url = "https://www.cbssports.com/nba/schedule/"
+    #print(request.POST['date'])
+    if request.method == 'GET':
+        game_date = datetime.date.today()
+    elif not request.POST['date']:
+        messages.add_message(request, messages.ERROR, 'No date specified')
+        game_date = datetime.date.today()
+    else:
+        date_attr = request.POST['date'].split('/')
+        #date(year, month, day)
+        game_date = datetime.date(int(date_attr[2]),int(date_attr[0]),int(date_attr[1]))
+        
+    games = Game.objects.filter(date=game_date) 
+    context = {}
+    context['games'] = []
+
+    for game in games:
+        this_game = [
+            game.game_id,
+            teams.find_team_name_by_id(game.home_team)['abbreviation'],
+            teams.find_team_name_by_id(game.away_team)['abbreviation'],
+            find_team_image(game.home_team),
+            find_team_image(game.away_team)
+        ]
+        context['games'].append(this_game)
+
+
+    return render(request, 'basketball/index.html', context)
+    '''url = "https://www.cbssports.com/nba/schedule/"
     response = requests.get(url)
 
     data = response.text
@@ -43,7 +72,7 @@ def home(request):
         "games": games
     }
 
-    return render(request, 'basketball/index.html', context)
+    return render(request, 'basketball/index.html', context)'''
 
 #height,weight,jersey_number,player_age, team_name
 #full_name,player_id,points_total,assists_total,rebounds_total,blocks_total
@@ -55,20 +84,35 @@ def player_page(request,id):
     if player == None:
         return render("404 player not found")
     player_image = "https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{}.png".format(id)
+
+    if player.free_throws_attempted == 0:
+        free_throw_percentage = 0
+    else:
+        free_throw_percentage = round((player.free_throws_made/player.free_throws_attempted)*100,1)
+
+    if player.field_goals_attempted == 0:
+        field_goal_percentage = 0
+    else:
+        field_goal_percentage = round((player.field_goals_made/player.field_goals_attempted)*100,1)
+    
+    if player.three_point_attempted == 0:
+        three_point_percentage = 0
+    else:
+        three_point_percentage = round((player.three_point_made/player.three_point_attempted)*100,1)
     
     context = {
         "full_name": player.full_name,"player_id":player.player_id,
         "point_per_game":round(player.points_total/player.games_played,1),
         "assists_per_game":round(player.assists_total/player.games_played,1),
-        "rebounds_per_game":round(player.rebounds_total/player.games_played),
+        "rebounds_per_game":round(player.rebounds_total/player.games_played,1),
         "blocks_per_game":round(player.blocks_total/player.games_played,1),
         "steals_per_game":round(player.steals_total/player.games_played,1),
         "turnovers_per_game":round(player.turnovers_total/player.games_played,1),
         "personal_fouls_per_game":round(player.personal_fouls_total/player.games_played,1),
-        "free_throw_percentage":round((player.free_throws_made/player.free_throws_attempted)*100,1),
-        "field_goal_percentage":round((player.field_goals_made/player.field_goals_attempted)*100,1),
+        "free_throw_percentage":free_throw_percentage,
+        "field_goal_percentage":field_goal_percentage,
         "minutes_per_game":round(player.minutes_total/player.games_played,1),
-        "three_point_percentage":round((player.three_point_made/player.three_point_attempted)*100,1),
+        "three_point_percentage":three_point_percentage,
         "games_played":player.games_played,"team_image":find_team_image(player.team_id),"player_image":player_image,
         "height":player.height,"weight":player.weight,"jersey_number":player.jersey_number,
         "player_age":player.player_age,"team_name":player.team_name,
@@ -114,7 +158,7 @@ def find_team_image(team_id):
         1610612762:"img/utah-jazz.png",
         1610612764:"img/washington-wizards.png"
     }
-    print(list_teams[team_id])
+    #print(list_teams[team_id])
 
     return list_teams[team_id]
 
@@ -153,7 +197,7 @@ def game_page(request, id):
                     player['FT_made'],player['FT_attempted'],player['off_rebounds'],
                     player['def_rebounds'],player['off_rebounds']+player['def_rebounds'],
                     player['assists'],player['steals'],player['blocks'],player['turnovers'],
-                    player['personal_fouls'],player['points']
+                    player['personal_fouls'],player['points'],player['player_id']
                 ])
             else:
                 home_team_player_stats.append([
@@ -168,7 +212,7 @@ def game_page(request, id):
                     player['FT_made'],player['FT_attempted'],player['off_rebounds'],
                     player['def_rebounds'],player['off_rebounds']+player['def_rebounds'],
                     player['assists'],player['steals'],player['blocks'],player['turnovers'],
-                    player['personal_fouls'],player['points']
+                    player['personal_fouls'],player['points'],player['player_id']
                 ])
             else:
                 away_team_player_stats.append([
@@ -232,7 +276,8 @@ def game_page(request, id):
         "top_scorer_away_name":Player.objects.get(player_id=game.top_scorer_away),
         "away_points_by_quarter":away_points_by_quarter[:4], "home_points_by_quarter": home_points_by_quarter[:4],
         "home_team_abv":teams.find_team_name_by_id(game.home_team)['abbreviation'],
-        "away_team_abv":teams.find_team_name_by_id(game.away_team)['abbreviation']
+        "away_team_abv":teams.find_team_name_by_id(game.away_team)['abbreviation'],
+        "home_team_record":game.home_team_record, "away_team_record":game.away_team_record
     }
 
     return render(request,'basketball/game_page.html',context)
@@ -241,7 +286,28 @@ def game_page(request, id):
 
 
 
+def get_game(request):
+    #print(request.POST['date'])
+    if not request.POST['date']:
+        redirect('/index.html')
+    else:
+        date_attr = request.POST['date'].split('/')
+        #date(year, month, day)
+        game_date = datetime.date(int(date_attr[2]),int(date_attr[0]),int(date_attr[1]))
+        
+        games = Game.objects.filter(date=game_date) 
+        context = {}
+        context['games'] = []
 
+        for game in games:
+            this_game = [
+                game.game_id,
+                game.home_team_name,
+                game.away_team_name
+            ]
+            context['games'].append(this_game)
+    
+        return render(request, 'basketball/index.html', context)
 
 
 
@@ -282,9 +348,6 @@ def find_team_logos(team1, team2):
         "washington":"img/washington-wizards.png"
     }
     return_list = [list_teams[team1],list_teams[team2]]
-        
-    
-    #to-do -> create game model so can show score/top scorers and add link to game stats
 
     return return_list
 

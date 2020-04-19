@@ -22,11 +22,14 @@
     <!--Header Scorebox-->
     <div class="container text-center">
         <div class="row">
-            <div class="col-sm-4" style="font-size:20px;">
-                <p> <b>{{away_team_name}} </b>
+            <div class="col-sm-4" style="font-size:14px;">
+                <p> 
+                    <!--({{away_team_record}})-->
+                    <b style="font-size:18px;">{{away_team_name}} </b>
                     <img style=";max-height:65px;max-width:65px" src="{% static away_team_image %}"></img>
-                    <b>{{away_team_score}}</b>
+                    <b style="font-size:30px;">{{away_team_score}}</b>
                 </p>
+                <p style="font-size:16px;">({{away_team_record}})</p>
             </div>
             <div class="col-sm-4">
                 <div class="table-responsive">
@@ -60,12 +63,14 @@
                     </table>
                 </div>
             </div>
-            <div class="col-sm-4" style="font-size:20px;">
+            <div class="col-sm-4" style="font-size:14px;">
                 <p>
-                    <b>{{home_team_score}}</b>
+                    <b style="font-size:30px;">{{home_team_score}}</b>
                     <img style=";max-height:65px;max-width:65px" src="{% static home_team_image %}"></img>
-                    <b>{{home_team_name}}</b>
+                    <b style="font-size:18px;">{{home_team_name}}</b>
+                    <!--({{home_team_record}})-->
                 </p>
+                <p style="font-size:16px;">({{home_team_record}})</p>
             </div>
         </div>
     </div>
@@ -160,10 +165,11 @@
                 </tr>
             </tbody>
         </table>
+        <br/>
+        <hr style="color:black; border-width:3px;"></hr>
     </div>
     <!-- End Team Stats Table-->
     <br/>
-
     <!--Away Team Player Stats-->
     <div class="table-responsive container">
         <p style="font-size:16px;"> <b>{{away_team_name}}</b> <img style=";max-height:45px;max-width:45px" src="{% static away_team_image %}"></img> </p>
@@ -189,7 +195,7 @@
             <tbody style="font-size:14px">
                 {% for p in away_team_player_stats %}
                     <tr>
-                        <td><b>{{p.1}}</b></td>
+                        <td> <a href='/basketball/player/{{ p.18 }}'> <b>{{p.1}}</b> </a> </td>
                         <td>{{p.2}}</td>
                         <td>{{p.3}}-{{p.4}}</td>
                         <td>{{p.5}}-{{p.6}}</td>
@@ -223,6 +229,8 @@
                 </tr>
             </tbody>
         </table>
+        <br/>
+        <hr style="color:black; border-width: 2px;"></hr>
     </div>
     <!--End Away Team Player Stats-->
     <br/>
@@ -251,7 +259,7 @@
             <tbody style="font-size:14px">
                 {% for p in home_team_player_stats %}
                     <tr>
-                        <td><b>{{p.1}}</b></td>
+                        <td> <a href='/basketball/player/{{ p.18 }}'> <b>{{p.1}}</b> </a> </td>
                         <td>{{p.2}}</td>
                         <td>{{p.3}}-{{p.4}}</td>
                         <td>{{p.5}}-{{p.6}}</td>
