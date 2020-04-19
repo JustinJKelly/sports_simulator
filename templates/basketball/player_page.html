@@ -18,7 +18,13 @@
         "games_played":player.games_played,"team_image":"img/nba_logo.png","player_image":player_image
     }-->
     <style>
-
+        .table-striped>tbody>tr:nth-child(odd)>td, 
+        .table-striped>tbody>tr:nth-child(odd)>th {
+            background-color: hsla(0, 0%, 70%, 0.733);
+            color: white;
+            font-style: bold;
+            font-weight: 500;
+         }
     </style>
     <div class="container bg-light">
         <div class="container-fluid bg-light p-3">
@@ -31,39 +37,38 @@
                         <div class="row">
                             <div class="card col-12 border-0 bg-light">
                                 <h2 class="mb-5 display-4">
-                                    <span style="font-weight: bold;">{{full_name}}</span>
-                                    <img style=";max-height:80px;max-width:80px" src="{% static team_image %}"></img>
+                                    <span style="font-weight: bold;">{{full_name}}</span><br/>
+                                    <img style="max-height:80px;max-width:80px;" src="{% static team_image %}"></img>
+                                    <span style="font-weight: bold; font-size: 25px;">{{team_name}}: #{{jersey_number}}</span>
                                 </h2>
-                            </div>
-                        </div>
-                        <div class="card-deck" style="height:100%">
-                            <div class="card bg-lightborder-0">
-                                <div class="card-body">
-                                    <ul class="list-group">
-                                        <li class="h3" style="font-weight: bold; list-style-type: none";>
-                                            Position: {{position}}
-                                        </li>
-                                        <li class="h3" style="font-weight: bold; list-style-type: none";>
-                                            Age: {{player_age}}
-                                        </li>
-                                        <li class="h3" style="font-weight: bold; list-style-type: none";>
-                                            Height: {{height}}
-                                        </li>
-                                        <li class="h3" style="font-weight: bold; list-style-type: none";>
-                                            Weight: {{weight}}
-                                        </li>
-                                        <li class="h3" style="font-weight: bold; list-style-type: none";>
-                                           {{team_name}} #{{jersey_number}}
-                                        </li>
-                                    </ul>
-                                </div>
+                                
                             </div>
                         </div>
                         <div class="card bg-light border-0">
-                            <!--<img class="card-img-top" style ="width:auto;height:300px;object-fit:contain;" src='{% static '' %}{{Logo_URL}}'>-->
+                            <!-- <img class="card-img-top" style ="width:auto;height:300px;object-fit:contain;" src='{% static '' %}{{Logo_URL}}'>-->
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table" >
+                    <thead>
+                        <tr>
+                            <th scope="col" >Position:</th>
+                            <th scope="col">Age:</th>
+                            <th scope="col">Height:</th>
+                            <th scope="col">Weight:</th>
+                        </tr>
+                        <tbody>
+                            <tr>
+                                <td>{{position}}</td>
+                                <td>{{player_age}}</td>
+                                <td>{{height}}</td>
+                                <td>{{weight}}</td>
+                            </tr>
+                        </tbody>
+                    </thead>
+                </table>
             </div>
         </div>
         <div class="table-responsive">
