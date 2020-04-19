@@ -34,18 +34,31 @@ def home(request):
     context = {}
     context['games'] = []
 
+    ''' [ game_id, home_team_abv, away_team_abv, home_team_img, away_team_img, away_team_score,
+            home_team_score, top_scorer_home_name, top_scorer_home_points, top_scorer_away_name,
+            top_scorer_away_score
+        ]
+    '''
     for game in games:
         this_game = [
             game.game_id,
             teams.find_team_name_by_id(game.home_team)['abbreviation'],
             teams.find_team_name_by_id(game.away_team)['abbreviation'],
             find_team_image(game.home_team),
-            find_team_image(game.away_team)
+            find_team_image(game.away_team),
+            game.top_scorer_home,
+            players.find_player_by_id(game.top_scorer_home)['full_name'],
+            game.top_scorer_home_points,
+            game.top_scorer_away,
+            players.find_player_by_id(game.top_scorer_away)['full_name'],
+            game.top_scorer_away_points,
+            game.home_team_score,
+            game.away_team_score
         ]
         context['games'].append(this_game)
 
 
-    return render(request, 'basketball/index.html', context)
+    return render(request, 'basketball/games.html', context)
     '''url = "https://www.cbssports.com/nba/schedule/"
     response = requests.get(url)
 
@@ -125,42 +138,6 @@ def player_page(request,id):
     }
     return render(request,'basketball/player_page.html',context=context)
 
-def find_team_image(team_id):
-    list_teams = {
-        1610612737:"img/atlanta-hawks.png",
-        1610612738:"img/boston-celtics.png",
-        1610612751:"img/brooklyn-nets.png",
-        1610612766:"img/charlotte-hornets.png",
-        1610612741:"img/chicago-bulls.png",
-        1610612739:"img/cleveland-cavaliers.png",
-        1610612742:"img/dallas-mavericks.png",
-        1610612743:"img/denver-nuggets.png",
-        1610612765:"img/detroit-pistons.png",
-        1610612744:"img/golden-state-warriors.png",
-        1610612745:"img/houston-rockets.png",
-        1610612754:"img/indiana-pacers.png",
-        1610612746:"img/los-angeles-clippers.png",
-        1610612747:"img/los-angeles-lakers.png",
-        1610612763:"img/memphis-grizzlies.png",
-        1610612748:"img/miami-heat.png",
-        1610612749:"img/milwaukee-bucks.png",
-        1610612750:"img/minnesota-timberwolves.png",
-        1610612740:"img/new-orleans-pelicans.png",
-        1610612752:"img/new-york-knicks.png",
-        1610612760:"img/oklahoma-city-thunder.png",
-        1610612753:"img/orlando-magic.png",
-        1610612755:"img/philadelphia-76ers.png",
-        1610612756:"img/phoenix-suns.png",
-        1610612757:"img/portland-trail-blazers.png",
-        1610612758:"img/sacramento-kings.png",
-        1610612759:"img/san-antonio-spurs.png",
-        1610612761:"img/toronto-raptors.png",
-        1610612762:"img/utah-jazz.png",
-        1610612764:"img/washington-wizards.png"
-    }
-    #print(list_teams[team_id])
-
-    return list_teams[team_id]
 
 
 ''' home_team = models.IntegerField(null=False)
@@ -256,13 +233,12 @@ def game_page(request, id):
     ]
     
 
-
-
     points_by_quarter = game.data["points_by_quarter_id"]
     home_points_by_quarter = points_by_quarter[str(game.home_team)]
     away_points_by_quarter = points_by_quarter[str(game.away_team)]
 
     #DOESNT HAVE OVERTIME POINTS BY QUARTER
+    #AND IT ONLY WANT 10 PLAYERS(SOME GAMES HAVE 12+) CAN JUST do home_team_player_stats[:10]
     context = {
         "home_team_name": game.home_team_name,"game_id":game.game_id,"away_team_name": game.away_team_name,
         "home_team_image":find_team_image(game.home_team),"away_team_image":find_team_image(game.away_team),
@@ -281,8 +257,6 @@ def game_page(request, id):
     }
 
     return render(request,'basketball/game_page.html',context)
-
-
 
 
 
@@ -310,6 +284,15 @@ def get_game(request):
         return render(request, 'basketball/index.html', context)
 
 
+
+def team_home_page(request):
+    return HttpResponse("hello")
+
+def team_page(request,id):
+    return HttpResponse("hello")
+
+def standings_page(request):
+    return HttpResponse("hello")
 
 
 def find_team_logos(team1, team2):
@@ -351,3 +334,41 @@ def find_team_logos(team1, team2):
 
     return return_list
 
+
+
+def find_team_image(team_id):
+    list_teams = {
+        1610612737:"img/atlanta-hawks.png",
+        1610612738:"img/boston-celtics.png",
+        1610612751:"img/brooklyn-nets.png",
+        1610612766:"img/charlotte-hornets.png",
+        1610612741:"img/chicago-bulls.png",
+        1610612739:"img/cleveland-cavaliers.png",
+        1610612742:"img/dallas-mavericks.png",
+        1610612743:"img/denver-nuggets.png",
+        1610612765:"img/detroit-pistons.png",
+        1610612744:"img/golden-state-warriors.png",
+        1610612745:"img/houston-rockets.png",
+        1610612754:"img/indiana-pacers.png",
+        1610612746:"img/los-angeles-clippers.png",
+        1610612747:"img/los-angeles-lakers.png",
+        1610612763:"img/memphis-grizzlies.png",
+        1610612748:"img/miami-heat.png",
+        1610612749:"img/milwaukee-bucks.png",
+        1610612750:"img/minnesota-timberwolves.png",
+        1610612740:"img/new-orleans-pelicans.png",
+        1610612752:"img/new-york-knicks.png",
+        1610612760:"img/oklahoma-city-thunder.png",
+        1610612753:"img/orlando-magic.png",
+        1610612755:"img/philadelphia-76ers.png",
+        1610612756:"img/phoenix-suns.png",
+        1610612757:"img/portland-trail-blazers.png",
+        1610612758:"img/sacramento-kings.png",
+        1610612759:"img/san-antonio-spurs.png",
+        1610612761:"img/toronto-raptors.png",
+        1610612762:"img/utah-jazz.png",
+        1610612764:"img/washington-wizards.png"
+    }
+    #print(list_teams[team_id])
+
+    return list_teams[team_id]
