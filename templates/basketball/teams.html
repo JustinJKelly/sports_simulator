@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+    {% load static %}
+    {% block content %}
+        <style>
+            a {
+                color:black;
+                text-indent: 20px;
+            }
+        </style>
+
+        <div class="container">
+            <br/>
+            <h2>NBA Teams</h2>
+            <br/>
+            <div class="row">
+                 <div class="col" >
+                    <!-- Atlantic-->
+                    <h5> Atlantic </h5>
+                    <ul style="list-style-type:none;">
+                        {% for team in Atlantic %}
+                            <li>
+                                <div class="row">
+                                    <img class="card-img" style="max-height:40px;max-width:40px;" src="{% static team.3 %}" alt="Card image cap"></img>
+                                    <a style="font-size:16px" href="/basketball/team/{{team.0}}"> {{team.1}} </a>
+                                </div>  
+                            </li>
+                            <hr style="color:black; border-width: 2px;"></hr>
+                        {% endfor %}   
+                    </ul>
+                    <br/>
+                    <h5> Central </h5>
+                    <ul style="list-style-type:none;">
+                        {% for team in Central %}
+                            <li>
+                                <div class="row">
+                                    <img class="card-img" style="max-height:40px;max-width:40px;" src="{% static team.3 %}" alt="Card image cap"></img>
+                                    <a style="font-size:16px" href="/basketball/team/{{team.0}}"> {{team.1}} </a>
+                                </div> 
+                            </li> 
+                            <hr style="color:black; border-width: 2px;"></hr>
+                        {% endfor %}   
+                    </ul>
+                    <br/>
+                    <h5> Northwest </h5>
+                    <ul style="list-style-type:none;">
+                        {% for team in Northwest %}
+                            <li>
+                                <div class="row">
+                                    <img class="card-img" style="max-height:40px;max-width:40px;" src="{% static team.3 %}" alt="Card image cap"></img>
+                                    <a style="font-size:16px" href="/basketball/team/{{team.0}}"> {{team.1}} </a>
+                                </div>  
+                            </li>
+                            <hr style="color:black; border-width: 2px;"></hr>
+                        {% endfor %}   
+                    </ul>   
+                    <br/>
+                </div>
+                <div class="col" >
+                    <h5> Pacific</h5>
+                    <ul style="list-style-type:none;">
+                        {% for team in Pacific %}
+                            <li>
+                                <div class="row">
+                                    <img class="card-img" style="max-height:40px;max-width:40px;" src="{% static team.3 %}" alt="Card image cap"></img>
+                                    <a style="font-size:16px" href="/basketball/team/{{team.0}}"> {{team.1}} </a>
+                                </div> 
+                            </li> 
+                            <hr style="color:black; border-width: 2px;"></hr>
+                        {% endfor %} 
+                    </ul>
+                    <br/>
+                    <h5> Southeast </h5>
+                    <ul style="list-style-type:none;">
+                        {% for team in Southeast %}
+                            <li>
+                                <div class="row">
+                                    <img class="card-img" style="max-height:40px;max-width:40px;" src="{% static team.3 %}" alt="Card image cap"></img>
+                                    <a style="font-size:16px" href="/basketball/team/{{team.0}}"> {{team.1}} </a>
+                                </div>  
+                            </li>
+                            <hr style="color:black; border-width: 2px;"></hr>
+                        {% endfor %} 
+                    </ul>
+                    <br/>
+                    <h5> Southwest </h5>
+                    <ul style="list-style-type:none;">
+                        <li>
+                        {% for team in Southwest %}
+                            <div class="row">
+                                <img class="card-img" style="max-height:40px;max-width:40px;" src="{% static team.3 %}" alt="Card image cap"></img>
+                                <a style="font-size:16px" href="/basketball/team/{{team.0}}"> {{team.1}} </a>
+                            </div>  
+                            <hr style="color:black; border-width: 2px;"></hr>
+                        {% endfor %} 
+                        </li>
+                    </ul>
+                    <br/>
+                </div>
+
+            </div>
+        </div>
+
+    {% endblock %}

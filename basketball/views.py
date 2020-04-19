@@ -4,7 +4,7 @@ from nba_api.stats.endpoints import playercareerstats
 from nba_api.stats.static import players, teams
 from bs4 import BeautifulSoup
 import requests
-from .models import Player, Game
+from .models import Player, Game, Team
 # importing datetime module 
 import datetime
 '''
@@ -286,7 +286,37 @@ def get_game(request):
 
 
 def team_home_page(request):
-    return HttpResponse("hello")
+    
+    divisions = {}
+    divisions['Atlantic'] = []
+    divisions['Central'] = []
+    divisions['Northwest'] = []
+    divisions['Pacific'] = []
+    divisions['Southeast'] = []
+    divisions['Southwest'] = []
+    all_teams = Team.objects.all()
+
+    #team_name, team_abv, team_id
+    for team in all_teams:
+        team_info = [
+            team.team_id, 
+            team.team_name, 
+            team.team_abv,
+            find_team_image(team.team_id)
+        ]
+        print(find_team_image(team.team_id))
+        divisions[team.division].append(team_info)
+
+    context = { 
+        'Atlantic':divisions['Atlantic'],
+        'Central':divisions['Central'],
+        'Northwest':divisions['Northwest'],
+        'Pacific':divisions['Pacific'],
+        'Southeast':divisions['Southeast'],
+        'Southwest':divisions['Southwest']
+    }
+
+    return render(request, 'basketball/teams.html',context)
 
 def team_page(request,id):
     return HttpResponse("hello")
@@ -369,6 +399,5 @@ def find_team_image(team_id):
         1610612762:"img/utah-jazz.png",
         1610612764:"img/washington-wizards.png"
     }
-    #print(list_teams[team_id])
 
     return list_teams[team_id]
