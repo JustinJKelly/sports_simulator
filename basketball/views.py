@@ -256,7 +256,8 @@ def game_page(request, id):
         "away_points_by_quarter":away_points_by_quarter[:4], "home_points_by_quarter": home_points_by_quarter[:4],
         "home_team_abv":teams.find_team_name_by_id(game.home_team)['abbreviation'],
         "away_team_abv":teams.find_team_name_by_id(game.away_team)['abbreviation'],
-        "home_team_record":game.home_team_record, "away_team_record":game.away_team_record
+        "home_team_record":game.home_team_record, "away_team_record":game.away_team_record,
+        "home_team_id":game.home_team,"away_team_id":game.away_team
     }
 
     return render(request,'basketball/game_page.html',context)
@@ -330,19 +331,17 @@ def team_home_page(request):
     field_goals_made,field_goals_attempted, games_played, team_id, players
 '''
 def team_page(request,id):
-    team = Team.objects.filter(team_id=id)
+    team = Team.objects.filter(team_id=id).first()
 
     if not team:
         return HttpResponse("Team DNE")
     else:
-        team = team[0]
-        team_players = team.players
+        get_players = team.players
         team_players = []
 
-        for p in team_players['players']:
-            player = Player.object.filter(player_id=p[0])
+        for p in get_players['players']:
+            player = Player.objects.filter(player_id=p[0]).first()
             if player:
-                player = player[0]
                 if player.free_throws_attempted == 0:
                     free_throw_percentage = 0
                 else:
@@ -397,29 +396,108 @@ def team_page(request,id):
             'conference':team.conference,'division':team.division,'conference_rank':team.conference_rank,
             'points_per_game':round(team.points_total/team.games_played,1),
             'assists_per_game':round(team.assists_total/team.games_played,1),
-            'offensive_rebounds_per_game':round(team.offensive_rebounds_total/teams.games_played,1),
-            'defensive_rebounds_per_game':round(team.defensive_rebounds_total/teams.games_played,1),
-            'rebounds_per_game':round(team.rebounds_total/teams.games_played,1),
-            'blocks_per_game':round(team.blocks_total/teams.games_played,1),
-            'steals_per_game':round(team.steals_total/teams.games_played,1),
-            'turnovers_per_game':round(team.turnovers_total/teams.games_played,1),
-            'personal_fouls_per_game':round(team.personal_fouls_total/teams.games_played,1),
-            'free_throws_made_per_game':round(team.free_throws_made/teams.games_played,1),
-            'free_throws_attempted_per_game':round(team.free_throws_attempted/teams.games_played,1),
-            'team_free_throw_percentage':round((team.free_throws_made/teams.free_throws_made)*100,1),
-            'field_goals_made_per_game':round(team.field_goals_made/teams.games_played,1),
-            'field_goals_attempted_per_game':round(team.field_goals_attempted/teams.games_played,1),
-            'team_field_goal_percentage':round((team.field_goal_made/teams.field_goals_attempted)*100,1),
-            'three_point_made_per_game':round(team.three_point_made/teams.games_played,1),
-            'three_point_attempted_per_game':round(team.three_point_attempted/teams.games_played,1),
-            'team_three_point_percentage':round((team.three_point_made/teams.three_point_attempted)*100,1),
-            'games_played':teams.games_played,"players":team_players
+            'offensive_rebounds_per_game':round(team.offensive_rebounds_total/team.games_played,1),
+            'defensive_rebounds_per_game':round(team.defensive_rebounds_total/team.games_played,1),
+            'rebounds_per_game':round(team.rebounds_total/team.games_played,1),
+            'blocks_per_game':round(team.blocks_total/team.games_played,1),
+            'steals_per_game':round(team.steals_total/team.games_played,1),
+            'turnovers_per_game':round(team.turnovers_total/team.games_played,1),
+            'personal_fouls_per_game':round(team.personal_fouls_total/team.games_played,1),
+            'free_throws_made_per_game':round(team.free_throws_made/team.games_played,1),
+            'free_throws_attempted_per_game':round(team.free_throws_attempted/team.games_played,1),
+            'team_free_throw_percentage':round((team.free_throws_made/team.free_throws_made)*100,1),
+            'field_goals_made_per_game':round(team.field_goals_made/team.games_played,1),
+            'field_goals_attempted_per_game':round(team.field_goals_attempted/team.games_played,1),
+            'team_field_goal_percentage':round((team.field_goals_made/team.field_goals_attempted)*100,1),
+            'three_point_made_per_game':round(team.three_point_made/team.games_played,1),
+            'three_point_attempted_per_game':round(team.three_point_attempted/team.games_played,1),
+            'team_three_point_percentage':round((team.three_point_made/team.three_point_attempted)*100,1),
+            'games_played':team.games_played,"players":team_players
         }
 
     return render(request,'basketball/team_page.html',context)
 
 def standings_page(request):
-    return HttpResponse("hello")
+    all_teams = Team.objects.order_by('-team_wins','team_name')
+    western = []
+    eastern = []
+
+    count_west = 0
+    max_wins_west = 0
+    losses_west = 0
+    count_east = 0
+    max_wins_east = 0
+    losses_east = 0
+    for team in all_teams:
+        if team.conference == "West":
+            if count_west == 0:
+                max_wins_west=team.team_wins
+                losses_west = team.team_losses
+                print(losses_west)
+                games_back = "-"
+                count_west += 1
+                rank=str(count_west)
+            else:
+                count_west += 1
+                if count_west > 8:
+                    games_back = round( (abs(max_wins_west-team.team_wins)+abs(team.team_losses-losses_west))/2 ,1)
+                    rank=''
+                else:
+                    games_back = round( (abs(max_wins_west-team.team_wins)+abs(team.team_losses-losses_west))/2 ,1)
+                    rank=str(count_west)
+            
+            
+            western.append([
+                team.team_name,
+                team.team_wins,
+                team.team_losses,
+                round((team.team_wins/(team.games_played)),3),
+                games_back,
+                round((team.points_total/team.games_played),1),
+                find_team_image(team.team_id),
+                rank,
+                team.team_id
+            ])
+
+        else:
+            if count_east == 0:
+                max_wins_east=team.team_wins
+                losses_east = team.team_losses
+                print(losses_east)
+                count_east += 1
+                games_back = "-"
+                rank=str(count_east)
+            else:
+                count_east += 1
+                if count_east > 8:
+                    games_back = round( (abs(max_wins_east-team.team_wins)+abs(team.team_losses-losses_east))/2,1)
+                    rank=''
+                else:
+                    games_back = round( (abs(max_wins_east-team.team_wins)+abs(team.team_losses-losses_east))/2,1)
+                    print(team.team_name,' ',games_back)
+                    rank=str(count_east)
+            
+            
+            eastern.append([
+                team.team_name, 
+                team.team_wins, 
+                team.team_losses,
+                round((team.team_wins/(team.games_played)),3),
+                games_back, 
+                round((team.points_total/team.games_played),1),
+                find_team_image(team.team_id),
+                rank,
+                team.team_id
+            ])
+
+        #print(western)
+        #print(eastern)
+        #print('%s %s' % (team.team_name,team.team_wins))
+        context = {
+            "eastern_teams":eastern,
+            "western_teams":western
+        }
+    return render(request,'basketball/standings.html', context)
 
 
 def find_team_logos(team1, team2):
