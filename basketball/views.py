@@ -308,7 +308,7 @@ def team_home_page(request):
             team.team_abv,
             find_team_image(team.team_id)
         ]
-        print(find_team_image(team.team_id))
+        #print(find_team_image(team.team_id))
         divisions[team.division].append(team_info)
 
     context = { 
@@ -372,7 +372,7 @@ def team_page(request,id):
                         round(player.personal_fouls_total/player.games_played,1), #"personal_fouls_per_game"
                         round(player.minutes_total/player.games_played,1), #"minutes_per_game"
                         player.games_played, #"games_played"
-                        find_team_image(player.team_id), #"team_image"
+                        #team_image:find_team_image(team.team_id),
                         player.height, #"height"
                         player.weight, #"weight"
                         player.jersey_number, #"jersey_number"
@@ -574,5 +574,4 @@ def find_team_image(team_id):
         1610612762:"img/utah-jazz.png",
         1610612764:"img/washington-wizards.png"
     }
-
     return list_teams[team_id]
