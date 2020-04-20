@@ -58,21 +58,24 @@
                             <div class="row">
                                 <div class="card col-12 border-0 bg-light">
                                     <h2 class="mb-5 display-5">
-                                        <span style="font-weight: bold;">{{team_name}}</span>
+                                        <span style="font-weight: bold; text-align: right">{{team_name}}</span>
                                     </h2>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                
+               
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th scope="col" style="text-align: center;">Conf Rank:</th>
                                 <th scope="col" style="text-align: center;">Conf:</th>
-                                <th scope="col" style="text-align: center;">Wins</th> 
-                                <th scope="col" style="text-align: center;">Loses</th>
+                                <th scope="col" style="text-align: center;">Div:</th>
+                                <th scope="col" style="text-align: center;">W</th> 
+                                <th scope="col" style="text-align: center;">L</th>
                             </tr>
                      </thead>
                         <tbody>
@@ -81,6 +84,7 @@
                                     <script type="text/javascript">ranking({{conference_rank}});</script>
                                 </td>
                                 <td style="text-align: center;">{{conference}}</td>
+                                <td style="text-align: center;">{{division}}</td>
                                 <td style="text-align: center;">{{team_wins}}</td>                            
                                 <td style="text-align: center;">{{team_losses}}</td>
                             </tr>
@@ -96,19 +100,27 @@
                 <thead>
                     <tr>
                         <th data-toggle='tooltip' title="Points Per Game" scope="col" style="text-align: center;">PPG</th>
+                        <th data-toggle='tooltip' title="Team Field Goal Pct" scope="col" style="text-align: center;">FG%</th>
+                        <th data-toggle='tooltip' title="Team 3pt Field Goal Pct" scope="col" style="text-align: center;">3FG%</th>
                         <th data-toggle='tooltip' title="Assists Per Game" scope="col" style="text-align: center;">APG</th>
                         <th data-toggle='tooltip' title="Rebounds Per Game" scope="col" style="text-align: center;">RPG</th>
                         <th data-toggle='tooltip' title="Blocks Per Game" scope="col" style="text-align: center;">BPG</th>
                         <th data-toggle='tooltip' title="Steals Per Game" scope="col" style="text-align: center;">SPG</th>
+                        <th data-toggle='tooltip' title="Turnovers Per Game" scope="col" style="text-align: center;">TOPG</th>
+                        <th data-toggle='tooltip' title="Personal Fouls Per Game" scope="col" style="text-align: center;">PFPG</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td scope="col" style="text-align: center;">{{points_per_game}}</td>
+                        <td scope="col" style="text-align: center;">{{team_field_goal_percentage}}</td>
+                        <td scope="col" style="text-align: center;">{{team_three_point_percentage}}</td>
                         <td scope="col" style="text-align: center;">{{assists_per_game}}</td>
                         <td scope="col" style="text-align: center;">{{rebounds_per_game}}</td>
                         <td scope="col" style="text-align: center;">{{blocks_per_game}}</td>
                         <td scope="col" style="text-align: center;">{{steals_per_game}}</td>
+                        <td scope="col" style="text-align: center;">{{turnovers_per_game}}</td>
+                        <td scope="col" style="text-align: center;">{{personal_fouls_per_game}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -122,9 +134,9 @@
                     <tr>
                         <th scope="col">Player</th>
                         <th scope="col">Min</th>
-                        <th scope="col">FG</th>
-                        <th scope="col">3PT</th>
-                        <th scope="col">FT</th>
+                        <th scope="col">FG%</th>
+                        <th scope="col">3PT%</th>
+                        <th scope="col">FT%</th>
                         <th scope="col">OREB</th>
                         <th scope="col">DREB</th>
                         <th scope="col">REB</th>
@@ -139,20 +151,20 @@
                 <tbody style="font-size: 16px;">
                     {% for p in players %}
                     <tr>
-                        <td> <a href='/basketball/player/{{ p.18 }}'> <b>{{p.1}}</b> </a> </td>
-                        <td>{{p.2}}</td>
-                        <td>{{p.3}}-{{p.4}}</td>
-                        <td>{{p.5}}-{{p.6}}</td>
-                        <td>{{p.7}}-{{p.8}}</td>
-                        <td>{{p.9}}</td>
-                        <td>{{p.10}}</td>
+                        <td> <a href='/basketball/player/{{ p.1 }}'> <b>{{p.0}}</b> </a> </td>
                         <td>{{p.11}}</td>
-                        <td>{{p.12}}</td>
-                        <td>{{p.13}}</td>
-                        <td>{{p.14}}</td>
-                        <td>{{p.15}}</td>
-                        <td>{{p.16}}</td>
-                        <td>{{p.17}}</td>
+                        <td>{{p.25}}</td>
+                        <td>{{p.22}}</td>
+                        <td>{{p.19}}</td>
+                        <td>{{p.4}}</td> 
+                        <td>{{p.5}}</td>
+                        <td>{{p.6}}</td>
+                        <td>{{p.3}}</td>
+                        <td>{{p.7}}</td>
+                        <td>{{p.8}}</td>
+                        <td>{{p.10}}</td>
+                        <td>{{p.9}}</td>
+                        <td>{{p.2}}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
