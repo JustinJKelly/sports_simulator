@@ -1,7 +1,29 @@
 {% extends 'base.html' %}
     {% load static %}
     {% block content %}
-        
+        <!--
+             'team_name':team.team_name,'team_abv':team.team_abv,"team_wins":team.team_wins,"team_losses":team.team_losses,
+            'conference':team.conference,'division':team.division,'conference_rank':team.conference_rank,
+            'points_per_game':round(team.points_total/team.games_played,1),
+            'assists_per_game':round(team.assists_total/team.games_played,1),
+            'offensive_rebounds_per_game':round(team.offensive_rebounds_total/teams.games_played,1),
+            'defensive_rebounds_per_game':round(team.defensive_rebounds_total/teams.games_played,1),
+            'rebounds_per_game':round(team.rebounds_total/teams.games_played,1),
+            'blocks_per_game':round(team.blocks_total/teams.games_played,1),
+            'steals_per_game':round(team.steals_total/teams.games_played,1),
+            'turnovers_per_game':round(team.turnovers_total/teams.games_played,1),
+            'personal_fouls_per_game':round(team.personal_fouls_total/teams.games_played,1),
+            'free_throws_made_per_game':round(team.free_throws_made/teams.games_played,1),
+            'free_throws_attempted_per_game':round(team.free_throws_attempted/teams.games_played,1),
+            'team_free_throw_percentage':round((team.free_throws_made/teams.free_throws_made)*100,1),
+            'field_goals_made_per_game':round(team.field_goals_made/teams.games_played,1),
+            'field_goals_attempted_per_game':round(team.field_goals_attempted/teams.games_played,1),
+            'team_field_goal_percentage':round((team.field_goal_made/teams.field_goals_attempted)*100,1),
+            'three_point_made_per_game':round(team.three_point_made/teams.games_played,1),
+            'three_point_attempted_per_game':round(team.three_point_attempted/teams.games_played,1),
+            'team_three_point_percentage':round((team.three_point_made/teams.three_point_attempted)*100,1),
+            'games_played':teams.games_played,"players":team_players (PLAYERS IS AN ARRAY OF LISTS SO USE FOR LOOP)
+        -->
 
 
 

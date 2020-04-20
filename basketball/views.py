@@ -32,6 +32,7 @@ def home(request):
         
     games = Game.objects.filter(date=game_date) 
     context = {}
+    context['date']='%s/%s/%s' % (game_date.month,game_date.day,game_date.year)
     context['games'] = []
 
     ''' [ game_id, home_team_abv, away_team_abv, home_team_img, away_team_img, away_team_score,
@@ -117,6 +118,8 @@ def player_page(request,id):
         "full_name": player.full_name,"player_id":player.player_id,
         "point_per_game":round(player.points_total/player.games_played,1),
         "assists_per_game":round(player.assists_total/player.games_played,1),
+        "offensive_rebounds_per_game":round(player.offensive_rebounds_total/player.games_played,1),
+        "defensive_rebounds_per_game":round(player.defensive_rebounds_total/player.games_played,1),
         "rebounds_per_game":round(player.rebounds_total/player.games_played,1),
         "blocks_per_game":round(player.blocks_total/player.games_played,1),
         "steals_per_game":round(player.steals_total/player.games_played,1),
@@ -318,8 +321,102 @@ def team_home_page(request):
 
     return render(request, 'basketball/teams.html',context)
 
+
+
+''' team_name,team_abv,team_wins,team_loses,conference,division,conference_rank,
+    points_total,assists_total,offensive_rebounds_total,defensive_rebounds_total,
+    rebounds_total,blocks_total,steals_total,turnovers_total,personal_fouls_total,
+    free_throws_made,free_throws_attempted,three_point_made,three_point_attempted,
+    field_goals_made,field_goals_attempted, games_played, team_id, players
+'''
 def team_page(request,id):
-    return HttpResponse("hello")
+    team = Team.objects.filter(team_id=id)
+
+    if not team:
+        return HttpResponse("Team DNE")
+    else:
+        team = team[0]
+        team_players = team.players
+        team_players = []
+
+        for p in team_players['players']:
+            player = Player.object.filter(player_id=p[0])
+            if player:
+                player = player[0]
+                if player.free_throws_attempted == 0:
+                    free_throw_percentage = 0
+                else:
+                    free_throw_percentage = round((player.free_throws_made/player.free_throws_attempted)*100,1)
+
+                if player.field_goals_attempted == 0:
+                    field_goal_percentage = 0
+                else:
+                    field_goal_percentage = round((player.field_goals_made/player.field_goals_attempted)*100,1)
+                
+                if player.three_point_attempted == 0:
+                    three_point_percentage = 0
+                else:
+                    three_point_percentage = round((player.three_point_made/player.three_point_attempted)*100,1)
+
+                team_players.append(
+                    [
+                        player.full_name, #"full_name"
+                        player.player_id, #"player_id"
+                        round(player.points_total/player.games_played,1), #"point_per_game"
+                        round(player.assists_total/player.games_played,1), #"assists_per_game"
+                        round(player.offensive_rebounds_total/player.games_played,1), #"offensive_rebounds_per_game"
+                        round(player.defensive_rebounds_total/player.games_played,1), #"defensive_rebounds_per_game"
+                        round(player.rebounds_total/player.games_played,1), #"rebounds_per_game"
+                        round(player.blocks_total/player.games_played,1), #"blocks_per_game"
+                        round(player.steals_total/player.games_played,1), #"steals_per_game"
+                        round(player.turnovers_total/player.games_played,1), #"turnovers_per_game"
+                        round(player.personal_fouls_total/player.games_played,1), #"personal_fouls_per_game"
+                        round(player.minutes_total/player.games_played,1), #"minutes_per_game"
+                        player.games_played, #"games_played"
+                        find_team_image(player.team_id), #"team_image"
+                        player.height, #"height"
+                        player.weight, #"weight"
+                        player.jersey_number, #"jersey_number"
+                        player.player_age, #"player_age"
+                        round(player.free_throws_attempted/player.games_played,1), #"free_throws_attempted_per_game"
+                        round(player.free_throws_made/player.games_played,1), #"free_throws_made_per_game"
+                        free_throw_percentage, #"free_throw_percentage"
+                        round(player.three_point_attempted/player.games_played,1), #"three_point_attempted_per_game"
+                        round(player.three_point_made/player.games_played,1), #"three_point_made_per_game"
+                        three_point_percentage, #"three_point_percentage"
+                        round(player.field_goals_attempted/player.games_played,1), #"field_goals_attempted_per_game"
+                        round(player.field_goals_made/player.games_played,1), #"field_goals_made_per_game"
+                        field_goal_percentage, #"field_goal_percentage"
+                        player.position #position
+                    ]
+                )
+
+
+        context = {
+            'team_name':team.team_name,'team_abv':team.team_abv,"team_wins":team.team_wins,"team_losses":team.team_losses,
+            'conference':team.conference,'division':team.division,'conference_rank':team.conference_rank,
+            'points_per_game':round(team.points_total/team.games_played,1),
+            'assists_per_game':round(team.assists_total/team.games_played,1),
+            'offensive_rebounds_per_game':round(team.offensive_rebounds_total/teams.games_played,1),
+            'defensive_rebounds_per_game':round(team.defensive_rebounds_total/teams.games_played,1),
+            'rebounds_per_game':round(team.rebounds_total/teams.games_played,1),
+            'blocks_per_game':round(team.blocks_total/teams.games_played,1),
+            'steals_per_game':round(team.steals_total/teams.games_played,1),
+            'turnovers_per_game':round(team.turnovers_total/teams.games_played,1),
+            'personal_fouls_per_game':round(team.personal_fouls_total/teams.games_played,1),
+            'free_throws_made_per_game':round(team.free_throws_made/teams.games_played,1),
+            'free_throws_attempted_per_game':round(team.free_throws_attempted/teams.games_played,1),
+            'team_free_throw_percentage':round((team.free_throws_made/teams.free_throws_made)*100,1),
+            'field_goals_made_per_game':round(team.field_goals_made/teams.games_played,1),
+            'field_goals_attempted_per_game':round(team.field_goals_attempted/teams.games_played,1),
+            'team_field_goal_percentage':round((team.field_goal_made/teams.field_goals_attempted)*100,1),
+            'three_point_made_per_game':round(team.three_point_made/teams.games_played,1),
+            'three_point_attempted_per_game':round(team.three_point_attempted/teams.games_played,1),
+            'team_three_point_percentage':round((team.three_point_made/teams.three_point_attempted)*100,1),
+            'games_played':teams.games_played,"players":team_players
+        }
+
+    return render(request,'basketball/team_page.html',context)
 
 def standings_page(request):
     return HttpResponse("hello")

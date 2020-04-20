@@ -17,15 +17,7 @@
         "three_point_percentage":round((player.three_point_attempted/player.three_point_made)*100,1),
         "games_played":player.games_played,"team_image":"img/nba_logo.png","player_image":player_image
     }-->
-    <style>
-        .table-striped>tbody>tr:nth-child(odd)>td, 
-        .table-striped>tbody>tr:nth-child(odd)>th {
-            background-color: hsla(0, 0%, 70%, 0.733);
-            color: white;
-            font-style: bold;
-            font-weight: 500;
-         }
-    </style>
+    
     <div class="container bg-light">
         <div class="container-fluid bg-light p-3">
             <div class="row">
@@ -39,7 +31,7 @@
                                 <h2 class="mb-5 display-4">
                                     <span style="font-weight: bold;">{{full_name}}</span><br/>
                                     <img style="max-height:80px;max-width:80px;" src="{% static team_image %}"></img>
-                                    <span style="font-weight: bold; font-size: 25px;">{{team_name}}: #{{jersey_number}}</span>
+                                    <span style="font-weight: bold; font-size: 25px;">{{team_name}} #{{jersey_number}}</span>
                                 </h2>
                                 
                             </div>
@@ -83,6 +75,8 @@
                         <th scope="col">3PT%</th>
                         <th scope="col">FT</th>
                         <th scope="col">FT%</th>
+                        <th scope="col">OREB</th>
+                        <th scope="col">DREB</th>
                         <th scope="col">REB</th>
                         <th scope="col">AST</th>
                         <th scope="col">BLK</th>
@@ -102,6 +96,8 @@
                         <td>{{three_point_percentage}}%</td>
                         <td>{{free_throws_made}}-{{free_throws_attempted}}</td>
                         <td>{{free_throw_percentage}}%</td>
+                        <td>{{offensive_rebounds_per_game}}</td>
+                        <td>{{defensive_rebounds_per_game}}</td>
                         <td>{{rebounds_per_game}}</td>
                         <td>{{assists_per_game}}</td>
                         <td>{{blocks_per_game}}</td>

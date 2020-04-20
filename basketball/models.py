@@ -88,7 +88,7 @@ class Team(models.Model):
     team_name = models.CharField(max_length=40,null=False)
     team_abv = models.CharField(max_length=5,null=False)
     team_wins = models.IntegerField(null=False)
-    team_loses = models.IntegerField(null=False)
+    team_losses = models.IntegerField(null=False)
     conference = models.CharField(max_length=20,null=False)
     division = models.CharField(max_length=20,null=False)
     conference_rank = models.CharField(max_length=2,null=False)
