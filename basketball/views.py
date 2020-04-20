@@ -412,7 +412,8 @@ def team_page(request,id):
             'three_point_made_per_game':round(team.three_point_made/team.games_played,1),
             'three_point_attempted_per_game':round(team.three_point_attempted/team.games_played,1),
             'team_three_point_percentage':round((team.three_point_made/team.three_point_attempted)*100,1),
-            'games_played':team.games_played,"players":team_players
+            'games_played':team.games_played,"players":team_players,
+            'team_image': find_team_image(team.team_id)
         }
 
     return render(request,'basketball/team_page.html',context)
