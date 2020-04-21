@@ -15,6 +15,10 @@
                 max-width: 40px;
                 max-height: 40px;
             }
+
+            a:hover.img_hover {
+                color:transparent;
+            }
         </style>
 
         <br/>
@@ -88,11 +92,11 @@
                 {% for game in games %}
                     <tr>
                         <td> 
-                            <img class="card-img" src="{% static game.4 %}" alt="Card image cap"></img> 
+                            <a class="img_hover" href='/basketball/team/{{game.14}}'><img class="card-img" src="{% static game.4 %}" alt="Card image cap"></img> </a>
                                 {{game.2}}
                                     @
                                 {{game.1}}
-                            <img class="card-img" src="{% static game.3 %}" alt="Card image cap"></img>
+                            <a class="img_hover" href='/basketball/team/{{game.13}}'><img class="card-img" src="{% static game.3 %}" alt="Card image cap"></img> </a>
                         </td>
                         <td> <a href='/basketball/game/{{ game.0 }}'> {{game.2}} {{game.12}},   {{game.11}} {{game.1}}</a> </td>
                         <td> <a href='/basketball/player/{{ game.8 }}'> {{game.9}} </a> {{game.10}} Pts </td>
@@ -104,4 +108,9 @@
         <br/>
         <hr style="color:black; border-width: 2px;"></hr>
     </div>
+
+    <br/>
+    <br/>
+    <br/>
+    <br/>
 {% endblock %}

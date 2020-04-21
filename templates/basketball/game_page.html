@@ -22,9 +22,12 @@
         a {
             color: black;
         }
-        a:hover {
-            color: blue;
+
+        /* make it blend in with background*/
+        a:hover.image_hover {
+            color: transparent;
         }
+
     </style>
 
     <br/>
@@ -35,7 +38,7 @@
                 <p> 
                     <!--({{away_team_record}})-->
                     <a href="/basketball/team/{{away_team_id}}"> <b style="font-size:18px;">{{away_team_name}} </b> </a>
-                    <img style="max-height:65px;max-width:65px;" src="{% static away_team_image %}"></img> 
+                    <a class="image_hover" href="/basketball/team/{{away_team_id}}"> <img style="max-height:65px;max-width:65px;" src="{% static away_team_image %}"></img> </a>
                     <b style="font-size:30px;">{{away_team_score}}</b>
                 </p>
                 <p style="font-size:16px;">({{away_team_record}})</p>
@@ -75,7 +78,7 @@
             <div class="col-sm-4" style="font-size:14px;">
                 <p>
                     <b style="font-size:30px;">{{home_team_score}}</b>
-                    <img style=";max-height:65px;max-width:65px" src="{% static home_team_image %}"></img> 
+                    <a class="image_hover" href="/basketball/team/{{home_team_id}}"> <img style=";max-height:65px;max-width:65px" src="{% static home_team_image %}"></img> </a>
                     <a href="/basketball/team/{{home_team_id}}"> <b style="font-size:18px;">{{home_team_name}}</b> </a>
                     <!--({{home_team_record}})-->
                 </p>
@@ -92,8 +95,12 @@
             <thead>
                 <tr>
                     <th scope="col"><b>Matchup</b></th>
-                    <th><img style=";max-height:55px;max-width:55px" src="{% static away_team_image %}"></img></th>
-                    <th><img style=";max-height:55px;max-width:55px" src="{% static home_team_image %}"></img></th>
+                    <th>
+                        <a class="image_hover" href="/basketball/team/{{away_team_id}}"> <img style=";max-height:55px;max-width:55px" src="{% static away_team_image %}"></img> </a>
+                    </th>
+                    <th>
+                        <a class="image_hover" href="/basketball/team/{{home_team_id}}"> <img style=";max-height:55px;max-width:55px" src="{% static home_team_image %}"></img> </a>
+                    </th>
                 <tr>
             </thead>
             <tbody>
@@ -181,7 +188,10 @@
     <br/>
     <!--Away Team Player Stats-->
     <div class="table-responsive container">
-        <p style="font-size:16px;"> <b>{{away_team_name}}</b> <img style=";max-height:45px;max-width:45px" src="{% static away_team_image %}"></img> </p>
+        <p style="font-size:16px;"> 
+            <a href="/basketball/team/{{away_team_id}}"> <b>{{away_team_name}}</b> </a>
+            <a class="image_hover" href="/basketball/team/{{away_team_id}}"> <img style=";max-height:45px;max-width:45px" src="{% static away_team_image %}"></img> </a> 
+        </p>
         <table class="table table-striped table-light">
             <thead style="font-size:16px">
                 <tr>
@@ -245,7 +255,10 @@
     <br/>
     <!--Home Team Player Stats-->
     <div class="table-responsive container">
-        <p style="font-size:16px;"> <b>{{home_team_name}}</b> <img style=";max-height:45px;max-width:45px" src="{% static home_team_image %}"></img> </p>
+        <p style="font-size:16px;"> 
+            <a href="/basketball/team/{{home_team_id}}"> <b>{{home_team_name}}</b> </a>
+            <a class="image_hover" href="/basketball/team/{{home_team_id}}"> <img style=";max-height:45px;max-width:45px" src="{% static home_team_image %}"></img>  </a>
+        </p>
         <table class="table table-striped table-light">
             <thead style="font-size:15px">
                 <tr>
@@ -304,6 +317,10 @@
         </table>
     </div>
     <!--End Home Team Player Stats-->
-        
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+
 
 {% endblock %}

@@ -54,7 +54,9 @@ def home(request):
             players.find_player_by_id(game.top_scorer_away)['full_name'],
             game.top_scorer_away_points,
             game.home_team_score,
-            game.away_team_score
+            game.away_team_score,
+            game.home_team,
+            game.away_team
         ]
         context['games'].append(this_game)
 
