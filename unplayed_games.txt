@@ -1,0 +1,327 @@
+03/12/2020
+Away: Chicago  Home: Orlando
+Away: Boston  Home: Milwaukee
+Away: Memphis  Home: Portland
+Away: Houston  Home: L.A. Lakers
+Away: Brooklyn  Home: Golden St.
+
+03/13/2020
+Away: Cleveland  Home: Charlotte
+Away: Washington  Home: Boston
+Away: Minnesota  Home: Oklahoma City
+Away: New York  Home: Miami
+Away: Denver  Home: San Antonio
+Away: New Orleans  Home: Utah
+Away: Brooklyn  Home: L.A. Clippers
+
+03/14/2020
+Away: Phoenix  Home: Dallas
+Away: Detroit  Home: Toronto
+Away: Cleveland  Home: Atlanta
+Away: Indiana  Home: Philadelphia
+Away: Chicago  Home: Miami
+Away: Golden St.  Home: Milwaukee
+Away: Minnesota  Home: San Antonio
+Away: Memphis  Home: Utah
+Away: New Orleans  Home: L.A. Clippers
+
+03/15/2020
+Away: Houston  Home: Portland
+Away: Oklahoma City  Home: Washington
+Away: Charlotte  Home: Orlando
+Away: Boston  Home: Chicago
+Away: Brooklyn  Home: Sacramento
+Away: Denver  Home: L.A. Lakers
+
+03/16/2020
+Away: Washington  Home: Philadelphia
+Away: Golden St.  Home: Toronto
+Away: Miami  Home: Milwaukee
+Away: Atlanta  Home: New Orleans
+Away: Memphis  Home: San Antonio
+Away: L.A. Lakers  Home: Utah
+Away: Dallas  Home: L.A. Clippers
+
+03/17/2020
+Away: Orlando  Home: Detroit
+Away: Charlotte  Home: New York
+Away: Oklahoma City  Home: Memphis
+Away: Cleveland  Home: Houston
+Away: Dallas  Home: Sacramento
+Away: Minnesota  Home: Portland
+
+03/18/2020
+Away: Toronto  Home: Philadelphia
+Away: Golden St.  Home: Indiana
+Away: New York  Home: Boston
+Away: Washington  Home: Brooklyn
+Away: Oklahoma City  Home: Atlanta
+Away: Miami  Home: Chicago
+Away: San Antonio  Home: New Orleans
+Away: L.A. Clippers  Home: Denver
+Away: Minnesota  Home: Phoenix
+Away: Utah  Home: L.A. Lakers
+
+03/19/2020
+Away: Cleveland  Home: Orlando
+Away: Philadelphia  Home: Charlotte
+Away: Memphis  Home: Milwaukee
+Away: Sacramento  Home: Houston
+Away: Dallas  Home: Portland
+
+03/20/2020
+Away: Miami  Home: Indiana
+Away: Golden St.  Home: Detroit
+Away: Boston  Home: Toronto
+Away: Washington  Home: Atlanta
+Away: Denver  Home: Oklahoma City
+Away: Chicago  Home: San Antonio
+Away: Minnesota  Home: Utah
+Away: Phoenix  Home: L.A. Clippers
+
+03/21/2020
+Away: Boston  Home: Brooklyn
+Away: Atlanta  Home: Philadelphia
+Away: L.A. Lakers  Home: Charlotte
+Away: Sacramento  Home: Orlando
+Away: Cleveland  Home: Indiana
+Away: Golden St.  Home: New York
+Away: New Orleans  Home: Memphis
+Away: Chicago  Home: Houston
+Away: Milwaukee  Home: Washington
+Away: Dallas  Home: Phoenix
+
+03/22/2020
+Away: L.A. Lakers  Home: Detroit
+Away: Denver  Home: Toronto
+Away: Utah  Home: San Antonio
+Away: Sacramento  Home: New Orleans
+Away: Portland  Home: Minnesota
+
+03/23/2020
+Away: Phoenix  Home: Indiana
+Away: Boston  Home: Washington
+Away: L.A. Clippers  Home: New York
+Away: Orlando  Home: Brooklyn
+Away: Oklahoma City  Home: Miami
+Away: Denver  Home: Chicago
+Away: Detroit  Home: Milwaukee
+Away: Houston  Home: Dallas
+
+03/24/2020
+Away: Portland  Home: Charlotte
+Away: Sacramento  Home: Cleveland
+Away: L.A. Lakers  Home: Toronto
+Away: Memphis  Home: New Orleans
+Away: Philadelphia  Home: Minnesota
+Away: San Antonio  Home: Utah
+
+03/25/2020
+Away: Portland  Home: Detroit
+Away: Phoenix  Home: Washington
+Away: Indiana  Home: Orlando
+Away: L.A. Clippers  Home: Brooklyn
+Away: Toronto  Home: New York
+Away: Denver  Home: Miami
+Away: Boston  Home: Memphis
+Away: Houston  Home: Milwaukee
+Away: Atlanta  Home: Golden St.
+
+03/26/2020
+Away: L.A. Lakers  Home: Cleveland
+Away: Charlotte  Home: Oklahoma City
+Away: San Antonio  Home: Minnesota
+Away: Philadelphia  Home: Chicago
+Away: Utah  Home: Dallas
+Away: Atlanta  Home: Sacramento
+
+03/27/2020
+Away: L.A. Clippers  Home: Detroit
+Away: Brooklyn  Home: Orlando
+Away: Phoenix  Home: Philadelphia
+Away: Houston  Home: Indiana
+Away: Portland  Home: Boston
+Away: New York  Home: New Orleans
+Away: Washington  Home: Milwaukee
+Away: San Antonio  Home: Denver
+
+03/28/2020
+Away: Cleveland  Home: Brooklyn
+Away: L.A. Clippers  Home: Charlotte
+Away: L.A. Lakers  Home: Washington
+Away: Toronto  Home: Memphis
+Away: Phoenix  Home: Miami
+Away: New York  Home: Chicago
+Away: Oklahoma City  Home: Golden St.
+Away: Atlanta  Home: Utah
+
+03/29/2020
+Away: Milwaukee  Home: Dallas
+Away: Houston  Home: Detroit
+Away: New Orleans  Home: Orlando
+Away: Minnesota  Home: Boston
+Away: Portland  Home: Philadelphia
+Away: San Antonio  Home: Golden St.
+Away: Indiana  Home: Sacramento
+
+03/30/2020
+Away: Miami  Home: Charlotte
+Away: Phoenix  Home: Cleveland
+Away: Memphis  Home: Toronto
+Away: Portland  Home: Brooklyn
+Away: L.A. Lakers  Home: Minnesota
+Away: Chicago  Home: Utah
+Away: Oklahoma City  Home: Denver
+Away: Indiana  Home: L.A. Clippers
+
+03/31/2020
+Away: New Orleans  Home: Atlanta
+Away: Houston  Home: Philadelphia
+Away: San Antonio  Home: Sacramento
+Away: Denver  Home: Golden St.
+
+04/01/2020
+Away: Charlotte  Home: Orlando
+Away: New Orleans  Home: Washington
+Away: Detroit  Home: Brooklyn
+Away: Miami  Home: Boston
+Away: New York  Home: Memphis
+Away: Dallas  Home: Minnesota
+Away: Phoenix  Home: Oklahoma City
+Away: Cleveland  Home: Utah
+Away: Toronto  Home: Milwaukee
+Away: Indiana  Home: L.A. Lakers
+
+04/02/2020
+Away: Golden St.  Home: Houston
+Away: L.A. Clippers  Home: Sacramento
+Away: Utah  Home: Portland
+
+04/03/2020
+Away: Brooklyn  Home: Indiana
+Away: Philadelphia  Home: Washington
+Away: Miami  Home: Detroit
+Away: Milwaukee  Home: Toronto
+Away: Minnesota  Home: New York
+Away: Charlotte  Home: Atlanta
+Away: Orlando  Home: Boston
+Away: Dallas  Home: Memphis
+Away: Golden St.  Home: San Antonio
+Away: Chicago  Home: Denver
+Away: Cleveland  Home: Phoenix
+
+04/04/2020
+Away: Oklahoma City  Home: L.A. Clippers
+Away: L.A. Lakers  Home: Sacramento
+
+04/05/2020
+Away: Atlanta  Home: Charlotte
+Away: Orlando  Home: Philadelphia
+Away: Milwaukee  Home: Boston
+Away: Washington  Home: Indiana
+Away: Miami  Home: New York
+Away: Chicago  Home: Phoenix
+Away: Dallas  Home: Brooklyn
+Away: Utah  Home: Denver
+Away: Detroit  Home: Minnesota
+Away: New Orleans  Home: San Antonio
+Away: Toronto  Home: Houston
+Away: Cleveland  Home: Sacramento
+Away: Memphis  Home: Portland
+Away: Oklahoma City  Home: L.A. Lakers
+
+04/06/2020
+Away: Chicago  Home: L.A. Clippers
+
+04/07/2020
+Away: Toronto  Home: Washington
+Away: Detroit  Home: Atlanta
+Away: Milwaukee  Home: Philadelphia
+Away: Indiana  Home: Miami
+Away: Phoenix  Home: Minnesota
+Away: Brooklyn  Home: Oklahoma City
+Away: Charlotte  Home: New Orleans
+Away: Sacramento  Home: San Antonio
+Away: Houston  Home: Dallas
+Away: Memphis  Home: Denver
+Away: Golden St.  Home: L.A. Lakers
+Away: L.A. Clippers  Home: Utah
+Away: Cleveland  Home: Portland
+
+04/08/2020
+Away: Toronto  Home: Charlotte
+Away: Indiana  Home: Boston
+Away: Orlando  Home: New York
+Away: San Antonio  Home: Houston
+Away: Chicago  Home: L.A. Lakers
+Away: Cleveland  Home: Golden St.
+
+04/09/2020
+Away: Detroit  Home: Miami
+Away: Sacramento  Home: Minnesota
+Away: Brooklyn  Home: Milwaukee
+Away: Phoenix  Home: New Orleans
+Away: Denver  Home: Portland
+Away: L.A. Clippers  Home: L.A. Lakers
+
+04/10/2020
+Away: Boston  Home: Orlando
+Away: Atlanta  Home: Toronto
+Away: New York  Home: Oklahoma City
+Away: Washington  Home: Houston
+Away: Philadelphia  Home: San Antonio
+
+04/11/2020
+Away: Detroit  Home: Dallas
+Away: Philadelphia  Home: New Orleans
+Away: Washington  Home: Charlotte
+Away: Orlando  Home: Indiana
+Away: Milwaukee  Home: Cleveland
+Away: Oklahoma City  Home: Memphis
+Away: Brooklyn  Home: Chicago
+Away: Boston  Home: Miami
+Away: Golden St.  Home: L.A. Clippers
+Away: Sacramento  Home: Denver
+Away: Utah  Home: Phoenix
+
+04/12/2020
+Away: Houston  Home: San Antonio
+Away: New York  Home: Toronto
+Away: Atlanta  Home: Milwaukee
+Away: Minnesota  Home: L.A. Lakers
+
+04/13/2020
+Away: Brooklyn  Home: Cleveland
+Away: Boston  Home: Detroit
+Away: Miami  Home: Charlotte
+Away: San Antonio  Home: Indiana
+Away: Philadelphia  Home: Memphis
+Away: Utah  Home: Oklahoma City
+Away: Orlando  Home: Chicago
+Away: Washington  Home: New Orleans
+Away: Phoenix  Home: Houston
+Away: Dallas  Home: Denver
+Away: Minnesota  Home: L.A. Clippers
+Away: Portland  Home: Golden St.
+
+04/14/2020
+Away: Toronto  Home: Miami
+Away: Detroit  Home: New York
+Away: Denver  Home: Utah
+Away: Sacramento  Home: L.A. Lakers
+
+04/15/2020
+Away: Toronto  Home: Orlando
+Away: Charlotte  Home: Philadelphia
+Away: New Orleans  Home: San Antonio
+Away: Indiana  Home: Washington
+Away: Milwaukee  Home: Brooklyn
+Away: Chicago  Home: Boston
+Away: New York  Home: Minnesota
+Away: Oklahoma City  Home: Dallas
+Away: Cleveland  Home: Atlanta
+Away: Memphis  Home: Houston
+Away: Golden St.  Home: Sacramento
+Away: L.A. Lakers  Home: Phoenix
+Away: L.A. Clippers  Home: Portland
+
