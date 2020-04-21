@@ -17,7 +17,7 @@
         "three_point_percentage":round((player.three_point_attempted/player.three_point_made)*100,1),
         "games_played":player.games_played,"team_image":"img/nba_logo.png","player_image":player_image
     }-->
-    
+     
     <div class="container bg-light">
         <div class="container-fluid bg-light p-3">
             <div class="row">
@@ -30,8 +30,8 @@
                             <div class="card col-12 border-0 bg-light">
                                 <h2 class="mb-5 display-4">
                                     <span style="font-weight: bold;">{{full_name}}</span><br/>
-                                    <img style="max-height:80px;max-width:80px;" src="{% static team_image %}"></img>
-                                    <span style="font-weight: bold; font-size: 25px;">{{team_name}} #{{jersey_number}}</span>
+                                    <a href="/basketball/team/{{team_id}}"><img style="max-height:80px;max-width:80px;" src="{% static team_image %}"></img></a>
+                                    <span style="font-weight: bold; font-size: 25px;"><a href="/basketball/team/{{team_id}}">{{team_name}}</a> #{{jersey_number}}</span>
                                 </h2>
                                 
                             </div>
@@ -63,53 +63,59 @@
                 </table>
             </div>
         </div>
-        <div class="table-responsive">
-            <table class="table table-striped table-light">
-                <thead>
-                    <tr>
-                        <th scope="col">GP</th>
-                        <th scope="col">MIN</th>
-                        <th scope="col">FG</th>
-                        <th scope="col">FG%</th>
-                        <th scope="col">3PT</th>
-                        <th scope="col">3PT%</th>
-                        <th scope="col">FT</th>
-                        <th scope="col">FT%</th>
-                        <th scope="col">OREB</th>
-                        <th scope="col">DREB</th>
-                        <th scope="col">REB</th>
-                        <th scope="col">AST</th>
-                        <th scope="col">BLK</th>
-                        <th scope="col">STL</th>
-                        <th scope="col">PF</th>
-                        <th scope="col">TO</th>
-                        <th scope="col">PTS</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{{games_played}}</td>
-                        <td>{{minutes_per_game}}</td>
-                        <td>{{field_goals_made}}-{{field_goals_attempted}}</td>
-                        <td>{{field_goal_percentage}}%</td>
-                        <td>{{three_point_made}}-{{three_point_attempted}}</td>
-                        <td>{{three_point_percentage}}%</td>
-                        <td>{{free_throws_made}}-{{free_throws_attempted}}</td>
-                        <td>{{free_throw_percentage}}%</td>
-                        <td>{{offensive_rebounds_per_game}}</td>
-                        <td>{{defensive_rebounds_per_game}}</td>
-                        <td>{{rebounds_per_game}}</td>
-                        <td>{{assists_per_game}}</td>
-                        <td>{{blocks_per_game}}</td>
-                        <td>{{steals_per_game}}</td>
-                        <td>{{personal_fouls_per_game}}</td>
-                        <td>{{turnovers_per_game}}</td>
-                        <td>{{point_per_game}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    </div>
+    
+    <div class="table-responsive container">
+        <h3>2019-2020 Season Stats</h3>
+        <table class="table table-striped table-light">
+            <thead>
+                <tr>
+                    <th data-toggle='tooltip' title="Games Played" scope="col">GP</th>
+                    <th data-toggle='tooltip' title="Minutes Per Game" scope="col">MIN</th>
+                    <th data-toggle='tooltip' title="Field Goal Attempts" scope="col">FG</th>
+                    <th data-toggle='tooltip' title="Field Goal Percentage" scope="col">FG%</th>
+                    <th data-toggle='tooltip' title="3pt Attempts" scope="col">3PT</th>
+                    <th data-toggle='tooltip' title="3pt Field Goal Percentage" scope="col">3PT%</th>
+                    <th data-toggle='tooltip' title="Free Throws" scope="col">FT</th>
+                    <th data-toggle='tooltip' title="Free Throw Percentage" scope="col">FT%</th>
+                    <th data-toggle='tooltip' title="Offensive Rebounds" scope="col">OREB</th>
+                    <th data-toggle='tooltip' title="Defensive Rebounds" scope="col">DREB</th>
+                    <th data-toggle='tooltip' title="Total Rebounds Per Game" scope="col">REB</th>
+                    <th data-toggle='tooltip' title="Assists Per Game" scope="col">AST</th>
+                    <th data-toggle='tooltip' title="Blocks Per Game" scope="col">BLK</th>
+                    <th data-toggle='tooltip' title="Steals Per Game" scope="col">STL</th>
+                    <th data-toggle='tooltip' title="Personal Fouls Per Game" scope="col">PF</th>
+                    <th data-toggle='tooltip' title="Turnovers Per Game" scope="col">TO</th>
+                    <th data-toggle='tooltip' title="Points Per Game" scope="col">PTS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{games_played}}</td>
+                    <td>{{minutes_per_game}}</td>
+                    <td>{{field_goals_made}}-{{field_goals_attempted}}</td>
+                    <td>{{field_goal_percentage}}%</td>
+                    <td>{{three_point_made}}-{{three_point_attempted}}</td>
+                    <td>{{three_point_percentage}}%</td>
+                    <td>{{free_throws_made}}-{{free_throws_attempted}}</td>
+                    <td>{{free_throw_percentage}}%</td>
+                    <td>{{offensive_rebounds_per_game}}</td>
+                    <td>{{defensive_rebounds_per_game}}</td>
+                    <td>{{rebounds_per_game}}</td>
+                    <td>{{assists_per_game}}</td>
+                    <td>{{blocks_per_game}}</td>
+                    <td>{{steals_per_game}}</td>
+                    <td>{{personal_fouls_per_game}}</td>
+                    <td>{{turnovers_per_game}}</td>
+                    <td>{{point_per_game}}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
         
-
+    <script>
+        $(document).ready(function(){
+          $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
     {% endblock %}

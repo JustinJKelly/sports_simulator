@@ -129,7 +129,7 @@ def player_page(request,id):
         "field_goal_percentage":field_goal_percentage,
         "minutes_per_game":round(player.minutes_total/player.games_played,1),
         "three_point_percentage":three_point_percentage,
-        "games_played":player.games_played,"team_image":find_team_image(player.team_id),"player_image":player_image,
+        "games_played":player.games_played,"team_image":find_team_image(player.team_id),"player_image":player_image, "team_id":player.team_id,
         "height":player.height,"weight":player.weight,"jersey_number":player.jersey_number,
         "player_age":player.player_age,"team_name":player.team_name,
         "free_throws_attempted":round(player.free_throws_attempted/player.games_played,1),
