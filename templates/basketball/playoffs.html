@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+    {% load static %}
+    {% block content %}
+    <style>
+      .tournament{
+        display:flex;
+        flex-direction:row;
+    }
+    .round{
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        width:200px;
+        list-style:none;
+        padding:0;
+    }
+    .round .spacer{ flex-grow:1; }
+    .round .spacer:first-child,
+    .round .spacer:last-child{ flex-grow:.5; }
+
+    .round .game-spacer{
+        flex-grow:1;
+    }
+
+        /*
+        *  General Styles
+        */
+    body{
+        font-family:sans-serif;
+        font-size:small;
+        padding:10px;
+        line-height:1.4em;
+    }
+
+    li.game{
+        padding-left:20px;
+    }
+
+    li.game.winner{
+        font-weight:bold;
+    }
+    li.game span{
+        float:right;
+        margin-right:5px;
+    }
+
+    li.game-top{ border-bottom:1px solid #aaa; }
+
+    li.game-spacer{ 
+        border-right:1px solid #aaa;
+    min-height:40px;
+        }
+
+    li.game-bottom{ 
+        border-top:1px solid #aaa;
+    }
+    </style>
+<br/>
+<h1>2019-2020 NBA Playoffs Bracket</h1>
+<br/>
+<h4>Western Conference</h4>
+    <div class="tournament">
+    <ul class="round round-1">
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top winner">1. GSW <span>0</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">2. LAC <span>0</span></li>
+
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top winner">4. HOU <span>0</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">5. UTA <span>0</span></li>
+
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top ">3. POR <span>0</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom winner">6. OKC <span>0</span></li>
+
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top winner">2. DEN <span>0</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">7. SAS <span>0</span></li>
+
+        <li class="spacer">&nbsp;</li>
+    </ul>
+    <ul class="round round-2">
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top winner">1. GSW <span>0</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">4. HOU<span>0</span></li>
+
+        <li class="spacer">&nbsp;</li>
+        
+        <li class="game game-top winner">3. POR <span>0</span></li>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">2. DEN<span>0</span></li>
+
+        <li class="spacer">&nbsp;</li>
+    </ul>
+    <ul class="round round-3">
+        <li class="spacer">&nbsp;</li>
+        <li class="game game-top winner">1. GSW <span>0</span>
+        <li class="game game-spacer">&nbsp;</li>
+        <li class="game game-bottom ">3. POR<span>0</span></li>
+
+        <li class="spacer">&nbsp;</li>
+    </ul>      
+</div>
+
+
+{% endblock %}

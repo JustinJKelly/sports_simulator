@@ -502,6 +502,8 @@ def standings_page(request):
         }
     return render(request,'basketball/standings.html', context)
 
+def playoffs_page(request):
+    return render(request, 'basketball/playoffs.html')
 
 def find_team_logos(team1, team2):
     return_list = []
