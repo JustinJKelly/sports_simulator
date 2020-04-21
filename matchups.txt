@@ -1,0 +1,123 @@
+Given a matchup, Ex. Houston Rockets vs Los Angeles Lakers
+We should be able to identify past matchups this year and look at their record: 
+The teams were scheduled to play three games this year, but only played two and went 1-1.
+
+The Rockets as a team are the 2nd highest scoring offense in the league, with 
+on average 118 points per game. however, they allow roughly 114pts to be scored
+on them each game making them the 22nd in that ranking. Also taking into account
+their rebounds per game is middle of the league becuase of their small size. 
+They also rank 29th in the league for number of assists per game. Meaning they 
+are an isolation heavy team.
+
+Houston Stats:
+    Average Height: 6-5~
+    PPG: 118(Very High)
+    Points Allow Per game: 114(Fairly high)
+    RPG: 45~(roughly middle of the pack)
+    APG: 21.5(Extremely Poor)
+    Team 3PT%: 34.8%(Poor)
+    Team 3PTA: 44(Highest in the league by a large margin)
+    Team 3PTM: 15.4(Highest in the league)
+    TOV: 14.7(Middle of the Pack)
+    STL: 8.5(High)
+    BLKS: 5(Surprisingly above average)
+
+The Lakers are one of the strongest teams in the league this year. They allow
+the third lowest points scored on them in the league. They are the #1 team in terms 
+of blocks, 9th in assists, 8th in rebounds, 22nd in TOVS and 7th in points scored 
+per game. They have the highest FG% in the NBA and are the 4th highest in terms of
+offensive steals.
+
+Lakers Stats:
+    Average Height: 6-7~
+    PPG: 114(7th Overall)
+    Points Allowed per game: 106.9(3rd overall)
+    RPG: 46(8th Overall)
+    APG: 26(9th Overall)
+    Team 3PT%: 35.5(Middle of the Pack)
+    Team 3PTA: 31.4 (23rd overall low)
+    Team FG%: 48.5 (Highest in the league)
+    TOV: 15.1 (22nd overall)
+    STL: 8.6 (4th overall)
+    BLKS: 6.8 (1st overall)
+
+
+Taking only team stats into account, the Lakers are obviously a much more well
+rounded team than the Rockets. While the Rockets lead the league in scoring they 
+also tend to allow much more points than the Lakers do. The Lakers are also notorious 
+for having one of the tallest lineups in the NBA this season, which when matched up against 
+roughly the shortest starting lineup, is a bad combination for the Rockets scoring.
+The Rockets are a team that lives and dies by the three. They take the most attempts
+and have the highest successes due to this. However, due to their short makeup, They
+struggle in the paint, this is also aggrivated by the Lakers extremely tough in-paint
+defense scheme. The Lakers rarely allow their opponent into the paint. The Lakers 
+also are an assist heavy team, so they are better at setting up shots, and because
+of their large height, the Lakers are very good at getting offensive rebounds. 
+
+
+Looking at purely team statistics, I would say the Lakers are favored 60-40.
+---------------------------------------------------------
+
+INDIVIDUAL PLAYERS
+
+Rockets:
+The Houston Rockets have two allstar in the 2019-2020 season who have been MVPs
+in previous seasons, James Harden and Russell Westbrook. These two players are
+famous for having their own playstyle and essentially famous for carrying their
+respective teams. 
+
+James Harden is one of the most prolific scorers of all time. He has the scoring 
+title for both the 2018 and 2019 seasons. While his shooting percentage splits
+aren't the highest, he makes up for them in terms of volume of shots. He on
+average in the 2020 and 2019 seasons averaged ~34.5pts per game. James Harden 
+can never be counted out, and if allowed to play his own game, will easily score
+50+ on a team.
+
+Russell Westbrook is one of the most athletic players in basketball. Where
+his shooting is lacking he makes up for in terms of all around utlity on the 
+floor. He is famous for averaging a triple double. He is a great teamate to have
+on the floor, espcially when he is not your first option in terms of shooting.
+
+Lakers:
+The Lakers are notorious for build all star caliber lineups and this year is not
+different. Having a player like Lebron James is often mor than enough to carry a 
+team to the playoffs. With the inclusion of Anthony Davis, the Lakers have given 
+Lebron a teamate that can keep up with Lebron's pace. Other allstars on the Lakers
+include Dwight Howard, who, despite being well past his prime is still a strong big man
+who can easily scoop 10 rebounds a night and be a solid defensive precense. Rajon Rondo,
+who is a playoff veteran and has been a key player on many championship runs. 
+Danny Green who is an excellent 3rd or 4th option shooter and lockdown defender.
+
+
+Overall, in terms of individual talent, the Lakers have much more depth and arguably higher
+skill peaks than the Rockets. The Rockets have a singular offensive strategy which is take as
+many three as possible. The Lakers are an extremely flexible team who focus on driving to the basket
+and kicking it out to one of their excellent perimiter shooters.
+
+
+Overall if these two teams faced off in the playoffs, I would say that it may go to 
+5-6 games, but I would be VERY suprised if they Lakers lost let alone were taken to 
+a game 7 especially considering playoff Lebron. 
+--------------------------------------------
+
+Overall statistics that I think are important:
+Team PPG
+Team APG
+Team RPG(ORB & DRB)
+Team BLKSPG
+Team FG%
+Team FGA
+Team 3FG%
+Team 3FGA
+Team SPG
+Team #AllStars(we can hardcode this)
+Team Height
+Team Rankings
+Player Points
+Player Rebounds
+Player assists
+Player BLKS
+Player FG%
+Player 3FG%
+Player Steals
+
