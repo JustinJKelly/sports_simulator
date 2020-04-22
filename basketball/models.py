@@ -57,6 +57,8 @@ class Game(models.Model):
     home_team_record = models.CharField(max_length=10,null=False)
     away_team_record = models.CharField(max_length=10,null=False)
     data = JSONField()
+    home_team_win_percentage_start = models.DecimalField(max_digits=4,decimal_places=3)
+    away_team_win_percentage_start = models.DecimalField(max_digits=4,decimal_places=3)
 
     def __str__(self):
         return '%s @ %s %s' % (self.home_team_name,self.away_team_name, self.date) 
