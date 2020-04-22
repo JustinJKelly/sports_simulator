@@ -17,12 +17,17 @@
         "three_point_percentage":round((player.three_point_attempted/player.three_point_made)*100,1),
         "games_played":player.games_played,"team_image":"img/nba_logo.png","player_image":player_image
     }-->
+    <style> 
+        a:hover.img_hover {
+            color: transparent;
+        }
+    </style>
      
     <div class="container bg-light">
         <div class="container-fluid bg-light p-3">
             <div class="row">
                 <div class="card col-3 bg-light border-0">
-                    <img class="card-img-top " src={{player_image}}>
+                    <img class="card-img-top img_hover" src={{player_image}}>
                 </div>
                 <div class="col-9">
                     <div class="container-fluid">
@@ -112,6 +117,94 @@
             </tbody>
         </table>
     </div>
+
+    <!--
+        this_game_log = [
+            0p['player_id'],1p['name'],2p['min'],3p['FG_made'],
+            4p['FG_attempted'],5p['3P_made'],6p['3P_attempted'],
+            7p['FT_made'],8p['FT_attempted'],9p['off_rebounds'],
+            10p['def_rebounds'],11p['off_rebounds']+p['def_rebounds'],
+            12p['assists'],13p['steals'],14p['blocks'],15p['turnovers'],
+            16p['personal_fouls'],17p['points'],
+            18game.date.month,19game.date.day,20opp_image,21opp_team_id,
+            22@_or_vs,23team_abv,24WorL,25winningscore,26loserscore
+        ]
+    -->
+    <br/>
+    <br/>
+     <!--Game log Player Stats-->
+    <div class="container">
+        <h3> 2019-2020 Game Log </h3>
+    </div>
+    <div class="table-responsive container" style="height:700px; overflow:scroll;">
+        <table class="table table-striped table-light" >
+            <thead style="font-size:15px">
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Opp</th>
+                    <th scope="col">Result</th>
+                    <th scope="col">Min</th>
+                    <th scope="col">FG</th>
+                    <th scope="col">3PT</th>
+                    <th scope="col">FT</th>
+                    <th scope="col">OREB</th>
+                    <th scope="col">DREB</th>
+                    <th scope="col">REB</th>
+                    <th scope="col">AST</th>
+                    <th scope="col">STL</th>
+                    <th scope="col">BLK</th>
+                    <th scope="col">PF</th>
+                    <th scope="col">TO</th>
+                    <th scope="col">PTS</th>
+                </tr>
+            </thead>
+            <tbody style="font-size:14px">
+                {% for game in game_log %}
+                    <tr>
+                        <td> <b>{{game.18}}/{{game.19}}</b> </td>
+                        <td> 
+                            <p>
+                                {{game.22}}
+                                <a class="img_hover" href='/basketball/team/{{ game.21 }}'>
+                                    <img style="max-height:35px;max-width:35px;" src={% static game.20 %} </img>
+                                </a> 
+                                 <a href='/basketball/team/{{ game.21 }}'>{{game.23}}</a>
+                            </p>
+                        </td>
+                        <td> 
+                            {% if game.24 == 'W' %}
+                                <p>
+                                    <b style="color:green;">{{game.24}}</b>
+                                    <a href='/basketball/game/{{game.27}}'> {{game.25}}-{{game.26}} </a>
+                                </p>
+                            {% else %}
+                                <p>
+                                    <b style="color:red;">{{game.24}}</b> 
+                                    <a href='/basketball/game/{{game.27}}'>{{game.25}}-{{game.26}}</a>
+
+                                </p>
+                            {% endif %}
+                        </td>
+                        <td>{{game.2}}</td>
+                        <td>{{game.3}}-{{game.4}}</td>
+                        <td>{{game.5}}-{{game.6}}</td>
+                        <td>{{game.7}}-{{game.8}}</td>
+                        <td>{{game.9}}</td>
+                        <td>{{game.10}}</td>
+                        <td>{{game.11}}</td>
+                        <td>{{game.12}}</td>
+                        <td>{{game.13}}</td>
+                        <td>{{game.14}}</td>
+                        <td>{{game.16}}</td>
+                        <td>{{game.15}}</td>
+                        <td>{{game.17}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!--Game log Player Stats-->
+
         
     <script>
         $(document).ready(function(){

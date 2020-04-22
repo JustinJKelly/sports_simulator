@@ -141,6 +141,99 @@ def player_page(request,id):
         "field_goals_attempted":round(player.field_goals_attempted/player.games_played,1),
         "field_goals_made":round(player.field_goals_made/player.games_played,1),"position":player.position
     }
+
+    context['game_log']=[]
+    games = (Game.objects.filter(home_team=player.team_id) | Game.objects.filter(away_team=player.team_id)).order_by('-date')
+    for game in games:
+        player_stats = game.data['player_stats']
+        found = False
+        this_game_log = []
+        for p in player_stats:
+            if p['player_id'] == player.player_id:
+                found = True
+                if p['comment']=='OK':
+                    this_game_log = [
+                        p['player_id'],p['name'],p['min'],p['FG_made'],
+                        p['FG_attempted'],p['3P_made'],p['3P_attempted'],
+                        p['FT_made'],p['FT_attempted'],p['off_rebounds'],
+                        p['def_rebounds'],p['off_rebounds']+p['def_rebounds'],
+                        p['assists'],p['steals'],p['blocks'],p['turnovers'],
+                        p['personal_fouls'],p['points'],
+                        game.date.month,game.date.day
+                    ]
+                else:
+                    this_game_log = [
+                        p['player_id'],p['name'],'N/A',0,
+                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                        game.date.month,game.date.day
+                    ]
+
+                if player.team_id == game.home_team:
+                    this_game_log.append(find_team_image(game.away_team))
+                    this_game_log.append(game.away_team)
+                    this_game_log.append('vs')
+                    this_game_log.append(Team.objects.get(team_id=game.away_team).team_abv)
+                    if game.winning_team_id == game.home_team:
+                        this_game_log.append('W')
+                        this_game_log.append(game.home_team_score)
+                        this_game_log.append(game.away_team_score)
+                    else:
+                        this_game_log.append('L')
+                        this_game_log.append(game.away_team_score)
+                        this_game_log.append(game.home_team_score)
+
+                else:
+                    this_game_log.append(find_team_image(game.home_team))
+                    this_game_log.append(game.home_team)
+                    this_game_log.append('@')
+                    this_game_log.append(Team.objects.get(team_id=game.home_team).team_abv)
+                    if game.winning_team_id == game.away_team:
+                        this_game_log.append('W')
+                        this_game_log.append(game.away_team_score)
+                        this_game_log.append(game.home_team_score)
+                    else:
+                        this_game_log.append('L')
+                        this_game_log.append(game.home_team_score)
+                        this_game_log.append(game.away_team_score)
+                break
+            #print(this_game_log)
+        if not found:
+            this_game_log = [
+                player.player_id,player.full_name,'N/A',0,
+                0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                game.date.month,game.date.day,
+            ]
+            if player.team_id == game.home_team:
+                this_game_log.append(find_team_image(game.away_team))
+                this_game_log.append(game.away_team)
+                this_game_log.append('vs')
+                this_game_log.append(Team.objects.get(team_id=game.away_team).team_abv)
+                if game.winning_team_id == game.home_team:
+                    this_game_log.append('W')
+                    this_game_log.append(game.home_team_score)
+                    this_game_log.append(game.away_team_score)
+                else:
+                    this_game_log.append('L')
+                    this_game_log.append(game.away_team_score)
+                    this_game_log.append(game.home_team_score)
+            else:
+                this_game_log.append(find_team_image(game.home_team))
+                this_game_log.append(game.home_team),
+                this_game_log.append('@')
+                this_game_log.append(Team.objects.get(team_id=game.home_team).team_abv)
+                if game.winning_team_id == game.away_team:
+                    this_game_log.append('W')
+                    this_game_log.append(game.away_team_score)
+                    this_game_log.append(game.home_team_score)
+                else:
+                    this_game_log.append('L')
+                    this_game_log.append(game.home_team_score)
+                    this_game_log.append(game.away_team_score)
+
+            
+        this_game_log.append(game.game_id)
+        context['game_log'].append(this_game_log)
+
     return render(request,'basketball/player_page.html',context=context)
 
 
