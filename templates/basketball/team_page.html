@@ -28,7 +28,9 @@
             .hide{
                 display: none;
             }
-
+            a:hover.img_hover {
+                color: transparent;
+            }
         </style>
         <head>
          <script type="text/javascript">
@@ -141,8 +143,8 @@
                         <th scope="col">DREB</th>
                         <th scope="col">REB</th>
                         <th scope="col">AST</th>
-                        <th scope="col">BLK</th>
                         <th scope="col">STL</th>
+                        <th scope="col">BLK</th>
                         <th scope="col">PF</th>
                         <th scope="col">TO</th>
                         <th scope="col">PTS</th>
@@ -160,8 +162,8 @@
                         <td>{{p.5}}</td>
                         <td>{{p.6}}</td>
                         <td>{{p.3}}</td>
-                        <td>{{p.7}}</td>
                         <td>{{p.8}}</td>
+                        <td>{{p.7}}</td>
                         <td>{{p.10}}</td>
                         <td>{{p.9}}</td>
                         <td>{{p.2}}</td>
@@ -170,6 +172,100 @@
                 </tbody>
             </table>
         </div>
+
+
+    <!--
+            this_game_log = [
+                0team_stats[team_index]['FG_made'],1team_stats[team_index]['FG_attempted'],
+                2team_stats[team_index]['3P_made'],3team_stats[team_index]['3P_attempted'],
+                4team_stats[team_index]['FT_made'],5team_stats[0]['FT_attempted'],
+                6team_stats[team_index]['off_rebounds'],7team_stats[team_index]['def_rebounds'],
+                8team_stats[team_index]['off_rebounds']+team_stats[0]['def_rebounds'],
+                9team_stats[team_index]['assists'],10team_stats[team_index]['steals'],
+                11team_stats[team_index]['blocks'],12team_stats[team_index]['turnovers'],
+                13team_stats[team_index]['personal_fouls'],14team_stats[team_index]['points'],
+                15game.date.month,16game.date.day,
+                17opponent_image,
+                18opponent_team_id
+                19vsOr@,
+                20opp_abv,
+                21WorL,
+                22winner_score,
+                23loser_score,
+                24game_id
+            ]
+    -->
+
+      <!--Game Log Team Stats-->
+    <div class="container">
+        <h3> 2019-2020 Game Log </h3>
+    </div>
+    <div class="table-responsive container" style="height:700px; overflow:scroll;">
+        <table class="table table-striped table-light" >
+            <thead style="font-size:15px">
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Opp</th>
+                    <th scope="col">Result</th>
+                    <th scope="col">FG</th>
+                    <th scope="col">3PT</th>
+                    <th scope="col">FT</th>
+                    <th scope="col">OREB</th>
+                    <th scope="col">DREB</th>
+                    <th scope="col">REB</th>
+                    <th scope="col">AST</th>
+                    <th scope="col">STL</th>
+                    <th scope="col">BLK</th>
+                    <th scope="col">PF</th>
+                    <th scope="col">TO</th>
+                    <th scope="col">PTS</th>
+                </tr>
+            </thead>
+            <tbody style="font-size:14px">
+                {% for game in game_log %}
+                    <tr>
+                        <td> <b>{{game.15}}/{{game.16}}</b> </td>
+                        <td> 
+                            <p>
+                                {{game.19}}
+                                <a class="img_hover" href='/basketball/team/{{ game.18 }}'>
+                                    <img style="max-height:35px;max-width:35px;" src={% static game.17 %} </img>
+                                </a> 
+                                 <a href='/basketball/team/{{ game.18 }}'>{{game.20}}</a>
+                            </p>
+                        </td>
+                        <td> 
+                            {% if game.21 == 'W' %}
+                                <p>
+                                    <b style="color:green;">{{game.21}}</b>
+                                    <a href='/basketball/game/{{game.24}}'> {{game.22}}-{{game.23}} </a>
+                                </p>
+                            {% else %}
+                                <p>
+                                    <b style="color:red;">{{game.21}}</b> 
+                                    <a href='/basketball/game/{{game.24}}'>{{game.22}}-{{game.23}}</a>
+
+                                </p>
+                            {% endif %}
+                        </td>
+                        <td>{{game.0}}-{{game.1}}</td>
+                        <td>{{game.2}}-{{game.3}}</td>
+                        <td>{{game.4}}-{{game.5}}</td>
+                        <td>{{game.6}}</td>
+                        <td>{{game.7}}</td>
+                        <td>{{game.8}}</td>
+                        <td>{{game.9}}</td>
+                        <td>{{game.10}}</td>
+                        <td>{{game.11}}</td>
+                        <td>{{game.13}}</td>
+                        <td>{{game.12}}</td>
+                        <td>{{game.14}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!--Game log Player Stats-->
 
 
     <script>

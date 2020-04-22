@@ -62,33 +62,7 @@ def home(request):
 
 
     return render(request, 'basketball/games.html', context)
-    '''url = "https://www.cbssports.com/nba/schedule/"
-    response = requests.get(url)
 
-    data = response.text
-    soup = BeautifulSoup(data,features='html.parser')
-    team_names = []
-    games = []
-
-    for span_tag in soup.findAll('span', {'class': 'TeamName'}):
-        team_names.append((span_tag.find('a')).string)
-
-    for i in range(0,len(team_names),2):
-        team1 = team_names[i]
-        team2 = team_names[i+1]
-        team_logos = find_team_logos(team1.lower(),team2.lower())
-        game = [team1,team2]
-        game += team_logos
-        games.append(game)
-
-    for game in games:
-        print(game)
-
-    context = {
-        "games": games
-    }
-
-    return render(request, 'basketball/index.html', context)'''
 
 #height,weight,jersey_number,player_age, team_name
 #full_name,player_id,points_total,assists_total,rebounds_total,blocks_total
@@ -485,7 +459,58 @@ def team_page(request,id):
                     ]
                 )
 
+        game_log = []
+        games = (Game.objects.filter(home_team=team.team_id) | Game.objects.filter(away_team=team.team_id)).order_by('-date')
+        for game in games:
+            team_stats = game.data['team_stats']
+            this_game_log = []
+            if team_stats[0]['team_id'] == team.team_id:
+                team_index = 0
+            else:
+                team_index = 1
+            
+            this_game_log = [
+                team_stats[team_index]['FG_made'],team_stats[team_index]['FG_attempted'],
+                team_stats[team_index]['3P_made'],team_stats[team_index]['3P_attempted'],
+                team_stats[team_index]['FT_made'],team_stats[team_index]['FT_attempted'],
+                team_stats[team_index]['off_rebounds'],team_stats[team_index]['def_rebounds'],
+                team_stats[team_index]['off_rebounds']+team_stats[team_index]['def_rebounds'],
+                team_stats[team_index]['assists'],team_stats[team_index]['steals'],
+                team_stats[team_index]['blocks'],team_stats[team_index]['turnovers'],
+                team_stats[team_index]['personal_fouls'],team_stats[team_index]['points'],
+                game.date.month,game.date.day
+            ]
 
+            if team.team_id == game.home_team:
+                this_game_log.append(find_team_image(game.away_team))
+                this_game_log.append(game.away_team)
+                this_game_log.append('vs')
+                this_game_log.append(Team.objects.get(team_id=game.away_team).team_abv)
+                if game.winning_team_id == game.home_team:
+                    this_game_log.append('W')
+                    this_game_log.append(game.home_team_score)
+                    this_game_log.append(game.away_team_score)
+                else:
+                    this_game_log.append('L')
+                    this_game_log.append(game.away_team_score)
+                    this_game_log.append(game.home_team_score)
+
+            else:
+                this_game_log.append(find_team_image(game.home_team))
+                this_game_log.append(game.home_team)
+                this_game_log.append('@')
+                this_game_log.append(Team.objects.get(team_id=game.home_team).team_abv)
+                if game.winning_team_id == game.away_team:
+                    this_game_log.append('W')
+                    this_game_log.append(game.away_team_score)
+                    this_game_log.append(game.home_team_score)
+                else:
+                    this_game_log.append('L')
+                    this_game_log.append(game.home_team_score)
+                    this_game_log.append(game.away_team_score)
+                
+            this_game_log.append(game.game_id)
+            game_log.append(this_game_log)
         context = {
             'team_name':team.team_name,'team_abv':team.team_abv,"team_wins":team.team_wins,"team_losses":team.team_losses,
             'conference':team.conference,'division':team.division,'conference_rank':team.conference_rank,
@@ -508,7 +533,7 @@ def team_page(request,id):
             'three_point_attempted_per_game':round(team.three_point_attempted/team.games_played,1),
             'team_three_point_percentage':round((team.three_point_made/team.three_point_attempted)*100,1),
             'games_played':team.games_played,"players":team_players,
-            'team_image': find_team_image(team.team_id)
+            'team_image': find_team_image(team.team_id),'game_log':game_log
         }
 
     return render(request,'basketball/team_page.html',context)
