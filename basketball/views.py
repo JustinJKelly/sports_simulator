@@ -577,7 +577,13 @@ def standings_page(request):
                 round((team.points_total/team.games_played),1),
                 find_team_image(team.team_id),
                 rank,
-                team.team_id
+                team.team_id,
+                team.home_wins,
+                team.away_wins,
+                team.home_losses,
+                team.away_losses,
+                team.conference_wins,
+                team.conference_losses
             ])
 
         else:
@@ -608,7 +614,13 @@ def standings_page(request):
                 round((team.points_total/team.games_played),1),
                 find_team_image(team.team_id),
                 rank,
-                team.team_id
+                team.team_id,
+                team.home_wins,
+                team.away_wins,
+                team.home_losses,
+                team.away_losses,
+                team.conference_wins,
+                team.conference_losses
             ])
 
         #print(western)

@@ -112,6 +112,12 @@ class Team(models.Model):
     games_played = models.IntegerField(null=False)
     team_id = models.IntegerField(primary_key=True)
     players = JSONField()
+    home_wins = models.IntegerField(null=False)
+    away_wins = models.IntegerField(null=False)
+    home_losses = models.IntegerField(null=False)
+    away_losses = models.IntegerField(null=False)
+    conference_wins = models.IntegerField(null=False)
+    conference_losses = models.IntegerField(null=False)
 
     def __str__(self):
         return str(self.team_name)
