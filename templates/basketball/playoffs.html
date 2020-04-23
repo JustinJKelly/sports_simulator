@@ -2,7 +2,18 @@
     {% load static %}
     {% block content %}
     <style>
-      .tournament{
+
+    .container-flex{
+        background-color: #ff0000;
+        text-align: left;
+        color: white;
+    }
+    .container-flex-right{
+        background-color: #0000FF;
+        text-align: left;
+        color: white;
+    }
+    .tournament{
         display:flex;
         flex-direction:row;
         overflow: auto;
@@ -22,6 +33,10 @@
         width:200px;
         list-style:none;
         padding-left:10px;
+    }
+    .tab{
+        display: flex;
+        justify-content: space-between;
     }
 
  
@@ -72,25 +87,25 @@
         margin-left: 5px;
     }
 
-    li.game-top{ border-bottom:1px solid #aaa; }
+    li.game-top{ border-bottom:1px solid #FF0000; }
 
-    li.game-right-top{ border-bottom: 1px solid #aaa;}
+    li.game-right-top{ border-bottom: 1px solid #0000FF;}
 
     li.game-spacer{ 
-        border-right:1px solid #aaa;
+        border-right:1px solid #FF0000;
         min-height:40px;
         }
 
     li.game-spacer-right{
-        border-left: 1px solid #aaa;
+        border-left: 1px solid #0000FF;
         min-height: 40px;
     }
 
     li.game-bottom{ 
-        border-top:1px solid #aaa;
+        border-top:1px solid #FF0000;
     }
     li.game-right-bottom{
-        border-top:1px solid #aaa;
+        border-top:1px solid #0000FF;
     }
     </style>
 
@@ -98,90 +113,90 @@
     <br/>
     <h1>2019-2020 NBA Playoffs Bracket</h1>
     <br/>
-    <h4>Western Conference<span>&nbsp;</span>Eastern Conference</h4>
+    <h4 class="tab">Western-Conference<span>&nbsp;</span>Eastern-Conference</h4>
         <div class="tournament">
         <ul class="round round-1">
             <li class="spacer">&nbsp;</li>
             
-            <li class="game game-top winner">1. GSW <span>0</span></li>
+            <li class="container-flex game game-top winner">1. GSW <span>4</span></li>
             <li class="game game-spacer">&nbsp;</li>
-            <li class="game game-bottom ">8. LAC <span>0</span></li>
+            <li class="container-flex game game-bottom " style="opacity: 50%;">8. LAC <span>2</span></li>
 
             <li class="spacer">&nbsp;</li>
             
-            <li class="game game-top winner">4. HOU <span>0</span></li>
+            <li class="container-flex game game-top winner">4. HOU <span>0</span></li>
             <li class="game game-spacer">&nbsp;</li>
-            <li class="game game-bottom ">5. UTA <span>0</span></li>
+            <li class="container-flex game game-bottom " style="opacity: 50%;">5. UTA <span>0</span></li>
 
             <li class="spacer">&nbsp;</li>
             
-            <li class="game game-top ">3. POR <span>0</span></li>
+            <li class="container-flex game game-top">3. POR <span>0</span></li>
             <li class="game game-spacer">&nbsp;</li>
-            <li class="game game-bottom winner">6. OKC <span>0</span></li>
+            <li class="container-flex game game-bottom winner" style="opacity: 50%;">6. OKC <span>0</span></li>
 
             <li class="spacer">&nbsp;</li>
             
-            <li class="game game-top winner">2. DEN <span>0</span></li>
+            <li class="container-flex game game game-top winner">2. DEN <span>0</span></li>
             <li class="game game-spacer">&nbsp;</li>
-            <li class="game game-bottom ">7. SAS <span>0</span></li>
+            <li class="container-flex game game-bottom " style="opacity: 50%;">7. SAS <span>0</span></li>
 
             <li class="spacer">&nbsp;</li>
         </ul>
         <ul class="round round-2">
             <li class="spacer">&nbsp;</li>
             
-            <li class="game game-top winner">1. GSW <span>0</span></li>
+            <li class="container-flex game game-top winner">1. GSW <span>0</span></li>
             <li class="game game-spacer">&nbsp;</li>
-            <li class="game game-bottom ">4. HOU<span>0</span></li>
+            <li class="container-flex game game-bottom " style="opacity: 50%;">4. HOU<span>0</span></li>
 
             <li class="spacer">&nbsp;</li>
             
-            <li class="game game-top winner">3. POR <span>0</span></li>
+            <li class="container-flex game game-top winner">3. POR <span>0</span></li>
             <li class="game game-spacer">&nbsp;</li>
-            <li class="game game-bottom ">2. DEN<span>0</span></li>
+            <li class="container-flex game game-bottom" style="opacity: 50%;">2. DEN<span>0</span></li>
 
             <li class="spacer">&nbsp;</li>
         </ul>
 
         <ul class="round round-3">
             <li class="spacer">&nbsp;</li>
-            <li class="game game-top winner">1. GSW <span>0</span>
+            <li class="container-flex game game-top winner">1. GSW <span>0</span>
             <li class="game game-spacer">&nbsp;</li>
-            <li class="game game-bottom ">3. POR<span>0</span></li>
+            <li class="container-flex game game-bottom " style="opacity: 5;">3. POR<span>0</span></li>
             <li class="spacer">&nbsp;</li>
         </ul>    
 
         <ul class="round round-4">
             <li class="spacer">&nbsp;</li>
-            <li class="game game-top winner">1. GSW <span>0</span>
+            <li class="container-flex game game-top winner" style="opacity: 50%;">1. GSW <span>0</span>
             <li class="spacer">&nbsp;</li>
         </ul>
         <!-- START OF THE EASTERN CONFERENCE -->
 
         <ul class="round-right round-right-4">
             <li class="spacer-right">&nbsp;</li>
-            <li class="game-right game-top">2. TOR<span>0</span>
+            <li class="container-flex-right game-right game-right-top">2. TOR<span>0</span>
             <li class="spacer-right">&nbsp;</li>
         </ul>
 
         <ul class="round-right round-right-3">
             <li class="spacer-right">&nbsp;</li>
-            <li class="game-right game-right-top winner">1. MIL<span>0</span>
+            <li class="container-flex-right game-right game-right-top winner" style="opacity: 50%;">1. MIL<span>0</span>
             <li class="game-right game-spacer-right">&nbsp;</li>
-            <li class="game-right game-right-bottom ">2. TOR<span>0</span></li>
+            <li class="container-flex-right game-right game-right-bottom ">2. TOR<span>0</span></li>
             <li class="spacer-right">&nbsp;</li>
         </ul> 
         <ul class="round round-right-2">
             <li class="spacer-right">&nbsp;</li>
-            <li class="game-right game-right-top winner">1. MIL<span>0</span></li>
+            <li class="container-flex-right game-right game-right-top winner">1. MIL<span>0</span></li>
             <li class="game-right game-spacer-right"></li>
-            <li class="game-right game-right-bottom">4. BOS<span>0</span></li>
+            <li class="container-flex-right game-right game-right-bottom" style="opacity: 50%;">4. BOS<span>0</span></li>
 
             <li class="spacer-right">&nbsp;</li>
                 
-            <li class="game-right game-right-top">3. PHI <span>0</span></li>
+            <li class="container-flex-right game-right game-right-top" style="opacity: 50%;">3. PHI <span>0</span></li>
             <li class="game-right game-spacer-right">&nbsp;</li>
-            <li class="game-right game-right-bottom winner">2. TOR<span>0</span></li>
+            <li class="container-flex-right game-right game-right-bottom winner">2. TOR<span>0</span></li>
 
             <li class="spacer-right">&nbsp;</li>
         </ul>
@@ -189,27 +204,27 @@
         <ul class="round-right round-right-1">
             <li class="spacer-right">&nbsp;</li>
             
-            <li class="game-right game-right-top winner">1. MIL <span>0</span></li>
+            <li class="container-flex-right game-right game-right-top winner">1. MIL <span>0</span></li>
             <li class="game-right game-spacer-right">&nbsp;</li>
-            <li class="game-right game-right-bottom ">8. DET <span>0</span></li>
+            <li class="container-flex-right game-right game-right-bottom " style="opacity: 50%;">8. DET <span>0</span></li>
 
             <li class="spacer-right">&nbsp;</li>
             
-            <li class="game-right game-right-top winner">4. BOS<span>0</span></li>
+            <li class="container-flex-right game-right game-right-top winner">4. BOS<span>0</span></li>
             <li class="game-right game-spacer-right">&nbsp;</li>
-            <li class="game-right game-right-bottom ">5. IND<span>0</span></li>
+            <li class="container-flex-right game-right game-right-bottom " style="opacity: 50%;">5. IND<span>0</span></li>
 
             <li class="spacer-right">&nbsp;</li>
             
-            <li class="game-right game-right-top winner">3. PHI<span>0</span></li>
+            <li class="container-flex-right game-right game-right-top winner">3. PHI<span>0</span></li>
             <li class="game-right game-spacer-right">&nbsp;</li>
-            <li class="game-right game-right-bottom ">6. BRK<span>0</span></li>
+            <li class="container-flex-right game-right game-right-bottom " style="opacity: 50%;">6. BRK<span>0</span></li>
 
             <li class="spacer-right">&nbsp;</li>
             
-            <li class="game-right game-right-top winner">2. TOR<span>0</span></li>
+            <li class="container-flex-right game-right game-right-top winner">2. TOR<span>0</span></li>
             <li class="game-right game-spacer-right">&nbsp;</li>
-            <li class="game-right game-right-bottom ">7. ORL<span>0</span></li>
+            <li class="container-flex-right game-right game-right-bottom " style="opacity: 50%;">7. ORL<span>0</span></li>
 
             <li class="spacer-right">&nbsp;</li>
         </ul>
