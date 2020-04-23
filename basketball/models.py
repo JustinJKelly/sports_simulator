@@ -118,6 +118,9 @@ class Team(models.Model):
     away_losses = models.IntegerField(null=False)
     conference_wins = models.IntegerField(null=False)
     conference_losses = models.IntegerField(null=False)
+    opponent_points_total = models.IntegerField(null=False)
+    divisional_wins = models.IntegerField(null=False)
+    divisional_losses = models.IntegerField(null=False)
 
     def __str__(self):
         return str(self.team_name)

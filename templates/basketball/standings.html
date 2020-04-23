@@ -19,6 +19,8 @@
                     <th scope="col">Away</th>
                     <th scope="col">Conference</th>
                     <th scope="col">PPG</th>
+                    <th scope="col">OPPG</th>
+                    <th scope="col">+/-</th>
                 </tr>
             </thead>
             <tbody style="font-size:14px">
@@ -39,6 +41,20 @@
                         <td> {{ team.10}}-{{ team.12}} </td>
                         <td> {{ team.13}}-{{ team.14}} </td>
                         <td> {{ team.5 }} </td>
+                        <td> {{ team.15 }} </td>
+                        {% if team.16 < 0 %}
+                            <td>
+                                <p style="color:red">
+                                    {{ team.16 }}
+                                </p>
+                            </td> 
+                        {% else %}
+                            <td>
+                                <p style="color:green">
+                                    +{{ team.16 }}
+                                </p>
+                            </td> 
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>
@@ -63,7 +79,9 @@
         11team.home_losses,
         12team.away_losses,
         13team.conference_wins,
-        14team.conference_losses
+        14team.conference_losses,
+        15round(team.opponent_points_total,1)
+        16round((team.points_total/team.games_played),1)-round(team.opponent_points_total/team.games_played,1)
     -->
     <div class="table-responsive container">
         <h3 style="color:red;"> Western Conference</h3>
@@ -79,6 +97,8 @@
                     <th scope="col">Away</th>
                     <th scope="col">Conference</th>
                     <th scope="col">PPG</th>
+                    <th scope="col">OPPG</th>
+                    <th scope="col">+/-</th>
                 </tr>
             </thead>
             <tbody style="font-size:14px">
@@ -99,6 +119,20 @@
                         <td> {{ team.10}}-{{ team.12}} </td>
                         <td> {{ team.13}}-{{ team.14}} </td>
                         <td> {{ team.5 }} </td>
+                        <td> {{ team.15 }} </td>
+                         {% if team.16 < 0 %}
+                            <td>
+                                <p style="color:red">
+                                    {{ team.16 }}
+                                </p>
+                            </td> 
+                        {% else %}
+                            <td>
+                                <p style="color:green">
+                                    {{ team.16 }}
+                                </p>
+                            </td> 
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>
