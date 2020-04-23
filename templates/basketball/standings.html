@@ -1,8 +1,32 @@
 {% extends 'base.html' %}
     {% load static %}
     {% block content %}
+        <!--
+        team.team_name,
+        team.team_wins,
+        team.team_losses,
+        round((team.team_wins/(team.games_played)),3),
+        games_back,
+        round((team.points_total/team.games_played),1),
+        6find_team_image(team.team_id),
+        7rank,
+        8team.team_id,
+        9team.home_wins,
+        10team.away_wins,
+        11team.home_losses,
+        12team.away_losses,
+        13team.conference_wins,
+        14team.conference_losses,
+        15round(team.opponent_points_total,1)
+        16round((team.points_total/team.games_played),1)-round(team.opponent_points_total/team.games_played,1),
+        17team.divisional_wins,
+        18team.divisional_losses
+    -->
 
     <style>
+        a:hover.img_hover {
+            color:transparent;
+        }
     </style>
     <br/>
     <div class="table-responsive container">
@@ -17,6 +41,7 @@
                     <th scope="col">Games Back</th>
                     <th scope="col">Home</th>
                     <th scope="col">Away</th>
+                    <th scope="col">Division</th>
                     <th scope="col">Conference</th>
                     <th scope="col">PPG</th>
                     <th scope="col">OPPG</th>
@@ -29,7 +54,7 @@
                         <td> 
                             <p style="display:inline-block;">
                                 <b style="font-size:14px; padding-right:30px;"> {{team.7}} </b>
-                                <img style="max-height:40px;max-width:40px;" src="{% static team.6 %}"></img>
+                                <a class="img_hover" href="/basketball/team/{{ team.8 }}"><img style="max-height:40px;max-width:40px;" src="{% static team.6 %}"></img></a>
                                 <a href="/basketball/team/{{ team.8 }}">{{ team.0 }}</a>
                             </p>
                         </td>
@@ -39,6 +64,7 @@
                         <td> {{ team.4 }} </td>
                         <td> {{ team.9}}-{{ team.11}} </td>
                         <td> {{ team.10}}-{{ team.12}} </td>
+                        <td> {{ team.17}}-{{ team.18}} </td>
                         <td> {{ team.13}}-{{ team.14}} </td>
                         <td> {{ team.5 }} </td>
                         <td> {{ team.15 }} </td>
@@ -64,25 +90,7 @@
     <hr style="color:black; border-width: 2px;"></hr>
     <br/>
 
-    <!--
-        team.team_name,
-        team.team_wins,
-        team.team_losses,
-        round((team.team_wins/(team.games_played)),3),
-        games_back,
-        round((team.points_total/team.games_played),1),
-        6find_team_image(team.team_id),
-        7rank,
-        8team.team_id,
-        9team.home_wins,
-        10team.away_wins,
-        11team.home_losses,
-        12team.away_losses,
-        13team.conference_wins,
-        14team.conference_losses,
-        15round(team.opponent_points_total,1)
-        16round((team.points_total/team.games_played),1)-round(team.opponent_points_total/team.games_played,1)
-    -->
+
     <div class="table-responsive container">
         <h3 style="color:red;"> Western Conference</h3>
         <table class="table table-striped table-light">
@@ -95,6 +103,7 @@
                     <th scope="col">Games Back</th>
                     <th scope="col">Home</th>
                     <th scope="col">Away</th>
+                    <th scope="col">Division</th>
                     <th scope="col">Conference</th>
                     <th scope="col">PPG</th>
                     <th scope="col">OPPG</th>
@@ -107,7 +116,7 @@
                         <td> 
                             <p style="display:inline-block;">
                                 <b style="font-size:14px; padding-right:30px;"> {{team.7}} </b>
-                                <img style="max-height:30px;max-width:30px;" src="{% static team.6 %}"></img>
+                                <a class="img_hover" href="/basketball/team/{{ team.8 }}"><img style="max-height:30px;max-width:30px;" src="{% static team.6 %}"></img></a>
                                 <a href="/basketball/team/{{ team.8 }}">{{ team.0 }}</a>
                             </p>
                         </td>
@@ -117,6 +126,7 @@
                         <td> {{ team.4 }} </td>
                         <td> {{ team.9}}-{{ team.11}} </td>
                         <td> {{ team.10}}-{{ team.12}} </td>
+                        <td> {{ team.17}}-{{ team.18}} </td>
                         <td> {{ team.13}}-{{ team.14}} </td>
                         <td> {{ team.5 }} </td>
                         <td> {{ team.15 }} </td>

@@ -539,7 +539,7 @@ def team_page(request,id):
     return render(request,'basketball/team_page.html',context)
 
 def standings_page(request):
-    all_teams = Team.objects.order_by('-team_wins','team_losses','team_name')
+    all_teams = Team.objects.order_by('-team_wins','team_losses','-divisional_wins','divisional_losses','-conference_wins','conference_losses','team_name')
     western = []
     eastern = []
 
@@ -585,7 +585,9 @@ def standings_page(request):
                 team.conference_wins,
                 team.conference_losses,
                 round(team.opponent_points_total/team.games_played,1),
-                round(round((team.points_total/team.games_played),1)-round(team.opponent_points_total/team.games_played,1),1)
+                round(round((team.points_total/team.games_played),1)-round(team.opponent_points_total/team.games_played,1),1),
+                team.divisional_wins,
+                team.divisional_losses
             ])
 
         else:
@@ -624,7 +626,9 @@ def standings_page(request):
                 team.conference_wins,
                 team.conference_losses,
                 round(team.opponent_points_total/team.games_played,1),
-                round(round((team.points_total/team.games_played),1)-round(team.opponent_points_total/team.games_played,1),1)
+                round(round((team.points_total/team.games_played),1)-round(team.opponent_points_total/team.games_played,1),1),
+                team.divisional_wins,
+                team.divisional_losses
             ])
 
         #print(western)
