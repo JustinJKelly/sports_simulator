@@ -5,7 +5,7 @@
       .tournament{
         display:flex;
         flex-direction:row;
-        overflow: scroll;
+        overflow: auto;
     }
     .round{
         display:flex;
@@ -30,12 +30,12 @@
     .round .spacer:first-child,
     .round .spacer:last-child{ flex-grow:.5; }
 
-    .round-right .spacer{ flex-shrink:1; }
-    .round-right .spacer:first-child,
-    .round-right .spacer:last-child{ flex-shrink:.5; }
+    .round-right .spacer-right{ flex-grow:1; }
+    .round-right .spacer-right:first-child,
+    .round-right .spacer-right:last-child{ flex-grow:.5; }
 
     .round-right .game-spacer{
-        flex-shrink:1;
+        flex-grow:1;
     }
     .round .game-spacer{
         flex-grow:1;
@@ -58,6 +58,10 @@
         font-weight:bold;
     }
 
+    li.game-right.winner{
+        font-weight: bold;
+    }
+
     li.game span{
         float:right;
         margin-right:5px;
@@ -70,6 +74,7 @@
 
     li.game-top{ border-bottom:1px solid #aaa; }
 
+    li.game-right-top{ border-bottom: 1px solid #aaa;}
 
     li.game-spacer{ 
         border-right:1px solid #aaa;
@@ -82,6 +87,9 @@
     }
 
     li.game-bottom{ 
+        border-top:1px solid #aaa;
+    }
+    li.game-right-bottom{
         border-top:1px solid #aaa;
     }
     </style>
@@ -156,24 +164,24 @@
             <li class="spacer-right">&nbsp;</li>
         </ul>
 
-        <ul class="round round-right-3">
-            <li class="spacer">&nbsp;</li>
-            <li class="game game-top winner">1. MIL<span>0</span>
-            <li class="game game-spacer-right">&nbsp;</li>
-            <li class="game game-bottom ">2. TOR<span>0</span></li>
-            <li class="spacer">&nbsp;</li>
+        <ul class="round-right round-right-3">
+            <li class="spacer-right">&nbsp;</li>
+            <li class="game-right game-right-top winner">1. MIL<span>0</span>
+            <li class="game-right game-spacer-right">&nbsp;</li>
+            <li class="game-right game-right-bottom ">2. TOR<span>0</span></li>
+            <li class="spacer-right">&nbsp;</li>
         </ul> 
         <ul class="round round-right-2">
             <li class="spacer-right">&nbsp;</li>
-            <li class="game game-top winner">1. MIL<span>0</span></li>
-            <li class="game game-spacer-right"></li>
-            <li class="game game-bottom">4. BOS<span>0</span></li>
+            <li class="game-right game-right-top winner">1. MIL<span>0</span></li>
+            <li class="game-right game-spacer-right"></li>
+            <li class="game-right game-right-bottom">4. BOS<span>0</span></li>
 
             <li class="spacer-right">&nbsp;</li>
                 
-            <li class="game game-top">3. PHI <span>0</span></li>
-            <li class="game game-spacer-right">&nbsp;</li>
-            <li class="game game-bottom winner">2. TOR<span>0</span></li>
+            <li class="game-right game-right-top">3. PHI <span>0</span></li>
+            <li class="game-right game-spacer-right">&nbsp;</li>
+            <li class="game-right game-right-bottom winner">2. TOR<span>0</span></li>
 
             <li class="spacer-right">&nbsp;</li>
         </ul>
@@ -181,27 +189,27 @@
         <ul class="round-right round-right-1">
             <li class="spacer-right">&nbsp;</li>
             
-            <li class="game game-top winner">1. MIL <span>0</span></li>
+            <li class="game-right game-right-top winner">1. MIL <span>0</span></li>
             <li class="game-right game-spacer-right">&nbsp;</li>
-            <li class="game game-bottom ">8. DET <span>0</span></li>
+            <li class="game-right game-right-bottom ">8. DET <span>0</span></li>
 
             <li class="spacer-right">&nbsp;</li>
             
-            <li class="game game-top winner">4. BOS<span>0</span></li>
+            <li class="game-right game-right-top winner">4. BOS<span>0</span></li>
             <li class="game-right game-spacer-right">&nbsp;</li>
-            <li class="game game-bottom ">5. IND<span>0</span></li>
+            <li class="game-right game-right-bottom ">5. IND<span>0</span></li>
 
             <li class="spacer-right">&nbsp;</li>
             
-            <li class="game game-top ">3. PHI<span>0</span></li>
-            <li class="game game-spacer-right">&nbsp;</li>
-            <li class="game game-bottom winner">6. BRK<span>0</span></li>
+            <li class="game-right game-right-top winner">3. PHI<span>0</span></li>
+            <li class="game-right game-spacer-right">&nbsp;</li>
+            <li class="game-right game-right-bottom ">6. BRK<span>0</span></li>
 
-            <li class="spacer">&nbsp;</li>
+            <li class="spacer-right">&nbsp;</li>
             
-            <li class="game-right game-top winner">2. TOR<span>0</span></li>
-            <li class="game game-spacer-right">&nbsp;</li>
-            <li class="game game-bottom ">7. ORL<span>0</span></li>
+            <li class="game-right game-right-top winner">2. TOR<span>0</span></li>
+            <li class="game-right game-spacer-right">&nbsp;</li>
+            <li class="game-right game-right-bottom ">7. ORL<span>0</span></li>
 
             <li class="spacer-right">&nbsp;</li>
         </ul>
