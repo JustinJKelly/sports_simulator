@@ -9,7 +9,7 @@ import random
 
 
 def make_games():
-    current = 20200312
+    current = 20200309
     last = 20200415
     url = "https://www.cbssports.com/nba/schedule/"+str(current)
     response = requests.get(url)
@@ -26,9 +26,9 @@ def make_games():
     for span_tag in soup.findAll('span', {'class': 'TeamName'}):
         team_names.append((span_tag.find('a')).string)
 
-    for i in range(0,len(team_names),2):
-        team_away = team_names[i]
-        team_home = team_names[i+1]
+    for i in range(1,len(team_names),2):
+        team_away = team_names[len(team_names)-1]
+        team_home = team_names[len(team_names)-2]
         #game = [team_away,team_home]
         #games.append(game)
         #f.write("Away: %s  Home: %s\n" % (team1,team2))
@@ -130,53 +130,59 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id):
     biases = compute_biases(away_stats,home_stats,matchup_away,matchup_home)
     #print(biases['home_field_goal_attempt_bias'])
     #print(home_stats['field_goals_attempted_per_game'])
+    ####################SAM' BIAS CALCULATIONS############################
+    home_bias_list = get_bias_home(home_id)
+    away_bias_list = get_bias_away(away_id)
     #print("LOOK:",((biases['home_free_throw_percentage_bias'])+home_stats['free_throw_percentage']))
     home_game_stats = {
         'minutes':240,
-        'field_goals_percentage': ((biases['home_field_goal_percentage_bias'])+home_stats['field_goal_percentage'])*(random.uniform(0.9, 1.1)),
-        'field_goals_attempted': ((biases['home_field_goal_attempt_bias'])+home_stats['field_goals_attempted_per_game'])+random.uniform(-4,5),
-        'three_point_percentage': ((biases['home_three_point_pct_bias'])+home_stats['three_point_percentage'])*(random.uniform(0.9, 1.1)),
-        'three_point_attempted': ((biases['home_three_point_att_bias'])+home_stats['three_point_attempted_per_game'])+random.uniform(-4,5),
-        'free_throws_percentage': (((biases['home_free_throw_percentage_bias'])+home_stats['free_throw_percentage'])*(random.uniform(0.95, 1.05))),
-        'free_throws_attempted': ((biases['home_free_throw_att_bias'])+home_stats['free_throws_attempted_per_game'])+random.uniform(-5,5),
-        'def_rebounds': ((biases['home_def_rebounds_bias'])+home_stats['defensive_rebounds_per_game'])+random.uniform(-7,7),
-        'off_rebounds': ((biases['home_off_rebounds_bias'])+home_stats['offensive_rebounds_per_game'])+random.uniform(-1,3),
-        'rebounds': ((biases['home_rebounds_bias'])+home_stats['rebounds_per_game'])+random.uniform(-6,6),
-        'assists': ((biases['home_assists_bias'])+home_stats['assists_per_game'])+random.uniform(-5,5),
-        'steals': ((biases['home_steals_bias'])+home_stats['steals_per_game'])+random.uniform(-2,2),
-        'blocks': ((biases['home_blocks_bias'])+home_stats['blocks_per_game'])+random.uniform(-2,2),
-        'turnovers': ((biases['home_turnovers_bias'])+home_stats['turnovers_per_game'])+random.uniform(-3,3),
-        'personal_fouls': ((biases['home_personal_fouls_bias'])+home_stats['personal_fouls_per_game'])+ random.uniform(-3,3),
-        'points': (((biases['home_points_bias']+home_stats['points_per_game'])+(biases['home_points_per_game_bias']+home_stats['points_per_game']))/2)+random.uniform(-7,12),
+        'field_goals_percentage': ((biases['home_field_goal_percentage_bias'])+home_stats['field_goal_percentage'])*(random.uniform(home_bias_list[0], home_bias_list[1])),
+        'field_goals_attempted': ((biases['home_field_goal_attempt_bias'])+home_stats['field_goals_attempted_per_game'])+random.uniform(home_bias_list[2],home_bias_list[3]),
+        'three_point_percentage': ((biases['home_three_point_pct_bias'])+home_stats['three_point_percentage'])*(random.uniform(home_bias_list[4], home_bias_list[5])),
+        'three_point_attempted': ((biases['home_three_point_att_bias'])+home_stats['three_point_attempted_per_game'])+random.uniform(home_bias_list[6],home_bias_list[7]),
+        'free_throws_percentage': (((biases['home_free_throw_percentage_bias'])+home_stats['free_throw_percentage'])*(random.uniform(home_bias_list[8], home_bias_list[9]))),
+        'free_throws_attempted': ((biases['home_free_throw_att_bias'])+home_stats['free_throws_attempted_per_game'])+random.uniform(home_bias_list[10],home_bias_list[11]),
+        'def_rebounds': ((biases['home_def_rebounds_bias'])+home_stats['defensive_rebounds_per_game'])+random.uniform(home_bias_list[12],home_bias_list[13]),
+        'off_rebounds': ((biases['home_off_rebounds_bias'])+home_stats['offensive_rebounds_per_game'])+random.uniform(home_bias_list[14],home_bias_list[15]),
+        'rebounds': ((biases['home_rebounds_bias'])+home_stats['rebounds_per_game'])+random.uniform(home_bias_list[16],home_bias_list[17]),
+        'assists': ((biases['home_assists_bias'])+home_stats['assists_per_game'])+random.uniform(home_bias_list[18],home_bias_list[19]),
+        'steals': ((biases['home_steals_bias'])+home_stats['steals_per_game'])+random.uniform(home_bias_list[20],home_bias_list[21]),
+        'blocks': ((biases['home_blocks_bias'])+home_stats['blocks_per_game'])+random.uniform(home_bias_list[22],home_bias_list[23]),
+        'turnovers': ((biases['home_turnovers_bias'])+home_stats['turnovers_per_game'])+random.uniform(home_bias_list[24],home_bias_list[25]),
+        'personal_fouls': ((biases['home_personal_fouls_bias'])+home_stats['personal_fouls_per_game'])+ random.uniform(home_bias_list[26],home_bias_list[27]),
+        'points': (((biases['home_points_bias']+home_stats['points_per_game'])+(biases['home_points_per_game_bias']+home_stats['points_per_game']))/2)+random.uniform(home_bias_list[28],home_bias_list[29]),
     }
     home_game_stats['field_goals_made'] = round(home_game_stats['field_goals_attempted']*(home_game_stats['field_goals_percentage']/100))
     home_game_stats['free_throws_made'] = round((home_game_stats['free_throws_percentage']/100)*home_game_stats['free_throws_attempted'])
     home_game_stats['three_points_made'] = round((home_game_stats['three_point_percentage']/100)*home_game_stats['three_point_attempted'])
     print('home_stats:',home_game_stats)
+    total_points = (home_game_stats['three_points_made']*3)+((home_game_stats['field_goals_made']-home_game_stats['three_points_made'])*2) + home_game_stats['free_throws_made']
+    print('\ntotal points: ', total_points, '\n')
 
     away_game_stats = {
         'minutes':240,
-        'field_goals_percentage': ((biases['away_field_goal_percentage_bias'])+away_stats['field_goal_percentage'])*(random.uniform(0.9, 1.1)),
-        'field_goals_attempted': ((biases['away_field_goal_attempt_bias'])+away_stats['field_goals_attempted_per_game'])+random.uniform(-6,5),
-        'three_point_percentage': ((biases['away_three_point_pct_bias'])+away_stats['three_point_percentage'])*(random.uniform(0.9, 1.1)),
-        'three_point_attempted': ((biases['away_three_point_att_bias'])+away_stats['three_point_attempted_per_game'])+random.uniform(-4,5),
-        'free_throws_percentage': (((biases['away_free_throw_percentage_bias'])+away_stats['free_throw_percentage'])*(random.uniform(0.95, 1.05))),
-        'free_throws_attempted': ((biases['away_free_throw_att_bias'])+away_stats['free_throws_attempted_per_game'])+random.uniform(-5,5),
-        'def_rebounds': ((biases['away_def_rebounds_bias'])+away_stats['defensive_rebounds_per_game'])+random.uniform(-7,7),
-        'off_rebounds': ((biases['away_off_rebounds_bias'])+away_stats['offensive_rebounds_per_game'])+random.uniform(-1,3),
-        'rebounds': ((biases['away_rebounds_bias'])+away_stats['rebounds_per_game'])+random.uniform(-6,6),
-        'assists': ((biases['away_assists_bias'])+away_stats['assists_per_game'])+random.uniform(-5,5),
-        'steals': ((biases['away_steals_bias'])+away_stats['steals_per_game'])+random.uniform(-2,2),
-        'blocks': ((biases['away_blocks_bias'])+away_stats['blocks_per_game'])+random.uniform(-2,2),
-        'turnovers': ((biases['away_turnovers_bias'])+away_stats['turnovers_per_game'])+random.uniform(-3,3),
-        'personal_fouls': ((biases['away_personal_fouls_bias'])+away_stats['personal_fouls_per_game'])+ random.uniform(-3,3),
-        'points': (((biases['away_points_bias']+away_stats['points_per_game'])+(biases['away_points_per_game_bias']+away_stats['points_per_game']))/2)+random.uniform(-7,12),
+        'field_goals_percentage': ((biases['away_field_goal_percentage_bias'])+away_stats['field_goal_percentage'])*(random.uniform(away_bias_list[0], away_bias_list[1])),
+        'field_goals_attempted': ((biases['away_field_goal_attempt_bias'])+away_stats['field_goals_attempted_per_game'])+random.uniform(away_bias_list[2],away_bias_list[3]),
+        'three_point_percentage': ((biases['away_three_point_pct_bias'])+away_stats['three_point_percentage'])*(random.uniform(away_bias_list[4], away_bias_list[5])),
+        'three_point_attempted': ((biases['away_three_point_att_bias'])+away_stats['three_point_attempted_per_game'])+random.uniform(-away_bias_list[6],away_bias_list[7]),
+        'free_throws_percentage': (((biases['away_free_throw_percentage_bias'])+away_stats['free_throw_percentage'])*(random.uniform(away_bias_list[8], away_bias_list[9]))),
+        'free_throws_attempted': ((biases['away_free_throw_att_bias'])+away_stats['free_throws_attempted_per_game'])+random.uniform(away_bias_list[10],away_bias_list[11]),
+        'def_rebounds': ((biases['away_def_rebounds_bias'])+away_stats['defensive_rebounds_per_game'])+random.uniform(away_bias_list[12],away_bias_list[13]),
+        'off_rebounds': ((biases['away_off_rebounds_bias'])+away_stats['offensive_rebounds_per_game'])+random.uniform(away_bias_list[14],away_bias_list[15]),
+        'rebounds': ((biases['away_rebounds_bias'])+away_stats['rebounds_per_game'])+random.uniform(away_bias_list[16],away_bias_list[17]),
+        'assists': ((biases['away_assists_bias'])+away_stats['assists_per_game'])+random.uniform(away_bias_list[18],away_bias_list[19]),
+        'steals': ((biases['away_steals_bias'])+away_stats['steals_per_game'])+random.uniform(away_bias_list[20],away_bias_list[21]),
+        'blocks': ((biases['away_blocks_bias'])+away_stats['blocks_per_game'])+random.uniform(away_bias_list[22],away_bias_list[23]),
+        'turnovers': ((biases['away_turnovers_bias'])+away_stats['turnovers_per_game'])+random.uniform(away_bias_list[24],away_bias_list[25]),
+        'personal_fouls': ((biases['away_personal_fouls_bias'])+away_stats['personal_fouls_per_game'])+ random.uniform(away_bias_list[26],away_bias_list[27]),
+        'points': (((biases['away_points_bias']+away_stats['points_per_game'])+(biases['away_points_per_game_bias']+away_stats['points_per_game']))/2)+random.uniform(away_bias_list[28],away_bias_list[29]),
     }
     away_game_stats['field_goals_made'] = round(away_game_stats['field_goals_attempted']*(away_game_stats['field_goals_percentage']/100))
     away_game_stats['free_throws_made'] = round((away_game_stats['free_throws_percentage']/100)*away_game_stats['free_throws_attempted'])
     away_game_stats['three_points_made'] = round((away_game_stats['three_point_percentage']/100)*away_game_stats['three_point_attempted'])
-
+    total_points_away = (away_game_stats['three_points_made']*3) + ((away_game_stats['field_goals_made']-away_game_stats['three_points_made'])*2) + away_game_stats['free_throws_made']
     print('away stats:',away_game_stats)
+    print('\ntotal points: ', total_points_away, '\n')
     return
 
 
@@ -260,6 +266,195 @@ def get_team(team1):
 
     return list_teams[team1]
 
+
+def get_bias_home(team_id):
+    
+    if team_id == 1610612749:#MIL
+        team_uniform=[0.8, 1.12, -3, 5, 0.75, 1.05, -4, 5, 0.92, 1.02, -5, 9, -3,5, -3,6, -3,6, -3,3, -2,2, -2,3, -2,1, -3,-3, -10,10]
+        return team_uniform
+    elif team_id == 1610612747: #LAL
+        team_uniform=[0.8, 1.15, -4, 6, 0.74, 1.05, -4, 3, 0.91, 1.00, -5, 8, -5, 6, -2, 4, -3, 6, -4, 6, -3, 4, -2, 3, -1, 1, -3, 3, -7, 7]
+        return team_uniform
+    elif team_id == 1610612737: #ATL
+        team_uniform=[0.7, 1.05, -3, 6, 0.69, 1.02, -4, 6, 0.92, 1.03, -5, 6, -7,3, -2,2, -6,3, -3,2, -2,1, -1,1, -3,2, -3,3, -4,10]
+        return team_uniform
+    elif team_id == 1610612738:#BOS
+        team_uniform =[0.8,1.1, -4,4, 0.75,1.02, -4,3, 0.92,1.03, -5,3, -4,4, -2,2, -3,3, -4,6, -1,3, -2,3, -3,2, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612751: #BRK
+        team_uniform=[0.78,1.05, -4,6, 0.74,1.1, -4,5, 0.92, 1.02, -5,5, -3,7, -4,5, -3,3, -3,3, -2,2, -2,3, -4,3, -3,3, -7,10]#AVG
+        return team_uniform
+    elif team_id == 1610612766:#CHA
+        team_uniform=[0.7, 1.04, -3, 4, 0.69, 1.02, -4, 6, 0.92, 1.03, -5, 6, -7,3, -2,2, -6,3, -3,2, -2,1, -1,1, -3,2, -3,3, -4,10]
+        return team_uniform 
+    elif team_id == 1610612741:#CHI
+        team_uniform = [0.78,1.02, -4,4, 0.74,1.04, -4,5, 0.92, 1.02, -5,5, -3,7, -4,5, -3,3, -3,3, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612739: #CLE
+        team_uniform = [0.78,1.02, -4,3, 0.74,1.05, -4,4, 0.92, 1.02, -5,5, -3,7, -4,5, -3,3, -3,3, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612742: #DAL
+        team_uniform = [0.85,1.08, -4,6, 0.8,1.08, -4,6, 0.95, 1.02, -5,6, -3,5, -4,5, -3,5, -3,6, -2,3, -2,3, -4,3, -3,3, -7,12]
+        return team_uniform
+    elif team_id == 1610612743:#DEN
+        team_uniform = [0.82,1.08, -4,6, 0.78,1.05, -4,5, 0.93, 1.02, -5,5, -3,4, -4,4, -3,4, -3,4, -2,3, -2,3, -4,3, -3,3, -7,12]
+        return team_uniform
+    elif team_id == 1610612765:#DET
+        team_uniform=[0.78,1.02, -4,4, 0.74,1.05, -4,4, 0.90, 1.02, -5,5, -3,7, -4,5, -3,3, -3,3, -2,2, -2,3, -4,3, -3,3, -7,10]#AVG
+        return team_uniform
+    elif team_id == 1610612744: #GSW
+        team_uniform=[0.78,1.07, -3,6, 0.72,1.08, -3,5, 0.90,1.02, -2,2, -3,3, -3,3, -3,3, -3,5, -2,2, -2,3, -4,3, -3,3, -7,8]
+        return team_uniform        
+    elif team_id == 1610612745:#HOU
+        team_uniform=[0.85,1.12, -3,6, 0.82,1.1, -3,6, 0.95,1.02, -2,4, -3,4, -3,4, -3,4, -3,5, -2,4, -2,2, -2,4, -3,3, -7,12]
+        return team_uniform 
+    elif team_id == 1610612754:#IND
+        team_uniform = [0.78,1.1, -3,6, 0.76,1.05, -3,5, 0.92,1.02, -2,2, -3,3, -3,3, -3,3, -3,5, -2,2, -2,3, -4,3, -3,3, -7,8]
+        return team_uniform
+    elif team_id == 1610612746:#LAC
+        team_uniform = [0.84,1.15, -3,6, 0.79,1.05, -3,5, 0.95,1.02, -2,4, -2,5, -3,5, -3,5, -3,5, -2,3, -2,3, -4,2, -3,3, -7,8]
+        return team_uniform
+    elif team_id == 1610612763:#MEM
+        team_uniform=[0.77,1.05, -4,4, 0.73,1.05, -4,2, 0.90, 1.02, -5,3, -3,4, -4,5, -3,3, -3,3, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612748:#MIA
+        team_uniform=[0.82,1.07, -4,6, 0.82,1.1, -4,5, 0.96, 1.02, -5,5, -3,4, -4,5, -3,4, -3,4, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612750: #MIN
+        team_uniform=[0.75,1.03, -4,3, 0.72,1.02, -4,3, 0.90, 1.02, -5,3, -3,4, -4,5, -3,4, -2,4, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612740:#NOR
+        team_uniform =[0.79,1.06, -4,5, 0.78,1.05, -4,4, 0.93, 1.02, -5,5, -3,4, -4,3, -3,3, -2,5, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612752:#NYK
+        team_uniform =[0.74,1.02, -4,3, 0.70,1.02, -4,3, 0.89, 1.02, -5,5, -3,4, -4,3, -3,3, -2,5, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612760:#OKC
+        team_uniform =[0.82,1.1, -4,4, 0.8,1.06, -4,4, 0.92, 1.02, -5,5, -3,4, -4,3, -3,3, -2,5, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612753:#ORL
+        team_uniform =[0.75,1.02, -4,4, 0.75,1.02, -4,4, 0.90, 1.02, -5,5, -3,4, -4,3, -3,3, -2,5, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612755:#PHI
+        team_uniform=[0.85,1.05, -4,5, 0.8,1.04, -4,4, 0.92, 1.02, -4,6, -3,4, -4,3, -3,3, -2,5, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612756:#PHX
+        team_uniform=[0.80,1.02, -4,3, 0.78,1.02, -4,3, 0.90, 1.02, -4,3, -3,4, -4,3, -3,3, -2,5, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612757: #POR
+        team_uniform =[0.80,1.02, -4,5, 0.78,1.07, -4,4, 0.90, 1.02, -4,3, -3,4, -4,3, -3,3, -2,5, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612758:#SAC
+        team_uniform=[0.78,1.04, -4,3, 0.76,1.05, -4,4, 0.90, 1.02, -5,5, -3,7, -4,5, -3,3, -3,3, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612759:#SAS
+        team_uniform=[0.78,1.04, -4,2, 0.76,1.05, -4,2, 0.90, 1.02, -5,5, -3,7, -4,5, -3,3, -3,5, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612761: #TOR
+        team_uniform=[0.82,1.05, -4,4, 0.76,1.07, -4,4, 0.90, 1.02, -5,5, -3,7, -4,5, -3,3, -3,5, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612762:#UTA
+        team_uniform=[0.82,1.08, -4,4, 0.82,1.08, -4,4, 0.90, 1.02, -5,5, -3,7, -4,5, -3,3, -3,5, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612764:#WIZ
+        team_uniform=[0.82,1.02, -4,2, 0.81,1.08, -4,2, 0.90, 1.02, -5,5, -3,7, -4,5, -3,3, -3,5, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+
+def get_bias_away(team_id):
+    
+    if team_id == 1610612749:#MIL
+        team_uniform=[0.78, 1.10, -5, 3, 0.73, 1.03, -4, 5, 0.92, 1.02, -5, 9, -3, 7, -1, 5, -3, 6, -3, 5, -2, 3, -2, 2, -3, 3, -10, 10]
+        return team_uniform
+    elif team_id == 1610612747: #LAL
+        team_uniform=[0.8, 1.14, -4, 6, 0.72, 1.03, -4, 3, 0.91, 1.00, -5, 8, -5, 6, -2, 4, -3, 6, -4, 6, -3, 4, -2, 3, -1, 1, -3, 3, -7, 7]
+        return team_uniform
+    elif team_id == 1610612737: #ATL
+        team_uniform=[0.68, 1, -3, 5, 0.66, 1, -4, 3, 0.92, 1.03, -5, 6, -7,3, -2,2, -6,3, -3,2, -2,1, -1,1, -3,2, -3,3, -4,10]
+        return team_uniform
+    elif team_id == 1610612738:#BOS
+        team_uniform =[0.8,1.08, -4,4, 0.75,1.02, -4,3, 0.92,1.03, -5,3, -4,4, -2,2, -3,3, -4,6, -1,3, -2,3, -3,2, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612751: #BRK
+        team_uniform=[0.76,1.03, -4,6, 0.72,1.06, -4,5, 0.92, 1.02, -5,5, -3,7, -4,5, -3,3, -3,3, -2,2, -2,3, -4,3, -3,3, -7,10]#AVG
+        return team_uniform
+    elif team_id == 1610612766:#CHA
+        team_uniform=[0.68, 1.02, -3, 4, 0.67, 1, -4, 4, 0.92, 1.03, -5, 6, -7,3, -2,2, -6,3, -3,2, -2,1, -1,1, -3,2, -3,3, -4,10]
+        return team_uniform 
+    elif team_id == 1610612741:#CHI
+        team_uniform = [0.76,1.02, -4,4, 0.72,1.04, -4,5, 0.92, 1.02, -5,5, -3,7, -4,5, -3,3, -3,3, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612739: #CLE
+        team_uniform = [0.74,1.02, -4,3, 0.7,1.05, -4,4, 0.92, 1.02, -5,5, -3,7, -4,5, -3,3, -3,3, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612742: #DAL
+        team_uniform = [0.83,1.06, -4,6, 0.8,1.04, -4,5, 0.95, 1.02, -5,6, -3,5, -4,5, -3,5, -3,6, -2,3, -2,3, -4,3, -3,3, -7,12]
+        return team_uniform
+    elif team_id == 1610612743:#DEN
+        team_uniform = [0.81,1.07, -4,5, 0.77,1.03, -4,5, 0.93, 1.02, -5,5, -3,4, -4,4, -3,4, -3,4, -2,3, -2,3, -4,3, -3,3, -7,12]
+        return team_uniform
+    elif team_id == 1610612765:#DET
+        team_uniform=[0.75,1, -4,4, 0.72,1, -4,4, 0.90, 1.02, -5,5, -3,7, -4,5, -3,3, -3,3, -2,2, -2,3, -4,3, -3,3, -7,10]#AVG
+        return team_uniform
+    elif team_id == 1610612744: #GSW
+        team_uniform=[0.78,1.05, -3,6, 0.72,1.05, -3,5, 0.90,1.02, -2,2, -3,3, -3,3, -3,3, -3,5, -2,2, -2,3, -4,3, -3,3, -7,8]
+        return team_uniform        
+    elif team_id == 1610612745:#HOU
+        team_uniform=[0.83,1.1, -3,6, 0.82,1.08, -3,6, 0.95,1.02, -2,4, -3,4, -3,4, -3,4, -3,5, -2,4, -2,2, -2,4, -3,3, -7,12]
+        return team_uniform 
+    elif team_id == 1610612754:#IND
+        team_uniform = [0.78,1.08, -3,6, 0.76,1.05, -3,5, 0.92,1.02, -2,2, -3,3, -3,3, -3,3, -3,5, -2,2, -2,3, -4,3, -3,3, -7,8]
+        return team_uniform
+    elif team_id == 1610612746:#LAC
+        team_uniform = [0.82,1.13, -3,6, 0.77,1.03, -3,5, 0.95,1.02, -2,4, -2,5, -3,5, -3,5, -3,5, -2,3, -2,3, -4,2, -3,3, -7,8]
+        return team_uniform
+    elif team_id == 1610612763:#MEM
+        team_uniform=[0.75,1.05, -4,4, 0.73,1.05, -4,2, 0.90, 1.02, -5,3, -3,4, -4,5, -3,3, -3,3, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612748:#MIA
+        team_uniform=[0.8,1.07, -4,6, 0.8,1.08, -4,5, 0.96, 1.02, -5,5, -3,4, -4,5, -3,4, -3,4, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612750: #MIN
+        team_uniform=[0.73,1.01, -4,3, 0.7,1.02, -4,3, 0.90, 1.02, -5,3, -3,4, -4,5, -3,4, -2,4, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612740:#NOR
+        team_uniform =[0.78,1.03, -4,5, 0.76,1.03, -4,4, 0.93, 1.02, -5,5, -3,4, -4,3, -3,3, -2,5, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612752:#NYK
+        team_uniform =[0.72,1.02, -4,3, 0.70,1.02, -4,3, 0.89, 1.02, -5,5, -3,4, -4,3, -3,3, -2,5, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612760:#OKC
+        team_uniform =[0.8,1.08, -4,4, 0.78,1.04, -4,4, 0.92, 1.02, -5,5, -3,4, -4,3, -3,3, -2,5, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612753:#ORL
+        team_uniform =[0.73,1.02, -4,4, 0.73,1.02, -4,4, 0.90, 1.02, -5,5, -3,4, -4,3, -3,3, -2,5, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612755:#PHI
+        team_uniform=[0.78,1.03, -4,4, 0.75,1.04, -4,3, 0.92, 1.02, -4,6, -3,4, -4,3, -3,3, -2,5, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612756:#PHX
+        team_uniform=[0.77,1.02, -4,3, 0.75,1.02, -4,2, 0.90, 1.02, -4,3, -3,4, -4,3, -3,3, -2,5, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612757: #POR
+        team_uniform =[0.80,1.02, -4,5, 0.75,1.05, -4,4, 0.90, 1.02, -4,3, -3,4, -4,3, -3,3, -2,5, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612758:#SAC
+        team_uniform=[0.76,1.02, -4,3, 0.75,1.03, -4,4, 0.90, 1.02, -5,5, -3,7, -4,5, -3,3, -3,3, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612759:#SAS
+        team_uniform=[0.75,1.02, -4,2, 0.76,1.05, -4,2, 0.90, 1.02, -5,5, -3,7, -4,5, -3,3, -3,5, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612761: #TOR
+        team_uniform=[0.8,1.05, -4,4, 0.75,1.05, -4,4, 0.90, 1.02, -5,5, -3,7, -4,5, -3,3, -3,5, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612762:#UTA
+        team_uniform=[0.8,1.06, -4,4, 0.8,1.05, -4,3, 0.90, 1.02, -5,5, -3,7, -4,5, -3,3, -3,5, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+    elif team_id == 1610612764:#WIZ
+        team_uniform=[0.77,1.02, -4,3, 0.77,1.05, -4,2, 0.90, 1.02, -5,5, -3,7, -4,5, -3,3, -3,5, -2,2, -2,3, -4,3, -3,3, -7,10]
+        return team_uniform
+
+            
+    
 
 def get_other_data(team,opponent):
     #print("Team:", team)
