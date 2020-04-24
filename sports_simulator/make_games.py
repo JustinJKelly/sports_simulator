@@ -157,7 +157,7 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id):
     away_game_stats = {
         'minutes':240,
         'field_goals_percentage': ((biases['away_field_goal_percentage_bias'])+away_stats['field_goal_percentage'])*(random.uniform(0.9, 1.1)),
-        'field_goals_attempted': ((biases['away_field_goal_attempt_bias'])+away_stats['field_goals_attempted_per_game'])+random.uniform(-4,5),
+        'field_goals_attempted': ((biases['away_field_goal_attempt_bias'])+away_stats['field_goals_attempted_per_game'])+random.uniform(-6,5),
         'three_point_percentage': ((biases['away_three_point_pct_bias'])+away_stats['three_point_percentage'])*(random.uniform(0.9, 1.1)),
         'three_point_attempted': ((biases['away_three_point_att_bias'])+away_stats['three_point_attempted_per_game'])+random.uniform(-4,5),
         'free_throws_percentage': (((biases['away_free_throw_percentage_bias'])+away_stats['free_throw_percentage'])*(random.uniform(0.95, 1.05))),

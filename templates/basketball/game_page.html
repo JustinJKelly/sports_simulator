@@ -47,14 +47,30 @@
                 <div class="table-responsive">
                     <table class="table table-striped table-light table-sm" style="width:80%; font-size:14px; margin-left:10%; margin-right:10%;">
                         <thead>
-                            <tr>
-                                <th scope="col"></th>
-                                <th scope="col">1st</th>
-                                <th scope="col">2nd</th>
-                                <th scope="col">3rd</th>
-                                <th scope="col">4th</th>
-                                <th scope="col">Final</th>
-                            </tr>
+                            {% if home_points_by_quarter|length == 4 %}
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">1st</th>
+                                    <th scope="col">2nd</th>
+                                    <th scope="col">3rd</th>
+                                    <th scope="col">4th</th>
+                                    <th scope="col">Final</th>
+                                </tr>
+                            {% endif %}
+                            {% if home_points_by_quarter|length > 4 %}
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">1st</th>
+                                    <th scope="col">2nd</th>
+                                    <th scope="col">3rd</th>
+                                    <th scope="col">4th</th>
+                                    {% for i in num_overtimes %}
+                                        <th scope="col">OT{{i}}</th>
+                                    {% endfor %}
+                                    <th scope="col">Final</th>
+                                </tr>
+                            {% endif %}
+                          
                         </thead>
                         <tbody>
                             <tr>

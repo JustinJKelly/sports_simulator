@@ -308,6 +308,11 @@ def game_page(request, id):
     points_by_quarter = game.data["points_by_quarter_id"]
     home_points_by_quarter = points_by_quarter[str(game.home_team)]
     away_points_by_quarter = points_by_quarter[str(game.away_team)]
+    count = 0
+    for points in home_points_by_quarter:
+        if points > 0:
+            count +=1
+    num_ots = count-4
 
     #DOESNT HAVE OVERTIME POINTS BY QUARTER
     #AND IT ONLY WANT 10 PLAYERS(SOME GAMES HAVE 12+) CAN JUST do home_team_player_stats[:10]
@@ -322,11 +327,11 @@ def game_page(request, id):
         "top_scorer_home_points":game.top_scorer_home_points,"top_scorer_away_points":game.top_scorer_away_points,
         "top_scorer_home_name":Player.objects.get(player_id=game.top_scorer_home),
         "top_scorer_away_name":Player.objects.get(player_id=game.top_scorer_away),
-        "away_points_by_quarter":away_points_by_quarter[:4], "home_points_by_quarter": home_points_by_quarter[:4],
+        "away_points_by_quarter":away_points_by_quarter[:count], "home_points_by_quarter": home_points_by_quarter[:count],
         "home_team_abv":teams.find_team_name_by_id(game.home_team)['abbreviation'],
         "away_team_abv":teams.find_team_name_by_id(game.away_team)['abbreviation'],
         "home_team_record":game.home_team_record, "away_team_record":game.away_team_record,
-        "home_team_id":game.home_team,"away_team_id":game.away_team
+        "home_team_id":game.home_team,"away_team_id":game.away_team,"num_overtimes":range(1,num_ots+1)
     }
 
     return render(request,'basketball/game_page.html',context)
