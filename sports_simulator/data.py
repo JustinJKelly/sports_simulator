@@ -52,10 +52,11 @@ def get_other_data():
     f = open('team_matchups.txt','w')
     for team in Team.objects.all():
         this_team_id = team.team_id
-        f.write('%s: %s\n' % ("TEAM",team.team_name))
+        #f.write('%s: %s\n' % ("TEAM",team.team_name))
         print("Team:", team.team_name)
         for opp_team in Team.objects.all():
             if opp_team.team_id != this_team_id:
+                f.write('%s: %s\n' % ("TEAM",team.team_name))
                 f.write('%s %s\n' % ("OPPONENT",opp_team.team_name))
                 print("Opponent:", opp_team.team_name)
                 team_matchup_2019_2020 = TeamDashboardByOpponent( team_id=this_team_id, 
