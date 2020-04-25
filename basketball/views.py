@@ -246,7 +246,7 @@ def game_page(request, id):
                     player['FT_made'],player['FT_attempted'],player['off_rebounds'],
                     player['def_rebounds'],player['off_rebounds']+player['def_rebounds'],
                     player['assists'],player['steals'],player['blocks'],player['turnovers'],
-                    player['personal_fouls'],player['points'],player['player_id']
+                    player['personal_fouls'],player['points']
                 ])
             else:
                 home_team_player_stats.append([
@@ -261,7 +261,7 @@ def game_page(request, id):
                     player['FT_made'],player['FT_attempted'],player['off_rebounds'],
                     player['def_rebounds'],player['off_rebounds']+player['def_rebounds'],
                     player['assists'],player['steals'],player['blocks'],player['turnovers'],
-                    player['personal_fouls'],player['points'],player['player_id']
+                    player['personal_fouls'],player['points']
                 ])
             else:
                 away_team_player_stats.append([
@@ -720,6 +720,7 @@ def find_team_image(team_id):
         1610612759:"img/san-antonio-spurs.png",
         1610612761:"img/toronto-raptors.png",
         1610612762:"img/utah-jazz.png",
-        1610612764:"img/washington-wizards.png"
+        1610612764:"img/washington-wizards.png",
+        0:"img/nba_logo.png"
     }
     return list_teams[team_id]
