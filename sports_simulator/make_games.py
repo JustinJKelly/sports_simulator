@@ -153,27 +153,30 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id):
     home_game_stats = {
         'minutes':240,
         'field_goals_percentage': ((biases['home_field_goal_percentage_bias'])+home_stats['field_goal_percentage'])*(random.uniform(home_bias_list[0], home_bias_list[1]))*overall_bias_home,
-        'field_goals_attempted': ((biases['home_field_goal_attempt_bias'])+home_stats['field_goals_attempted_per_game'])+random.uniform(home_bias_list[2],home_bias_list[3])*overall_bias_home,
+        'field_goals_attempted': round(((biases['home_field_goal_attempt_bias'])+home_stats['field_goals_attempted_per_game'])+random.uniform(home_bias_list[2],home_bias_list[3])*overall_bias_home),
         'three_point_percentage': ((biases['home_three_point_pct_bias'])+home_stats['three_point_percentage'])*(random.uniform(home_bias_list[4], home_bias_list[5]))*overall_bias_home,
-        'three_point_attempted': ((biases['home_three_point_att_bias'])+home_stats['three_point_attempted_per_game'])+random.uniform(home_bias_list[6],home_bias_list[7])*overall_bias_home,
+        'three_point_attempted': round(((biases['home_three_point_att_bias'])+home_stats['three_point_attempted_per_game'])+random.uniform(home_bias_list[6],home_bias_list[7])*overall_bias_home),
         'free_throws_percentage': (((biases['home_free_throw_percentage_bias'])+home_stats['free_throw_percentage'])*(random.uniform(home_bias_list[8], home_bias_list[9])))*overall_bias_home,
-        'free_throws_attempted': ((biases['home_free_throw_att_bias'])+home_stats['free_throws_attempted_per_game'])+random.uniform(home_bias_list[10],home_bias_list[11])*overall_bias_home,
-        'def_rebounds': ((biases['home_def_rebounds_bias'])+home_stats['defensive_rebounds_per_game'])+random.uniform(home_bias_list[12],home_bias_list[13])*overall_bias_home,
-        'off_rebounds': ((biases['home_off_rebounds_bias'])+home_stats['offensive_rebounds_per_game'])+random.uniform(home_bias_list[14],home_bias_list[15])*overall_bias_home,
-        'rebounds': ((biases['home_rebounds_bias'])+home_stats['rebounds_per_game'])+random.uniform(home_bias_list[16],home_bias_list[17])*overall_bias_home,
-        'assists': ((biases['home_assists_bias'])+home_stats['assists_per_game'])+random.uniform(home_bias_list[18],home_bias_list[19])*overall_bias_home,
-        'steals': ((biases['home_steals_bias'])+home_stats['steals_per_game'])+random.uniform(home_bias_list[20],home_bias_list[21])*overall_bias_home,
-        'blocks': ((biases['home_blocks_bias'])+home_stats['blocks_per_game'])+random.uniform(home_bias_list[22],home_bias_list[23])*overall_bias_home,
-        'turnovers': ((biases['home_turnovers_bias'])+home_stats['turnovers_per_game'])+random.uniform(home_bias_list[24],home_bias_list[25])*overall_bias_home,
-        'personal_fouls': ((biases['home_personal_fouls_bias'])+home_stats['personal_fouls_per_game'])+ random.uniform(home_bias_list[26],home_bias_list[27])*overall_bias_home,
-        'points': (((biases['home_points_bias']+home_stats['points_per_game'])+(biases['home_points_per_game_bias']+home_stats['points_per_game']))/2)+random.uniform(home_bias_list[28],home_bias_list[29]),
+        'free_throws_attempted': round(((biases['home_free_throw_att_bias'])+home_stats['free_throws_attempted_per_game'])+random.uniform(home_bias_list[10],home_bias_list[11])*overall_bias_home),
+        'def_rebounds': round(((biases['home_def_rebounds_bias'])+home_stats['defensive_rebounds_per_game'])+random.uniform(home_bias_list[12],home_bias_list[13])*overall_bias_home),
+        'off_rebounds': round(((biases['home_off_rebounds_bias'])+home_stats['offensive_rebounds_per_game'])+random.uniform(home_bias_list[14],home_bias_list[15])*overall_bias_home),
+        #'rebounds': ((biases['home_rebounds_bias'])+home_stats['rebounds_per_game'])+random.uniform(home_bias_list[16],home_bias_list[17])*overall_bias_home,
+        'assists': round(((biases['home_assists_bias'])+home_stats['assists_per_game'])+random.uniform(home_bias_list[18],home_bias_list[19])*overall_bias_home),
+        'steals': round(((biases['home_steals_bias'])+home_stats['steals_per_game'])+random.uniform(home_bias_list[20],home_bias_list[21])*overall_bias_home),
+        'blocks': round(((biases['home_blocks_bias'])+home_stats['blocks_per_game'])+random.uniform(home_bias_list[22],home_bias_list[23])*overall_bias_home),
+        'turnovers': round(((biases['home_turnovers_bias'])+home_stats['turnovers_per_game'])+random.uniform(home_bias_list[24],home_bias_list[25])*overall_bias_home),
+        'personal_fouls': round(((biases['home_personal_fouls_bias'])+home_stats['personal_fouls_per_game'])+ random.uniform(home_bias_list[26],home_bias_list[27])*overall_bias_home),
+        #'points': (((biases['home_points_bias']+home_stats['points_per_game'])+(biases['home_points_per_game_bias']+home_stats['points_per_game']))/2)+random.uniform(home_bias_list[28],home_bias_list[29]),
     }
-    home_game_stats['field_goals_made'] = round(home_game_stats['field_goals_attempted']*(home_game_stats['field_goals_percentage']/100))
+    home_game_stats['field_goals_made'] = round(home_game_stats['field_goals_attempted']*(home_game_stats['field_goals_percentage']/100)) 
     home_game_stats['free_throws_made'] = round((home_game_stats['free_throws_percentage']/100)*home_game_stats['free_throws_attempted'])
-    home_game_stats['three_points_made'] = round((home_game_stats['three_point_percentage']/100)*home_game_stats['three_point_attempted'])
-    print('home_stats:',home_game_stats)
-    total_points = (home_game_stats['three_points_made']*3)+((home_game_stats['field_goals_made']-home_game_stats['three_points_made'])*2) + home_game_stats['free_throws_made']
-    print('\ntotal points: ', total_points, '\n')
+    home_game_stats['three_point_made'] = round((home_game_stats['three_point_percentage']/100)*home_game_stats['three_point_attempted'])
+    home_game_stats['field_goals_percentage'] = round( (home_game_stats['field_goals_made']/home_game_stats['field_goals_attempted'])*100)
+    home_game_stats['three_point_percentage'] = round( (home_game_stats['three_point_made']/home_game_stats['three_point_attempted'])*100)
+    home_game_stats['free_throw_percentage'] = round( (home_game_stats['free_throws_made']/home_game_stats['free_throws_attempted'])*100)
+    home_game_stats['rebounds'] = home_game_stats['off_rebounds']+home_game_stats['def_rebounds']
+    total_points_home = (home_game_stats['three_point_made']*3)+((home_game_stats['field_goals_made']-home_game_stats['three_point_made'])*2) + home_game_stats['free_throws_made']
+
 
     overall_bias_away = ((biases['away_points_bias']+biases['away_points_per_game_bias'])/10)/2
     if overall_bias_away > 0:
@@ -194,28 +197,340 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id):
     away_game_stats = {
         'minutes':240,
         'field_goals_percentage': ((biases['away_field_goal_percentage_bias'])+away_stats['field_goal_percentage'])*(random.uniform(away_bias_list[0], away_bias_list[1]))*overall_bias_away,
-        'field_goals_attempted': ((biases['away_field_goal_attempt_bias'])+away_stats['field_goals_attempted_per_game'])+random.uniform(away_bias_list[2],away_bias_list[3])*overall_bias_away,
+        'field_goals_attempted': round(((biases['away_field_goal_attempt_bias'])+away_stats['field_goals_attempted_per_game'])+random.uniform(away_bias_list[2],away_bias_list[3])*overall_bias_away),
         'three_point_percentage': ((biases['away_three_point_pct_bias'])+away_stats['three_point_percentage'])*(random.uniform(away_bias_list[4], away_bias_list[5]))*overall_bias_away,
-        'three_point_attempted': ((biases['away_three_point_att_bias'])+away_stats['three_point_attempted_per_game'])+random.uniform(-away_bias_list[6],away_bias_list[7])*overall_bias_away,
+        'three_point_attempted': round(((biases['away_three_point_att_bias'])+away_stats['three_point_attempted_per_game'])+random.uniform(-away_bias_list[6],away_bias_list[7])*overall_bias_away),
         'free_throws_percentage': (((biases['away_free_throw_percentage_bias'])+away_stats['free_throw_percentage'])*(random.uniform(away_bias_list[8], away_bias_list[9])))*overall_bias_away,
-        'free_throws_attempted': ((biases['away_free_throw_att_bias'])+away_stats['free_throws_attempted_per_game'])+random.uniform(away_bias_list[10],away_bias_list[11])*overall_bias_away,
-        'def_rebounds': ((biases['away_def_rebounds_bias'])+away_stats['defensive_rebounds_per_game'])+random.uniform(away_bias_list[12],away_bias_list[13])*overall_bias_away,
-        'off_rebounds': ((biases['away_off_rebounds_bias'])+away_stats['offensive_rebounds_per_game'])+random.uniform(away_bias_list[14],away_bias_list[15])*overall_bias_away,
-        'rebounds': ((biases['away_rebounds_bias'])+away_stats['rebounds_per_game'])+random.uniform(away_bias_list[16],away_bias_list[17])*overall_bias_away,
-        'assists': ((biases['away_assists_bias'])+away_stats['assists_per_game'])+random.uniform(away_bias_list[18],away_bias_list[19])*overall_bias_away,
-        'steals': ((biases['away_steals_bias'])+away_stats['steals_per_game'])+random.uniform(away_bias_list[20],away_bias_list[21])*overall_bias_away,
-        'blocks': ((biases['away_blocks_bias'])+away_stats['blocks_per_game'])+random.uniform(away_bias_list[22],away_bias_list[23])*overall_bias_away,
-        'turnovers': ((biases['away_turnovers_bias'])+away_stats['turnovers_per_game'])+random.uniform(away_bias_list[24],away_bias_list[25])*overall_bias_away,
-        'personal_fouls': ((biases['away_personal_fouls_bias'])+away_stats['personal_fouls_per_game'])+ random.uniform(away_bias_list[26],away_bias_list[27])*overall_bias_away,
-        'points': (((biases['away_points_bias']+away_stats['points_per_game'])+(biases['away_points_per_game_bias']+away_stats['points_per_game']))/2)+random.uniform(away_bias_list[28],away_bias_list[29]),
+        'free_throws_attempted': round(((biases['away_free_throw_att_bias'])+away_stats['free_throws_attempted_per_game'])+random.uniform(away_bias_list[10],away_bias_list[11])*overall_bias_away),
+        'def_rebounds': round(((biases['away_def_rebounds_bias'])+away_stats['defensive_rebounds_per_game'])+random.uniform(away_bias_list[12],away_bias_list[13])*overall_bias_away),
+        'off_rebounds': round(((biases['away_off_rebounds_bias'])+away_stats['offensive_rebounds_per_game'])+random.uniform(away_bias_list[14],away_bias_list[15])*overall_bias_away),
+        #'rebounds': ((biases['away_rebounds_bias'])+away_stats['rebounds_per_game'])+random.uniform(away_bias_list[16],away_bias_list[17])*overall_bias_away,
+        'assists': round(((biases['away_assists_bias'])+away_stats['assists_per_game'])+random.uniform(away_bias_list[18],away_bias_list[19])*overall_bias_away),
+        'steals': round(((biases['away_steals_bias'])+away_stats['steals_per_game'])+random.uniform(away_bias_list[20],away_bias_list[21])*overall_bias_away),
+        'blocks': round(((biases['away_blocks_bias'])+away_stats['blocks_per_game'])+random.uniform(away_bias_list[22],away_bias_list[23])*overall_bias_away),
+        'turnovers': round(((biases['away_turnovers_bias'])+away_stats['turnovers_per_game'])+random.uniform(away_bias_list[24],away_bias_list[25])*overall_bias_away),
+        'personal_fouls': round(((biases['away_personal_fouls_bias'])+away_stats['personal_fouls_per_game'])+ random.uniform(away_bias_list[26],away_bias_list[27])*overall_bias_away),
+        #'points': (((biases['away_points_bias']+away_stats['points_per_game'])+(biases['away_points_per_game_bias']+away_stats['points_per_game']))/2)+random.uniform(away_bias_list[28],away_bias_list[29]),
     }
     away_game_stats['field_goals_made'] = round(away_game_stats['field_goals_attempted']*(away_game_stats['field_goals_percentage']/100))
     away_game_stats['free_throws_made'] = round((away_game_stats['free_throws_percentage']/100)*away_game_stats['free_throws_attempted'])
-    away_game_stats['three_points_made'] = round((away_game_stats['three_point_percentage']/100)*away_game_stats['three_point_attempted'])
-    total_points_away = (away_game_stats['three_points_made']*3) + ((away_game_stats['field_goals_made']-away_game_stats['three_points_made'])*2) + away_game_stats['free_throws_made']
+    away_game_stats['three_point_made'] = round((away_game_stats['three_point_percentage']/100)*away_game_stats['three_point_attempted'])
+    away_game_stats['field_goals_percentage'] = round( (away_game_stats['field_goals_made']/away_game_stats['field_goals_attempted'])*100,1)
+    away_game_stats['three_point_percentage'] = round( (away_game_stats['three_point_made']/away_game_stats['three_point_attempted'])*100,1)
+    away_game_stats['free_throw_percentage'] = round( (away_game_stats['free_throws_made']/away_game_stats['free_throws_attempted'])*100,1)  
+    away_game_stats['rebounds'] = away_game_stats['off_rebounds']+away_game_stats['def_rebounds']
+    total_points_away = (away_game_stats['three_point_made']*3) + ((away_game_stats['field_goals_made']-away_game_stats['three_point_made'])*2) + away_game_stats['free_throws_made']
+
+    num_ots = 0
+    if total_points_away == total_points_home:
+        
+        new_results = compute_overtime(away_game_stats,home_game_stats,overall_bias_away,overall_bias_home,biases,away_bias_list,home_bias_list,total_points_away,total_points_home)
+        home_game_stats = new_results[1]
+        away_game_stats = new_results[0]
+        num_ots = new_results[2]
+        print("OVERTIME", "  ", num_ots)
+
+    print('home_stats:',home_game_stats)
+    print('\ntotal points: ', total_points_home, '\n')
     print('away stats:',away_game_stats)
     print('\ntotal points: ', total_points_away, '\n')
+
+    points_by_quarter = compute_points_by_quarter(total_points_home,total_points_away,num_ots)
+    points_by_quarter_home = points_by_quarter['home_scores']
+    points_by_quarter_away = points_by_quarter['away_scores']
+
+    print('Points by quarter home:', points_by_quarter_home)
+    print('Points by quarter away:', points_by_quarter_away)
+
+    #away_player_stats = compute_player_stats(away_game_stats,away_id)
+    #home_player_stats = compute_player_stats(home_game_stats,home_id)
+
     return
+
+def compute_player_stats(stats,id):
+    team_players = Player.objects.get(team_id=id)
+    team = Team.objects.get(team_id=id)
+
+    '''team_stats = {
+        'points_per_game':round(team.points_total/team.games_played,1),
+        'assists_per_game':round(team.assists_total/team.games_played,1),
+        'offensive_rebounds_per_game':round(team.offensive_rebounds_total/team.games_played,1),
+        'defensive_rebounds_per_game':round(team.defensive_rebounds_total/team.games_played,1),
+        'rebounds_per_game':round(team.rebounds_total/team.games_played,1),
+        'blocks_per_game':round(team.blocks_total/team.games_played,1),
+        'steals_per_game':round(team.steals_total/team.games_played,1),
+        'turnovers_per_game':round(team.turnovers_total/team.games_played,1),
+        'personal_fouls_per_game':round(team.personal_fouls_total/team.games_played,1),
+        'free_throws_made_per_game':round(team.free_throws_made/team.games_played,1),
+        'free_throws_attempted_per_game':round(team.free_throws_attempted/team.games_played,1),
+        'team_free_throw_percentage':round((team.free_throws_made/team.free_throws_made)*100,1),
+        'field_goals_made_per_game':round(team.field_goals_made/team.games_played,1),
+        'field_goals_attempted_per_game':round(team.field_goals_attempted/team.games_played,1),
+        'team_field_goal_percentage':round((team.field_goals_made/team.field_goals_attempted)*100,1),
+        'three_point_made_per_game':round(team.three_point_made/team.games_played,1),
+        'three_point_attempted_per_game':round(team.three_point_attempted/team.games_played,1),
+        'team_three_point_percentage':round((team.three_point_made/team.three_point_attempted)*100,1),
+    }'''
+
+    player_avg = []
+    for player in team_players:
+
+        if player.free_throws_attempted == 0:
+            free_throw_percentage = 0
+        else:
+            free_throw_percentage = round((player.free_throws_made/player.free_throws_attempted)*100,1)
+
+        if player.field_goals_attempted == 0:
+            field_goal_percentage = 0
+        else:
+            field_goal_percentage = round((player.field_goals_made/player.field_goals_attempted)*100,1)
+        
+        if player.three_point_attempted == 0:
+            three_point_percentage = 0
+        else:
+            three_point_percentage = round((player.three_point_made/player.three_point_attempted)*100,1)
+
+        players = []
+        player_avg.append( {
+            "points_per_game":round(player.points_total/player.games_played,1),
+            "assists_per_game":round(player.assists_total/player.games_played,1),
+            "offensive_rebounds_per_game":round(player.offensive_rebounds_total/player.games_played,1),
+            "defensive_rebounds_per_game":round(player.defensive_rebounds_total/player.games_played,1),
+            "rebounds_per_game":round(player.rebounds_total/player.games_played,1),
+            "blocks_per_game":round(player.blocks_total/player.games_played,1),
+            "steals_per_game":round(player.steals_total/player.games_played,1),
+            "turnovers_per_game":round(player.turnovers_total/player.games_played,1),
+            "personal_fouls_per_game":round(player.personal_fouls_total/player.games_played,1),
+            "free_throw_percentage":free_throw_percentage,
+            "field_goal_percentage":field_goal_percentage,
+            "minutes_per_game":round(player.minutes_total/player.games_played,1),
+            "three_point_percentage":three_point_percentage,
+            "free_throws_attempted_per_game":round(player.free_throws_attempted/player.games_played,1),
+            "free_throws_made_per_game":round(player.free_throws_made/player.games_played,1),
+            "three_point_attempted_per_game":round(player.three_point_attempted/player.games_played,1),
+            "three_point_made_per_game":round(player.three_point_made/player.games_played,1),
+            "field_goals_attempted_per_game":round(player.field_goals_attempted/player.games_played,1),
+            "field_goals_made_per_game":round(player.field_goals_made/player.games_played,1)
+        })
+
+    '''
+        {
+  "points_by_quarter_id": {
+    "1610612742": [
+      33,
+      24,
+      27,
+      29,
+      0,
+      0,
+      0,
+      0
+    ],
+    "1610612743": [
+      29,
+      21,
+      35,
+      12,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "player_stats": [
+ 
+    {
+      "player_id": 1628420,
+      "team_id": 1610612743,
+      "name": "Monte Morris",
+      "min": "17",
+      "FG_made": 1,
+      "FG_attempted": 6,
+      "3P_made": 1,
+      "3P_attempted": 3,
+      "FT_made": 0,
+      "FT_attempted": 0,
+      "off_rebounds": 0,
+      "def_rebounds": 0,
+      "assists": 1,
+      "steals": 1,
+      "blocks": 0,
+      "turnovers": 0,
+      "personal_fouls": 0,
+      "points": 3,
+      "comment": "OK"
+    },
+    {
+      "team_id": 1610612743,
+      "player_id": 203943,
+      "name": "Noah Vonleh",
+      "comment": "DNP - Coach's Decision                  "
+    },
+  ],
+  "team_stats": [
+    {
+      "team_id": 1610612743,
+      "team_name": "Nuggets",
+      "team_abv": "DEN",
+      "team_city": "Denver",
+      "FG_made": 39,
+      "FG_attempted": 83,
+      "3P_made": 14,
+      "3P_attempted": 39,
+      "FT_made": 5,
+      "FT_attempted": 8,
+      "off_rebounds": 3,
+      "def_rebounds": 37,
+      "assists": 23,
+      "steals": 6,
+      "blocks": 4,
+      "turnovers": 15,
+      "personal_fouls": 20,
+      "points": 97
+    },
+    {
+      "team_id": 1610612742,
+      "team_name": "Mavericks",
+      "team_abv": "DAL",
+      "team_city": "Dallas",
+      "FG_made": 42,
+      "FG_attempted": 92,
+      "3P_made": 12,
+      "3P_attempted": 35,
+      "FT_made": 17,
+      "FT_attempted": 23,
+      "off_rebounds": 13,
+      "def_rebounds": 39,
+      "assists": 23,
+      "steals": 9,
+      "blocks": 2,
+      "turnovers": 10,
+      "personal_fouls": 14,
+      "points": 113
+    }
+  ]
+}
+    '''
+    
+
+    for player in player_avg:
+        print('w')
+
+    
+
+
+
+
+
+
+
+
+
+def compute_points_by_quarter(total_points_home, total_points_away, num_ots):
+    overtime_scores_away=[]
+    overtime_scores_home=[]
+    if (num_ots>0):
+        #for i in range(0,num_ots): --->>>#ONLY ONE OT I hardcoded it
+        if total_points_home > total_points_away:
+            home_score = random.randint(5,10)
+            away_score = random.randint(1,5)+home_score
+            overtime_scores_away.append(away_score)
+            overtime_scores_home.append(home_score)
+            total_points_away -= away_score
+            total_points_home -= home_score
+        else:
+            away_score = random.randint(5,10)
+            home_score = random.randint(1,5)+away_score
+            overtime_scores_away.append(away_score)
+            overtime_scores_home.append(home_score)
+            total_points_away -= away_score
+            total_points_home -= home_score
+
+    basis_home = int(total_points_home/4)
+
+    quarter_1_home = random.randint(basis_home-10,basis_home+10)
+    quarter_2_home = random.randint(basis_home-10,basis_home+10)
+    quarter_3_home = random.randint(basis_home-10,basis_home+10)
+    quarter_4_home = total_points_home - (quarter_1_home + quarter_2_home + quarter_3_home)
+
+    basis_away = int(total_points_away/4)
+    quarter_1_away = random.randint(basis_away-10,basis_away+10)
+    quarter_2_away = random.randint(basis_away-10,basis_away+10)
+    quarter_3_away = random.randint(basis_away-10,basis_away+10)
+    quarter_4_away = total_points_away - (quarter_1_away + quarter_2_away + quarter_3_away)
+
+    if len(overtime_scores_home)>1:
+        return  {
+                    'home_scores':[[quarter_1_home,quarter_2_home,
+                            quarter_3_home,quarter_4_home]+overtime_scores_home],
+                    'away_scores':[[quarter_1_away,quarter_2_away,
+                            quarter_3_away,quarter_4_away]+overtime_scores_away]
+                }
+
+    
+    return  {
+                'home_scores':[quarter_1_home,quarter_2_home,
+                        quarter_3_home,quarter_4_home],
+                'away_scores':[quarter_1_away,quarter_2_away,
+                        quarter_3_away,quarter_4_away]
+            }
+    
+   
+
+def compute_overtime(away_stats,home_stats,overall_bias_away,overall_bias_home,biases,away_bias_list,home_bias_list,points_away,points_home):
+
+    num_ots = 0
+    while (points_away == points_home):
+        num_ots += 1
+        away_stats = {
+            'minutes':25+away_stats['minutes'],
+            'field_goals_percentage': ((biases['away_field_goal_percentage_bias'])+away_stats['field_goals_percentage'])*(random.uniform(away_bias_list[0], away_bias_list[1]))*overall_bias_away,
+            'field_goals_attempted': round((((biases['away_field_goal_attempt_bias'])+away_stats['field_goals_attempted_per_game'])+random.uniform(away_bias_list[2],away_bias_list[3])*overall_bias_away) + away_stats['field_goals_attempted']),
+            'three_point_percentage': ((biases['away_three_point_pct_bias'])+away_stats['three_point_percentage'])*(random.uniform(away_bias_list[4], away_bias_list[5]))*overall_bias_away,
+            'three_point_attempted': round((((biases['away_three_point_att_bias'])+away_stats['three_point_attempted_per_game'])+random.uniform(-away_bias_list[6],away_bias_list[7])*overall_bias_away ) + away_stats['three_point_attempted']),
+            'free_throws_percentage': (((biases['away_free_throw_percentage_bias'])+away_stats['free_throw_percentage'])*(random.uniform(away_bias_list[8], away_bias_list[9])))*overall_bias_away,
+            'free_throws_attempted': round((((biases['away_free_throw_att_bias'])+away_stats['free_throws_attempted_per_game'])+random.uniform(away_bias_list[10],away_bias_list[11])*overall_bias_away) + away_stats['free_throws_attempted']),
+            'def_rebounds': round((((biases['away_def_rebounds_bias'])+away_stats['defensive_rebounds_per_game'])+random.uniform(away_bias_list[12],away_bias_list[13])*overall_bias_away) + away_stats['def_rebounds']),
+            'off_rebounds': round((((biases['away_off_rebounds_bias'])+away_stats['offensive_rebounds_per_game'])+random.uniform(away_bias_list[14],away_bias_list[15])*overall_bias_away) +away_stats['off_rebounds']),
+            'rebounds': round((((biases['away_rebounds_bias'])+away_stats['rebounds_per_game'])+random.uniform(away_bias_list[16],away_bias_list[17])*overall_bias_away) + away_stats['rebounds']),
+            'assists': round((((biases['away_assists_bias'])+away_stats['assists_per_game'])+random.uniform(away_bias_list[18],away_bias_list[19])*overall_bias_away) + away_stats['assists']),
+            'steals': round((((biases['away_steals_bias'])+away_stats['steals_per_game'])+random.uniform(away_bias_list[20],away_bias_list[21])*overall_bias_away) + away_stats['steals']),
+            'blocks': round((((biases['away_blocks_bias'])+away_stats['blocks_per_game'])+random.uniform(away_bias_list[22],away_bias_list[23])*overall_bias_away) + away_stats['blocks']),
+            'turnovers': round((((biases['away_turnovers_bias'])+away_stats['turnovers_per_game'])+random.uniform(away_bias_list[24],away_bias_list[25])*overall_bias_away) + away_stats['turnovers']),
+            'personal_fouls': round((((biases['away_personal_fouls_bias'])+away_stats['personal_fouls_per_game'])+ random.uniform(away_bias_list[26],away_bias_list[27])*overall_bias_away) + away_stats['personal_fouls']),
+            #'points': (((biases['away_points_bias']+away_stats['points_per_game'])+(biases['away_points_per_game_bias']+away_stats['points_per_game']))/2)+random.uniform(away_bias_list[28],away_bias_list[29]),
+        }
+
+        home_stats = {
+            'minutes':5+home_stats['minutes'],
+            'field_goals_percentage': ((biases['home_field_goal_percentage_bias'])+home_stats['field_goals_percentage'])*(random.uniform(home_bias_list[0], home_bias_list[1]))*overall_bias_home,
+            'field_goals_attempted': (((biases['home_field_goal_attempt_bias'])+home_stats['field_goals_attempted_per_game'])+random.uniform(home_bias_list[2],home_bias_list[3])*overall_bias_home) + home_stats['field_goals_attempted'],
+            'three_point_percentage': ((biases['home_three_point_pct_bias'])+home_stats['three_point_percentage'])*(random.uniform(home_bias_list[4], home_bias_list[5]))*overall_bias_home,
+            'three_point_attempted': (((biases['home_three_point_att_bias'])+home_stats['three_point_attempted_per_game'])+random.uniform(-home_bias_list[6],home_bias_list[7])*overall_bias_home ) + home_stats['three_point_attempted'],
+            'free_throws_percentage': (((biases['home_free_throw_percentage_bias'])+home_stats['free_throw_percentage'])*(random.uniform(home_bias_list[8], home_bias_list[9])))*overall_bias_home,
+            'free_throws_attempted': (((biases['home_free_throw_att_bias'])+home_stats['free_throws_attempted_per_game'])+random.uniform(home_bias_list[10],home_bias_list[11])*overall_bias_home) + home_stats['free_throws_attempted'],
+            'def_rebounds': (((biases['home_def_rebounds_bias'])+home_stats['defensive_rebounds_per_game'])+random.uniform(home_bias_list[12],home_bias_list[13])*overall_bias_home) + home_stats['def_rebounds'],
+            'off_rebounds': (((biases['home_off_rebounds_bias'])+home_stats['offensive_rebounds_per_game'])+random.uniform(home_bias_list[14],home_bias_list[15])*overall_bias_home) +home_stats['off_rebounds'],
+            'rebounds': (((biases['home_rebounds_bias'])+home_stats['rebounds_per_game'])+random.uniform(home_bias_list[16],home_bias_list[17])*overall_bias_home) + home_stats['rebounds'],
+            'assists': (((biases['home_assists_bias'])+home_stats['assists_per_game'])+random.uniform(home_bias_list[18],home_bias_list[19])*overall_bias_home) + home_stats['assists'],
+            'steals': (((biases['home_steals_bias'])+home_stats['steals_per_game'])+random.uniform(home_bias_list[20],home_bias_list[21])*overall_bias_home) + home_stats['steals'],
+            'blocks': (((biases['home_blocks_bias'])+home_stats['blocks_per_game'])+random.uniform(home_bias_list[22],home_bias_list[23])*overall_bias_home) + home_stats['blocks'],
+            'turnovers': (((biases['home_turnovers_bias'])+home_stats['turnovers_per_game'])+random.uniform(home_bias_list[24],home_bias_list[25])*overall_bias_home) + home_stats['turnovers'],
+            'personal_fouls': (((biases['home_personal_fouls_bias'])+home_stats['personal_fouls_per_game'])+ random.uniform(home_bias_list[26],home_bias_list[27])*overall_bias_home) + home_stats['personal_fouls'],
+            #'points': (((biases['home_points_bias']+home_stats['points_per_game'])+(biases['home_points_per_game_bias']+home_stats['points_per_game']))/2)+random.uniform(home_bias_list[28],home_bias_list[29]),
+        }
+
+        total_points_away = (away_stats['three_points_made']*3) + ((away_stats['field_goals_made']-away_stats['three_points_made'])*2) + away_stats['free_throws_made']
+        total_points_home = (home_stats['three_points_made']*3)+((home_stats['field_goals_made']-home_stats['three_points_made'])*2) + home_stats['free_throws_made']
+
+        if total_points_away == total_points_home:
+            home_stats['free_throws_made']+=1
+            home_stats['free_throws_percentage']=home_stats['free_throws_made']/home_stats['free_throws_attempted']
+
+    
+    return [away_stats,home_stats,num_ots]
+      
+
 
 
 def compute_biases(away_stats,home_stats,matchup_away,matchup_home):
