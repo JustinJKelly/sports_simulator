@@ -24,7 +24,7 @@
         justify-content:center;
         width:200px;
         list-style:none;
-        padding-left:10px;
+        padding-left: 10px;
     }
     .round-right{
         display: flex;
@@ -41,19 +41,19 @@
 
  
 
-    .round .spacer{ flex-grow:1; }
+    .round .spacer{ flex-grow:2; }
     .round .spacer:first-child,
-    .round .spacer:last-child{ flex-grow:.5; }
+    .round .spacer:last-child{ flex-grow:1; }
 
-    .round-right .spacer-right{ flex-grow:1; }
+    .round-right .spacer-right{ flex-grow:2; }
     .round-right .spacer-right:first-child,
-    .round-right .spacer-right:last-child{ flex-grow:.5; }
+    .round-right .spacer-right:last-child{ flex-grow:1; }
 
-    .round-right .game-spacer{
-        flex-grow:1;
+    .round-right .game-spacer-right{
+        flex-grow:2;
     }
     .round .game-spacer{
-        flex-grow:1;
+        flex-grow:2;
     }
 
         /*
@@ -61,12 +61,12 @@
         */
     li.game{
         padding-left:20px;
-        margin-left: 5px
+        /*margin-left: 5px*/
     }
 
     li.game-right{
-        padding-right:20px;
-        margin-right: 5px;
+        padding-right:20px
+        /*margin-right: 5px;*/
     }
 
     li.game.winner{
@@ -162,7 +162,7 @@
             <li class="spacer">&nbsp;</li>
             <li class="container-flex game game-top winner">1. GSW <span>0</span>
             <li class="game game-spacer">&nbsp;</li>
-            <li class="container-flex game game-bottom " style="opacity: 5;">3. POR<span>0</span></li>
+            <li class="container-flex game game-bottom" style="opacity: 50%;">3. POR<span>0</span></li>
             <li class="spacer">&nbsp;</li>
         </ul>    
 
@@ -186,7 +186,7 @@
             <li class="container-flex-right game-right game-right-bottom ">2. TOR<span>0</span></li>
             <li class="spacer-right">&nbsp;</li>
         </ul> 
-        <ul class="round round-right-2">
+        <ul class="round-right round-right-2">
             <li class="spacer-right">&nbsp;</li>
             <li class="container-flex-right game-right game-right-top winner">1. MIL<span>0</span></li>
             <li class="game-right game-spacer-right"></li>
