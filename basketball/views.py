@@ -646,7 +646,71 @@ def standings_page(request):
     return render(request,'basketball/standings.html', context)
 
 def playoffs_page(request):
-    return render(request, 'basketball/playoffs.html')
+    all_teams = Team.objects.order_by('-team_wins','team_losses','-divisional_wins','divisional_losses','-conference_wins','conference_losses','team_name')
+    western = []
+    eastern = []
+
+    count_west = 0
+    max_wins_west = 0
+    losses_west = 0
+    count_east = 0
+    max_wins_east = 0
+    losses_east = 0
+    for team in all_teams:
+        if team.conference == "West":
+            if count_west == 0:
+                max_wins_west=team.team_wins
+                losses_west = team.team_losses
+                print(losses_west)
+                games_back = "-"
+                count_west += 1
+                rank=str(count_west)
+            else:
+                count_west += 1
+                if count_west > 8:
+                    games_back = round( (abs(max_wins_west-team.team_wins)+abs(team.team_losses-losses_west))/2 ,1)
+                    rank=''
+                else:
+                    games_back = round( (abs(max_wins_west-team.team_wins)+abs(team.team_losses-losses_west))/2 ,1)
+                    rank=str(count_west)
+            
+            
+            western.append(
+                team.team_abv,
+                )
+
+        else:
+            if count_east == 0:
+                max_wins_east=team.team_wins
+                losses_east = team.team_losses
+                print(losses_east)
+                count_east += 1
+                games_back = "-"
+                rank=str(count_east)
+            else:
+                count_east += 1
+                if count_east > 8:
+                    games_back = round( (abs(max_wins_east-team.team_wins)+abs(team.team_losses-losses_east))/2,1)
+                    rank=''
+                else:
+                    games_back = round( (abs(max_wins_east-team.team_wins)+abs(team.team_losses-losses_east))/2,1)
+                    print(team.team_name,' ',games_back)
+                    rank=str(count_east)
+            
+            
+            eastern.append(
+                team.team_abv, 
+                )
+
+        #print(western)
+        #print(eastern)
+        #print('%s %s' % (team.team_name,team.team_wins))
+        context = {
+            "eastern_teams":eastern,
+            "western_teams":western
+        }
+    return render(request,'basketball/playoffs.html', context)
+    
 
 def find_team_logos(team1, team2):
     return_list = []
