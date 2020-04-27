@@ -51,14 +51,14 @@ class Game(models.Model):
     top_scorer_away_points = models.IntegerField(null=False)
     top_scorer_home = models.IntegerField(null=False)
     top_scorer_away = models.IntegerField(null=False)
-    attendance = models.IntegerField(null=False)
+    attendance = models.IntegerField(null=False,default=0)
     date = models.DateField(default=date.today)
     time = models.TimeField(default=None, null=True)
     home_team_record = models.CharField(max_length=10,null=False)
     away_team_record = models.CharField(max_length=10,null=False)
     data = JSONField()
-    home_team_win_percentage_start = models.DecimalField(max_digits=4,decimal_places=3)
-    away_team_win_percentage_start = models.DecimalField(max_digits=4,decimal_places=3)
+    home_team_win_percentage_start = models.DecimalField(max_digits=4,decimal_places=3,default=0.0)
+    away_team_win_percentage_start = models.DecimalField(max_digits=4,decimal_places=3,default=0.0)
 
     def __str__(self):
         return '%s @ %s %s' % (self.home_team_name,self.away_team_name, self.date) 
