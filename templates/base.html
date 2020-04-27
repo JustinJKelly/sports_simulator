@@ -34,7 +34,17 @@
         .Site-content {
             flex: 1;
         }
-
+        .cards{
+            display: flex;
+            justify-content: center;
+            flex-wrap: nowrap;
+            margin-top: 15px;
+            padding: 1.5%;
+        }
+        .card{
+            position: relative;
+            margin: 20px;
+        }
     </style>
   </head>
   <body class="Site">
@@ -71,9 +81,39 @@
     <div class="Site-content">
     <!--for reusing the base.html in other html files-->
     {% block content %}
-
-
-
+    <br>
+    <br>
+    <div class="container">
+        <!-- <img src="/static/img/logo/logo.png" alt="sports_sim Logo" class="center">-->
+        <h4 style="text-align: center;"> Today's Highlights</h4>
+        <hr style="background-color: grey; height: 1px;">
+            <div class="cards">
+                {% for game in games %}
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col">
+                                <img class="card-img-top" src="{% static game.3 %}" alt="team1">
+                            </div>
+                            
+                            <div class="col">
+                                <img class="card-img-top" src="{% static game.4 %}" alt="team2">
+                            </div>
+                        </div>
+                        <div class="card-title text-center">
+                            <h3>{{game.1}} @ {{game.2}}</h3>
+                            <h5> {{game.5}} - {{game.6}} </h5>
+                        </div>
+                        
+                    </div>
+                    <div class="card-body text-center">
+                        <a href="">Game Summary</a>
+                    </div>
+                </div>
+                {% endfor %}
+        </div>
+        <br>
+    </div>
     {% endblock %}
     </div>
 

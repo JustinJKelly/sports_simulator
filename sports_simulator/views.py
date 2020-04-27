@@ -1,5 +1,60 @@
 from django.shortcuts import redirect, render
-
+from basketball.models import Game
+from nba_api.stats.static import players, teams
 def home(request):
-    #populate()
-    return render(request, 'base.html')
+    context= dict()
+    games = Game.objects.filter().order_by('-date')[0:2]
+    print(games)
+    context['games']=[]
+    for game in games:
+        single_game=[
+            game.game_id,
+            teams.find_team_name_by_id(game.home_team)['abbreviation'],
+            teams.find_team_name_by_id(game.away_team)['abbreviation'],
+            find_team_image(game.home_team),
+            find_team_image(game.away_team),
+            game.home_team_score,
+            game.away_team_score,
+            game.home_team,
+            game.away_team
+        ]
+        context['games'].append(single_game)
+    
+    return render(request, 'base.html', context)
+
+
+def find_team_image(team_id):
+    list_teams = {
+        1610612737:"img/atlanta-hawks.png",
+        1610612738:"img/boston-celtics.png",
+        1610612751:"img/brooklyn-nets.png",
+        1610612766:"img/charlotte-hornets.png",
+        1610612741:"img/chicago-bulls.png",
+        1610612739:"img/cleveland-cavaliers.png",
+        1610612742:"img/dallas-mavericks.png",
+        1610612743:"img/denver-nuggets.png",
+        1610612765:"img/detroit-pistons.png",
+        1610612744:"img/golden-state-warriors.png",
+        1610612745:"img/houston-rockets.png",
+        1610612754:"img/indiana-pacers.png",
+        1610612746:"img/los-angeles-clippers.png",
+        1610612747:"img/los-angeles-lakers.png",
+        1610612763:"img/memphis-grizzlies.png",
+        1610612748:"img/miami-heat.png",
+        1610612749:"img/milwaukee-bucks.png",
+        1610612750:"img/minnesota-timberwolves.png",
+        1610612740:"img/new-orleans-pelicans.png",
+        1610612752:"img/new-york-knicks.png",
+        1610612760:"img/oklahoma-city-thunder.png",
+        1610612753:"img/orlando-magic.png",
+        1610612755:"img/philadelphia-76ers.png",
+        1610612756:"img/phoenix-suns.png",
+        1610612757:"img/portland-trail-blazers.png",
+        1610612758:"img/sacramento-kings.png",
+        1610612759:"img/san-antonio-spurs.png",
+        1610612761:"img/toronto-raptors.png",
+        1610612762:"img/utah-jazz.png",
+        1610612764:"img/washington-wizards.png",
+        0:"img/nba_logo.png"
+    }
+    return list_teams[team_id]
