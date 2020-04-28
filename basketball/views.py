@@ -676,9 +676,11 @@ def playoffs_page(request):
                     rank=str(count_west)
             
             
-            western.append(
+            western.append([
                 team.team_abv,
-                )
+                team.team_name,
+                find_team_image(team.team_id)
+            ])
 
         else:
             if count_east == 0:
@@ -699,9 +701,11 @@ def playoffs_page(request):
                     rank=str(count_east)
             
             
-            eastern.append(
-                team.team_abv, 
-                )
+            eastern.append([
+                team.team_abv,
+                team.team_name,
+                find_team_image(team.team_id)
+            ])
 
         #print(western)
         #print(eastern)
