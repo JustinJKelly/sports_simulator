@@ -38,12 +38,11 @@
                                     <a href="/basketball/team/{{team_id}}"><img style="max-height:80px;max-width:80px;" src="{% static team_image %}"></img></a>
                                     <span style="font-weight: bold; font-size: 25px;"><a href="/basketball/team/{{team_id}}">{{team_name}}</a> #{{jersey_number}}</span>
                                 </h2>
-                                
                             </div>
                         </div>
-                        <div class="card bg-light border-0">
-                            <!-- <img class="card-img-top" style ="width:auto;height:300px;object-fit:contain;" src='{% static '' %}{{Logo_URL}}'>-->
-                        </div>
+                        <!--<div class="card bg-light border-0">
+                            <img class="card-img-top" style ="width:auto;height:300px;object-fit:contain;" src='{% static '' %}{{Logo_URL}}'>
+                        </div>-->
                     </div>
                 </div>
             </div>
@@ -55,13 +54,21 @@
                             <th scope="col">Age:</th>
                             <th scope="col">Height:</th>
                             <th scope="col">Weight:</th>
-                        </tr>
+                            <th scope="col">Status:</th>
                         <tbody>
                             <tr>
                                 <td>{{position}}</td>
                                 <td>{{player_age}}</td>
                                 <td>{{height}}</td>
                                 <td>{{weight}}</td>
+                                <td>
+                                    {% if injured %}
+                                        <p style="color:red;"> Injured </p>           
+                                    {% else %}
+                                        <p style="color:green;"> Healthy </p> 
+                                    {% endif %}
+
+                                </td>
                             </tr>
                         </tbody>
                     </thead>

@@ -30,6 +30,8 @@ class Player(models.Model):
     field_goals_attempted = models.IntegerField(null=False)
     games_played = models.IntegerField(null=False)
     team_id = models.IntegerField(null=False)
+    is_starter = models.BooleanField(default=False)
+    is_injured = models.BooleanField(default=False)
 
     def __str__(self):
         return self.full_name

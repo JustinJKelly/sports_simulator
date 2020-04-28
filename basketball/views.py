@@ -113,7 +113,8 @@ def player_page(request,id):
         "three_point_attempted":round(player.three_point_attempted/player.games_played,1),
         "three_point_made":round(player.three_point_made/player.games_played,1),
         "field_goals_attempted":round(player.field_goals_attempted/player.games_played,1),
-        "field_goals_made":round(player.field_goals_made/player.games_played,1),"position":player.position
+        "field_goals_made":round(player.field_goals_made/player.games_played,1),"position":player.position,
+        "injured":player.is_injured
     }
 
     context['game_log']=[]

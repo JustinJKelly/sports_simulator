@@ -11,7 +11,7 @@ from datetime import date
 
 
 def make_games():
-    current = 20200311
+    current = 20200313
     last = 20200415
     url = "https://www.cbssports.com/nba/schedule/"+str(current)
     response = requests.get(url)
@@ -29,7 +29,7 @@ def make_games():
         team_names.append((span_tag.find('a')).string)
 
     for i in range(0,len(team_names),2):
-        if i == 8 or i == 10:
+        #if i == 8 or i == 10:
             team_away = team_names[i]
             team_home = team_names[i+1]
             #game = [team_away,team_home]
@@ -452,170 +452,177 @@ def compute_player_stats(stats,score,tid, other_team_score):
 
 
     for player in player_avg:
-        player_stat = {}
-        player_stat['name']=player['player_name']
-        player_stat['player_id']=player['player_id']
-        player_stat['team_id']=tid
-        #if (player['points_per_game'] > 0.2):
-        #    player_stat['points'] = player['points_per_game']*(score)*random.uniform(0.7,1.4)
-        #else:
-         #   player_stat['points'] = player['points_per_game']*(score)*random.uniform(0.8,1.2)
-        
-        player_stat['min']=round(player['minutes']*random.uniform(0.92,1.08))
-        if stats_copy['minutes'] >= player_stat['min']:
-            stats_copy['minutes'] -= player_stat['min']
-        else:
-            player_stat['min'] = stats_copy['minutes'] if stats_copy['minutes'] > 0 else 0
-            stats_copy['minutes']-=player_stat['min'] 
-        
-        if player_stat['min'] > 0:
-            player_stat['assists']= round(player['assists_per_game']*(stats['assists'])*random.uniform(0.8,1.2))
-            if stats_copy['assists'] >= player_stat['assists']:
-                stats_copy['assists'] -= player_stat['assists']
-            else:
-                player_stat['assists'] = stats_copy['assists'] if stats_copy['assists'] > 0 else 0
-                stats_copy['assists']-=player_stat['assists']
-
-            player_stat['off_rebounds']= round(player['offensive_rebounds_per_game']*(stats['off_rebounds'])*random.uniform(0.8,1.2))
-            if stats_copy['off_rebounds'] >= player_stat['off_rebounds']:
-                stats_copy['off_rebounds'] -= player_stat['off_rebounds']
-            else:
-                player_stat['off_rebounds'] = stats_copy['off_rebounds'] if stats_copy['off_rebounds'] > 0 else 0
-                stats_copy['off_rebounds']-=player_stat['off_rebounds']
+        if not player.is_injured:
+            player_stat = {}
+            player_stat['name']=player['player_name']
+            player_stat['player_id']=player['player_id']
+            player_stat['team_id']=tid
+            #if (player['points_per_game'] > 0.2):
+            #    player_stat['points'] = player['points_per_game']*(score)*random.uniform(0.7,1.4)
+            #else:
+            #   player_stat['points'] = player['points_per_game']*(score)*random.uniform(0.8,1.2)
             
-            player_stat['def_rebounds']= round(player['defensive_rebounds_per_game']*(stats['def_rebounds'])*random.uniform(0.8,1.2))
-            if stats_copy['def_rebounds'] >= player_stat['def_rebounds']:
-                stats_copy['def_rebounds'] -= player_stat['def_rebounds']
+            player_stat['min']=round(player['minutes']*random.uniform(0.92,1.08))
+            if stats_copy['minutes'] >= player_stat['min']:
+                stats_copy['minutes'] -= player_stat['min']
             else:
-                player_stat['def_rebounds'] = stats_copy['def_rebounds'] if stats_copy['def_rebounds'] > 0 else 0
-                stats_copy['def_rebounds']-=player_stat['def_rebounds']
+                player_stat['min'] = stats_copy['minutes'] if stats_copy['minutes'] > 0 else 0
+                stats_copy['minutes']-=player_stat['min'] 
+            
+            if stats_copy['minutes'] < 6 and stats_copy['minutes'] > 0:
+                player_stat['min'] += stats_copy['minutes']
+            
+            if player_stat['min'] > 0:
+                player_stat['assists']= round(player['assists_per_game']*(stats['assists'])*random.uniform(0.8,1.2))
+                if stats_copy['assists'] >= player_stat['assists']:
+                    stats_copy['assists'] -= player_stat['assists']
+                else:
+                    player_stat['assists'] = stats_copy['assists'] if stats_copy['assists'] > 0 else 0
+                    stats_copy['assists']-=player_stat['assists']
 
-            #player_stat['rebounds']=player_stat['defensive_rebounds']+player_stat['offensive_rebounds']
+                player_stat['off_rebounds']= round(player['offensive_rebounds_per_game']*(stats['off_rebounds'])*random.uniform(0.8,1.2))
+                if stats_copy['off_rebounds'] >= player_stat['off_rebounds']:
+                    stats_copy['off_rebounds'] -= player_stat['off_rebounds']
+                else:
+                    player_stat['off_rebounds'] = stats_copy['off_rebounds'] if stats_copy['off_rebounds'] > 0 else 0
+                    stats_copy['off_rebounds']-=player_stat['off_rebounds']
+                
+                player_stat['def_rebounds']= round(player['defensive_rebounds_per_game']*(stats['def_rebounds'])*random.uniform(0.8,1.2))
+                if stats_copy['def_rebounds'] >= player_stat['def_rebounds']:
+                    stats_copy['def_rebounds'] -= player_stat['def_rebounds']
+                else:
+                    player_stat['def_rebounds'] = stats_copy['def_rebounds'] if stats_copy['def_rebounds'] > 0 else 0
+                    stats_copy['def_rebounds']-=player_stat['def_rebounds']
 
-            player_stat['blocks']= round(player['blocks_per_game']*(stats['blocks'])*random.uniform(0.8,1.2))
-            if stats_copy['blocks'] >= player_stat['blocks']:
-                stats_copy['blocks'] -= player_stat['blocks']
-            else:
-                player_stat['blocks'] = stats_copy['blocks'] if stats_copy['blocks'] > 0 else 0
-                stats_copy['blocks']-=player_stat['blocks']
+                #player_stat['rebounds']=player_stat['defensive_rebounds']+player_stat['offensive_rebounds']
 
-            player_stat['steals']= round(player['steals_per_game']*(stats['steals'])*random.uniform(0.8,1.2))
-            if stats_copy['steals'] >= player_stat['steals']:
-                stats_copy['steals'] -= player_stat['steals']
-            else:
-                player_stat['steals'] = stats_copy['steals'] if stats_copy['steals'] > 0 else 0
-                stats_copy['steals']-=player_stat['steals']
+                player_stat['blocks']= round(player['blocks_per_game']*(stats['blocks'])*random.uniform(0.8,1.2))
+                if stats_copy['blocks'] >= player_stat['blocks']:
+                    stats_copy['blocks'] -= player_stat['blocks']
+                else:
+                    player_stat['blocks'] = stats_copy['blocks'] if stats_copy['blocks'] > 0 else 0
+                    stats_copy['blocks']-=player_stat['blocks']
 
-            player_stat['turnovers']= round(player['turnovers_per_game']*(stats['turnovers'])*random.uniform(0.8,1.2))
-            if stats_copy['turnovers'] >= player_stat['turnovers']:
-                stats_copy['turnovers'] -= player_stat['turnovers']
-            else:
-                player_stat['turnovers'] = stats_copy['turnovers'] if stats_copy['turnovers'] > 0 else 0
-                stats_copy['turnovers'] -= player_stat['turnovers']
+                player_stat['steals']= round(player['steals_per_game']*(stats['steals'])*random.uniform(0.8,1.2))
+                if stats_copy['steals'] >= player_stat['steals']:
+                    stats_copy['steals'] -= player_stat['steals']
+                else:
+                    player_stat['steals'] = stats_copy['steals'] if stats_copy['steals'] > 0 else 0
+                    stats_copy['steals']-=player_stat['steals']
 
-            player_stat['personal_fouls']=round(player['personal_fouls_per_game']*(stats['personal_fouls'])*random.uniform(0.8,1.2))
-            if stats_copy['personal_fouls'] >= player_stat['personal_fouls']:
-                stats_copy['personal_fouls'] -= player_stat['personal_fouls']
-            else:
-                player_stat['personal_fouls'] = stats_copy['personal_fouls'] if stats_copy['personal_fouls'] > 0 else 0
-                stats_copy['personal_fouls'] -= player_stat['personal_fouls']
+                player_stat['turnovers']= round(player['turnovers_per_game']*(stats['turnovers'])*random.uniform(0.8,1.2))
+                if stats_copy['turnovers'] >= player_stat['turnovers']:
+                    stats_copy['turnovers'] -= player_stat['turnovers']
+                else:
+                    player_stat['turnovers'] = stats_copy['turnovers'] if stats_copy['turnovers'] > 0 else 0
+                    stats_copy['turnovers'] -= player_stat['turnovers']
 
-            player_stat['FT_attempted']=round(player['free_throws_attempted_per_game']*(stats['free_throws_attempted'])*random.uniform(0.8,1.2))
-            if stats_copy['free_throws_attempted'] >= player_stat['FT_attempted']:
-                stats_copy['free_throws_attempted'] -= player_stat['FT_attempted']
-            else:
-                player_stat['FT_attempted'] = stats_copy['free_throws_attempted'] if stats_copy['free_throws_attempted'] > 0 else 0
-                stats_copy['free_throws_attempted'] -= player_stat['FT_attempted']
+                player_stat['personal_fouls']=round(player['personal_fouls_per_game']*(stats['personal_fouls'])*random.uniform(0.8,1.2))
+                if stats_copy['personal_fouls'] >= player_stat['personal_fouls']:
+                    stats_copy['personal_fouls'] -= player_stat['personal_fouls']
+                else:
+                    player_stat['personal_fouls'] = stats_copy['personal_fouls'] if stats_copy['personal_fouls'] > 0 else 0
+                    stats_copy['personal_fouls'] -= player_stat['personal_fouls']
 
-            player_stat['FT_made']=round(player['free_throws_made_per_game']*(stats['free_throws_made'])*random.uniform(0.8,1.2))
-            if stats_copy['free_throws_made'] >= player_stat['FT_made'] and player_stat['FT_attempted'] >= player_stat['FT_made']:
-                stats_copy['free_throws_made'] -= player_stat['FT_made']
-            else:
-                if player_stat['FT_attempted'] >= player_stat['FT_made']:
-                    player_stat['FT_made'] = stats_copy['free_throws_made'] if stats_copy['free_throws_made'] > 0 else 0
+                player_stat['FT_attempted']=round(player['free_throws_attempted_per_game']*(stats['free_throws_attempted'])*random.uniform(0.85,1.2))
+                if stats_copy['free_throws_attempted'] >= player_stat['FT_attempted']:
+                    stats_copy['free_throws_attempted'] -= player_stat['FT_attempted']
+                else:
+                    player_stat['FT_attempted'] = stats_copy['free_throws_attempted'] if stats_copy['free_throws_attempted'] > 0 else 0
+                    stats_copy['free_throws_attempted'] -= player_stat['FT_attempted']
+
+                player_stat['FT_made']=round(player['free_throws_made_per_game']*(stats['free_throws_made'])*random.uniform(0.8,1.05))
+                if stats_copy['free_throws_made'] >= player_stat['FT_made'] and player_stat['FT_attempted'] >= player_stat['FT_made']:
                     stats_copy['free_throws_made'] -= player_stat['FT_made']
                 else:
-                    player_stat['FT_made'] = 0
+                    if player_stat['FT_attempted'] >= player_stat['FT_made']:
+                        player_stat['FT_made'] = stats_copy['free_throws_made'] if stats_copy['free_throws_made'] > 0 else 0
+                        stats_copy['free_throws_made'] -= player_stat['FT_made']
+                    else:
+                        player_stat['FT_made'] = 0
 
-            player_stat['FG_attempted']=round(player['field_goals_attempted_per_game']*(stats['field_goals_attempted'])*random.uniform(0.7,1.2))
-            if stats_copy['field_goals_attempted'] >= player_stat['FG_attempted']:
-                stats_copy['field_goals_attempted'] -= player_stat['FG_attempted']
-            else:
-                player_stat['FG_attempted'] = stats_copy['field_goals_attempted'] if stats_copy['field_goals_attempted'] > 0 else 0
-                stats_copy['field_goals_attempted'] -= player_stat['FG_attempted']
+                player_stat['3P_attempted']=round(player['three_point_attempted_per_game']*(stats['three_point_attempted'])*random.uniform(0.7,1.2))
+                if stats_copy['three_point_attempted'] >= player_stat['3P_attempted']:
+                    stats_copy['three_point_attempted'] -= player_stat['3P_attempted']
+                else:
+                    player_stat['3P_attempted'] = stats_copy['three_point_attempted'] if stats_copy['three_point_attempted'] > 0 else 0
+                    stats_copy['three_point_attempted'] -= player_stat['3P_attempted']
 
 
-            player_stat['FG_made']=round(player['field_goals_made_per_game']*(stats['field_goals_made'])*random.uniform(0.7,1.2))
-            if stats_copy['field_goals_made'] >= player_stat['FG_made'] and player_stat['FG_attempted'] >= player_stat['FG_made']:
-                stats_copy['field_goals_made'] -= player_stat['FG_made']
-            else:
-                if player_stat['FG_attempted'] >= player_stat['FG_made']:
-                    player_stat['FG_made'] = stats_copy['field_goals_made'] if stats_copy['field_goals_made'] > 0 else 0
+                player_stat['3P_made']=round(player['three_point_made_per_game']*(stats['three_point_made'])*random.uniform(0.7,1.2))
+                if stats_copy['three_point_made'] >= player_stat['3P_made'] and player_stat['3P_attempted'] >= player_stat['3P_made']:
+                    stats_copy['three_point_made'] -= player_stat['3P_made']
+                else:
+                    if player_stat['3P_attempted'] >= player_stat['3P_made']:
+                        player_stat['3P_made'] = stats_copy['three_point_made'] if stats_copy['free_throws_attempted'] > 0 else 0
+                        stats_copy['three_point_made'] -= player_stat['3P_made'] 
+                    else:
+                        player_stat['3P_made'] = 0
+
+                player_stat['FG_attempted']=round(player['field_goals_attempted_per_game']*(stats['field_goals_attempted'])*random.uniform(0.7,1.2))-player_stat['3P_attempted']
+                if stats_copy['field_goals_attempted'] >= player_stat['FG_attempted']:
+                    stats_copy['field_goals_attempted'] -= player_stat['FG_attempted']
+                else:
+                    player_stat['FG_attempted'] = stats_copy['field_goals_attempted'] if stats_copy['field_goals_attempted'] > 0 else 0
+                    stats_copy['field_goals_attempted'] -= player_stat['FG_attempted']
+
+
+                player_stat['FG_made']=round(player['field_goals_made_per_game']*(stats['field_goals_made'])*random.uniform(0.7,1.2))-player_stat['3P_made']
+                if stats_copy['field_goals_made'] >= player_stat['FG_made'] and player_stat['FG_attempted'] >= player_stat['FG_made']:
                     stats_copy['field_goals_made'] -= player_stat['FG_made']
                 else:
-                    player_stat['FG_made']=0
+                    if player_stat['FG_attempted'] >= player_stat['FG_made']:
+                        player_stat['FG_made'] = stats_copy['field_goals_made'] if stats_copy['field_goals_made'] > 0 else 0
+                        stats_copy['field_goals_made'] -= player_stat['FG_made']
+                    else:
+                        player_stat['FG_made']=0
 
 
-            player_stat['3P_attempted']=round(player['three_point_attempted_per_game']*(stats['three_point_attempted'])*random.uniform(0.7,1.2))
-            if stats_copy['three_point_attempted'] >= player_stat['3P_attempted']:
-                stats_copy['three_point_attempted'] -= player_stat['3P_attempted']
-            else:
-                player_stat['3P_attempted'] = stats_copy['three_point_attempted'] if stats_copy['three_point_attempted'] > 0 else 0
-                stats_copy['three_point_attempted'] -= player_stat['3P_attempted']
+                player_stat['FG_attempted']+=player_stat['3P_attempted']
+                player_stat['FG_made']+=player_stat['3P_made']
 
-
-            player_stat['3P_made']=round(player['three_point_made_per_game']*(stats['three_point_made'])*random.uniform(0.7,1.2))
-            if stats_copy['three_point_made'] >= player_stat['3P_made'] and player_stat['3P_attempted'] >= player_stat['3P_made']:
-                stats_copy['three_point_made'] -= player_stat['3P_made']
-            else:
-                if player_stat['3P_attempted'] >= player_stat['3P_made']:
-                    player_stat['3P_made'] = stats_copy['three_point_made'] if stats_copy['free_throws_attempted'] > 0 else 0
-                    stats_copy['three_point_made'] -= player_stat['3P_made'] 
+                player_stat['comment']='OK'
+                player_stat['points']=(player_stat['3P_made']*3) + ((player_stat['FG_made']-player_stat['3P_made'])*2) + player_stat['FT_made']
+                '''if player['games_played'] > 5 and player['minutes']<10:
+                    player_stat['minutes']=player['minutes']*random.uniform(0.3,0.5)
                 else:
-                    player_stat['3P_made'] = 0
-
-            player_stat['comment']='OK'
-            player_stat['points']=(player_stat['3P_made']*3) + ((player_stat['FG_made']-player_stat['3P_made'])*2) + player_stat['FT_made']
-            '''if player['games_played'] > 5 and player['minutes']<10:
-                player_stat['minutes']=player['minutes']*random.uniform(0.3,0.5)
+                    player_stat['minutes']=player['minutes']*random.uniform(0.9,1.1)'''
             else:
-                player_stat['minutes']=player['minutes']*random.uniform(0.9,1.1)'''
-        else:
-            player_stat['assists']=0
-            player_stat['off_rebounds']=0
-            player_stat['def_rebounds']=0
-            player_stat['rebounds']=0
-            player_stat['blocks']=0
-            player_stat['steals']=0
-            player_stat['turnovers']=0
-            player_stat['personal_fouls']=0
-            player_stat['FT_attempted']=0
-            player_stat['FT_made']=0
-            player_stat['FG_attempted']=0
-            player_stat['FG_made']=0
-            player_stat['3P_attempted']=0
-            player_stat['3P_made']=0
-            player_stat['points']=0
-            player_stat['min']=0
-            player_stat['comment']="NONE"
+                player_stat['assists']=0
+                player_stat['off_rebounds']=0
+                player_stat['def_rebounds']=0
+                player_stat['rebounds']=0
+                player_stat['blocks']=0
+                player_stat['steals']=0
+                player_stat['turnovers']=0
+                player_stat['personal_fouls']=0
+                player_stat['FT_attempted']=0
+                player_stat['FT_made']=0
+                player_stat['FG_attempted']=0
+                player_stat['FG_made']=0
+                player_stat['3P_attempted']=0
+                player_stat['3P_made']=0
+                player_stat['points']=0
+                player_stat['min']=0
+                player_stat['comment']="NONE"
 
-        team_stat['assists']+=player_stat['assists']
-        team_stat['off_rebounds']+=player_stat['off_rebounds']
-        team_stat['def_rebounds']+=player_stat['def_rebounds']
-        team_stat['rebounds']+=(player_stat['off_rebounds']+player_stat['def_rebounds'])
-        team_stat['blocks']+=player_stat['blocks']
-        team_stat['steals']+=player_stat['steals']
-        team_stat['turnovers']+=player_stat['turnovers']
-        team_stat['personal_fouls']+=player_stat['personal_fouls']
-        team_stat['FT_attempted']+=player_stat['FT_attempted']
-        team_stat['FT_made']+=player_stat['FT_made']
-        team_stat['FG_attempted']+=player_stat['FG_attempted']
-        team_stat['FG_made']+=player_stat['FG_made']
-        team_stat['3P_attempted']+=player_stat['3P_attempted']
-        team_stat['3P_made']+=player_stat['3P_made']
-        team_stat['points']+=player_stat['points']
+            team_stat['assists']+=player_stat['assists']
+            team_stat['off_rebounds']+=player_stat['off_rebounds']
+            team_stat['def_rebounds']+=player_stat['def_rebounds']
+            team_stat['rebounds']+=(player_stat['off_rebounds']+player_stat['def_rebounds'])
+            team_stat['blocks']+=player_stat['blocks']
+            team_stat['steals']+=player_stat['steals']
+            team_stat['turnovers']+=player_stat['turnovers']
+            team_stat['personal_fouls']+=player_stat['personal_fouls']
+            team_stat['FT_attempted']+=player_stat['FT_attempted']
+            team_stat['FT_made']+=player_stat['FT_made']
+            team_stat['FG_attempted']+=player_stat['FG_attempted']
+            team_stat['FG_made']+=player_stat['FG_made']
+            team_stat['3P_attempted']+=player_stat['3P_attempted']
+            team_stat['3P_made']+=player_stat['3P_made']
+            team_stat['points']+=player_stat['points']
 
-        player_stats.append(player_stat)
+            player_stats.append(player_stat)
 
     if team_stat['points']==other_team_score:
         team_stat['FT_made']+=1
