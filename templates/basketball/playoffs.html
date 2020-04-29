@@ -125,6 +125,19 @@
         text-align: center;
         color: red;
     }
+    .ghost-button-east{
+        display: inline-block;
+        margin-top: 8px;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: blue;
+    }
+    .ghost-button-east:hover,
+    .ghost-button-east:active{
+        opacity: 58%;
+        cursor: pointer;
+    }
+
     .ghost-button:hover,
     .ghost-button:active{
         opacity: 58%;
@@ -139,10 +152,33 @@
         top: 0;
         width: 100%; /* Full width */
         height: 100%; /* Full height */
+        max-width: 600px;
         overflow: auto; /* Enable scroll if needed */
         background-color: rgb(0,0,0); /* Fallback color */
         background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
     }
+    .modal-east{
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 100px; /* Location of the box */
+        right: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        max-width: 600px;
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+    .modal-content-east{
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+    
     .modal-content {
         background-color: #fefefe;
         margin: auto;
@@ -175,13 +211,13 @@
         <div class="tournament">
         <ul class="round round-1">
             <li class="spacer">&nbsp;</li>
-            
+            <!-- WEST SERIES 1-->
             <li class="container-flex game game-top">1. {{western_teams.0.0}}<span>0</span></li>
             <li class="game game-spacer">
                 <!-- info icon-->
                 <!-- <a href=""><i class="material-icons info-west">info</i></a>-->
-                <div class="ghost-button" id="west-series-1"><i class="material-icons">info</i></div>
-                <div id="modal-west-1" class="modal">
+                <div class="ghost-button"><i class="material-icons">info</i></div>
+                <div class="modal">
                     <div class="modal-content text-center">
                         <span class="close">&times;</span>
                         <h3>Western-Conference</h3>
@@ -210,26 +246,120 @@
                         </ul>
                     </div>
                 </div>
-            </li>
+            </li><!-- Contains code for modal-->
             <li class="container-flex game game-bottom ">8. {{western_teams.7.0}}<span>0</span></li>
-
+            <!-- END OF WEST SERIES 1 -->
             <li class="spacer">&nbsp;</li>
-            
+            <!-- WEST SERIES 2 -->
             <li class="container-flex game game-top">4. {{western_teams.3.0}}<span>0</span></li>
-            <li class="game game-spacer">&nbsp;</li>
+            <li class="game game-spacer">
+                <!-- Ghost button/ trigger for modal-->
+                <div class="ghost-button"><i class="material-icons">info</i></div>
+                <!-- Modal -->
+                <div class="modal">
+                    <div class="modal-content text-center">
+                        <span class="close">&times;</span>
+                        <h3>Western-Conference</h3>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
+                                    <img src="{% static western_teams.3.2 %}" alt="">
+                                </div>
+                                <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
+                                    <img src="{% static western_teams.4.2 %}">
+                                </div>
+                            </div>
+                        </div>-
+                        
+                        <h5> {{western_teams.3.1}} v {{western_teams.4.1}} </h5>
+                        <hr style="background-color:red; height: 1px; width: 75%;">
+                        <h6> 0 : 0</h6>
+                        <ul style=" list-style-type:none; margin-right: 60px; ">
+                            <li> Game 1: </li>
+                            <li> Game 2: </li>
+                            <li> Game 3: </li>
+                            <li> Game 4: </li>
+                            <li style="opacity: 35%;"> Game 5: </li>
+                            <li style="opacity: 35%;"> Game 6: </li>
+                            <li style="opacity: 35%;"> Game 7: </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
             <li class="container-flex game game-bottom ">5. {{western_teams.4.0}}<span>0</span></li>
-
+            <!-- END OF WEST SERIES 2 -->
             <li class="spacer">&nbsp;</li>
-            
+            <!-- WEST SERIES 3 -->
             <li class="container-flex game game-top">3. {{western_teams.2.0}}<span>0</span></li>
-            <li class="game game-spacer">&nbsp;</li>
+            <li class="game game-spacer"><div class="ghost-button"><i class="material-icons">info</i></div>
+                <!-- Modal -->
+                <div class="modal">
+                    <div class="modal-content text-center">
+                        <span class="close">&times;</span>
+                        <h3>Western-Conference</h3>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
+                                    <img src="{% static western_teams.2.2 %}" alt="">
+                                </div>
+                                <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
+                                    <img src="{% static western_teams.5.2 %}">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h5> {{western_teams.2.1}} v {{western_teams.5.1}} </h5>
+                        <hr style="background-color:red; height: 1px; width: 75%;">
+                        <h6> 0 : 0</h6>
+                        <ul style=" list-style-type:none; margin-right: 60px; ">
+                            <li> Game 1: </li>
+                            <li> Game 2: </li>
+                            <li> Game 3: </li>
+                            <li> Game 4: </li>
+                            <li style="opacity: 35%;"> Game 5: </li>
+                            <li style="opacity: 35%;"> Game 6: </li>
+                            <li style="opacity: 35%;"> Game 7: </li>
+                        </ul>
+                    </div>
+                </div></li>
             <li class="container-flex game game-bottom">6. {{western_teams.5.0}} <span>0</span></li>
-
+            <!-- END OF WEST SERIES 3 -->
             <li class="spacer">&nbsp;</li>
-            
+            <!-- WEST SERIES 4 -->
             <li class="container-flex game game game-top">2. {{western_teams.1.0}} <span>0</span></li>
-            <li class="game game-spacer">&nbsp;</li>
+            <li class="game game-spacer"><div class="ghost-button"><i class="material-icons">info</i></div>
+                <!-- Modal -->
+                <div class="modal">
+                    <div class="modal-content text-center">
+                        <span class="close">&times;</span>
+                        <h3>Western-Conference</h3>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
+                                    <img src="{% static western_teams.1.2 %}" alt="">
+                                </div>
+                                <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
+                                    <img src="{% static western_teams.6.2 %}">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h5> {{western_teams.1.1}} v {{western_teams.6.1}} </h5>
+                        <hr style="background-color:red; height: 1px; width: 75%;">
+                        <h6> 0 : 0</h6>
+                        <ul style=" list-style-type:none; margin-right: 60px; ">
+                            <li> Game 1: </li>
+                            <li> Game 2: </li>
+                            <li> Game 3: </li>
+                            <li> Game 4: </li>
+                            <li style="opacity: 35%;"> Game 5: </li>
+                            <li style="opacity: 35%;"> Game 6: </li>
+                            <li style="opacity: 35%;"> Game 7: </li>
+                        </ul>
+                    </div>
+                </div></li>
             <li class="container-flex game game-bottom ">7. {{western_teams.6.0}} <span>0</span></li>
+            <!-- END OF WEST SERIES 4-->
 
             <li class="spacer">&nbsp;</li>
         </ul>
@@ -294,53 +424,221 @@
 
         <ul class="round-right round-right-1">
             <li class="spacer-right">&nbsp;</li>
-            
-            <li class="container-flex-right game-right game-right-top">1. {{eastern_teams.0.0}}<span>0</span></li>
-            <li class="game-right game-spacer-right">&nbsp;</li>
-            <li class="container-flex-right game-right game-right-bottom ">8. {{eastern_teams.7.0}} <span>0</span></li>
-
+            <!-- EAST SERIES 1-->
+            <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;&nbsp;1. {{eastern_teams.0.0}}<span>0</span></li>
+            <!-- Going to need to come with a better way to move the icon to the right other than &nbsp;-->
+            <li class="game-right game-spacer-right">
+                <div class="ghost-button-east"><i class="material-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info</i></div>
+                <div class="modal-east">
+                    <div class="modal-content-east text-center">
+                        <span class="close">&times;</span>
+                        <h3>Western-Conference</h3>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
+                                    <img src="{% static eastern_teams.0.2 %}" alt="">
+                                </div>
+                                <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
+                                    <img src="{% static eastern_teams.7.2 %}">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h5> {{eastern_teams.0.1}} v {{eastern_teams.7.1}} </h5>
+                        <hr style="background-color:blue; height: 1px; width: 75%;">
+                        <h6> 0 : 0</h6>
+                        <ul style=" list-style-type:none; margin-right: 60px; ">
+                            <li> Game 1: </li>
+                            <li> Game 2: </li>
+                            <li> Game 3: </li>
+                            <li> Game 4: </li>
+                            <li style="opacity: 35%;"> Game 5: </li>
+                            <li style="opacity: 35%;"> Game 6: </li>
+                            <li style="opacity: 35%;"> Game 7: </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            <li class="container-flex-right game-right game-right-bottom ">&nbsp;&nbsp;&nbsp;&nbsp;8. {{eastern_teams.7.0}} <span>0</span></li>
+            <!-- END OF EAST SERIES 1-->
             <li class="spacer-right">&nbsp;</li>
-            
-            <li class="container-flex-right game-right game-right-top">4. {{eastern_teams.3.0}}<span>0</span></li>
-            <li class="game-right game-spacer-right">&nbsp;</li>
-            <li class="container-flex-right game-right game-right-bottom ">5. {{eastern_teams.4.0}}<span>0</span></li>
-
+            <!-- EAST SERIES 2-->
+            <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;&nbsp;4. {{eastern_teams.3.0}}<span>0</span></li>
+            <li class="game-right game-spacer-right">
+                <div class="ghost-button-east"><i class="material-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info</i></div>
+                <div class="modal-east">
+                    <div class="modal-content-east text-center">
+                        <span class="close">&times;</span>
+                        <h3>Western-Conference</h3>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
+                                    <img src="{% static eastern_teams.3.2 %}" alt="">
+                                </div>
+                                <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
+                                    <img src="{% static eastern_teams.4.2 %}">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h5> {{eastern_teams.3.1}} v {{eastern_teams.4.1}} </h5>
+                        <hr style="background-color:blue; height: 1px; width: 75%;">
+                        <h6> 0 : 0</h6>
+                        <ul style=" list-style-type:none; margin-right: 60px; ">
+                            <li> Game 1: </li>
+                            <li> Game 2: </li>
+                            <li> Game 3: </li>
+                            <li> Game 4: </li>
+                            <li style="opacity: 35%;"> Game 5: </li>
+                            <li style="opacity: 35%;"> Game 6: </li>
+                            <li style="opacity: 35%;"> Game 7: </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            <li class="container-flex-right game-right game-right-bottom ">&nbsp;&nbsp;&nbsp;&nbsp;5. {{eastern_teams.4.0}}<span>0</span></li>
+            <!-- END OF EAST SERIES 2-->
             <li class="spacer-right">&nbsp;</li>
-            
-            <li class="container-flex-right game-right game-right-top">3. {{eastern_teams.2.0}}<span>0</span></li>
-            <li class="game-right game-spacer-right">&nbsp;</li>
-            <li class="container-flex-right game-right game-right-bottom ">6. {{eastern_teams.5.0}}<span>0</span></li>
-
+            <!-- EAST SERIES 3-->
+            <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;&nbsp;3. {{eastern_teams.2.0}}<span>0</span></li>
+            <li class="game-right game-spacer-right">
+                <div class="ghost-button-east"><i class="material-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info</i></div>
+                <div class="modal-east">
+                    <div class="modal-content-east text-center">
+                        <span class="close">&times;</span>
+                        <h3>Western-Conference</h3>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
+                                    <img src="{% static eastern_teams.2.2 %}" alt="">
+                                </div>
+                                <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
+                                    <img src="{% static eastern_teams.5.2 %}">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h5> {{eastern_teams.2.1}} v {{eastern_teams.5.1}} </h5>
+                        <hr style="background-color:blue; height: 1px; width: 75%;">
+                        <h6> 0 : 0</h6>
+                        <ul style=" list-style-type:none; margin-right: 60px; ">
+                            <li> Game 1: </li>
+                            <li> Game 2: </li>
+                            <li> Game 3: </li>
+                            <li> Game 4: </li>
+                            <li style="opacity: 35%;"> Game 5: </li>
+                            <li style="opacity: 35%;"> Game 6: </li>
+                            <li style="opacity: 35%;"> Game 7: </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            <li class="container-flex-right game-right game-right-bottom ">&nbsp;&nbsp;&nbsp;&nbsp;6. {{eastern_teams.5.0}}<span>0</span></li>
+            <!-- END OF EAST SERIES 3-->
             <li class="spacer-right">&nbsp;</li>
-            
-            <li class="container-flex-right game-right game-right-top">2. {{eastern_teams.1.0}}<span>0</span></li>
-            <li class="game-right game-spacer-right">&nbsp;</li>
-            <li class="container-flex-right game-right game-right-bottom ">7. {{eastern_teams.6.0}}<span>0</span></li>
-
+            <!-- EAST SERIES 4-->
+            <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;&nbsp;2. {{eastern_teams.1.0}}<span>0</span></li>
+            <li class="game-right game-spacer-right">
+                <div class="ghost-button-east"><i class="material-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info</i></div>
+                <div class="modal-east">
+                    <div class="modal-content-east text-center">
+                        <span class="close">&times;</span>
+                        <h3>Western-Conference</h3>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
+                                    <img src="{% static eastern_teams.1.2 %}" alt="">
+                                </div>
+                                <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
+                                    <img src="{% static eastern_teams.6.2 %}">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h5> {{eastern_teams.1.1}} v {{eastern_teams.6.1}} </h5>
+                        <hr style="background-color:blue; height: 1px; width: 75%;">
+                        <h6> 0 : 0</h6>
+                        <ul style=" list-style-type:none; margin-right: 60px; ">
+                            <li> Game 1: </li>
+                            <li> Game 2: </li>
+                            <li> Game 3: </li>
+                            <li> Game 4: </li>
+                            <li style="opacity: 35%;"> Game 5: </li>
+                            <li style="opacity: 35%;"> Game 6: </li>
+                            <li style="opacity: 35%;"> Game 7: </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            <li class="container-flex-right game-right game-right-bottom ">&nbsp;&nbsp;&nbsp;&nbsp;7. {{eastern_teams.6.0}}<span>0</span></li>
+            <!-- END OF EAST SERIES 4-->
             <li class="spacer-right">&nbsp;</li>
         </ul>
     </div>
 </div>
 <script>
     // Get the modal
-    var modal = document.getElementById("modal-west-1");
-    
+    var modal = document.getElementsByClassName("modal");
+    var modal_east = document.getElementsByClassName("modal-east")
     // Get the button that opens the modal
-    var btn = document.getElementById("west-series-1");
-    
+    var btn = document.getElementsByClassName("ghost-button");
+    var btn_east = document.getElementsByClassName("ghost-button-east");
     // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
+    var span = document.getElementsByClassName("close");
     
     // When the user clicks the button, open the modal 
-    btn.onclick = function() {
-      modal.style.display = "block";
+    btn[0].onclick = function() {
+      modal[0].style.display = "block";
+    }
+    btn[1].onclick = function(){
+        modal[1].style.display = "block";
+    }
+    btn[2].onclick = function(){
+        modal[2].style.display = "block";
+    }
+    btn[3].onclick = function(){
+        modal[3].style.display = "block";
     }
     
+    btn_east[0].onclick = function() {
+      modal_east[0].style.display = "block";
+    }
+    btn_east[1].onclick = function() {
+      modal_east[1].style.display = "block";
+    }
+    btn_east[2].onclick = function() {
+      modal_east[2].style.display = "block";
+    }
+    btn_east[3].onclick = function() {
+      modal_east[3].style.display = "block";
+    }
+    
+
     // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-      modal.style.display = "none";
+    span[0].onclick = function() {
+      modal[0].style.display = "none";
     }
-    
+    span[1].onclick = function() {
+      modal[1].style.display = "none";
+    }
+    span[2].onclick = function() {
+      modal[2].style.display = "none";
+    }
+    span[3].onclick = function() {
+      modal[3].style.display = "none";
+    }
+    span[4].onclick = function(){
+        modal_east[0].style.display = "none";
+    }
+    span[5].onclick = function(){
+        modal_east[1].style.display = "none";
+    }
+    span[6].onclick = function(){
+        modal_east[2].style.display = "none";
+    }
+    span[7].onclick = function(){
+        modal_east[3].style.display = "none";
+    }
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
       if (event.target == modal) {
