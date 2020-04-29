@@ -16,7 +16,7 @@
     .tournament{
         display:flex;
         flex-direction:row;
-        overflow: auto;
+        overflow-x: auto;
     }
     .round{
         display:flex;
@@ -38,9 +38,9 @@
         display: flex;
         justify-content: space-between;
     }
-
- 
-
+    .mi-size{
+        font-size: 2vw;
+    }
     .round .spacer{ flex-grow:2; }
     .round .spacer:first-child,
     .round .spacer:last-child{ flex-grow:1; }
@@ -61,11 +61,15 @@
         */
     li.game{
         padding-left:20px;
+        font-size: 1.4vw;
+        border-radius: 5%;
         /*margin-left: 5px*/
     }
 
     li.game-right{
-        padding-right:20px
+        padding-right:20px;
+        font-size: 1.4vw;
+        border-radius: 5%;
         /*margin-right: 5px;*/
     }
 
@@ -124,6 +128,7 @@
         font-weight: bold;
         text-align: center;
         color: red;
+        font-size: 1.5vw;
     }
     .ghost-button-east{
         display: inline-block;
@@ -131,6 +136,7 @@
         margin-bottom: 5px;
         font-weight: bold;
         color: blue;
+        font-size: 1.5vw;
     }
     .ghost-button-east:hover,
     .ghost-button-east:active{
@@ -206,8 +212,9 @@
 <div class="container">
     <br/>
     <h1>2019-2020 NBA Playoffs Bracket</h1>
-    <br/>
-    <h4 class="tab">Western-Conference<span>&nbsp;</span>Eastern-Conference</h4>
+    <hr style="height: 2px; background-color: black;">
+    <br>
+    <h4 class="tab">Western Conference<span>&nbsp;</span>Eastern Conference</h4>
         <div class="tournament">
         <ul class="round round-1">
             <li class="spacer">&nbsp;</li>
@@ -216,7 +223,7 @@
             <li class="game game-spacer">
                 <!-- info icon-->
                 <!-- <a href=""><i class="material-icons info-west">info</i></a>-->
-                <div class="ghost-button"><i class="material-icons">info</i></div>
+                <div class="ghost-button"><i class="material-icons mi-size">info</i></div>
                 <div class="modal">
                     <div class="modal-content text-center">
                         <span class="close">&times;</span>
@@ -236,7 +243,7 @@
                         <hr style="background-color:red; height: 1px; width: 75%;">
                         <h6> 0 : 0</h6>
                         <ul style=" list-style-type:none; margin-right: 60px; ">
-                            <li> Game 1: LAL wins 69-68</li>
+                            <li> Game 1: </li>
                             <li> Game 2: </li>
                             <li> Game 3: </li>
                             <li> Game 4: </li>
@@ -254,7 +261,7 @@
             <li class="container-flex game game-top">4. {{western_teams.3.0}}<span>0</span></li>
             <li class="game game-spacer">
                 <!-- Ghost button/ trigger for modal-->
-                <div class="ghost-button"><i class="material-icons">info</i></div>
+                <div class="ghost-button"><i class="material-icons mi-size">info</i></div>
                 <!-- Modal -->
                 <div class="modal">
                     <div class="modal-content text-center">
@@ -291,7 +298,7 @@
             <li class="spacer">&nbsp;</li>
             <!-- WEST SERIES 3 -->
             <li class="container-flex game game-top">3. {{western_teams.2.0}}<span>0</span></li>
-            <li class="game game-spacer"><div class="ghost-button"><i class="material-icons">info</i></div>
+            <li class="game game-spacer"><div class="ghost-button"><i class="material-icons mi-size">info</i></div>
                 <!-- Modal -->
                 <div class="modal">
                     <div class="modal-content text-center">
@@ -322,12 +329,13 @@
                         </ul>
                     </div>
                 </div></li>
-            <li class="container-flex game game-bottom">6. {{western_teams.5.0}} <span>0</span></li>
+            <li class="container-flex game game-bottom">6. {{western_teams.5.0}}<span>0</span></li>
             <!-- END OF WEST SERIES 3 -->
             <li class="spacer">&nbsp;</li>
             <!-- WEST SERIES 4 -->
-            <li class="container-flex game game game-top">2. {{western_teams.1.0}} <span>0</span></li>
-            <li class="game game-spacer"><div class="ghost-button"><i class="material-icons">info</i></div>
+            <li class="container-flex game game game-top">2. {{western_teams.1.0}}<span>0</span></li>
+            <li class="game game-spacer">
+                <div class="ghost-button"><i class="material-icons mi-size">info</i></div>
                 <!-- Modal -->
                 <div class="modal">
                     <div class="modal-content text-center">
@@ -358,7 +366,7 @@
                         </ul>
                     </div>
                 </div></li>
-            <li class="container-flex game game-bottom ">7. {{western_teams.6.0}} <span>0</span></li>
+            <li class="container-flex game game-bottom ">7. {{western_teams.6.0}}<span>0</span></li>
             <!-- END OF WEST SERIES 4-->
 
             <li class="spacer">&nbsp;</li>
@@ -428,7 +436,7 @@
             <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;&nbsp;1. {{eastern_teams.0.0}}<span>0</span></li>
             <!-- Going to need to come with a better way to move the icon to the right other than &nbsp;-->
             <li class="game-right game-spacer-right">
-                <div class="ghost-button-east"><i class="material-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info</i></div>
+                <div class="ghost-button-east"><i class="material-icons mi-size">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info</i></div>
                 <div class="modal-east">
                     <div class="modal-content-east text-center">
                         <span class="close">&times;</span>
@@ -465,7 +473,7 @@
             <!-- EAST SERIES 2-->
             <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;&nbsp;4. {{eastern_teams.3.0}}<span>0</span></li>
             <li class="game-right game-spacer-right">
-                <div class="ghost-button-east"><i class="material-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info</i></div>
+                <div class="ghost-button-east"><i class="material-icons mi-size">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info</i></div>
                 <div class="modal-east">
                     <div class="modal-content-east text-center">
                         <span class="close">&times;</span>
@@ -502,7 +510,7 @@
             <!-- EAST SERIES 3-->
             <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;&nbsp;3. {{eastern_teams.2.0}}<span>0</span></li>
             <li class="game-right game-spacer-right">
-                <div class="ghost-button-east"><i class="material-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info</i></div>
+                <div class="ghost-button-east"><i class="material-icons mi-size">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info</i></div>
                 <div class="modal-east">
                     <div class="modal-content-east text-center">
                         <span class="close">&times;</span>
@@ -539,7 +547,7 @@
             <!-- EAST SERIES 4-->
             <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;&nbsp;2. {{eastern_teams.1.0}}<span>0</span></li>
             <li class="game-right game-spacer-right">
-                <div class="ghost-button-east"><i class="material-icons">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info</i></div>
+                <div class="ghost-button-east"><i class="material-icons mi-size">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info</i></div>
                 <div class="modal-east">
                     <div class="modal-content-east text-center">
                         <span class="close">&times;</span>
@@ -613,7 +621,6 @@
       modal_east[3].style.display = "block";
     }
     
-
     // When the user clicks on <span> (x), close the modal
     span[0].onclick = function() {
       modal[0].style.display = "none";
