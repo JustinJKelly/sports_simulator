@@ -11,5 +11,6 @@ urlpatterns = [
     path('teams', views.team_home_page, name="teams_home"),
     path('team/<int:id>', views.team_page, name="teams_page"),
     path('team/standings', views.standings_page, name="standings_page"),
-    path('playoffs', views.playoffs_page, name="playoffs_page")
+    path('playoffs', views.playoffs_page, name="playoffs_page"),
+    path('playoffs/series/<matchup>', views.series_page, name="series_page")
 ]
