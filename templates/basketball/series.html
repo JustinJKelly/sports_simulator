@@ -54,6 +54,7 @@
                                     <th scope="col">Game 2: </th>
                                     <th scope="col">Game 3: </th>
                                     <th scope="col">Game 4: </th>
+                                    <th scope="col">Series: </th>
                                 </tr>
                             {% endif %}
                             {% if series_length == 5 %}
@@ -64,6 +65,7 @@
                                     <th scope="col">Game 3: </th>
                                     <th scope="col">Game 4: </th>
                                     <th scope="col">Game 5: </th>
+                                    <th scope="col">Series: </th>
                             {% endif %}
                             {% if series_length ==  6 %}
                                 <tr>
@@ -74,6 +76,7 @@
                                     <th scope="col">Game 4: </th>
                                     <th scope="col">Game 5: </th>
                                     <th scope="col">Game 6: </th>
+                                    <th scope="col">Series: </th>
                                 </tr>
                             {% endif %}
                             {% if series_length ==  7 %}
@@ -86,8 +89,10 @@
                                     <th scope="col">Game 5: </th>
                                     <th scope="col">Game 6: </th>
                                     <th scope="col">Game 7: </th>
+                                    <th scope="col">Series: </th>
                                 </tr>
                             {% endif %}
+                            
                         </thead>
                         <tbody>
                             <tr>
@@ -95,12 +100,14 @@
                                     {% for p in away_team_game_score %}
                                     <td>{{p}}</td>
                                     {% endfor %}
+                                    <td>0</td>
                             </tr>
                             <tr>
                                 <th scope="row">{{home_team_abv}}</th>
-                                {% for p in home_team_game_score %}
+                                    {% for p in home_team_game_score %}
                                     <td>{{p}}</td>
-                                {% endfor %}                                
+                                    {% endfor %}  
+                                    <td>0</td>
                             </tr>
                         </tbody>
                     </table>
