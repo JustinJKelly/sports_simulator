@@ -721,8 +721,8 @@ def playoffs_page(request):
 def series_page(request, matchup):
     home_team_id = int(matchup[0:10])
     away_team_id = int(matchup[10:])
-    series_length= 4
-    series_games=[1,2,3,4]
+    series_length= 5
+    series_games=[1,2,3,4,5]
     team_home = Team.objects.filter(team_id=home_team_id).first()
     team_away = Team.objects.filter(team_id=away_team_id).first()
     context=dict()
@@ -739,8 +739,8 @@ def series_page(request, matchup):
         "away_team_abv":team_away.team_abv,
         "home_team_score":0,
         "away_team_score":0,
-        "home_team_game_score":[0,0,0,0],
-        "away_team_game_score":[0,0,0,0],
+        "home_team_game_score":[0,0,0,0,0],
+        "away_team_game_score":[0,0,0,0,0],
         "home_team_rank":"1st",
         "away_team_rank":"8th"
 
