@@ -679,6 +679,7 @@ def playoffs_page(request):
             western.append([
                 team.team_abv,
                 team.team_name,
+                team.team_id,
                 find_team_image(team.team_id)
             ])
 
@@ -704,6 +705,7 @@ def playoffs_page(request):
             eastern.append([
                 team.team_abv,
                 team.team_name,
+                team.team_id,
                 find_team_image(team.team_id)
             ])
 
@@ -716,6 +718,33 @@ def playoffs_page(request):
         }
     return render(request,'basketball/playoffs.html', context)
     
+def series_page(request, matchup):
+    home_team_id = int(matchup[0:10])
+    away_team_id = int(matchup[10:])
+    series_length= 4
+    team_home = Team.objects.filter(team_id=home_team_id).first()
+    team_away = Team.objects.filter(team_id=away_team_id).first()
+
+    context=dict()
+    context={
+        "home_team_id":home_team_id,
+        "away_team_id":away_team_id,
+        "home_team_name":team_home.team_name,
+        "away_team_name":team_away.team_name,
+        "home_team_image":find_team_image(home_team_id),
+        "away_team_image":find_team_image(away_team_id),
+        "series_length":series_length,        
+        "home_team_abv":team_home.team_abv,
+        "away_team_abv":team_away.team_abv,
+        "home_team_score":0,
+        "away_team_score":0,
+        "home_team_game_score":[0,0,0,0],
+        "away_team_game_score":[0,0,0,0],
+        "home_team_rank":"1st",
+        "away_team_rank":"8th"
+
+    }
+    return render(request, 'basketball/series.html', context)
 
 def find_team_logos(team1, team2):
     return_list = []
@@ -755,6 +784,7 @@ def find_team_logos(team1, team2):
     return_list = [list_teams[team1],list_teams[team2]]
 
     return return_list
+
 
 
 
