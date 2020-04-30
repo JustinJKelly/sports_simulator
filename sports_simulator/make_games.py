@@ -12,12 +12,12 @@ import time
 
 
 def make_games():
-    current = 20200312
+    current = 20200401
     last = 20200415
     
     team_names = []
     games = []
-    while current < 20200319:
+    while current < 20200416:
         team_names = []
         url = "https://www.cbssports.com/nba/schedule/"+str(current)
         response = requests.get(url)
@@ -167,9 +167,9 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
     home_opp_point_pg = round(team_home.opponent_points_total/team_home.games_played,1)
 
     if home_points_pg > away_opp_point_pg:
-        overall_bias_home = 1.03
+        overall_bias_home = random.uniform(1.00,1.02)
     else:
-        overall_bias_home = 0.97
+        overall_bias_home = random.uniform(0.98,1.00)
 
     overall_bias_home=1
 
@@ -218,9 +218,9 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
     overall_bias_away=1'''
 
     if away_points_pg > home_opp_point_pg:
-        overall_bias_away = 1.02
+        overall_bias_away = random.uniform(1.0,1.02)
     else:
-        overall_bias_away = 0.98
+        overall_bias_away = random.uniform(0.98,1.00)
 
     #overall_bias_away=1
 
@@ -230,7 +230,7 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
     away_game_stats = {
         'minutes':240,
         'field_goals_percentage': (away_stats['field_goal_percentage'])*(random.uniform(away_bias_list[0], away_bias_list[1]))*overall_bias_away,
-        'field_goals_attempted': round((away_stats['field_goals_attempted_per_game'])+random.uniform(away_bias_list[2],away_bias_list[3])*overall_bias_away),
+        'field_goals_attempted': round((away_stats['field_goals_attempted_per_game'])+random.uniform(away_bias_list[2],away_bias_list[3])),#*overall_bias_away),
         'three_point_percentage': (away_stats['three_point_percentage'])*(random.uniform(away_bias_list[4], away_bias_list[5]))*overall_bias_away,
         'three_point_attempted': round((away_stats['three_point_attempted_per_game'])+random.uniform(away_bias_list[6],away_bias_list[7])*overall_bias_away),
         'free_throws_percentage': ((away_stats['free_throw_percentage'])*(random.uniform(away_bias_list[8], away_bias_list[9])))*overall_bias_away,
@@ -295,6 +295,66 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
     home_name = home.team_name
     away_name = away.team_name
 
+
+    #update team stats
+    #team_away_stats
+    '''
+            team_stat['assists']+=player_stat['assists']
+            team_stat['off_rebounds']+=player_stat['off_rebounds']
+            team_stat['def_rebounds']+=player_stat['def_rebounds']
+            team_stat['rebounds']+=(player_stat['off_rebounds']+player_stat['def_rebounds'])
+            team_stat['blocks']+=player_stat['blocks']
+            team_stat['steals']+=player_stat['steals']
+            team_stat['turnovers']+=player_stat['turnovers']
+            team_stat['personal_fouls']+=player_stat['personal_fouls']
+            team_stat['FT_attempted']+=player_stat['FT_attempted']
+            team_stat['FT_made']+=player_stat['FT_made']
+            team_stat['FG_attempted']+=player_stat['FG_attempted']
+            team_stat['FG_made']+=player_stat['FG_made']
+            team_stat['3P_attempted']+=player_stat['3P_attempted']
+            team_stat['3P_made']+=player_stat['3P_made']
+            team_stat['points']+=player_stat['points']
+    '''
+    away.points_total += team_away_stats['points']
+    away.assists_total += team_away_stats['assists']
+    away.offensive_rebounds_total += team_away_stats['off_rebounds']
+    away.defensive_rebounds_total += team_away_stats['def_rebounds']
+    away.rebounds_total += team_away_stats['rebounds']
+    away.blocks_total += team_away_stats['blocks']
+    away.steals_total += team_away_stats['steals']
+    away.turnovers_total += team_away_stats['turnovers']
+    away.personal_fouls_total += team_away_stats['personal_fouls']
+    away.free_throws_made += team_away_stats['FT_made']
+    away.free_throws_attempted += team_away_stats['FT_attempted']
+    away.three_point_made += team_away_stats['3P_made']
+    away.three_point_attempted += team_away_stats['3P_attempted']
+    away.field_goals_made += team_away_stats['FG_made']
+    away.field_goals_attempted += team_away_stats['FG_attempted']
+    away.games_played += 1
+    away.opponent_points_total += team_home_stats['points']
+    away.save()
+
+    #team_home_stats
+    home.points_total += team_home_stats['points']
+    home.assists_total += team_home_stats['assists']
+    home.offensive_rebounds_total += team_home_stats['off_rebounds']
+    home.defensive_rebounds_total += team_home_stats['def_rebounds']
+    home.rebounds_total += team_home_stats['rebounds']
+    home.blocks_total += team_home_stats['blocks']
+    home.steals_total += team_home_stats['steals']
+    home.turnovers_total += team_home_stats['turnovers']
+    home.personal_fouls_total += team_home_stats['personal_fouls']
+    home.free_throws_made += team_home_stats['FT_made']
+    home.free_throws_attempted += team_home_stats['FT_attempted']
+    home.three_point_made += team_home_stats['3P_made']
+    home.three_point_attempted += team_home_stats['3P_attempted']
+    home.field_goals_made += team_home_stats['FG_made']
+    home.field_goals_attempted += team_home_stats['FG_attempted']
+    home.games_played += 1
+    home.opponent_points_total += team_away_stats['points']
+    home.save()
+
+
     if team_away_stats['points'] > team_home_stats['points']:
         winner_team_id = away_id
         winning_name = away_name
@@ -341,6 +401,9 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
             loser.divisional_losses += 1
             winner.divisional_wins += 1
 
+    #SAVE TEAMS
+    loser.save()
+    winner.save()
 
     top_scorer_home_team_score = 0
     top_scorer_home_team_id = 0
@@ -358,7 +421,47 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
 
     for p in (player_away_stats+player_home_stats):
         pl = Player.objects.get(player_id=p['player_id'])
+        '''
+        player_stat['assists']=0
+                player_stat['off_rebounds']=0
+                player_stat['def_rebounds']=0
+                player_stat['rebounds']=0
+                player_stat['blocks']=0
+                player_stat['steals']=0
+                player_stat['turnovers']=0
+                player_stat['personal_fouls']=0
+                player_stat['FT_attempted']=0
+                player_stat['FT_made']=0
+                player_stat['FG_attempted']=0
+                player_stat['FG_made']=0
+                player_stat['3P_attempted']=0
+                player_stat['3P_made']=0
+                player_stat['points']=0
+                player_stat['min']=0
+                player_stat['comment']="NONE"
+        '''
         
+        pl.assists_total += p['assists']
+        pl.offensive_rebounds_total += p['off_rebounds']
+        pl.defensive_rebounds_total += p['def_rebounds']
+        pl.rebounds_total += p['rebounds']
+        pl.blocks_total += p['blocks']
+        pl.steals_total += p['steals']
+        pl.turnovers_total += p['turnovers']
+        pl.personal_fouls_total += p['personal_fouls']
+        pl.free_throws_made += p['FT_made']
+        pl.free_throws_attempted += p['FT_attempted']
+        pl.minutes_total += p['min']
+        pl.three_point_made += p['3P_made']
+        pl.three_point_attempted += p['3P_attempted']
+        pl.field_goals_made += p['FG_made']
+        pl.field_goals_attempted += p['FG_attempted']
+        if p['comment'] == "OK":
+            pl.games_played += 1
+        pl.points_total += p['points']
+        #SAVE PLAYER
+        pl.save()
+
 
     data = {}
     data['points_by_quarter_id'] = {}
@@ -539,14 +642,14 @@ def compute_player_stats(stats,score,tid, other_team_score):
 
                 #player_stat['rebounds']=player_stat['defensive_rebounds']+player_stat['offensive_rebounds']
 
-                player_stat['blocks']= round(player['blocks_per_game']*(stats['blocks'])*random.uniform(0.7,1.3))
+                player_stat['blocks']= round(player['blocks_per_game']*(stats['blocks'])*random.uniform(0.6,1.4))
                 if stats_copy['blocks'] >= player_stat['blocks']:
                     stats_copy['blocks'] -= player_stat['blocks']
                 else:
                     player_stat['blocks'] = stats_copy['blocks'] if stats_copy['blocks'] > 0 else 0
                     stats_copy['blocks']-=player_stat['blocks']
 
-                player_stat['steals']= round(player['steals_per_game']*(stats['steals'])*random.uniform(0.7,1.3))
+                player_stat['steals']= round(player['steals_per_game']*(stats['steals'])*random.uniform(0.6,1.4))
                 if stats_copy['steals'] >= player_stat['steals']:
                     stats_copy['steals'] -= player_stat['steals']
                 else:
@@ -567,14 +670,14 @@ def compute_player_stats(stats,score,tid, other_team_score):
                     player_stat['personal_fouls'] = stats_copy['personal_fouls'] if stats_copy['personal_fouls'] > 0 else 0
                     stats_copy['personal_fouls'] -= player_stat['personal_fouls']
 
-                player_stat['FT_attempted']=round(player['free_throws_attempted_per_game']*(stats['free_throws_attempted'])*random.uniform(0.8,1.2))
+                player_stat['FT_attempted']=round(player['free_throws_attempted_per_game']*(stats['free_throws_attempted'])*random.uniform(0.6,1.4))
                 if stats_copy['free_throws_attempted'] >= player_stat['FT_attempted']:
                     stats_copy['free_throws_attempted'] -= player_stat['FT_attempted']
                 else:
                     player_stat['FT_attempted'] = stats_copy['free_throws_attempted'] if stats_copy['free_throws_attempted'] > 0 else 0
                     stats_copy['free_throws_attempted'] -= player_stat['FT_attempted']
 
-                player_stat['FT_made']=round(player['free_throws_made_per_game']*(stats['free_throws_made'])*random.uniform(0.75,1.1))
+                player_stat['FT_made']=round(player['free_throws_made_per_game']*(stats['free_throws_made'])*random.uniform(0.6,1.1))
                 if stats_copy['free_throws_made'] >= player_stat['FT_made']:
                     if player_stat['FT_attempted'] < player_stat['FT_made']:
                         player_stat['FT_made'] = player_stat['FT_attempted']
@@ -586,7 +689,7 @@ def compute_player_stats(stats,score,tid, other_team_score):
                     else:
                         player_stat['FT_made'] = 0
 
-                player_stat['3P_attempted']=round(player['three_point_attempted_per_game']*(stats['three_point_attempted'])*random.uniform(0.75,1.08))
+                player_stat['3P_attempted']=round(player['three_point_attempted_per_game']*(stats['three_point_attempted'])*random.uniform(0.7,1.33))
                 if stats_copy['three_point_attempted'] >= player_stat['3P_attempted']:
                     stats_copy['three_point_attempted'] -= player_stat['3P_attempted']
                 else:
@@ -594,7 +697,7 @@ def compute_player_stats(stats,score,tid, other_team_score):
                     stats_copy['three_point_attempted'] -= player_stat['3P_attempted']
 
 
-                player_stat['3P_made']=round(player['three_point_made_per_game']*(stats['three_point_made'])*random.uniform(0.72,1.07))
+                player_stat['3P_made']=round(player['three_point_made_per_game']*(stats['three_point_made'])*random.uniform(0.77,1.25))
                 if stats_copy['three_point_made'] >= player_stat['3P_made'] and player_stat['3P_attempted'] >= player_stat['3P_made']:
                     stats_copy['three_point_made'] -= player_stat['3P_made']
                 else:
@@ -604,7 +707,7 @@ def compute_player_stats(stats,score,tid, other_team_score):
                     else:
                         player_stat['3P_made'] = 0
 
-                player_stat['FG_attempted']=round(player['field_goals_attempted_per_game']*(stats['field_goals_attempted'])*random.uniform(0.75,1.12))-player_stat['3P_attempted']
+                player_stat['FG_attempted']=round(player['field_goals_attempted_per_game']*(stats['field_goals_attempted'])*random.uniform(0.74,1.24))-player_stat['3P_attempted']
                 if stats_copy['field_goals_attempted'] >= player_stat['FG_attempted']:
                     stats_copy['field_goals_attempted'] -= player_stat['FG_attempted']
                 else:
@@ -612,7 +715,7 @@ def compute_player_stats(stats,score,tid, other_team_score):
                     stats_copy['field_goals_attempted'] -= player_stat['FG_attempted']
 
 
-                player_stat['FG_made']=round(player['field_goals_made_per_game']*(stats['field_goals_made'])*random.uniform(0.72,1.1))-player_stat['3P_made']
+                player_stat['FG_made']=round(player['field_goals_made_per_game']*(stats['field_goals_made'])*random.uniform(0.75,1.25))-player_stat['3P_made']
                 if stats_copy['field_goals_made'] >= player_stat['FG_made'] and player_stat['FG_attempted'] >= player_stat['FG_made']:
                     stats_copy['field_goals_made'] -= player_stat['FG_made']
                 else:
@@ -670,6 +773,7 @@ def compute_player_stats(stats,score,tid, other_team_score):
                     player_stat['FG_attempted']=player_stat['FG_made']
 
                 player_stat['points']=(player_stat['3P_made']*3) + ((player_stat['FG_made']-player_stat['3P_made'])*2) + player_stat['FT_made']
+                player_stat['rebounds']=player_stat['off_rebounds']+player_stat['def_rebounds']
                 '''if player['games_played'] > 5 and player['minutes']<10:
                     player_stat['minutes']=player['minutes']*random.uniform(0.3,0.5)
                 else:
@@ -1055,71 +1159,71 @@ def get_team(team1):
 
 def get_bias_home(team_id):
     team_list_dist = {
-        1610612749:[0.87, 1.17, -0.9, 3.4, 0.8, 1.08, -2.5, 2.8, 0.9, 1.05, -5, 9, -3, 5, -3, 6, -3, 6, -3, 3, -2, 2, -2, 3, -2, 1, -3, -3, -10, 10],#MIL
-        1610612747:[0.88, 1.16, -0.9, 3.4, 0.8, 1.07, -3, 3, 0.87, 1.02, -5, 8, -5, 6, -2, 4, -3, 6, -4, 6, -3, 4, -2, 3, -1, 1, -3, 3, -7, 7], #LAL
-        1610612737:[0.84, 1.11, -1.3, 3.3, 0.84, 1.07, -2.3, 3.5, 0.9, 1.03, -5, 6, -7,3, -2, 2, -6, 3, -3, 2, -2, 1, -1, 1, -3, 2, -3, 3, -4, 10],#ATL
-        1610612738:[0.86, 1.12, -1.1, 3.3, 0.81, 1.07, -2.2, 2.5, 0.9, 1.03, -5, 3, -4, 4, -2, 2, -3, 3, -4, 6, -1, 3, -2, 3, -3, 2, -3, 3, -7, 10],#BOS
-        1610612751:[0.82, 1.09, -1.4, 2.9, 0.79, 1.08, -3, 4, 0.9, 1.02, -5, 5, -3, 7, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#BKN
-        1610612766:[0.82, 1.08, -1.4, 2.6, 0.78, 1.07, -2.5, 2.8, 0.9, 1.03, -5, 6, -7, 3, -2, 2, -6, 3, -3, 2, -2, 1, -1, 1, -3, 2, -3, 3, -4, 10],#CHA
-        1610612741:[0.84, 1.10, -1.1, 3, 0.81, 1.09, -2.1, 3.2, 0.9, 1.02, -5, 5, -3, 7, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#CHI
-        1610612739:[0.82, 1.07, -1.4, 2.7, 0.78, 1.09, -2.3, 2, 0.9, 1.02, -5, 5, -3, 7, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#CLE
-        1610612742:[0.87, 1.14, -1.1, 3.1, 0.83, 1.1, -2.5, 3, 0.93, 1.02, -5, 6, -3, 5, -4, 5, -3, 5, -3, 6, -2, 3, -2, 3, -4, 3, -3, 3, -7, 12],#DAL
-        1610612743:[0.86, 1.1, -1.2, 3.3, 0.8, 1.1, -2.3, 3, 0.91, 1.02, -5, 5, -3, 4, -4, 4, -3, 4, -3, 4, -2, 3, -2, 3, -4, 3, -3, 3, -7, 12],#DEN
-        1610612765:[0.83, 1.08, -1.3, 2.8, 0.79, 1.09, -2, 2, 0.88, 1.02, -5, 5, -3, 7, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#DET
-        1610612744:[0.84, 1.08, -1.3, 2.9, 0.8, 1.1, -2, 3.4, 0.93, 1.05, -2, 2, -3, 3, -3, 3, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 8],#GSW
-        1610612745:[0.87, 1.15, -1, 3.5, 0.84, 1.15, -3, 5, 0.93, 1.02, -2, 4, -3, 4, -3, 4, -3, 4, -3, 5, -2, 4, -2, 2, -2, 4, -3, 3, -7, 12],#HOU
-        1610612754:[0.86, 1.13, -1, 3.2, 0.81, 1.09, -2.6, 3.5, 0.9, 1.02, -2, 2, -3, 3, -3, 3, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 8],#IND
-        1610612746:[0.87, 1.16, -1, 3.3, 0.82, 1.1, -2, 3.1, 0.9, 1.02, -2, 2, -3, 3, -3, 3, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 8],#LAC
-        1610612763:[0.86, 1.12, -1.2, 3, 0.81, 1.09, -2.5, 2.6, 0.88, 1.02, -5, 3, -3, 4, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#MEM
-        1610612748:[0.87, 1.13, -1.1, 3.4, 0.86, 1.14, -2.4, 3.1, 0.94, 1.02, -5, 5, -3, 4, -4, 5, -3, 4, -3, 4, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#MIA
-        1610612750:[0.83, 1.08, -1.4, 2.8, 0.79, 1.08, -2.5, 2.5, 0.88, 1.02, -5, 3, -3, 4, -4, 5, -3, 4, -2, 4, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#MIN
-        1610612740:[0.84, 1.11, -1.2, 3.1, 0.78, 1.1, -2.5, 2.5, 0.91, 1.02, -5, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#NOR
-        1610612752:[0.83, 1.07, -1.4, 2.8, 0.79, 1.08, -2.5, 2.5, 0.87, 1.02, -5, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#NYK
-        1610612760:[0.85, 1.11, -1, 3, 0.82, 1.11, -2.4, 2.6, 0.9, 1.02, -5, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#OKC
-        1610612753:[0.84, 1.09, -1.4, 2.8, 0.79, 1.09, -2.5, 2.5, 0.88, 1.02, -5, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#ORL
-        1610612755:[0.89, 1.17, -0.8, 3.6, 0.80, 1.08, -2, 2, 0.9, 1.02, -4, 6, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#PHI
-        1610612756:[0.84, 1.1, -1.3, 3.1, 0.81, 1.11, -2.4, 3, 0.88, 1.02, -4, 3, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#PHX
-        1610612757:[0.85, 1.1, -1.2, 2.6, 0.83, 1.12, -2.2, 3, 0.88, 1.02, -4, 3, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#POR
-        1610612758:[0.84, 1.08, -1.3, 2.7, 0.8, 1.1, -2, 2, 0.88, 1.02, -5, 5, -3, 7, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#SAC
-        1610612759:[0.86, 1.11, -1.3, 2.9, 0.82, 1.12, -2, 2.1, 0.88, 1.03, -5, 5, -3, 7, -4, 5, -3, 3, -3, 5, -2 ,2, -2, 3, -4, 3, -3, 3, -7, 10],#SAS
-        1610612761:[0.87, 1.14, -0.9, 3.3, 0.83, 1.12, -2, 2.5, 0.88, 1.02, -5, 5, -3, 7, -4, 5, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#TOR
-        1610612762:[0.86, 1.12, -1, 3, 0.83, 1.13, -2, 2.5, 0.88, 1.02, -5, 5, -3, 7, -4, 5, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#UTA
-        1610612764:[0.84, 1.08, -1.2, 2.7, 0.83, 1.11, -2, 3, 0.88, 1.02, -5, 5, -3, 7, -4, 5, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10]#WIZ
+        1610612749:[0.88, 1.17, -4, 5, 0.83, 1.08, -5, 5.5, 0.9, 1.05, -5, 7, -4, 5, -2, 3, -4, 5, -3, 3, -2, 3, -2, 3, -3, 3, -3, 3, -10, 10],#MIL
+        1610612747:[0.89, 1.16, -4, 5, 0.83, 1.07, -5, 5.4, 0.87, 1.02, -5, 7, -4, 5, -2, 4, -3, 6, -4, 5, -3, 4, -2, 3, -3, 3, -3, 3, -7, 7], #LAL
+        1610612737:[0.85, 1.12, -4, 4.4, 0.86, 1.07, -5.3, 6.5, 0.9, 1.03, -5, 5, -5,4, -3, 3, -6, 3, -3, 3, -3, 2, -2, 2, -3, 3, -3, 3, -4, 10],#ATL
+        1610612738:[0.87, 1.13, -4, 5, 0.84, 1.07, -5.2, 5.5, 0.9, 1.03, -5, 6, -4, 4, -2, 2, -3, 3, -4, 6, -2, 3, -2, 3, -3, 2, -3, 3, -7, 10],#BOS
+        1610612751:[0.83, 1.1, -4, 4.3, 0.82, 1.08, -5.2, 5, 0.9, 1.02, -5, 5, -4, 5, -3, 4, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#BKN
+        1610612766:[0.83, 1.09, -4, 4.2, 0.82, 1.07, -5, 5.3, 0.9, 1.03, -5, 5, -5, 4, -2, 2, -4, 3, -3, 2, -2, 2, -2, 2, -3, 2, -3, 3, -4, 10],#CHA
+        1610612741:[0.85, 1.1, -4, 4.4, 0.83, 1.09, -5, 5.3, 0.9, 1.02, -5, 5, -3, 4, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#CHI
+        1610612739:[0.83, 1.09, -4, 4.2, 0.81, 1.09, -5, 5, 0.9, 1.02, -5, 5, -3, 4, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#CLE
+        1610612742:[0.88, 1.14, -4, 5.4, 0.86, 1.1, -5, 6, 0.93, 1.02, -5, 6, -3, 5, -4, 5, -3, 5, -3, 6, -2, 3, -2, 3, -4, 3, -3, 3, -7, 12],#DAL
+        1610612743:[0.87, 1.11, -4, 5.3, 0.83, 1.1, -5, 6, 0.91, 1.02, -5, 5, -3, 4, -4, 4, -3, 4, -3, 4, -2, 3, -2, 3, -4, 3, -3, 3, -7, 12],#DEN
+        1610612765:[0.85, 1.09, -4, 4.3, 0.82, 1.09, -5, 5, 0.88, 1.02, -5, 5, -3, 4, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#DET
+        1610612744:[0.86, 1.1, -4, 3, 0.83, 1.1, -5, 5.8, 0.93, 1.05, -3, 3, -3, 3, -3, 3, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 8],#GSW
+        1610612745:[0.84, 1.16, -6, 1, 0.87, 1.15, -5, 7.3, 0.93, 1.02, -2, 4, -3, 4, -3, 4, -3, 4, -3, 5, -2, 4, -2, 2, -2, 4, -3, 3, -7, 12],#HOU
+        1610612754:[0.87, 1.14, -4, 5.3, 0.84, 1.09, -5, 6.2, 0.9, 1.02, -4, 4, -3, 3, -3, 3, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 8],#IND
+        1610612746:[0.88, 1.15, -8, 1, 0.85, 1.1, -5, 6, 0.9, 1.02, -4, 4, -3, 3, -3, 3, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 8],#LAC
+        1610612763:[0.87, 1.13, -4, 5, 0.84, 1.09, -5, 5.4, 0.88, 1.02, -5, 5, -3, 4, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#MEM
+        1610612748:[0.88, 1.14, -4, 5.3, 0.87, 1.14, -5, 5.8, 0.94, 1.02, -5, 5, -3, 4, -4, 5, -3, 4, -3, 4, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#MIA
+        1610612750:[0.85, 1.1, -4, 4.3, 0.83, 1.08, -5, 5, 0.88, 1.02, -5, 4, -3, 4, -4, 5, -3, 4, -2, 4, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#MIN
+        1610612740:[0.85, 1.11, -4, 4.5, 0.82, 1.1, -5, 5, 0.91, 1.02, -5, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#NOR
+        1610612752:[0.85, 1.09, -4, 4.1, 0.82, 1.08, -5, 5, 0.87, 1.02, -4, 4, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#NYK
+        1610612760:[0.86, 1.14, -1, 6, 0.85, 1.11, -5, 5, 0.9, 1.02, -5, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#OKC
+        1610612753:[0.85, 1.1, -4, 4.2, 0.82, 1.09, -5, 5, 0.88, 1.02, -5, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#ORL
+        1610612755:[0.9, 1.18, -4, 5, 0.82, 1.08, -5, 5, 0.9, 1.02, -4, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#PHI
+        1610612756:[0.85, 1.1, -4, 4.4, 0.84, 1.11, -5, 6.2, 0.88, 1.02, -4, 4, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#PHX
+        1610612757:[0.86, 1.1, -4, 4.6, 0.86, 1.12, -5, 6.2, 0.88, 1.02, -4, 4, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#POR
+        1610612758:[0.85, 1.09, -10, 1, 0.83, 1.1, -5, 5, 0.88, 1.02, -5, 5, -4, 5, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#SAC
+        1610612759:[0.87, 1.1, -4, 4.5, 0.84, 1.12, -4, 4, 0.88, 1.03, -5, 5, -4, 5, -4, 5, -3, 3, -3, 5, -2 ,2, -2, 3, -4, 3, -3, 3, -7, 10],#SAS
+        1610612761:[0.88, 1.16, -4, 5.2, 0.87, 1.12, -5, 6, 0.88, 1.02, -5, 5, -4, 5, -4, 5, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#TOR
+        1610612762:[0.87, 1.13, -4, 5.2, 0.86, 1.13, -5, 5.5, 0.88, 1.02, -5, 5, -3, 5, -4, 5, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#UTA
+        1610612764:[0.85, 1.09, -4, 4.6, 0.86, 1.11, -5, 6, 0.88, 1.02, -5, 5, -3, 4, -4, 5, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10]#WIZ
     }
     return team_list_dist[team_id]
 
 def get_bias_away(team_id):
     team_list_dist = {
-        1610612749:[0.88, 1.11, -1.1, 3.2, 0.79, 1.07, -2.5, 2.8, 0.89, 1.05, -5, 9, -3, 5, -3, 6, -3, 6, -3, 3, -2, 2, -2, 3, -2, 1, -3, -3, -10, 10],#MIL
-        1610612747:[0.87, 1.1, -1.1, 3.1, 0.78, 1.06, -2, 2, 0.86, 1.02, -5, 8, -5, 6, -2, 4, -3, 6, -4, 6, -3, 4, -2, 3, -1, 1, -3, 3, -7, 7], #LAL
-        1610612737:[0.82, 1.07, -1.5, 2.7, 0.81, 1.06, -2.2, 3, 0.89, 1.03, -5, 6, -7,3, -2, 2, -6, 3, -3, 2, -2, 1, -1, 1, -3, 2, -3, 3, -4, 10],#ATL
-        1610612738:[0.86, 1.09, -1.3, 2.9, 0.8, 1.05, -2.2, 2.5, 0.89, 1.03, -5, 3, -4, 4, -2, 2, -3, 3, -4, 6, -1, 3, -2, 3, -3, 2, -3, 3, -7, 10],#BOS
-        1610612751:[0.83, 1.05, -1.5, 2.5, 0.79, 1.05, -2, 2.5, 0.89, 1.02, -5, 5, -3, 7, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#BKN
-        1610612766:[0.82, 1.03, -1.5, 2.5, 0.78, 1.07, -2.5, 2.8, 0.89, 1.03, -5, 6, -7, 3, -2, 2, -6, 3, -3, 2, -2, 1, -1, 1, -3, 2, -3, 3, -4, 10],#CHA
-        1610612741:[0.86, 1.07, -1.2, 2.7, 0.8, 1.07, -2.1, 3.2, 0.89, 1.02, -5, 5, -3, 7, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#CHI
-        1610612739:[0.82, 1.02, -1.6, 2.5, 0.78, 1.07, -2.3, 2, 0.89, 1.02, -5, 5, -3, 7, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#CLE
-        1610612742:[0.86, 1.09, -1.3, 3, 0.81, 1.09, -2.5, 2.8, 0.92, 1.02, -5, 6, -3, 5, -4, 5, -3, 5, -3, 6, -2, 3, -2, 3, -4, 3, -3, 3, -7, 12],#DAL
-        1610612743:[0.86, 1.07, -1.2, 3, 0.8, 1.08, -2.2, 2.8, 0.9, 1.02, -5, 5, -3, 4, -4, 4, -3, 4, -3, 4, -2, 3, -2, 3, -4, 3, -3, 3, -7, 12],#DEN
-        1610612765:[0.83, 1.03, -1.5, 2.5, 0.79, 1.07, -2, 2, 0.87, 1.02, -5, 5, -3, 7, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#DET
-        1610612744:[0.84, 1.05, -1.5, 2.6, 0.8, 1.08, -2, 3.2, 0.92, 1.05, -2, 2, -3, 3, -3, 3, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 8],#GSW
-        1610612745:[0.87, 1.1, -1.2, 2.9, 0.84, 1.1, -3, 4, 0.92, 1.02, -2, 4, -3, 4, -3, 4, -3, 4, -3, 5, -2, 4, -2, 2, -2, 4, -3, 3, -7, 12],#HOU
-        1610612754:[0.86, 1.1, -1.2, 2.9, 0.81, 1.09, -2.6, 3.5, 0.89, 1.02, -2, 2, -3, 3, -3, 3, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 8],#IND
-        1610612746:[0.87, 1.11, -1.2, 2.7, 0.82, 1.1, -2, 3.1, 0.89, 1.02, -2, 2, -3, 3, -3, 3, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 8],#LAC
-        1610612763:[0.84, 1.02, -1.3, 2.8, 0.79, 1.09, -2.5, 2.6, 0.87, 1.02, -5, 3, -3, 4, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#MEM
-        1610612748:[0.87, 1.09, -1.2, 3.1, 0.85, 1.1, -2.4, 3, 0.93, 1.02, -5, 5, -3, 4, -4, 5, -3, 4, -3, 4, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#MIA
-        1610612750:[0.83, 1.02, -1.6, 2.6, 0.79, 1.08, -2.5, 2.5, 0.87, 1.02, -5, 3, -3, 4, -4, 5, -3, 4, -2, 4, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#MIN
-        1610612740:[0.84, 1.07, -1.4, 2.8, 0.78, 1.1, -2.5, 2.5, 0.9, 1.02, -5, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#NOR
-        1610612752:[0.83, 1.02, -1.5, 2.6, 0.79, 1.06, -2.5, 2.5, 0.86, 1.02, -5, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#NYK
-        1610612760:[0.85, 1.08, -1.1, 3.1, 0.82, 1.11, -2.4, 2.6, 0.89, 1.02, -5, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#OKC
-        1610612753:[0.84, 1.03, -1.5, 2.7, 0.79, 1.07, -2.5, 2.5, 0.87, 1.02, -5, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#ORL
-        1610612755:[0.83, 1.07, -1.1, 3, 0.79, 1.07, -2, 2, 0.89, 1.02, -4, 6, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#PHI
-        1610612756:[0.84, 1.06, -1.4, 2.8, 0.8, 1.08, -2.4, 3, 0.87, 1.02, -4, 3, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#PHX
-        1610612757:[0.85, 1.07, -1.4, 2.9, 0.81, 1.09, -2.2, 3, 0.87, 1.02, -4, 3, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#POR
-        1610612758:[0.84, 1.02, -1.5, 2.7, 0.79, 1.08, -2, 2, 0.87, 1.02, -5, 5, -3, 7, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#SAC
-        1610612759:[0.85, 1.04, -1.5, 2.8, 0.79, 1.08, -2, 1.5, 0.87, 1.02, -5, 5, -3, 7, -4, 5, -3, 3, -3, 5, -2 ,2, -2, 3, -4, 3, -3, 3, -7, 10],#SAS
-        1610612761:[0.87, 1.11, -1, 3, 0.81, 1.1, -2, 2.5, 0.88, 1.03, -5, 5, -3, 7, -4, 5, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#TOR
-        1610612762:[0.86, 1.09, -1.1, 2.8, 0.81, 1.1, -2, 2.5, 0.87, 1.02, -5, 5, -3, 7, -4, 5, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#UTA
-        1610612764:[0.84, 1.04, -1.5, 2.7, 0.81, 1.08, -2, 2.7, 0.87, 1.02, -5, 5, -3, 7, -4, 5, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10]#WIZ
+        1610612749:[0.88, 1.15, -4, 5, 0.81, 1.07, -5, 5.5, 0.89, 1.05, -5, 7, -3, 5, -3, 4, -3, 4, -3, 3, -2, 2, -2, 3, -2, 1, -3, -3, -10, 10],#MIL
+        1610612747:[0.88, 1.15, -4, 5, 0.8, 1.06, -5, 5.4, 0.86, 1.02, -5, 7, -4, 5, -2, 4, -3, 4, -4, 5, -3, 4, -2, 3, -1, 1, -3, 3, -7, 7], #LAL
+        1610612737:[0.84, 1.08, -4, 4.4, 0.83, 1.06, -5.3, 6.5, 0.89, 1.03, -5, 5, -7,3, -2, 2, -4, 3, -3, 2, -2, 1, -1, 1, -3, 2, -3, 3, -4, 10],#ATL
+        1610612738:[0.86, 1.12, -4, 5, 0.82, 1.05, -5.2, 5.5, 0.89, 1.03, -5, 5, -4, 4, -2, 2, -3, 3, -3, 5, -1, 3, -2, 3, -3, 2, -3, 3, -7, 10],#BOS
+        1610612751:[0.84, 1.07, -4, 4.3, 0.81, 1.05, -5, 5, 0.89, 1.02, -5, 5, -3, 5, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#BKN
+        1610612766:[0.84, 1.06, -4, 4.2, 0.8, 1.07, -5, 5.3, 0.89, 1.03, -5, 6, -5, 3, -2, 2, -6, 3, -3, 2, -2, 1, -1, 1, -3, 2, -3, 3, -4, 10],#CHA
+        1610612741:[0.87, 1.08, -4, 4.4, 0.82, 1.07, -5, 5.3, 0.89, 1.02, -5, 5, -3, 5, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#CHI
+        1610612739:[0.84, 1.06, -4, 4.2, 0.8, 1.07, -5, 5, 0.89, 1.02, -5, 5, -3, 5, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#CLE
+        1610612742:[0.87, 1.12, -4, 5.4, 0.83, 1.09, -5, 6, 0.92, 1.02, -5, 6, -3, 5, -4, 5, -3, 5, -3, 6, -2, 3, -2, 3, -4, 3, -3, 3, -7, 12],#DAL
+        1610612743:[0.87, 1.1, -4, 5.3, 0.82, 1.08, -5, 6, 0.9, 1.02, -5, 5, -3, 4, -4, 4, -3, 4, -3, 4, -2, 3, -2, 3, -4, 3, -3, 3, -7, 12],#DEN
+        1610612765:[0.84, 1.06, -4, 4.3, 0.81, 1.07, -5, 5, 0.87, 1.02, -5, 5, -3, 5, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#DET
+        1610612744:[0.85, 1.07, -4, 3, 0.82, 1.08, -5, 5.8, 0.92, 1.05, -4, 4, -3, 3, -3, 3, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 8],#GSW
+        1610612745:[0.84, 1.12, -7, 1, 0.86, 1.1, -5, 7.3, 0.92, 1.02, -4, 6, -3, 4, -3, 4, -3, 4, -3, 5, -2, 4, -2, 2, -2, 4, -3, 3, -7, 12],#HOU
+        1610612754:[0.87, 1.12, -4, 5.3, 0.83, 1.09, -5, 6.2, 0.89, 1.02, -3, 3, -3, 3, -3, 3, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 8],#IND
+        1610612746:[0.88, 1.12, -9, 1, 0.84, 1.1, -5, 6, 0.89, 1.02, -3, 3, -3, 3, -3, 3, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 8],#LAC
+        1610612763:[0.85, 1.09, -4, 5, 0.81, 1.09, -5, 5.4, 0.87, 1.02, -4, 4, -3, 4, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#MEM
+        1610612748:[0.88, 1.1, -4, 5.3, 0.87, 1.1, -5, 5.8, 0.93, 1.02, -5, 5, -3, 4, -4, 5, -3, 4, -3, 4, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#MIA
+        1610612750:[0.85, 1.07, -4, 4.3, 0.81, 1.08, -5, 5, 0.87, 1.02, -5, 4, -3, 4, -4, 5, -3, 4, -2, 4, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#MIN
+        1610612740:[0.85, 1.09, -4, 4.5, 0.8, 1.1, -5, 5, 0.9, 1.02, -5, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#NOR
+        1610612752:[0.84, 1.07, -4, 4.1, 0.81, 1.06, -5, 5, 0.86, 1.02, -5, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#NYK
+        1610612760:[0.86, 1.09, -1, 5, 0.84, 1.11, -5, 5, 0.89, 1.02, -5, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#OKC
+        1610612753:[0.85, 1.07, -4, 4.2, 0.81, 1.07, -5, 5, 0.87, 1.02, -5, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#ORL
+        1610612755:[0.86, 1.09, -4, 5, 0.81, 1.07, -4, 4, 0.89, 1.02, -4, 4, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#PHI
+        1610612756:[0.85, 1.07, -4, 4.4, 0.82, 1.08, -5, 5.4, 0.87, 1.02, -4, 3, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#PHX
+        1610612757:[0.86, 1.07, -4, 4.6, 0.83, 1.09, -5, 6.2, 0.87, 1.02, -4, 3, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#POR
+        1610612758:[0.85, 1.06, -11, 1, 0.81, 1.08, -5, 5, 0.87, 1.02, -5, 5, -4, 5, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#SAC
+        1610612759:[0.86, 1.06, -4, 4.4, 0.81, 1.09, -4, 4, 0.87, 1.02, -5, 5, -4, 5, -4, 5, -3, 3, -3, 5, -2 ,2, -2, 3, -4, 3, -3, 3, -7, 10],#SAS
+        1610612761:[0.88, 1.11, -4, 5.3, 0.84, 1.1, -5, 6, 0.88, 1.03, -5, 5, -4, 5, -4, 5, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#TOR
+        1610612762:[0.87, 1.1, -4, 5.3, 0.83, 1.1, -5, 5.5, 0.87, 1.02, -5, 5, -4, 5, -4, 5, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#UTA
+        1610612764:[0.85, 1.06, -4, 4.6, 0.83, 1.08, -5, 5.8, 0.87, 1.02, -5, 5, -4, 5, -4, 5, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10]#WIZ
     }
     return team_list_dist[team_id]
             
