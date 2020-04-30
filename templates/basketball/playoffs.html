@@ -60,14 +60,14 @@
         *  General Styles
         */
     li.game{
-        padding-left:20px;
+        padding-left:15px;
         font-size: 1.4vw;
         border-radius: 5%;
         /*margin-left: 5px*/
     }
 
     li.game-right{
-        padding-right:20px;
+        padding-right: 8px;
         font-size: 1.4vw;
         border-radius: 5%;
         /*margin-right: 5px;*/
@@ -124,7 +124,7 @@
     .ghost-button {
         display: inline-block;
         margin-top: 8px;
-        margin-bottom: 5px;
+        margin-bottom: 4px;
         font-weight: bold;
         text-align: center;
         color: red;
@@ -132,8 +132,8 @@
     }
     .ghost-button-east{
         display: inline-block;
-        margin-top: 8px;
-        margin-bottom: 5px;
+        margin-top: 3px;
+        margin-bottom: 3px;
         font-weight: bold;
         color: blue;
         font-size: 1.5vw;
@@ -233,10 +233,10 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap;">
-                                    <img class="modal-images" src="{% static western_teams.0.3 %}" alt="">
+                                    <a href="/basketball/team/{{western_teams.0.2}}"><img class="modal-images" src="{% static western_teams.0.3 %}" alt=""></a>
                                 </div>
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
-                                    <img class="modal-images" src="{% static western_teams.7.3%}">
+                                    <a href="/basketball/team/{{western_teams.7.2}}"><img class="modal-images" src="{% static western_teams.7.3%}"></a>
                                 </div>
                             </div>
                         </div>
@@ -274,14 +274,13 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap;">
-                                    <img class="modal-images" src="{% static western_teams.3.3 %}" alt="">
+                                    <a href="/basketball/team/{{western_teams.3.2}}" ><img class="modal-images" src="{% static western_teams.3.3 %}" alt=""></a>
                                 </div>
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap;">
-                                    <img class="modal-images" src="{% static western_teams.4.3 %}">
+                                    <a href="/basketball/team/{{western_teams.4.2}}"><img class="modal-images" src="{% static western_teams.4.3 %}"></a>
                                 </div>
                             </div>
-                        </div>-
-                        
+                        </div>
                         <h5> {{western_teams.3.1}} v {{western_teams.4.1}} </h5>
                         <hr style="background-color:red; height: 1px; width: 75%;">
                         <h6> 0 : 0</h6>
@@ -313,10 +312,10 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
-                                    <img class="modal-images" src="{% static western_teams.2.3 %}" alt="">
+                                    <a href="/basketball/team/{{western_teams.2.2}}"><img class="modal-images" src="{% static western_teams.2.3 %}" alt=""></a>
                                 </div>
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
-                                    <img class="modal-images" src="{% static western_teams.5.3 %}">
+                                    <a href="/basketball/team/{{western_teams.5.2}}"><img class="modal-images" src="{% static western_teams.5.3 %}"></a>
                                 </div>
                             </div>
                         </div>
@@ -352,10 +351,10 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
-                                    <img class="modal-images" src="{% static western_teams.1.3 %}" alt="">
+                                    <a href="/basketball/team/{{western_teams.1.2}}"><img class="modal-images" src="{% static western_teams.1.3 %}" alt=""></a>
                                 </div>
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
-                                    <img class="modal-images" src="{% static western_teams.6.3 %}">
+                                    <a href="/basketball/team/{{western_teams.6.2}}"><img class="modal-images" src="{% static western_teams.6.3 %}"></a>
                                 </div>
                             </div>
                         </div>
@@ -414,28 +413,28 @@
 
         <ul class="round-right round-right-4">
             <li class="spacer-right">&nbsp;</li>
-            <li class="container-flex-right game-right game-right-top">TBD<span></span>
+            <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;&nbsp;TBD<span></span>
             <li class="spacer-right">&nbsp;</li>
         </ul>
 
         <ul class="round-right round-right-3">
             <li class="spacer-right">&nbsp;</li>
-            <li class="container-flex-right game-right game-right-top" >TBD<span></span>
+            <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;&nbsp;TBD<span></span>
             <li class="game-right game-spacer-right">&nbsp;</li>
-            <li class="container-flex-right game-right game-right-bottom">TBD<span></span></li>
+            <li class="container-flex-right game-right game-right-bottom">&nbsp;&nbsp;&nbsp;&nbsp;TBD<span></span></li>
             <li class="spacer-right">&nbsp;</li>
         </ul> 
         <ul class="round-right round-right-2">
             <li class="spacer-right">&nbsp;</li>
-            <li class="container-flex-right game-right game-right-top">TBD<span></span></li>
+            <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;&nbsp;TBD<span></span></li>
             <li class="game-right game-spacer-right"></li>
-            <li class="container-flex-right game-right game-right-bottom">TBD<span></span></li>
+            <li class="container-flex-right game-right game-right-bottom">&nbsp;&nbsp;&nbsp;&nbsp;TBD<span></span></li>
 
             <li class="spacer-right">&nbsp;</li>
                 
-            <li class="container-flex-right game-right game-right-top">TBD<span></span></li>
+            <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;&nbsp;TBD<span></span></li>
             <li class="game-right game-spacer-right">&nbsp;</li>
-            <li class="container-flex-right game-right game-right-bottom">TBD<span></span></li>
+            <li class="container-flex-right game-right game-right-bottom">&nbsp;&nbsp;&nbsp;&nbsp;TBD<span></span></li>
 
             <li class="spacer-right">&nbsp;</li>
         </ul>
@@ -454,10 +453,10 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
-                                    <img class="modal-images" src="{% static eastern_teams.0.3 %}" alt="">
+                                    <a href="/basketball/team/{{eastern_teams.0.2}}"><img class="modal-images" src="{% static eastern_teams.0.3 %}" alt=""></a>
                                 </div>
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
-                                    <img class="modal-images" src="{% static eastern_teams.7.3 %}">
+                                    <a href="/basketball/team/{{eastern_teams.7.2}}"><img class="modal-images" src="{% static eastern_teams.7.3 %}"></a>
                                 </div>
                             </div>
                         </div>
@@ -493,10 +492,10 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
-                                    <img class="modal-images" src="{% static eastern_teams.3.3 %}" alt="">
+                                    <a href="/basketball/team/{{eastern_teams.3.2}}"><img class="modal-images" src="{% static eastern_teams.3.3 %}" alt=""></a>
                                 </div>
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
-                                    <img class="modal-images" src="{% static eastern_teams.4.3 %}">
+                                    <a href="/basketball/team/{{eastern_teams.4.2}}"><img class="modal-images" src="{% static eastern_teams.4.3 %}"></a>
                                 </div>
                             </div>
                         </div>
@@ -532,10 +531,10 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
-                                    <img class="modal-images" src="{% static eastern_teams.2.3 %}" alt="">
+                                    <a href="/basketball/team/{{eastern_teams.2.2}}"><img class="modal-images" src="{% static eastern_teams.2.3 %}" alt=""></a>
                                 </div>
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
-                                    <img class="modal-images" src="{% static eastern_teams.5.3 %}">
+                                    <a href="/basketball/team/{{eastern_teams.5.2}}"><img class="modal-images" src="{% static eastern_teams.5.3 %}"></a>
                                 </div>
                             </div>
                         </div>
@@ -571,10 +570,10 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
-                                    <img class="modal-images" src="{% static eastern_teams.1.3 %}" alt="">
+                                    <a href="/basketball/team/{{eastern_teams.1.2}}"><img class="modal-images" src="{% static eastern_teams.1.3 %}" alt=""></a>
                                 </div>
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
-                                    <img class="modal-images" src="{% static eastern_teams.6.3 %}">
+                                    <a href="/basketball/team/{{eastern_teams.6.2}}"><img class="modal-images" src="{% static eastern_teams.6.3 %}"></a>
                                 </div>
                             </div>
                         </div>

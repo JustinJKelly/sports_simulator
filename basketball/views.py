@@ -722,9 +722,9 @@ def series_page(request, matchup):
     home_team_id = int(matchup[0:10])
     away_team_id = int(matchup[10:])
     series_length= 4
+    series_games=[1,2,3,4]
     team_home = Team.objects.filter(team_id=home_team_id).first()
     team_away = Team.objects.filter(team_id=away_team_id).first()
-
     context=dict()
     context={
         "home_team_id":home_team_id,
@@ -733,7 +733,8 @@ def series_page(request, matchup):
         "away_team_name":team_away.team_name,
         "home_team_image":find_team_image(home_team_id),
         "away_team_image":find_team_image(away_team_id),
-        "series_length":series_length,        
+        "series_length":series_length, 
+        "series_games":series_games,       
         "home_team_abv":team_home.team_abv,
         "away_team_abv":team_away.team_abv,
         "home_team_score":0,
