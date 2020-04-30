@@ -123,6 +123,7 @@
     }
     .ghost-button {
         display: inline-block;
+        position: relative;
         margin-top: 8px;
         margin-bottom: 4px;
         font-weight: bold;
@@ -132,6 +133,7 @@
     }
     .ghost-button-east{
         display: inline-block;
+        position: relative;
         margin-top: 3px;
         margin-bottom: 3px;
         font-weight: bold;
@@ -225,7 +227,7 @@
             <li class="game game-spacer">
                 <!-- info icon-->
                 <!-- <a href=""><i class="material-icons info-west">info</i></a>-->
-                <div class="ghost-button"><i class="material-icons mi-size">info</i></div>
+                <div class="ghost-button"><i class="material-icons mi-size">info&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i></div>
                 <div class="modal">
                     <div class="modal-content text-center">
                         <span class="close">&times;</span>
@@ -265,7 +267,7 @@
             <li class="container-flex game game-top">4. {{western_teams.3.0}}<span>0</span></li>
             <li class="game game-spacer">
                 <!-- Ghost button/ trigger for modal-->
-                <div class="ghost-button"><i class="material-icons mi-size">info</i></div>
+                <div class="ghost-button"><i class="material-icons mi-size">info&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i></div>
                 <!-- Modal -->
                 <div class="modal">
                     <div class="modal-content text-center">
@@ -303,7 +305,8 @@
             <li class="spacer">&nbsp;</li>
             <!-- WEST SERIES 3 -->
             <li class="container-flex game game-top">3. {{western_teams.2.0}}<span>0</span></li>
-            <li class="game game-spacer"><div class="ghost-button"><i class="material-icons mi-size">info</i></div>
+            <li class="game game-spacer">
+                <div class="ghost-button"><i class="material-icons mi-size">info&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i></div>
                 <!-- Modal -->
                 <div class="modal">
                     <div class="modal-content text-center">
@@ -342,7 +345,7 @@
             <!-- WEST SERIES 4 -->
             <li class="container-flex game game game-top">2. {{western_teams.1.0}}<span>0</span></li>
             <li class="game game-spacer">
-                <div class="ghost-button"><i class="material-icons mi-size">info</i></div>
+                <div class="ghost-button"><i class="material-icons mi-size">info&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i></div>
                 <!-- Modal -->
                 <div class="modal">
                     <div class="modal-content text-center">
@@ -637,6 +640,7 @@
     btn_east[3].onclick = function() {
       modal_east[3].style.display = "block";
     }
+
     
     // When the user clicks on <span> (x), close the modal
     span[0].onclick = function() {
@@ -664,11 +668,6 @@
         modal_east[3].style.display = "none";
     }
     // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    }
     </script>
 
 {% endblock %}
