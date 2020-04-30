@@ -28,7 +28,10 @@ def home(request):
     else:
         date_attr = request.POST['date'].split('/')
         #date(year, month, day)
-        game_date = datetime.date(int(date_attr[2]),int(date_attr[0]),int(date_attr[1]))
+        print(date_attr)
+        game_date = date_attr[2]+date_attr[0]+date_attr[1]#datetime.date(int(date_attr[2]),int(date_attr[0]),int(date_attr[1]))
+        return redirect('/basketball/games/'+game_date)
+
         
     games = Game.objects.filter(date=game_date) 
     context = {}
@@ -63,6 +66,61 @@ def home(request):
 
     return render(request, 'basketball/games.html', context)
 
+
+def get_games_date(request,game_date):
+
+    #date(year, month, day)
+    print('here')
+    try:
+        if request.method == 'POST' and request.POST['date']:
+            print("here1")
+            print(request.POST['date'])
+            date_attr = request.POST['date'].split('/')
+            return redirect('/basketball/games/'+(date_attr[2]+date_attr[0]+date_attr[1]))
+            #game_date = datetime.date(int(date_attr[2]),int(date_attr[0]),int(date_attr[1]))
+        else:
+            print("here2")
+            date_attr = str(game_date)
+            print(date_attr)
+            game_date = datetime.date(int(date_attr[0:4]),int(date_attr[4:6]),int(date_attr[6:]))
+
+    except:
+        messages.add_message(request, messages.ERROR, 'Error in processing the date specified')
+        game_date = datetime.date.today()
+        return render(request, 'basketball/games.html')
+
+    games = Game.objects.filter(date=game_date) 
+    context = {}
+    context['date']='%s/%s/%s' % (game_date.month,game_date.day,game_date.year)
+    context['games'] = []
+
+    ''' [ game_id, home_team_abv, away_team_abv, home_team_img, away_team_img, away_team_score,
+            home_team_score, top_scorer_home_name, top_scorer_home_points, top_scorer_away_name,
+            top_scorer_away_score
+        ]
+    '''
+    for game in games:
+        this_game = [
+            game.game_id,
+            teams.find_team_name_by_id(game.home_team)['abbreviation'],
+            teams.find_team_name_by_id(game.away_team)['abbreviation'],
+            find_team_image(game.home_team),
+            find_team_image(game.away_team),
+            game.top_scorer_home,
+            players.find_player_by_id(game.top_scorer_home)['full_name'],
+            game.top_scorer_home_points,
+            game.top_scorer_away,
+            players.find_player_by_id(game.top_scorer_away)['full_name'],
+            game.top_scorer_away_points,
+            game.home_team_score,
+            game.away_team_score,
+            game.home_team,
+            game.away_team
+        ]
+        context['games'].append(this_game)
+
+    return render(request, 'basketball/games.html',context)
+    
 
 #height,weight,jersey_number,player_age, team_name
 #full_name,player_id,points_total,assists_total,rebounds_total,blocks_total
@@ -406,16 +464,16 @@ def team_home_page(request):
     field_goals_made,field_goals_attempted, games_played, team_id, players
 '''
 def team_page(request,id):
-    team = Team.objects.filter(team_id=id).first()
+    team = Team.objects.get(team_id=id)
 
     if not team:
         return HttpResponse("Team DNE")
     else:
-        get_players = team.players
+        get_players = Player.objects.filter(team_id=id)
         team_players = []
 
-        for p in get_players['players']:
-            player = Player.objects.filter(player_id=p[0]).first()
+        for p in get_players:
+            player = Player.objects.get(player_id=p.player_id)
             if player:
                 if player.free_throws_attempted == 0:
                     free_throw_percentage = 0
