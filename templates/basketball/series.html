@@ -42,12 +42,12 @@
 
     <br/>
     <!--Header Scorebox-->
-    <div class="container text-center">
+    <div class="container-fluid text-center">
         <div class="row">
             <div class="col" style="font-size:14px;">
                 <p> 
                     <!--({{away_team_record}})-->
-                    <a href="/basketball/team/{{away_team_id}}"> <b style="font-size:18px; text-align: center;">{{away_team_name}} </b> </a>
+                    <a href="/basketball/team/{{away_team_id}}"> <b style="font-size:20px; text-align: center;">{{away_team_name}} </b> </a>
                     <a class="image_hover" href="/basketball/team/{{away_team_id}}"> <img style="max-height:200px;max-width:200px;" src="{% static away_team_image %}"></img> </a>
                 </p>
                 <!-- TODO: THIS IS HARDCODED NEED TO CHANGE-->
@@ -123,11 +123,11 @@
                     </table>
                 </div>
             </div>
-            <div class="col" style="font-size:14px;">
+            <!-- TODO: FORMATTING HERE GOT TOTALLY FUCKED-->
+            <div class="col">
                 <p>
-                    <a href="/basketball/team/{{home_team_id}}"> <b style="font-size:18px;">{{home_team_name}}</b> </a>
                     <a class="image_hover" href="/basketball/team/{{home_team_id}}"> <img style="max-height:200px;max-width:200px" src="{% static home_team_image %}"></img> </a>
-                    
+                    <a href="/basketball/team/{{home_team_id}}"> <b style="font-size:20px; text-align: left;">{{home_team_name}}</b></a>
                     <!--({{home_team_record}})-->
                 </p>
                 <p style="font-size:16px;">({{home_team_rank}})</p>

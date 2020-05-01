@@ -705,6 +705,45 @@ def standings_page(request):
     return render(request,'basketball/standings.html', context)
 
 def playoffs_page(request):
+    return render(request,'basketball/playoffs.html', playoff_ranks())
+
+# TODO: NEED TO ACTUALLY GET THE TEAM RANKS. USE THE PLAYOFF_RANKS FUNCTION THAT I MADE    
+def series_page(request, matchup):
+    home_team_id = int(matchup[0:10])
+    away_team_id = int(matchup[10:])
+    series_length= 5
+    series_games=[1,2,3,4,5]
+    team_home = Team.objects.filter(team_id=home_team_id).first()
+    team_away = Team.objects.filter(team_id=away_team_id).first()
+    ranks = playoff_ranks()
+    home_team_rank = ""
+    away_team_rank =""
+    
+    context=dict()
+
+    context={
+        "home_team_id":home_team_id,
+        "away_team_id":away_team_id,
+        "home_team_name":team_home.team_name,
+        "away_team_name":team_away.team_name,
+        "home_team_image":find_team_image(home_team_id),
+        "away_team_image":find_team_image(away_team_id),
+        "series_length":series_length, 
+        "series_games":series_games,       
+        "home_team_abv":team_home.team_abv,
+        "away_team_abv":team_away.team_abv,
+        "home_team_score":0,
+        "away_team_score":0,
+        "home_team_game_score":[0,0,0,0,0],
+        "away_team_game_score":[0,0,0,0,0],
+        "home_team_rank":home_team_rank,
+        "away_team_rank":away_team_rank
+
+    }
+    return render(request, 'basketball/series.html', context)
+
+
+def playoff_ranks():
     all_teams = Team.objects.order_by('-team_wins','team_losses','-divisional_wins','divisional_losses','-conference_wins','conference_losses','team_name')
     western = []
     eastern = []
@@ -774,36 +813,8 @@ def playoffs_page(request):
             "eastern_teams":eastern,
             "western_teams":western
         }
-    return render(request,'basketball/playoffs.html', context)
-    
-def series_page(request, matchup):
-    home_team_id = int(matchup[0:10])
-    away_team_id = int(matchup[10:])
-    series_length= 5
-    series_games=[1,2,3,4,5]
-    team_home = Team.objects.filter(team_id=home_team_id).first()
-    team_away = Team.objects.filter(team_id=away_team_id).first()
-    context=dict()
-    context={
-        "home_team_id":home_team_id,
-        "away_team_id":away_team_id,
-        "home_team_name":team_home.team_name,
-        "away_team_name":team_away.team_name,
-        "home_team_image":find_team_image(home_team_id),
-        "away_team_image":find_team_image(away_team_id),
-        "series_length":series_length, 
-        "series_games":series_games,       
-        "home_team_abv":team_home.team_abv,
-        "away_team_abv":team_away.team_abv,
-        "home_team_score":0,
-        "away_team_score":0,
-        "home_team_game_score":[0,0,0,0,0],
-        "away_team_game_score":[0,0,0,0,0],
-        "home_team_rank":"1st",
-        "away_team_rank":"8th"
+        return context
 
-    }
-    return render(request, 'basketball/series.html', context)
 
 def find_team_logos(team1, team2):
     return_list = []
