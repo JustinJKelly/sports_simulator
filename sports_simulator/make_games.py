@@ -11,6 +11,21 @@ from datetime import date
 import time
 
 
+def make_playoff_games():
+    current = 20200418
+    while current < 20200425:
+        team_away = "New Orleans"
+        team_home = "L.A. Lakers"
+        team_home_id = get_team(team_home.lower())
+        team_away_id = get_team(team_away.lower())
+        print('Away team: %s %s' % (team_away, team_away_id))
+        print('Home team: %s %s' % (team_home, team_home_id))
+        curr = str(current)
+        game_date = date(int(curr[0:4]),int(curr[4:6]),int(curr[6:]))
+        current+=1
+        calculate_stats(list(),list(),team_home_id,team_away_id,game_date)
+
+
 def make_games():
     current = 20200401
     last = 20200415
