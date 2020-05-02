@@ -104,7 +104,11 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>{{games_played}}</td>
+                    {% if injured %}
+                        <td>0</td>
+                    {% else %}
+                        <td>{{games_played}}</td>
+                    {% endif %}
                     <td>{{minutes_per_game}}</td>
                     <td>{{field_goals_made}}-{{field_goals_attempted}}</td>
                     <td>{{field_goal_percentage}}%</td>
