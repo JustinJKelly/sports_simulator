@@ -245,15 +245,21 @@
                         
                         <h5> {{western_teams.0.1}} v {{western_teams.7.1}} </h5>
                         <hr style="background-color:red; height: 1px; width: 75%;">
-                        <h6> 0 : 0</h6>
+                        <h6> {{west_stats.round1.series1.matchup}} </h6>
                         <ul style=" list-style-type:none; margin-right: 60px; ">
-                            <li> Game 1: </li>
-                            <li> Game 2: </li>
-                            <li> Game 3: </li>
-                            <li> Game 4: </li>
-                            <li style="opacity: 35%;"> Game 5: </li>
-                            <li style="opacity: 35%;"> Game 6: </li>
-                            <li style="opacity: 35%;"> Game 7: </li>
+                            <li> Game 1: {{west_stats.round1.series1.game1}}</li>
+                            <li> Game 2: {{west_stats.round1.series1.game2}}</li>
+                            <li> Game 3: {{west_stats.round1.series1.game3}}</li>
+                            <li> Game 4: {{west_stats.round1.series1.game4}}</li>
+                            {%if west_stats.round1.series1|length > 5%}
+                            <li> Game 5: {{west_stats.round1.series1.game5}}</li>
+                            {%endif%}
+                            {%if west_stats.round1.series1|length > 6%}
+                            <li> Game 6: {{west_stats.round1.series1.game6}}</li>
+                            {%endif%}
+                            {%if west_stats.round1.series1|length > 7%}
+                            <li> Game 7: {{west_stats.round1.series1.game7}}</li>
+                            {%endif%}
                         </ul>
                         <hr style="background-color: red; height: 1px; width: 75%;"> 
                         <a href="/basketball/playoffs/series/{{western_teams.0.2}}{{western_teams.7.2}}" style="font-size: 20px;">Series Information</a>
@@ -285,15 +291,21 @@
                         </div>
                         <h5> {{western_teams.3.1}} v {{western_teams.4.1}} </h5>
                         <hr style="background-color:red; height: 1px; width: 75%;">
-                        <h6> 0 : 0</h6>
+                        <h6> {{west_stats.round1.series2.matchup}} </h6>
                         <ul style=" list-style-type:none; margin-right: 60px; ">
-                            <li> Game 1: </li>
-                            <li> Game 2: </li>
-                            <li> Game 3: </li>
-                            <li> Game 4: </li>
-                            <li style="opacity: 35%;"> Game 5: </li>
-                            <li style="opacity: 35%;"> Game 6: </li>
-                            <li style="opacity: 35%;"> Game 7: </li>
+                            <li> Game 1: {{west_stats.round1.series2.game1}}</li>
+                            <li> Game 2: {{west_stats.round1.series2.game2}}</li>
+                            <li> Game 3: {{west_stats.round1.series2.game3}}</li>
+                            <li> Game 4: {{west_stats.round1.series2.game4}}</li>
+                            {%if west_stats.round1.series2|length > 5%}
+                            <li> Game 5: {{west_stats.round1.series2.game5}}</li>
+                            {%endif%}
+                            {%if west_stats.round1.series2|length > 6%}
+                            <li> Game 6: {{west_stats.round1.series2.game6}}</li>
+                            {%endif%}
+                            {%if west_stats.round1.series2|length > 7%}
+                            <li> Game 7: {{west_stats.round1.series2.game7}}</li>
+                            {%endif%}
                         </ul>
                         <hr style="background-color: red; height: 1px; width: 75%;"> 
                         <a href="/basketball/playoffs/series/{{western_teams.3.2}}{{western_teams.4.2}}" style="font-size: 20px;">Series Information</a>
@@ -325,15 +337,21 @@
                         
                         <h5> {{western_teams.2.1}} v {{western_teams.5.1}} </h5>
                         <hr style="background-color:red; height: 1px; width: 75%;">
-                        <h6> 0 : 0</h6>
+                        <h6> {{west_stats.round1.series3.matchup}} </h6>
                         <ul style=" list-style-type:none; margin-right: 60px; ">
-                            <li> Game 1: </li>
-                            <li> Game 2: </li>
-                            <li> Game 3: </li>
-                            <li> Game 4: </li>
-                            <li style="opacity: 35%;"> Game 5: </li>
-                            <li style="opacity: 35%;"> Game 6: </li>
-                            <li style="opacity: 35%;"> Game 7: </li>
+                            <li> Game 1: {{west_stats.round1.series3.game1}}</li>
+                            <li> Game 2: {{west_stats.round1.series3.game2}}</li>
+                            <li> Game 3: {{west_stats.round1.series3.game3}}</li>
+                            <li> Game 4: {{west_stats.round1.series3.game4}}</li>
+                            {%if west_stats.round1.series3|length > 5%}
+                            <li> Game 5: {{west_stats.round1.series3.game5}}</li>
+                            {%endif%}
+                            {%if west_stats.round1.series3|length > 6%}
+                            <li> Game 6: {{west_stats.round1.series3.game6}}</li>
+                            {%endif%}
+                            {%if west_stats.round1.series3|length > 7%}
+                            <li> Game 7: {{west_stats.round1.series3.game7}}</li>
+                            {%endif%}
                         </ul>
                         <hr style="background-color: red; height: 1px; width: 75%;"> 
                         <a href="/basketball/playoffs/series/{{western_teams.2.2}}{{western_teams.5.2}}" style="font-size: 20px;">Series Information</a>
@@ -364,15 +382,21 @@
                         
                         <h5> {{western_teams.1.1}} v {{western_teams.6.1}} </h5>
                         <hr style="background-color:red; height: 1px; width: 75%;">
-                        <h6> 0 : 0</h6>
+                        <h6> {{west_stats.round1.series3.matchup}} </h6>
                         <ul style=" list-style-type:none; margin-right: 60px; ">
-                            <li> Game 1: </li>
-                            <li> Game 2: </li>
-                            <li> Game 3: </li>
-                            <li> Game 4: </li>
-                            <li style="opacity: 35%;"> Game 5: </li>
-                            <li style="opacity: 35%;"> Game 6: </li>
-                            <li style="opacity: 35%;"> Game 7: </li>
+                            <li> Game 1: {{west_stats.round1.series4.game1}}</li>
+                            <li> Game 2: {{west_stats.round1.series4.game2}}</li>
+                            <li> Game 3: {{west_stats.round1.series4.game3}}</li>
+                            <li> Game 4: {{west_stats.round1.series4.game4}}</li>
+                            {%if west_stats.round1.series4|length > 5%}
+                            <li> Game 5: {{west_stats.round1.series4.game5}}</li>
+                            {%endif%}
+                            {%if west_stats.round1.series4|length > 6%}
+                            <li> Game 6: {{west_stats.round1.series4.game6}}</li>
+                            {%endif%}
+                            {%if west_stats.round1.series4|length > 7%}
+                            <li> Game 7: {{west_stats.round1.series4.game7}}</li>
+                            {%endif%}
                         </ul>
                         <hr style="background-color: red; height: 1px; width: 75%;"> 
                         <a href="/basketball/playoffs/series/{{western_teams.1.2}}{{western_teams.6.2}}" style="font-size: 20px;">Series Information</a>
@@ -466,15 +490,21 @@
                         
                         <h5> {{eastern_teams.0.1}} v {{eastern_teams.7.1}} </h5>
                         <hr style="background-color:blue; height: 1px; width: 75%;">
-                        <h6> 0 : 0</h6>
+                        <h6> {{east_stats.round1.series1.matchup}} </h6>
                         <ul style=" list-style-type:none; margin-right: 60px; ">
-                            <li> Game 1: </li>
-                            <li> Game 2: </li>
-                            <li> Game 3: </li>
-                            <li> Game 4: </li>
-                            <li style="opacity: 35%;"> Game 5: </li>
-                            <li style="opacity: 35%;"> Game 6: </li>
-                            <li style="opacity: 35%;"> Game 7: </li>
+                            <li> Game 1: {{east_stats.round1.series1.game1}}</li>
+                            <li> Game 2: {{east_stats.round1.series1.game2}}</li>
+                            <li> Game 3: {{east_stats.round1.series1.game3}}</li>
+                            <li> Game 4: {{east_stats.round1.series1.game4}}</li>
+                            {%if west_stats.round1.series1|length > 5%}
+                            <li> Game 5: {{east_stats.round1.series1.game5}}</li>
+                            {%endif%}
+                            {%if east_stats.round1.series1|length > 6%}
+                            <li> Game 6: {{east_stats.round1.series1.game6}}</li>
+                            {%endif%}
+                            {%if east_stats.round1.series1|length > 7%}
+                            <li> Game 7: {{east_stats.round1.series1.game7}}</li>
+                            {%endif%}
                         </ul>
                         <hr style="background-color: blue; height: 1px; width: 75%;"> 
                         <a href="/basketball/playoffs/series/{{eastern_teams.0.2}}{{eastern_teams.7.2}}" style="font-size: 20px;">Series Information</a>
@@ -505,15 +535,21 @@
                         
                         <h5> {{eastern_teams.3.1}} v {{eastern_teams.4.1}} </h5>
                         <hr style="background-color:blue; height: 1px; width: 75%;">
-                        <h6> 0 : 0</h6>
+                        <h6> {{east_stats.round1.series2.matchup}} </h6>
                         <ul style=" list-style-type:none; margin-right: 60px; ">
-                            <li> Game 1: </li>
-                            <li> Game 2: </li>
-                            <li> Game 3: </li>
-                            <li> Game 4: </li>
-                            <li style="opacity: 35%;"> Game 5: </li>
-                            <li style="opacity: 35%;"> Game 6: </li>
-                            <li style="opacity: 35%;"> Game 7: </li>
+                            <li> Game 1: {{east_stats.round1.series2.game1}}</li>
+                            <li> Game 2: {{east_stats.round1.series2.game2}}</li>
+                            <li> Game 3: {{east_stats.round1.series2.game3}}</li>
+                            <li> Game 4: {{east_stats.round1.series2.game4}}</li>
+                            {%if west_stats.round1.series2|length > 5%}
+                            <li> Game 5: {{east_stats.round1.series2.game5}}</li>
+                            {%endif%}
+                            {%if east_stats.round1.series2|length > 6%}
+                            <li> Game 6: {{east_stats.round1.series2.game6}}</li>
+                            {%endif%}
+                            {%if east_stats.round1.series2|length > 7%}
+                            <li> Game 7: {{east_stats.round1.series2.game7}}</li>
+                            {%endif%}
                         </ul>
                         <hr style="background-color: blue; height: 1px; width: 75%;"> 
                         <a href="/basketball/playoffs/series/{{eastern_teams.3.2}}{{eastern_teams.4.2}}" style="font-size: 20px;">Series Information</a>
@@ -544,15 +580,21 @@
                         
                         <h5> {{eastern_teams.2.1}} v {{eastern_teams.5.1}} </h5>
                         <hr style="background-color:blue; height: 1px; width: 75%;">
-                        <h6> 0 : 0</h6>
+                        <h6> {{east_stats.round1.series3.matchup}} </h6>
                         <ul style=" list-style-type:none; margin-right: 60px; ">
-                            <li> Game 1: </li>
-                            <li> Game 2: </li>
-                            <li> Game 3: </li>
-                            <li> Game 4: </li>
-                            <li style="opacity: 35%;"> Game 5: </li>
-                            <li style="opacity: 35%;"> Game 6: </li>
-                            <li style="opacity: 35%;"> Game 7: </li>
+                            <li> Game 1: {{east_stats.round1.series3.game1}}</li>
+                            <li> Game 2: {{east_stats.round1.series3.game2}}</li>
+                            <li> Game 3: {{east_stats.round1.series3.game3}}</li>
+                            <li> Game 4: {{east_stats.round1.series3.game4}}</li>
+                            {%if west_stats.round1.series3|length > 5%}
+                            <li> Game 5: {{east_stats.round1.series3.game5}}</li>
+                            {%endif%}
+                            {%if east_stats.round1.series3|length > 6%}
+                            <li> Game 6: {{east_stats.round1.series3.game6}}</li>
+                            {%endif%}
+                            {%if east_stats.round1.series3|length > 7%}
+                            <li> Game 7: {{east_stats.round1.series3.game7}}</li>
+                            {%endif%}
                         </ul>
                         <hr style="background-color: blue; height: 1px; width: 75%;"> 
                         <a href="/basketball/playoffs/series/{{eastern_teams.2.2}}{{eastern_teams.5.2}}" style="font-size: 20px;">Series Information</a>
@@ -583,15 +625,21 @@
                         
                         <h5> {{eastern_teams.1.1}} v {{eastern_teams.6.1}} </h5>
                         <hr style="background-color:blue; height: 1px; width: 75%;">
-                        <h6> 0 : 0</h6>
+                        <h6> {{east_stats.round1.series4.matchup}} </h6>
                         <ul style=" list-style-type:none; margin-right: 60px; ">
-                            <li> Game 1: </li>
-                            <li> Game 2: </li>
-                            <li> Game 3: </li>
-                            <li> Game 4: </li>
-                            <li style="opacity: 35%;"> Game 5: </li>
-                            <li style="opacity: 35%;"> Game 6: </li>
-                            <li style="opacity: 35%;"> Game 7: </li>
+                            <li> Game 1: {{east_stats.round1.series4.game1}}</li>
+                            <li> Game 2: {{east_stats.round1.series4.game2}}</li>
+                            <li> Game 3: {{east_stats.round1.series4.game3}}</li>
+                            <li> Game 4: {{east_stats.round1.series4.game4}}</li>
+                            {%if west_stats.round1.series4|length > 5%}
+                            <li> Game 5: {{east_stats.round1.series4.game5}}</li>
+                            {%endif%}
+                            {%if east_stats.round1.series4|length > 6%}
+                            <li> Game 6: {{east_stats.round1.series4.game6}}</li>
+                            {%endif%}
+                            {%if east_stats.round1.series4|length > 7%}
+                            <li> Game 7: {{east_stats.round1.series4.game7}}</li>
+                            {%endif%}
                         </ul>
                         <hr style="background-color: blue; height: 1px; width: 75%;"> 
                         <a href="/basketball/playoffs/series/{{eastern_teams.1.2}}{{eastern_teams.6.2}}" style="font-size: 20px;">Series Information</a>

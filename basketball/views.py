@@ -766,14 +766,64 @@ def playoffs_page(request):
                 team.team_id,
                 find_team_image(team.team_id)
             ])
+    post_season_series_west = dict()
+    post_season_series_west['round1']=dict()
+    first_playoff_date = datetime.date(2020, 4, 17)# first playoff game is scheduled to be 4/18
+    for i in range(0,4):
+        #print("count: ", i)
+        #print("SIZE OF WESTERN OBJ: ", len(western))
+        team_id = western[i][2]
+#            post_season_series_west['round1']['team_id'] =
+        home_team_games = (Game.objects.filter(home_team=team_id) | Game.objects.filter(away_team=team_id)).order_by('date')
+        count_games=1
+        post_season_series_west['round1']['series'+str(i+1)] =dict()
+        team1_wins = 0
+        team2_wins = 0
+        for playoff_game in home_team_games:
+            if(playoff_game.date > first_playoff_date):
+                post_season_series_west['round1']['series'+str(i+1)]['game'+str(count_games)] = str(playoff_game.home_team_score)+"-"+str(playoff_game.away_team_score)
+                if playoff_game.home_team_score > playoff_game.away_team_score:
+                    team1_wins+=1
+                else:
+                    team2_wins+=1
+                post_season_series_west['round1']['series'+str(i+1)]['matchup']= str(team1_wins)+" : "+str(team2_wins)
+                count_games+=1
 
-        #print(western)
-        #print(eastern)
-        #print('%s %s' % (team.team_name,team.team_wins))
-        context = {
-            "eastern_teams":eastern,
-            "western_teams":western
-        }
+    post_season_series_east = dict()
+    post_season_series_east['round1']=dict()
+    first_playoff_date = datetime.date(2020, 4, 17)# first playoff game is scheduled to be 4/18
+    for i in range(0,4):
+        #print("count: ", i)
+        #print("SIZE OF WESTERN OBJ: ", len(western))
+        team_id = eastern[i][2]
+#            post_season_series_west['round1']['team_id'] =
+        home_team_games = (Game.objects.filter(home_team=team_id) | Game.objects.filter(away_team=team_id)).order_by('date')
+        count_games=1
+        post_season_series_east['round1']['series'+str(i+1)] =dict()
+        team1_wins = 0
+        team2_wins = 0
+        for playoff_game in home_team_games:
+            if(playoff_game.date > first_playoff_date):
+                post_season_series_east['round1']['series'+str(i+1)]['game'+str(count_games)] = str(playoff_game.home_team_score)+"-"+str(playoff_game.away_team_score)
+                if playoff_game.home_team_score > playoff_game.away_team_score:
+                    team1_wins+=1
+                else:
+                    team2_wins+=1
+                post_season_series_east['round1']['series'+str(i+1)]['matchup']= str(team1_wins)+" : "+str(team2_wins)
+                count_games+=1
+
+                
+        
+    print(post_season_series_west,"\n")
+    print(post_season_series_east,"\n")
+    #print(eastern)
+    #print('%s %s' % (team.team_name,team.team_wins))
+    context = {
+        "eastern_teams":eastern,
+        "western_teams":western,
+        "west_stats":post_season_series_west,
+        "east_stats":post_season_series_east,
+    }
     return render(request,'basketball/playoffs.html', context)
 
 
@@ -782,60 +832,69 @@ def series_page(request, matchup):
 
     # Right now I have the two teams labelled as home_team and away-team
     # This needs to be changed to high_seed/low_seed
-    home_team_id = int(matchup[0:10])
-    away_team_id = int(matchup[10:])
-    series_games=[]#number of games output looks like: [1,2,3,4]
-    team_home = Team.objects.filter(team_id=home_team_id).first()
-    team_away = Team.objects.filter(team_id=away_team_id).first()
+    higher_seed_id = int(matchup[0:10])
+    lower_seed_id = int(matchup[10:])
+    game_number_list = []#number of games should looks like: [1,2,3,4]
+    higher_seed_team = Team.objects.filter(team_id=higher_seed_id).first()
+    lower_seed_team = Team.objects.filter(team_id=lower_seed_id).first()
     #print(team_away)
-    home_team_rank = get_team_playoff_rank(home_team_id)# created a hardcoded function please check it out
-    away_team_rank = get_team_playoff_rank(away_team_id)
-    home_team_games = (Game.objects.filter(home_team=home_team_id) | Game.objects.filter(away_team=home_team_id)).order_by('-date')
+    home_team_rank = get_team_playoff_rank(higher_seed_id)# created a hardcoded function please check it out
+    away_team_rank = get_team_playoff_rank(lower_seed_id)
+    home_team_games = (Game.objects.filter(home_team=higher_seed_id) | Game.objects.filter(away_team=higher_seed_id)).order_by('date')
     first_playoff_date = datetime.date(2020, 4, 17)# first playoff game is scheduled to be 4/18
     playoff_game_data = {}
     series_length= 0
+    # getting all playoff games that the higher seeded team has played
     for playoff_game in home_team_games:
-        if(playoff_game.date > first_playoff_date and playoff_game.away_team == away_team_id):
+        if(playoff_game.date > first_playoff_date and playoff_game.away_team == lower_seed_id):
             # date is either 4/18 or later and the correct "away_team"
-            #print("game later than regular season")
             series_length+=1
-            playoff_game_data[series_length] = playoff_game
-            series_games.append(series_length)
+            playoff_game_data["game" + str(series_length)] = playoff_game
+            game_number_list.append(series_length)
             
     home_team_games_scores= []
     away_team_games_scores=[]
     lower_seed_wins = 0
     higher_seed_wins = 0
-    for games in playoff_game_data:
-        home_team_games_scores.append(playoff_game_data[games].home_team_score)
-        away_team_games_scores.append(playoff_game_data[games].away_team_score)
-        if home_team_games_scores[games-1] > away_team_games_scores[games-1]:
+    num_games = len(playoff_game_data)
+    count = 1
+    #unfortunately have to count backwards
+    while num_games > 0:
+        #print("Game ", count, ": \n", playoff_game_data[num_games])
+        home_team_games_scores.append(playoff_game_data["game"+str(count)].home_team_score)
+        away_team_games_scores.append(playoff_game_data["game"+str(count)].away_team_score)
+        if playoff_game_data["game"+str(count)].home_team_score > playoff_game_data["game"+str(count)].away_team_score:
             higher_seed_wins+=1
         else:
             lower_seed_wins+=1
-            
-        print(playoff_game_data[games].winning_team_id)
-
-    print(higher_seed_wins, "\n", lower_seed_wins)
-
+        num_games-=1
+        count+=1
+    while len(home_team_games_scores) < 4:
+        home_team_games_scores.append(0)
+    while len(away_team_games_scores) < 4:
+        away_team_games_scores.append(0)
+    #print(higher_seed_wins, "\n", lower_seed_wins)
+    
+    #print("Game 1: ", playoff_game_data['game1'].data['team_stats'], "\n")
+    #print("Game 2: ", playoff_game_data['game2'].data['team_stats'], "\n")
     context=dict()
     context={
-        "home_team_id":home_team_id,
-        "away_team_id":away_team_id,
-        "home_team_name":team_home.team_name,
-        "away_team_name":team_away.team_name,
-        "home_team_image":find_team_image(home_team_id),
-        "away_team_image":find_team_image(away_team_id),
+        "higher_seed_id":higher_seed_id,
+        "lower_seed_id":lower_seed_id,
+        "higher_seed_name":higher_seed_team.team_name,
+        "lower_seed_name":lower_seed_team.team_name,
+        "higher_seed_image":find_team_image(higher_seed_id),
+        "lower_seed_image":find_team_image(lower_seed_id),
         "series_length":series_length, 
-        "series_games":series_games,       
-        "home_team_abv":team_home.team_abv,
-        "away_team_abv":team_away.team_abv,
+        "series_games":game_number_list,       
+        "higher_seed_abv":higher_seed_team.team_abv,
+        "lower_seed_abv":lower_seed_team.team_abv,
         "higher_seed_wins":higher_seed_wins,
         "lower_seed_wins":lower_seed_wins,
-        "home_team_game_score":home_team_games_scores,
-        "away_team_game_score":away_team_games_scores,
-        "home_team_rank":home_team_rank,
-        "away_team_rank":away_team_rank,
+        "higher_seed_game_score":home_team_games_scores,
+        "lower_seed_game_score":away_team_games_scores,
+        "higher_seed_rank":home_team_rank,
+        "lower_seed_rank":away_team_rank,
         "playoff_games_data":playoff_game_data
     }
     return render(request, 'basketball/series.html', context)
