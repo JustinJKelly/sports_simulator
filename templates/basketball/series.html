@@ -271,7 +271,7 @@
         </div>
         <br>
         <br>
-        {%if playoff_games_data%}
+        {% if playoff_games_data %}
         <div class="game-table table">
             <br>
             <h3 class="text-center">
@@ -298,7 +298,7 @@
                         <th scope="col">PTS</th>
                     </tr>
                 </thead>
-                {%for stats in playoff_games_data.game1.data.team_stats%}
+                {% for stats in playoff_games_data.game1.data.team_stats %}
                 <tbody>
                     <td>
                         
@@ -342,7 +342,7 @@
                         {% endif %}
                     
                 </tbody>
-                {%endfor%}
+                {% endfor %}
                 
             </table>
             <br>
@@ -374,7 +374,7 @@
                         </tr>
                     </thead>
                     <tbody style="font-size:14px">
-                        {%for p in playoff_games_data.game1.data.player_stats%}
+                        {% for p in playoff_games_data.game1.data.player_stats %}
                         {% if p.team_id == lower_seed_id %}
                             <tr>
                                 <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
@@ -393,7 +393,7 @@
                                 <td>{{p.points}}</td>
                             </tr>
                         {% endif %}
-                        {%endfor%}
+                        {% endfor %}
                     </tbody>
                 </table>
                 <br/>
@@ -425,7 +425,7 @@
                         </tr>
                     </thead>
                     <tbody style="font-size:14px">
-                        {%for p in playoff_games_data.game1.data.player_stats%}
+                        {% for p in playoff_games_data.game1.data.player_stats %}
                         {% if p.team_id == higher_seed_id %}
                             <tr>
                                 <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
@@ -444,7 +444,7 @@
                                 <td>{{p.points}}</td>
                             </tr>
                         {% endif %}
-                        {%endfor%}
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -475,7 +475,7 @@
                         <th scope="col">PTS</th>
                     </tr>
                 </thead>
-                {%for stats in playoff_games_data.game2.data.team_stats%}
+                {% for stats in playoff_games_data.game2.data.team_stats %}
                 <tbody>
                     <td>
                         
@@ -502,7 +502,7 @@
                     <td scope="col">{{stats.personal_fouls}}</td>
                     <td scope="col">{{stats.points}}</td>
                 </tbody>
-                {%endfor%}
+                {% endfor %}
                 
             </table>
             <br>
@@ -534,7 +534,7 @@
                         </tr>
                     </thead>
                     <tbody style="font-size:14px">
-                        {%for p in playoff_games_data.game2.data.player_stats%}
+                        {% for p in playoff_games_data.game2.data.player_stats %}
                         {% if p.team_id == lower_seed_id %}
                             <tr>
                                 <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
@@ -553,7 +553,7 @@
                                 <td>{{p.points}}</td>
                             </tr>
                         {% endif %}
-                        {%endfor%}
+                        {% endfor %}
                     </tbody>
                 </table>
                 <br/>
@@ -585,7 +585,7 @@
                         </tr>
                     </thead>
                     <tbody style="font-size:14px">
-                        {%for p in playoff_games_data.game2.data.player_stats%}
+                        {% for p in playoff_games_data.game2.data.player_stats %}
                         {% if p.team_id == higher_seed_id %}
                             <tr>
                                 <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
@@ -604,7 +604,7 @@
                                 <td>{{p.points}}</td>
                             </tr>
                         {% endif %}
-                        {%endfor%}
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -635,7 +635,7 @@
                         <th scope="col">PTS</th>
                     </tr>
                 </thead>
-                {%for stats in playoff_games_data.game3.data.team_stats%}
+                {% for stats in playoff_games_data.game3.data.team_stats %}
                 <tbody>
                     <td>
                         
@@ -662,7 +662,7 @@
                     <td scope="col">{{stats.personal_fouls}}</td>
                     <td scope="col">{{stats.points}}</td>
                 </tbody>
-                {%endfor%}
+                {% endfor %}
                 
             </table>
             <br>
@@ -694,7 +694,7 @@
                         </tr>
                     </thead>
                     <tbody style="font-size:14px">
-                        {%for p in playoff_games_data.game3.data.player_stats%}
+                        {% for p in playoff_games_data.game3.data.player_stats %}
                         {% if p.team_id == lower_seed_id %}
                             <tr>
                                 <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
@@ -713,7 +713,7 @@
                                 <td>{{p.points}}</td>
                             </tr>
                         {% endif %}
-                        {%endfor%}
+                        {% endfor %}
                     </tbody>
                 </table>
                 <br/>
@@ -745,7 +745,7 @@
                         </tr>
                     </thead>
                     <tbody style="font-size:14px">
-                        {%for p in playoff_games_data.game3.data.player_stats%}
+                        {% for p in playoff_games_data.game3.data.player_stats %}
                         {% if p.team_id == higher_seed_id %}
                             <tr>
                                 <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
@@ -764,7 +764,7 @@
                                 <td>{{p.points}}</td>
                             </tr>
                         {% endif %}
-                        {%endfor%}
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -795,7 +795,7 @@
                         <th scope="col">PTS</th>
                     </tr>
                 </thead>
-                {%for stats in playoff_games_data.game4.data.team_stats%}
+                {% for stats in playoff_games_data.game4.data.team_stats %}
                 <tbody>
                     <td>
                         
@@ -822,7 +822,7 @@
                     <td scope="col">{{stats.personal_fouls}}</td>
                     <td scope="col">{{stats.points}}</td>
                 </tbody>
-                {%endfor%}
+                {% endfor %}
                 
             </table>
             <br>
@@ -854,7 +854,7 @@
                         </tr>
                     </thead>
                     <tbody style="font-size:14px">
-                        {%for p in playoff_games_data.game4.data.player_stats%}
+                        {% for p in playoff_games_data.game4.data.player_stats %}
                         {% if p.team_id == lower_seed_id %}
                             <tr>
                                 <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
@@ -873,7 +873,7 @@
                                 <td>{{p.points}}</td>
                             </tr>
                         {% endif %}
-                        {%endfor%}
+                        {% endfor %}
                     </tbody>
                 </table>
                 <br/>
@@ -905,7 +905,7 @@
                         </tr>
                     </thead>
                     <tbody style="font-size:14px">
-                        {%for p in playoff_games_data.game4.data.player_stats%}
+                        {% for p in playoff_games_data.game4.data.player_stats %}
                         {% if p.team_id == higher_seed_id %}
                             <tr>
                                 <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
@@ -924,7 +924,7 @@
                                 <td>{{p.points}}</td>
                             </tr>
                         {% endif %}
-                        {%endfor%}
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -956,7 +956,7 @@
                         <th scope="col">PTS</th>
                     </tr>
                 </thead>
-                {%for stats in playoff_games_data.game5.data.team_stats%}
+                {% for stats in playoff_games_data.game5.data.team_stats %}
                 <tbody>
                     <td>
                         
@@ -983,7 +983,7 @@
                     <td scope="col">{{stats.personal_fouls}}</td>
                     <td scope="col">{{stats.points}}</td>
                 </tbody>
-                {%endfor%}
+                {% endfor %}
                 
             </table>
             <br>
@@ -1015,7 +1015,7 @@
                         </tr>
                     </thead>
                     <tbody style="font-size:14px">
-                        {%for p in playoff_games_data.game5.data.player_stats%}
+                        {% for p in playoff_games_data.game5.data.player_stats %}
                         {% if p.team_id == lower_seed_id %}
                             <tr>
                                 <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
@@ -1034,7 +1034,7 @@
                                 <td>{{p.points}}</td>
                             </tr>
                         {% endif %}
-                        {%endfor%}
+                        {% endfor %}
                     </tbody>
                 </table>
                 <br/>
@@ -1066,7 +1066,7 @@
                         </tr>
                     </thead>
                     <tbody style="font-size:14px">
-                        {%for p in playoff_games_data.game5.data.player_stats%}
+                        {% for p in playoff_games_data.game5.data.player_stats %}
                         {% if p.team_id == higher_seed_id %}
                             <tr>
                                 <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
@@ -1085,12 +1085,12 @@
                                 <td>{{p.points}}</td>
                             </tr>
                         {% endif %}
-                        {%endfor%}
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
-        {%endif%}
+        {% endif %}
         {% if playoff_games_data|length > 5 %}
         <div class="game-table table">
             <br>
@@ -1118,7 +1118,7 @@
                         <th scope="col">PTS</th>
                     </tr>
                 </thead>
-                {%for stats in playoff_games_data.game6.data.team_stats%}
+                {% for stats in playoff_games_data.game6.data.team_stats %}
                 <tbody>
                     <td>
                         
@@ -1145,7 +1145,7 @@
                     <td scope="col">{{stats.personal_fouls}}</td>
                     <td scope="col">{{stats.points}}</td>
                 </tbody>
-                {%endfor%}
+                {% endfor %}
                 
             </table>
             <br>
@@ -1177,7 +1177,7 @@
                         </tr>
                     </thead>
                     <tbody style="font-size:14px">
-                        {%for p in playoff_games_data.game6.data.player_stats%}
+                        {% for p in playoff_games_data.game6.data.player_stats %}
                         {% if p.team_id == lower_seed_id %}
                             <tr>
                                 <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
@@ -1196,7 +1196,7 @@
                                 <td>{{p.points}}</td>
                             </tr>
                         {% endif %}
-                        {%endfor%}
+                        {% endfor %}
                     </tbody>
                 </table>
                 <br/>
@@ -1228,7 +1228,7 @@
                         </tr>
                     </thead>
                     <tbody style="font-size:14px">
-                        {%for p in playoff_games_data.game6.data.player_stats%}
+                        {% for p in playoff_games_data.game6.data.player_stats %}
                         {% if p.team_id == higher_seed_id %}
                             <tr>
                                 <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
@@ -1247,12 +1247,12 @@
                                 <td>{{p.points}}</td>
                             </tr>
                         {% endif %}
-                        {%endfor%}
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
-        {%endif%}
+        {% endif %}
         {% if playoff_games_data|length > 5 %}
         <div class="game-table table">
             <br>
@@ -1280,7 +1280,7 @@
                         <th scope="col">PTS</th>
                     </tr>
                 </thead>
-                {%for stats in playoff_games_data.game7.data.team_stats%}
+                {% for stats in playoff_games_data.game7.data.team_stats %}
                 <tbody>
                     <td>
                         
@@ -1307,7 +1307,7 @@
                     <td scope="col">{{stats.personal_fouls}}</td>
                     <td scope="col">{{stats.points}}</td>
                 </tbody>
-                {%endfor%}
+                {% endfor %}
                 
             </table>
             <br>
@@ -1339,7 +1339,7 @@
                         </tr>
                     </thead>
                     <tbody style="font-size:14px">
-                        {%for p in playoff_games_data.game7.data.player_stats%}
+                        {% for p in playoff_games_data.game7.data.player_stats %}
                         {% if p.team_id == lower_seed_id %}
                             <tr>
                                 <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
@@ -1358,7 +1358,7 @@
                                 <td>{{p.points}}</td>
                             </tr>
                         {% endif %}
-                        {%endfor%}
+                        {% endfor %}
                     </tbody>
                 </table>
                 <br/>
@@ -1390,7 +1390,7 @@
                         </tr>
                     </thead>
                     <tbody style="font-size:14px">
-                        {%for p in playoff_games_data.game7.data.player_stats%}
+                        {% for p in playoff_games_data.game7.data.player_stats %}
                         {% if p.team_id == higher_seed_id %}
                             <tr>
                                 <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
@@ -1409,17 +1409,13 @@
                                 <td>{{p.points}}</td>
                             </tr>
                         {% endif %}
-                        {%endfor%}
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
-        {%endif%}
-        {%endif%}
-    <br/>
-    <br/>
-    <br/>
-    <br/>
+        {% endif %}
+        {% endif %}
 <script>
         var btn = document.getElementsByClassName("series-button");
         var table = document.getElementsByClassName("game-table");
