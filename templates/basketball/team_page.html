@@ -102,8 +102,9 @@
                 <thead>
                     <tr>
                         <th data-toggle='tooltip' title="Points Per Game" scope="col" style="text-align: center;">PPG</th>
-                        <th data-toggle='tooltip' title="Team Field Goal Pct" scope="col" style="text-align: center;">FG%</th>
-                        <th data-toggle='tooltip' title="Team 3pt Field Goal Pct" scope="col" style="text-align: center;">3FG%</th>
+                        <th data-toggle='tooltip' title="Team Field Goal" scope="col" style="text-align: center;">FG</th>
+                        <th data-toggle='tooltip' title="Team 3PT" scope="col" style="text-align: center;">3PT</th>
+                        <th data-toggle='tooltip' title="Team FT" scope="col" style="text-align: center;">FT</th>
                         <th data-toggle='tooltip' title="Assists Per Game" scope="col" style="text-align: center;">APG</th>
                         <th data-toggle='tooltip' title="Rebounds Per Game" scope="col" style="text-align: center;">RPG</th>
                         <th data-toggle='tooltip' title="Blocks Per Game" scope="col" style="text-align: center;">BPG</th>
@@ -115,8 +116,9 @@
                 <tbody>
                     <tr>
                         <td scope="col" style="text-align: center;">{{points_per_game}}</td>
-                        <td scope="col" style="text-align: center;">{{team_field_goal_percentage}}</td>
-                        <td scope="col" style="text-align: center;">{{team_three_point_percentage}}</td>
+                        <td scope="col" style="text-align: center;">{{field_goals_made_per_game}}-{{field_goals_attempted_per_game}}</td>
+                        <td scope="col" style="text-align: center;">{{three_point_made_per_game}}-{{three_point_attempted_per_game}}</td>
+                        <td scope="col" style="text-align: center;">{{free_throws_made_per_game}}-{{free_throws_attempted_per_game}}</td>
                         <td scope="col" style="text-align: center;">{{assists_per_game}}</td>
                         <td scope="col" style="text-align: center;">{{rebounds_per_game}}</td>
                         <td scope="col" style="text-align: center;">{{blocks_per_game}}</td>

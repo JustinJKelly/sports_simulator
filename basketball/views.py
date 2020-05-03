@@ -575,9 +575,12 @@ def team_page(request,id):
                 
             this_game_log.append(game.game_id)
             game_log.append(this_game_log)
+        
+        conference_teams = list(Team.objects.filter(conference=team.conference).order_by('-team_wins','team_losses','-divisional_wins','divisional_losses','-conference_wins','conference_losses','team_name'))
+        rank = conference_teams.index(team)+1
         context = {
             'team_name':team.team_name,'team_abv':team.team_abv,"team_wins":team.team_wins,"team_losses":team.team_losses,
-            'conference':team.conference,'division':team.division,'conference_rank':team.conference_rank,
+            'conference':team.conference,'division':team.division,'conference_rank':rank,
             'points_per_game':round(team.points_total/team.games_played,1),
             'assists_per_game':round(team.assists_total/team.games_played,1),
             'offensive_rebounds_per_game':round(team.offensive_rebounds_total/team.games_played,1),
