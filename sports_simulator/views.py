@@ -1,6 +1,12 @@
 from django.shortcuts import redirect, render
 from basketball.models import Game
 from nba_api.stats.static import players, teams
+from django.http import HttpResponse
+
+
+def path_does_not_exist(requests):
+    return HttpResponse("Path doesn't exist")
+
 def home(request):
     context= dict()
     games = Game.objects.filter().order_by('-date')[0:2]

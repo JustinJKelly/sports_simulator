@@ -18,6 +18,7 @@ from random import randint
 from django.http import HttpResponse
 from django.contrib import messages
 
+
 def home(request):
     #print(request.POST['date'])
     if request.method == 'GET':
@@ -82,6 +83,8 @@ def get_games_date(request,game_date):
             print("here2")
             date_attr = str(game_date)
             print(date_attr)
+            if len(date_attr) != 8:
+                raise TypeError
             game_date = datetime.date(int(date_attr[0:4]),int(date_attr[4:6]),int(date_attr[6:]))
 
     except:
