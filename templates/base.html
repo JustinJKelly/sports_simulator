@@ -78,36 +78,138 @@
     <div class="Site-content">
     <!--for reusing the base.html in other html files-->
     {% block content %}
+    <br>
     <div class="container">
         <!-- <img src="/static/img/logo/logo.png" alt="sports_sim Logo" class="center">-->
         <h4 style="text-align: center;"> Today's Highlights</h4>
         <hr style="background-color: grey; height: 1px;">
             <div class="cards">
-                {% for game in games %}
-                <div class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col">
-                                <img class="card-img-top" src="{% static game.3 %}" alt="team1">
+                <div class="row">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col">
+                                    <img class="card-img-top" src="{% static games.game1.3 %}" alt="team1" style="max-height: 200px;">
+                                </div>
+                                
+                                <div class="col">
+                                    <img class="card-img-top" src="{% static games.game1.4 %}" alt="team2"style="max-height: 200px;">
+                                </div>
+                            </div>
+                            <div class="card-title text-center">
+                                <h3>{{games.game1.1}} @ {{games.game1.2}}</h3>
+                                <h5> {{games.game1.5}} - {{games.game1.6}} </h5>
                             </div>
                             
-                            <div class="col">
-                                <img class="card-img-top" src="{% static game.4 %}" alt="team2">
-                            </div>
                         </div>
-                        <div class="card-title text-center">
-                            <h3>{{game.1}} @ {{game.2}}</h3>
-                            <h5> {{game.5}} - {{game.6}} </h5>
+                        <div class="card-body text-center">
+                            <a href="/basketball/game/{{games.game1.0}}">Game Summary</a>
                         </div>
-                        
                     </div>
-                    <div class="card-body text-center">
-                        <a href="/basketball/game/{{game.0}}">Game Summary</a>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col">
+                                    <img class="card-img-top" src="{% static games.game2.3 %}" alt="team1" style="max-height: 200px;">
+                                </div>
+                                
+                                <div class="col">
+                                    <img class="card-img-top" src="{% static games.game2.4 %}" alt="team2" style="max-height: 200px;">
+                                </div>
+                            </div>
+                            <div class="card-title text-center">
+                                <h3>{{games.game2.1}} @ {{games.game2.2}}</h3>
+                                <h5> {{games.game2.5}} - {{games.game2.6}} </h5>
+                            </div>
+                            
+                        </div>
+                        <div class="card-body text-center">
+                            <a href="/basketball/game/{{games.game2.0}}">Game Summary</a>
+                        </div>
                     </div>
                 </div>
-                {% endfor %}
+
+                <div class="row">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col">
+                                    <img class="card-img-top" src="{% static games.game3.3 %}" alt="team1" style="max-height: 200px;">
+                                </div>
+                                
+                                <div class="col">
+                                    <img class="card-img-top" src="{% static games.game3.4 %}" alt="team2" style="max-height: 200px;">
+                                </div>
+                            </div>
+                            <div class="card-title text-center">
+                                <h3>{{games.game3.1}} @ {{games.game3.2}}</h3>
+                                <h5> {{games.game3.5}} - {{games.game3.6}} </h5>
+                            </div>
+                            
+                        </div>
+                        <div class="card-body text-center">
+                            <a href="/basketball/game/{{games.game3.0}}">Game Summary</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col">
+                                    <img class="card-img-top" src="{% static games.game4.3 %}" alt="team1" style="max-height: 200px;">
+                                </div>
+                                
+                                <div class="col">
+                                    <img class="card-img-top" src="{% static games.game4.4 %}" alt="team2" style="max-height: 200px;">
+                                </div>
+                            </div>
+                            <div class="card-title text-center">
+                                <h3>{{games.game4.1}} @ {{games.game4.2}}</h3>
+                                <h5> {{games.game4.5}} - {{games.game4.6}} </h5>
+                            </div>
+                            
+                        </div>
+                        <div class="card-body text-center">
+                            <a href="">Game Summary</a>
+                        </div>
+                    </div>
+                </div>
+                <br>
+        
         </div>
+        
         <br>
+        <h4 style="text-align: center;">Articles</h4>
+        <hr style="background-color: grey; height: 1px;">
+        <div class="card col" style="max-height: 600px;">
+            <div class="card-header" style="background-color: grey;">
+                <img class="card-img-top align" src="/static/img/logo/logo.png" style="max-height: auto; max-width: 250px">
+                <h4 class="text-center" style="color: white"> PLACEHOLDER IMAGE</h4>
+            </div>
+            <div class="card-body text-center">
+                <a href="">Catch up with the rest of the season</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="card col">
+                <div class="card-header" style="background-color: grey;">
+                    <img src="/static/img/logo/logo.png" style="max-height: 100px; max-width: 100px;">
+                    <h4 class="text-center" style="color: white"> PLACEHOLDER IMAGE</h4>
+                </div>
+                <div class="card-body text-center">
+                    <a href="">Who do you think will win?</a>
+                </div>
+            </div>
+            <div class="card col">
+                <div class="card-header" style="background-color: grey;">
+                    <img src="/static/img/logo/logo.png" style="max-height: 100px; max-width: 100px;">
+                    <h4 class="text-center" style="color: white"> PLACEHOLDER IMAGE</h4>
+                </div>
+                <div class="card-body text-center">
+                    <a href="">What is Sports Sim</a>
+                </div>
+            </div>
+        </div>
+    
     </div>
     {% endblock %}
     </div>
