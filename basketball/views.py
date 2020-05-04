@@ -8,6 +8,8 @@ from .models import Player, Game, Team, MVPPoll
 # importing datetime module 
 import datetime
 from sports_simulator import views as home_views
+from .forms import MVPPollForm
+
 '''
 # creating an instance of  
 # datetime.date 
@@ -932,7 +934,7 @@ def series_page(request, matchup):
     return render(request, 'basketball/series.html', context)
 
 def mvp_vote(request):
-    mvp_poll = MVPPoll.objects.all().first()
+    '''mvp_poll = MVPPoll.objects.all().first()
     data = mvp_poll.data
     context = {}
     context['players']= []
@@ -940,23 +942,21 @@ def mvp_vote(request):
         context['players'].append([
             key,values['name'],values['team_abv'],find_team_image(values['team_id']),values['team_id']
             
-        ])
-    
-    return render(request,'basketball/mvp_vote.html',context)
-    
-def mvp_vote_cast(request):
-    print('here')
-    if request == "POST":
-        if not request.POST['player_id']:
-            return redirect('basketball/mvp_vote.html')
-        else:
+        ])'''
+    if request.method == 'POST':
+        form = MVPPollForm(request.POST)
+        
+        if form.is_valid():
+            print(form.data['mvp_players'])
             mvp_poll = MVPPoll.objects.all().first()
             data = mvp_poll.data
             
-            data[request.POST['player_id']]['votes']+=1
-            return reverse(home_views.home)
-    else:
-        return redirect('basketball/mvp_vote.html')    
+            data[form.data['mvp_players']]['votes']+=1
+            return HttpResponse("Thanks for voting")
+    #return render(request,'basketball/mvp_vote.html',context)
+    form = MVPPollForm()
+    print("here")
+    return render(request,'basketball/mvp_vote.html', {"form":form})  
 
 
 def find_team_logos(team1, team2):

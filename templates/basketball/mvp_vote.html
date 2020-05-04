@@ -3,11 +3,48 @@
     {% block content %}
     <br/>
     <br/>
-    <div class="form-check" id="form_selector" style="font-size:14px;">
+    <style> 
+        <
+    </style>
+    <div class="container">
+        <form action="{% url 'mvp_vote' %}" method="post">
+            <input type="submit" value="Submit">
+            {% csrf_token %}
+                <div class="table-responsive container" style="width:70%;">
+                <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Team</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        {% for field in form.visible_fields %}
+                            <tr>
+                                {% for values in field %}
+                                    <td>
+                                        <a class="image_hover" href="/basketball/team/{{values.3}}"> 
+                                            <img style="max-height:30px;max-width:30px;" src="{% static values.2 %}"></img> 
+                                        </a>
+                                    </td> 
+                                    <td> 
+                                        <a href='/basketball/player/{{ values.4 }}'> <b>{{values.0}}</b> </a> 
+                                    </td>
+                                    <td>{{values.1}}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+            </table>
+
+        </form>
+    </div>
+    <!--<div class="form-check" id="form_selector" style="font-size:14px;">{% csrf_token %}
         <div class="table-responsive container" style="width:70%;">
             <div class="row">
                 <h4> Cast your vote for MVP </h4>
-                <div class="form-group col-3 mx-sm-3"> 
+                <div class="form-group col-3 mx-sm-3">
                     <button class="btn btn-primary" id="submit_vote" style="font-size:14px;">Vote</button>
                 </div>
             </div>
@@ -40,36 +77,10 @@
                 </tbody>
             </table>
         </div>
-    </div>
+    </div>-->
     <br/>
     <br/>
     <br/>
     <br/>
-
-    <script>
-
-        $( "#submit_vote" ).click(function() {
-            var selected = $('#form_selector input:radio:checked').val();
-            alert(selected);
-            if (selected == undefined) {
-                alert("Please select Player before submitting");
-            } else {
-                alert("here");
-                $.ajax({
-                    type: "POST",
-                    url: "/basketball/mvp_vote/cast",
-                    data: {
-                        "player_id": selected // from form
-                    },
-                    success: function () {
-                        alert("Sent Post data");
-                    }
-                });
-                return false;
-            }
-        });
-
-    </script>
-
 
     {% endblock %}
