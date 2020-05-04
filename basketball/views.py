@@ -4,7 +4,7 @@ from nba_api.stats.endpoints import playercareerstats
 from nba_api.stats.static import players, teams
 from bs4 import BeautifulSoup
 import requests
-from .models import Player, Game, Team
+from .models import Player, Game, Team, MVPPoll
 # importing datetime module 
 import datetime
 '''
@@ -915,6 +915,17 @@ def series_page(request, matchup):
         "playoff_games_data":playoff_game_data
     }
     return render(request, 'basketball/series.html', context)
+
+def mvp_vote(request):
+    mvp_poll = MVPPoll.objects.all().first()
+    data = mvp_poll.data[0]
+    context = {}
+    for player in data:
+        print(type(player))
+        break
+    
+    return render(request,'base.html')
+    
 
 
 def find_team_logos(team1, team2):

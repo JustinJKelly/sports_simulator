@@ -129,6 +129,42 @@ class Team(models.Model):
 
     def __str__(self):
         return str(self.team_name)
+
+class MVPPoll(models.Model):
+    data = JSONField()
+    def __str__(self):
+        return "MVP Poll"
+
+class Series(models.Model):
+    votes_higher_seed = models.IntegerField(default=0)
+    votes_lower_seed = models.IntegerField(default=0)
+    higher_seed_id = models.IntegerField(null=False)
+    lower_seed_id = models.IntegerField(null=False)
+    higher_seed_name = models.CharField(max_length=35,null=False)
+    lower_seed_name = models.CharField(max_length=35,null=False)
+    higher_seed_wins = models.IntegerField(default=0)
+    lower_seed_wins = models.IntegerField(default=0)
+    higher_seed_loses = models.IntegerField(default=0)
+    lower_seed_loses = models.IntegerField(default=0)
+    games_played = models.IntegerField(default=0)
+    playoff_type = models.CharField(max_length=35,null=False) #Quarter=QF,Semi=S,Conference=C,Finals=F
+    game_ids = JSONField() #holds ids of games played
+    
+
+
+class GamePreview(models.Model):
+    game_date = models.DateField(default=date.today)
+    home_team_id = models.IntegerField(null=False)
+    away_team_id = models.IntegerField(null=False)
+    higher_seeding_id = models.IntegerField(null=False)
+    lower_seeding_id = models.IntegerField(null=False)
+    higher_seeding_name = models.CharField(max_length=35,null=False)
+    lower_seeding_name = models.CharField(max_length=35,null=False)
+    home_team_name = models.CharField(max_length=35,null=False)
+    away_team_name = models.CharField(max_length=35,null=False)
+    game_preview_id = models.IntegerField(primary_key=True)
+    votes_home_team = models.IntegerField(default=0)
+    votes_home_away = models.IntegerField(default=0)
     
 
 
