@@ -62,14 +62,14 @@
     li.game{
         padding-left:15px;
         font-size: 1.4vw;
-        border-radius: 5%;
+        border-radius:0;
         /*margin-left: 5px*/
     }
 
     li.game-right{
         padding-right: 8px;
         font-size: 1.4vw;
-        border-radius: 5%;
+        border-radius: 0;
         /*margin-right: 5px;*/
     }
 
@@ -223,7 +223,7 @@
         <ul class="round round-1">
             <li class="spacer">&nbsp;</li>
             <!-- WEST SERIES 1-->
-            <li class="container-flex game game-top">1. {{western_teams.0.0}}<span>0</span></li>
+            <li class="container-flex game game-top">1. {{western_teams.0.0}}<span>{{west_stats.round1.series1.matchup.1}}</span></li>
             <li class="game game-spacer">
                 <!-- info icon-->
                 <!-- <a href=""><i class="material-icons info-west">info</i></a>-->
@@ -242,11 +242,11 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <h5> {{western_teams.0.1}} v {{western_teams.7.1}} </h5>
+                        <br>
+                        <br>
+                        <h5 style="font-size: 16px;"> {{west_stats.round1.series1.matchup}}&nbsp;&nbsp;{{western_teams.0.1}} v {{western_teams.7.1}}&nbsp;&nbsp;{{west_stats.round1.series1.revmatchup}} </h5>
                         <hr style="background-color:red; height: 1px; width: 75%;">
-                        <h6> {{west_stats.round1.series1.matchup}} </h6>
-                        <ul style=" list-style-type:none; margin-right: 60px; ">
+                        <ul class="" style=" list-style-type:none; margin-right: 60px; font-size: 20px;">
                             <li> Game 1: {{west_stats.round1.series1.game1}}</li>
                             <li> Game 2: {{west_stats.round1.series1.game2}}</li>
                             <li> Game 3: {{west_stats.round1.series1.game3}}</li>
@@ -266,11 +266,11 @@
                     </div>
                 </div>
             </li><!-- Contains code for modal-->
-            <li class="container-flex game game-bottom ">8. {{western_teams.7.0}}<span>0</span></li>
+            <li class="container-flex game game-bottom ">8. {{western_teams.7.0}}<span>{{west_stats.round1.series1.matchup.5}}</span></li>
             <!-- END OF WEST SERIES 1 -->
             <li class="spacer">&nbsp;</li>
             <!-- WEST SERIES 2 -->
-            <li class="container-flex game game-top">4. {{western_teams.3.0}}<span>0</span></li>
+            <li class="container-flex game game-top">4. {{western_teams.3.0}}<span>{{west_stats.round1.series2.matchup.1}}</span></li>
             <li class="game game-spacer">
                 <!-- Ghost button/ trigger for modal-->
                 <div class="ghost-button"><i class="material-icons mi-size">info&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i></div>
@@ -289,10 +289,10 @@
                                 </div>
                             </div>
                         </div>
-                        <h5> {{western_teams.3.1}} v {{western_teams.4.1}} </h5>
+                        <h5 style="font-size: 16px;">{{west_stats.round1.series2.matchup}}&nbsp;&nbsp;{{western_teams.3.1}} v {{western_teams.4.1}}&nbsp;&nbsp;{{west_stats.round1.series2.revmatchup}} </h5>
                         <hr style="background-color:red; height: 1px; width: 75%;">
-                        <h6> {{west_stats.round1.series2.matchup}} </h6>
-                        <ul style=" list-style-type:none; margin-right: 60px; ">
+                        
+                        <ul style=" list-style-type:none; margin-right: 60px; font-size: 20px;">
                             <li> Game 1: {{west_stats.round1.series2.game1}}</li>
                             <li> Game 2: {{west_stats.round1.series2.game2}}</li>
                             <li> Game 3: {{west_stats.round1.series2.game3}}</li>
@@ -312,11 +312,11 @@
                     </div>
                 </div>
             </li>
-            <li class="container-flex game game-bottom ">5. {{western_teams.4.0}}<span>0</span></li>
+            <li class="container-flex game game-bottom ">5. {{western_teams.4.0}}<span>{{west_stats.round1.series2.matchup.5}}</span></li>
             <!-- END OF WEST SERIES 2 -->
             <li class="spacer">&nbsp;</li>
             <!-- WEST SERIES 3 -->
-            <li class="container-flex game game-top">3. {{western_teams.2.0}}<span>0</span></li>
+            <li class="container-flex game game-top">3. {{western_teams.2.0}}<span>{{west_stats.round1.series3.matchup.1}}</span></li>
             <li class="game game-spacer">
                 <div class="ghost-button"><i class="material-icons mi-size">info&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i></div>
                 <!-- Modal -->
@@ -335,10 +335,10 @@
                             </div>
                         </div>
                         
-                        <h5> {{western_teams.2.1}} v {{western_teams.5.1}} </h5>
+                        <h5 style="font-size: 16px;"> {{west_stats.round1.series3.matchup}}&nbsp;&nbsp;{{western_teams.2.1}} v {{western_teams.5.1}}&nbsp;&nbsp;{{west_stats.round1.series3.revmatchup}} </h5>
                         <hr style="background-color:red; height: 1px; width: 75%;">
-                        <h6> {{west_stats.round1.series3.matchup}} </h6>
-                        <ul style=" list-style-type:none; margin-right: 60px; ">
+                        
+                        <ul style=" list-style-type:none; margin-right: 60px; font-size: 20px;">
                             <li> Game 1: {{west_stats.round1.series3.game1}}</li>
                             <li> Game 2: {{west_stats.round1.series3.game2}}</li>
                             <li> Game 3: {{west_stats.round1.series3.game3}}</li>
@@ -357,11 +357,11 @@
                         <a href="/basketball/playoffs/series/{{western_teams.2.2}}{{western_teams.5.2}}" style="font-size: 20px;">Series Information</a>
                     </div>
                 </div></li>
-            <li class="container-flex game game-bottom">6. {{western_teams.5.0}}<span>0</span></li>
+            <li class="container-flex game game-bottom">6. {{western_teams.5.0}}<span>{{west_stats.round1.series3.matchup.5}}</span></li>
             <!-- END OF WEST SERIES 3 -->
             <li class="spacer">&nbsp;</li>
             <!-- WEST SERIES 4 -->
-            <li class="container-flex game game game-top">2. {{western_teams.1.0}}<span>0</span></li>
+            <li class="container-flex game game game-top">2. {{western_teams.1.0}}<span>{{west_stats.round1.series4.matchup.1}}</span></li>
             <li class="game game-spacer">
                 <div class="ghost-button"><i class="material-icons mi-size">info&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i></div>
                 <!-- Modal -->
@@ -380,10 +380,10 @@
                             </div>
                         </div>
                         
-                        <h5> {{western_teams.1.1}} v {{western_teams.6.1}} </h5>
+                        <h5 style="font-size: 16px;"> {{west_stats.round1.series4.matchup}}&nbsp;&nbsp;{{western_teams.1.1}} v {{western_teams.6.1}}&nbsp;&nbsp;{{west_stats.round1.series4.revmatchup}}</h5>
                         <hr style="background-color:red; height: 1px; width: 75%;">
-                        <h6> {{west_stats.round1.series3.matchup}} </h6>
-                        <ul style=" list-style-type:none; margin-right: 60px; ">
+                        
+                        <ul style=" list-style-type:none; margin-right: 60px; font-size: 20px;">
                             <li> Game 1: {{west_stats.round1.series4.game1}}</li>
                             <li> Game 2: {{west_stats.round1.series4.game2}}</li>
                             <li> Game 3: {{west_stats.round1.series4.game3}}</li>
@@ -402,7 +402,7 @@
                         <a href="/basketball/playoffs/series/{{western_teams.1.2}}{{western_teams.6.2}}" style="font-size: 20px;">Series Information</a>
                     </div>
                 </div></li>
-            <li class="container-flex game game-bottom ">7. {{western_teams.6.0}}<span>0</span></li>
+            <li class="container-flex game game-bottom ">7. {{western_teams.6.0}}<span>{{west_stats.round1.series4.matchup.5}}</span></li>
             <!-- END OF WEST SERIES 4-->
 
             <li class="spacer">&nbsp;</li>
@@ -469,7 +469,7 @@
         <ul class="round-right round-right-1">
             <li class="spacer-right">&nbsp;</li>
             <!-- EAST SERIES 1-->
-            <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;&nbsp;1. {{eastern_teams.0.0}}<span>0</span></li>
+            <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;&nbsp;1. {{eastern_teams.0.0}}<span>{{east_stats.round1.series1.matchup.1}}</span></li>
             <!-- Going to need to come with a better way to move the icon to the right other than &nbsp;-->
             <li class="game-right game-spacer-right">
                 <div class="ghost-button-east"><i class="material-icons mi-size">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info</i></div>
@@ -488,10 +488,10 @@
                             </div>
                         </div>
                         
-                        <h5> {{eastern_teams.0.1}} v {{eastern_teams.7.1}} </h5>
+                        <h5 style="font-size: 16px;"> {{east_stats.round1.series1.matchup}}&nbsp;&nbsp;{{eastern_teams.0.1}} v {{eastern_teams.7.1}}&nbsp;&nbsp;{{east_stats.round1.series1.revmatchup}} </h5>
                         <hr style="background-color:blue; height: 1px; width: 75%;">
-                        <h6> {{east_stats.round1.series1.matchup}} </h6>
-                        <ul style=" list-style-type:none; margin-right: 60px; ">
+
+                        <ul style=" list-style-type:none; margin-right: 60px; font-size: 20px;">
                             <li> Game 1: {{east_stats.round1.series1.game1}}</li>
                             <li> Game 2: {{east_stats.round1.series1.game2}}</li>
                             <li> Game 3: {{east_stats.round1.series1.game3}}</li>
@@ -511,11 +511,11 @@
                     </div>
                 </div>
             </li>
-            <li class="container-flex-right game-right game-right-bottom ">&nbsp;&nbsp;&nbsp;&nbsp;8. {{eastern_teams.7.0}} <span>0</span></li>
+            <li class="container-flex-right game-right game-right-bottom ">&nbsp;&nbsp;&nbsp;&nbsp;8. {{eastern_teams.7.0}} <span>{{east_stats.round1.series1.matchup.5}}</span></li>
             <!-- END OF EAST SERIES 1-->
             <li class="spacer-right">&nbsp;</li>
             <!-- EAST SERIES 2-->
-            <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;&nbsp;4. {{eastern_teams.3.0}}<span>0</span></li>
+            <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;&nbsp;4. {{eastern_teams.3.0}}<span>{{east_stats.round1.series2.matchup.1}}</span></li>
             <li class="game-right game-spacer-right">
                 <div class="ghost-button-east"><i class="material-icons mi-size">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info</i></div>
                 <div class="modal-east">
@@ -533,10 +533,9 @@
                             </div>
                         </div>
                         
-                        <h5> {{eastern_teams.3.1}} v {{eastern_teams.4.1}} </h5>
+                        <h5 style="font-size: 16px;"> {{east_stats.round1.series2.matchup}}&nbsp;&nbsp;{{eastern_teams.3.1}} v {{eastern_teams.4.1}}&nbsp;&nbsp;{{east_stats.round1.series2.revmatchup}}</h5>
                         <hr style="background-color:blue; height: 1px; width: 75%;">
-                        <h6> {{east_stats.round1.series2.matchup}} </h6>
-                        <ul style=" list-style-type:none; margin-right: 60px; ">
+                        <ul style=" list-style-type:none; margin-right: 60px; font-size: 20px;">
                             <li> Game 1: {{east_stats.round1.series2.game1}}</li>
                             <li> Game 2: {{east_stats.round1.series2.game2}}</li>
                             <li> Game 3: {{east_stats.round1.series2.game3}}</li>
@@ -556,11 +555,11 @@
                     </div>
                 </div>
             </li>
-            <li class="container-flex-right game-right game-right-bottom ">&nbsp;&nbsp;&nbsp;&nbsp;5. {{eastern_teams.4.0}}<span>0</span></li>
+            <li class="container-flex-right game-right game-right-bottom ">&nbsp;&nbsp;&nbsp;&nbsp;5. {{eastern_teams.4.0}}<span>{{east_stats.round1.series2.matchup.5}}</span></li>
             <!-- END OF EAST SERIES 2-->
             <li class="spacer-right">&nbsp;</li>
             <!-- EAST SERIES 3-->
-            <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;&nbsp;3. {{eastern_teams.2.0}}<span>0</span></li>
+            <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;&nbsp;3. {{eastern_teams.2.0}}<span>{{east_stats.round1.series3.matchup.1}}</span></li>
             <li class="game-right game-spacer-right">
                 <div class="ghost-button-east"><i class="material-icons mi-size">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info</i></div>
                 <div class="modal-east">
@@ -578,10 +577,10 @@
                             </div>
                         </div>
                         
-                        <h5> {{eastern_teams.2.1}} v {{eastern_teams.5.1}} </h5>
+                        <h5 style="font-size: 16px;">{{east_stats.round1.series3.matchup}}&nbsp;&nbsp;{{eastern_teams.2.1}} v {{eastern_teams.5.1}}&nbsp;&nbsp;{{east_stats.round1.series3.revmatchup}}</h5>
                         <hr style="background-color:blue; height: 1px; width: 75%;">
-                        <h6> {{east_stats.round1.series3.matchup}} </h6>
-                        <ul style=" list-style-type:none; margin-right: 60px; ">
+                        <br>
+                        <ul style=" list-style-type:none; margin-right: 60px; font-size: 20px;">
                             <li> Game 1: {{east_stats.round1.series3.game1}}</li>
                             <li> Game 2: {{east_stats.round1.series3.game2}}</li>
                             <li> Game 3: {{east_stats.round1.series3.game3}}</li>
@@ -601,11 +600,11 @@
                     </div>
                 </div>
             </li>
-            <li class="container-flex-right game-right game-right-bottom ">&nbsp;&nbsp;&nbsp;&nbsp;6. {{eastern_teams.5.0}}<span>0</span></li>
+            <li class="container-flex-right game-right game-right-bottom ">&nbsp;&nbsp;&nbsp;&nbsp;6. {{eastern_teams.5.0}}<span>{{east_stats.round1.series3.matchup.5}}</span></li>
             <!-- END OF EAST SERIES 3-->
             <li class="spacer-right">&nbsp;</li>
             <!-- EAST SERIES 4-->
-            <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;&nbsp;2. {{eastern_teams.1.0}}<span>0</span></li>
+            <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;&nbsp;2. {{eastern_teams.1.0}}<span>{{east_stats.round1.series4.matchup.1}}</span></li>
             <li class="game-right game-spacer-right">
                 <div class="ghost-button-east"><i class="material-icons mi-size">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;info</i></div>
                 <div class="modal-east">
@@ -623,10 +622,9 @@
                             </div>
                         </div>
                         
-                        <h5> {{eastern_teams.1.1}} v {{eastern_teams.6.1}} </h5>
+                        <h5 style="font-size: 16px;"> {{east_stats.round1.series4.matchup}}&nbsp;&nbsp;{{eastern_teams.1.1}} v {{eastern_teams.6.1}}&nbsp;&nbsp;{{east_stats.round1.series4.revmatchup}}</h5>
                         <hr style="background-color:blue; height: 1px; width: 75%;">
-                        <h6> {{east_stats.round1.series4.matchup}} </h6>
-                        <ul style=" list-style-type:none; margin-right: 60px; ">
+                        <ul style=" list-style-type:none; margin-right: 60px; font-size: 20px;">
                             <li> Game 1: {{east_stats.round1.series4.game1}}</li>
                             <li> Game 2: {{east_stats.round1.series4.game2}}</li>
                             <li> Game 3: {{east_stats.round1.series4.game3}}</li>
@@ -646,7 +644,7 @@
                     </div>
                 </div>
             </li>
-            <li class="container-flex-right game-right game-right-bottom ">&nbsp;&nbsp;&nbsp;&nbsp;7. {{eastern_teams.6.0}}<span>0</span></li>
+            <li class="container-flex-right game-right game-right-bottom " >&nbsp;&nbsp;&nbsp;&nbsp;7. {{eastern_teams.6.0}}<span>{{east_stats.round1.series4.matchup.5}}</span></li>
             <!-- END OF EAST SERIES 4-->
             <li class="spacer-right">&nbsp;</li>
         </ul>

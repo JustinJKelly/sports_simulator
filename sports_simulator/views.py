@@ -9,11 +9,12 @@ def path_does_not_exist(requests):
 
 def home(request):
     context= dict()
-    games = Game.objects.filter().order_by('-date')[0:2]
+    games = Game.objects.filter().order_by('-date')[0:4]
     print(games)
-    context['games']=[]
+    context['games']=dict()
+    count = 1
     for game in games:
-        single_game=[
+        context['games']["game"+str(count)]=[
             game.game_id,
             teams.find_team_name_by_id(game.home_team)['abbreviation'],
             teams.find_team_name_by_id(game.away_team)['abbreviation'],
@@ -24,7 +25,7 @@ def home(request):
             game.home_team,
             game.away_team
         ]
-        context['games'].append(single_game)
+        count+=1
     
     return render(request, 'base.html', context)
 

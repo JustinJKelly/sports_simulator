@@ -773,7 +773,13 @@ def playoffs_page(request):
                 find_team_image(team.team_id)
             ])
     post_season_series_west = dict()
-    post_season_series_west['round1']=dict()
+    post_season_series_west['round1']={
+        'series1':{'matchup':'(0 - 0)', 'revmatchup':'(0 - 0)'},
+        'series2':{'matchup':'(0 - 0)', 'revmatchup':'(0 - 0)'},
+        'series3':{'matchup':'(0 - 0)', 'revmatchup':'(0 - 0)'},
+        'series4':{'matchup':'(0 - 0)', 'revmatchup':'(0 - 0)'},
+    }
+    
     first_playoff_date = datetime.date(2020, 4, 17)# first playoff game is scheduled to be 4/18
     for i in range(0,4):
         #print("count: ", i)
@@ -782,7 +788,7 @@ def playoffs_page(request):
 #            post_season_series_west['round1']['team_id'] =
         home_team_games = (Game.objects.filter(home_team=team_id) | Game.objects.filter(away_team=team_id)).order_by('date')
         count_games=1
-        post_season_series_west['round1']['series'+str(i+1)] =dict()
+        #post_season_series_west['round1']['series'+str(i+1)] =dict()
         team1_wins = 0
         team2_wins = 0
         for playoff_game in home_team_games:
@@ -796,7 +802,12 @@ def playoffs_page(request):
                 count_games+=1
 
     post_season_series_east = dict()
-    post_season_series_east['round1']=dict()
+    post_season_series_east['round1']={
+        'series1':{'matchup':'(0 - 0)', 'revmatchup':'(0 - 0)'},
+        'series2':{'matchup':'(0 - 0)', 'revmatchup':'(0 - 0)'},
+        'series3':{'matchup':'(0 - 0)', 'revmatchup':'(0 - 0)'},
+        'series4':{'matchup':'(0 - 0)', 'revmatchup':'(0 - 0)'},
+    }
     first_playoff_date = datetime.date(2020, 4, 17)# first playoff game is scheduled to be 4/18
     for i in range(0,4):
         #print("count: ", i)
@@ -805,17 +816,17 @@ def playoffs_page(request):
 #            post_season_series_west['round1']['team_id'] =
         home_team_games = (Game.objects.filter(home_team=team_id) | Game.objects.filter(away_team=team_id)).order_by('date')
         count_games=1
-        post_season_series_east['round1']['series'+str(i+1)] =dict()
+        #post_season_series_east['round1']['series'+str(i+1)] =dict()
         team1_wins = 0
         team2_wins = 0
         for playoff_game in home_team_games:
             if(playoff_game.date > first_playoff_date):
-                post_season_series_east['round1']['series'+str(i+1)]['game'+str(count_games)] = str(playoff_game.home_team_score)+"-"+str(playoff_game.away_team_score)
+                post_season_series_east['round1']['series'+str(i+1)]['game'+str(count_games)] = str(playoff_game.home_team_score)+" - "+str(playoff_game.away_team_score)
                 if playoff_game.home_team_score > playoff_game.away_team_score:
                     team1_wins+=1
                 else:
                     team2_wins+=1
-                post_season_series_east['round1']['series'+str(i+1)]['matchup']= str(team1_wins)+" : "+str(team2_wins)
+                post_season_series_east['round1']['series'+str(i+1)]['matchup']= str(team1_wins)+" - "+str(team2_wins)
                 count_games+=1
 
                 
