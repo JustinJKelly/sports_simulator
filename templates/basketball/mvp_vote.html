@@ -1,8 +1,35 @@
 {% extends 'base.html' %}
     {% load static %}
     {% block content %}
-
-        
+    <div class="table-responsive container" style="height:700px; width:700px; overflow:scroll;">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Team</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for values in players %}
+                    <tr>
+                        <td>
+                            <a class="image_hover" href="/basketball/team/{{values.4}}"> 
+                                <img style="max-height:45px;max-width:45px;" src="{% static values.3 %}"></img> 
+                            </a>
+                        </td> 
+                        <td> 
+                            <a href='/basketball/player/{{ values.0 }}'> <b>{{values.1}}</b> </a> 
+                        </td>
+                        <td>{{values.2}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    
+    </div>
+    <br/>
+    <br/>
 
 
     {% endblock %}

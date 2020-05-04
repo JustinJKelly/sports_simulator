@@ -918,13 +918,16 @@ def series_page(request, matchup):
 
 def mvp_vote(request):
     mvp_poll = MVPPoll.objects.all().first()
-    data = mvp_poll.data[0]
+    data = mvp_poll.data
     context = {}
-    for player in data:
-        print(type(player))
-        break
+    context['players']= []
+    for key,values in data:
+        context['players'].append([
+            key,values['name'],values['team_abv'],find_team_image(values['team_id']),values['team_id']
+            
+        ])
     
-    return render(request,'base.html')
+    return render(request,'basketball/mvp_vote.html',context)
     
 
 
