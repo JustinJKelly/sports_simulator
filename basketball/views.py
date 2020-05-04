@@ -134,7 +134,11 @@ def get_games_date(request,game_date):
 #free_throws_made,minutes_total,three_point_attempted,three_point_made,
 #field_goals_attempted,field_goals_made,games_played,team_id
 def player_page(request,id):
-    player = Player.objects.get(player_id=id)
+    try:
+         player = Player.objects.get(player_id=id)
+    except:
+        return HttpResponse("Player does not exist")
+    
     if player == None:
         return render("404 player not found")
     player_image = "https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{}.png".format(id)
@@ -470,6 +474,40 @@ def team_home_page(request):
     field_goals_made,field_goals_attempted, games_played, team_id, players
 '''
 def team_page(request,id):
+    list_teams = {
+        1610612737:True,
+        1610612738:True,
+        1610612751:True,
+        1610612766:True,
+        1610612741:True,
+        1610612739:True,
+        1610612742:True,
+        1610612743:True,
+        1610612765:True,
+        1610612744:True,
+        1610612745:True,
+        1610612754:True,
+        1610612746:True,
+        1610612747:True,
+        1610612763:True,
+        1610612748:True,
+        1610612749:True,
+        1610612750:True,
+        1610612740:True,
+        1610612752:True,
+        1610612760:True,
+        1610612753:True,
+        1610612755:True,
+        1610612756:True,
+        1610612757:True,
+        1610612758:True,
+        1610612759:True,
+        1610612761:True,
+        1610612762:True,
+        1610612764:True,
+    }
+    if id not in list_teams:
+        return HttpResponse("Team DNE")
     team = Team.objects.get(team_id=id)
 
     if not team:
@@ -849,7 +887,18 @@ def playoffs_page(request):
 
 def series_page(request, matchup):
     # I pass the two team's IDs as the /basketball/playoff/series/matchup
-
+    first_round_matchups={
+        '16106127471610612740':True,
+        '16106127451610612760':True,
+        '16106127431610612762':True,
+        '16106127461610612742':True,
+        '16106127491610612753':True,
+        '16106127481610612755':True,
+        '16106127381610612754':True,
+        '16106127611610612751':True,
+    }
+    if matchup not in first_round_matchups:
+        return HttpResponse("Playoff series doesn't exist")
     # Right now I have the two teams labelled as home_team and away-team
     # This needs to be changed to high_seed/low_seed
     higher_seed_id = int(matchup[0:10])
