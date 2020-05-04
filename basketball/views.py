@@ -977,7 +977,7 @@ def get_team_playoff_rank(team_id):
         1610612745:"5th",#HOU
         1610612743:"6th",#DEN
         1610612742:"7th",#DAL
-        1610612758:"8th",#SAC
+        1610612740:"8th",#NOR
         1610612749:"1st",#MIL
         1610612738:"2nd",#BOS
         1610612761:"3rd",#TOR

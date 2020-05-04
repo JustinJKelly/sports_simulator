@@ -38,6 +38,13 @@
             font-size:15px; 
            
         }
+        .voting-series{
+            text-align: center;
+            background-color: grey; 
+            opacity: 70%; 
+            max-height: 300px;
+            color:white; 
+        }
     </style>
 
     <br/>
@@ -133,7 +140,7 @@
                     </table>
                 </div>
             </div>
-            <!-- TODO: FORMATTING HERE GOT TOTALLY FUCKED-->
+
             <div class="col text-center">
                 <p>
                     <a class="image_hover" href="/basketball/team/{{higher_seed_id}}"> <img style="max-height:150px;max-width:150px" src="{% static higher_seed_image %}"></img> </a>
@@ -146,7 +153,29 @@
     </div>
     <!--End Header Scorebox-->
     <br/>
-
+    <!-- SERIES VOTING-->
+    <div class="voting-series container-fluid">
+        <h3 id="vote_prompt"> Vote for who you think will win:<span class="close" style="cursor: pointer; color: white; ">&times;</span></h3>
+        <br>
+        <h3 id="thank_you" style="display: none;">Thanks for voting!<span class="close" style="cursor: pointer; color: white; ">&times;</span></h3>
+        <br>
+        <div class="row">
+            <div i class="col" id="vote_lower_seed">
+                <h6 > {{lower_seed_name}}</h6>
+                <a onclick=voting() class="image_hover" style="cursor: pointer; color: black;"> <img style="max-height:150px;max-width:150px" src="{% static lower_seed_image %}"></img> </a>
+            </div>
+            <div class="col">
+                <h3 id="voting_or">
+                    OR
+                </h3>
+            </div>
+            <div class="col" id="vote_higher_seed">
+                <h6> {{higher_seed_name}}</h6>
+                <a onclick=voting() class="image_hover" style="cursor: pointer;"> <img style="max-height:150px;max-width:150px" src="{% static higher_seed_image %}"></img> </a>
+            </div>
+        </div>
+    </div>
+    <br>
     <!-- Team Stats Table-->
     <div class="table-responsive container">
         <table class="table table-striped table-light" style="width:50%; font-size:15px; margin-left:25%; margin-right:25%;">
@@ -1419,9 +1448,6 @@
 <script>
         var btn = document.getElementsByClassName("series-button");
         var table = document.getElementsByClassName("game-table");
-        //document.getElementById("table2").style.display="none";
-        //document.getElementById("table3").style.display="none";
-        //document.getElementById("table4").style.display="none";
         btn[0].onclick = function(){
             for(var i=0;i<table.length;i++){
                 table[i].style.display = "none"
@@ -1464,8 +1490,29 @@
             }
             table[6].style.display = "block";
         }
-        
-        //document.getElementById("table"+nr).style.display="none";
 </script>
 
+<script>
+    var voting_high = document.getElementById("vote_higher_seed")
+    var voting_low = document.getElementById("vote_lower_seed")
+    var voting_or = document.getElementById("voting_or")
+    var thanks = document.getElementById("thank_you")
+    var prompt = document.getElementById("vote_prompt")
+    var close = document.getElementsByClassName("close")
+    var voting_space = document.getElementsByClassName("voting-series")
+    function voting(){
+            voting_high.style.display="none";
+            voting_low.style.display="none";
+            voting_or.style.display="none";
+            prompt.style.display="none"
+            thanks.style.display="block";
+
+    }
+    close[0].onclick =function(){
+        voting_space[0].style.display="none";
+    }
+    close[1].onclick =function(){
+        voting_space[0].style.display="none";
+    }
+</script>
 {% endblock %}
