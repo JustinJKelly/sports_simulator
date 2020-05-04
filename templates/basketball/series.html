@@ -43,7 +43,8 @@
             background-color: grey; 
             opacity: 70%; 
             max-height: 300px;
-            color:white; 
+            color:white;
+            box-shadow: 3px 3px 3px grey; 
         }
     </style>
 
@@ -154,7 +155,7 @@
     <!--End Header Scorebox-->
     <br/>
     <!-- SERIES VOTING-->
-    <div class="voting-series container-fluid">
+    <div class="voting-series container">
         <h3 id="vote_prompt"> Vote for who you think will win:<span class="close" style="cursor: pointer; color: white; ">&times;</span></h3>
         <br>
         <h3 id="thank_you" style="display: none;">Thanks for voting!<span class="close" style="cursor: pointer; color: white; ">&times;</span></h3>
@@ -193,78 +194,78 @@
             <tbody>
                 <tr>
                     <th scope="row">FG</th>
-                    <td>{{lower_seed_stats.0}}-{{lower_seed_stats.1}}</td>
-                    <td>{{higher_seed_stats.0}}-{{higher_seed_stats.1}}</td>
-                </tr>
+                    <td>{{lower_seed_averages.FG}}</td>
+                    <td>{{higher_seed_averages.FG}}</td>
+                </tr>å
                 <tr>
                     <th scope="row">Field Goal %</th>
-                    <td>{{lower_seed_stats.2}} %</td>
-                    <td>{{higher_seed_stats.2}} %</td>
+                    <td>{{lower_seed_averages.FGP}} %</td>
+                    <td>{{higher_seed_averages.FGP}} %</td>
                 </tr>
                 <tr>
                     <th scope="row">3PT</th>
-                    <td>{{lower_seed_stats.3}}-{{lower_seed_stats.4}}</td>
-                    <td>{{higher_seed_stats.3}}-{{higher_seed_stats.4}}</td>
+                    <td>{{lower_seed_averages.3FG}}</td>
+                    <td>{{higher_seed_averages.3FG}}</td>
                 </tr>
                 <tr>
                     <th scope="row">Three Point %</th>
-                    <td>{{lower_seed_stats.5}}%</td>
-                    <td>{{higher_seed_stats.5}}%</td>
+                    <td>{{lower_seed_averages.3FGP}}%</td>
+                    <td>{{higher_seed_averages.3FGP}}%</td>
                 </tr>
                 <tr>
                         <th scope="row">FT</th>
-                        <td>{{lower_seed_stats.6}}-{{lower_seed_stats.7}}</td>
-                        <td>{{higher_seed_stats.6}}-{{higher_seed_stats.7}}</td>
+                        <td>{{lower_seed_averages.FT}}</td>
+                        <td>{{higher_seed_averages.FT}}</td>
                 </tr>
                 <tr>
                         <th scope="row">Free Throw %</th>
-                        <td>{{lower_seed_stats.8}} %</td>
-                        <td>{{higher_seed_stats.8}} %</td>
+                        <td>{{lower_seed_averages.FTP}} %</td>
+                        <td>{{higher_seed_averages.FTP}} %</td>
                 </tr>
                 <tr>
                         <th scope="row">Offensive Rebounds</th>
-                        <td>{{lower_seed_stats.10}}</td>
-                        <td>{{higher_seed_stats.10}}</td>
+                        <td>{{lower_seed_averages.OREB}}</td>
+                        <td>{{higher_seed_averages.OREB}}</td>
                 </tr>
                 <tr>
                         <th scope="row">Defensive Rebounds</th>
-                        <td>{{lower_seed_stats.11}}</td>
-                        <td>{{higher_seed_stats.11}}</td>
+                        <td>{{lower_seed_averages.REB}}</td>
+                        <td>{{higher_seed_averages.DREB}}</td>
                 </tr>
                 <tr>    
                         <th scope="row">Rebounds</th>
-                        <td>{{lower_seed_stats.9}}</td>
-                        <td>{{higher_seed_stats.9}}</td>
+                        <td>{{lower_seed_averages.REB}}</td>
+                        <td>{{higher_seed_averages.REB}}</td>
                 </tr>
                 <tr>
                         <th scope="row">Assists</th>
-                        <td>{{lower_seed_stats.12}}</td>
-                        <td>{{higher_seed_stats.12}}</td>
+                        <td>{{lower_seed_averages.AST}}</td>
+                        <td>{{higher_seed_averages.AST}}</td>
                 </tr>
                 <tr>
                         <th scope="row">Steals</th>
-                        <td>{{lower_seed_stats.13}}</td>
-                        <td>{{higher_seed_stats.13}}</td>
+                        <td>{{lower_seed_averages.STL}}</td>
+                        <td>{{higher_seed_averages.STL}}</td>
                 </tr>
                 <tr>
                         <th scope="row">Blocks</th>
-                        <td>{{lower_seed_stats.14}}</td>
-                        <td>{{higher_seed_stats.14}}</td>
+                        <td>{{lower_seed_averages.BLK}}</td>
+                        <td>{{higher_seed_averages.BLK}}</td>
                 </tr>
                 <tr>
                         <th scope="row">Turnovers</th>
-                        <td>{{lower_seed_stats.15}}</td>
-                        <td>{{higher_seed_stats.15}}</td>
+                        <td>{{lower_seed_averages.TOV}}</td>
+                        <td>{{higher_seed_averages.TOV}}</td>
                 </tr>
                 <tr>
                         <th scope="row">Personal Fouls</th>
-                        <td>{{lower_seed_stats.16}}</td>
-                        <td>{{higher_seed_stats.16}}</td>
+                        <td>{{lower_seed_averages.PF}}</td>
+                        <td>{{higher_seed_averages.PF}}</td>
                 </tr>
                 <tr>
                         <th scope="row">Points</th>
-                        <td>{{away_team_score}}</td>
-                        <td>{{home_team_score}}</td>
+                        <td>{{lower_seed_averages.PTS}}</td>
+                        <td>{{home_team_averages.PTS}}</td>
                 </tr>
             </tbody>
         </table>

@@ -876,6 +876,18 @@ def series_page(request, matchup):
     higher_seed_wins = 0
     num_games = len(playoff_game_data)
     count = 1
+    higher_seed_averages={
+        'FG':0,'FGP':0,'3FG':0,'3FGP':0,
+        'FT':0,'FTP':0,'OREB':0,'DREB':0,
+        'REB':0,'AST':0,'STL':0,'BLK':0,
+        'TOV':0,'PF':0,'PTS':0
+    }
+    lower_seed_averages={
+        'FG':0,'FGP':0,'3FG':0,'3FGP':0,
+        'FT':0,'FTP':0,'OREB':0,'DREB':0,
+        'REB':0,'AST':0,'STL':0,'BLK':0,
+        'TOV':0,'PF':0,'PTS':0
+    }
     #unfortunately have to count backwards
     while num_games > 0:
         #print("Game ", count, ": \n", playoff_game_data[num_games])
@@ -913,7 +925,9 @@ def series_page(request, matchup):
         "lower_seed_game_score":away_team_games_scores,
         "higher_seed_rank":home_team_rank,
         "lower_seed_rank":away_team_rank,
-        "playoff_games_data":playoff_game_data
+        "playoff_games_data":playoff_game_data,
+        "higher_seed_averages":higher_seed_averages,
+        "lower_seed_averages":lower_seed_averages
     }
     return render(request, 'basketball/series.html', context)
 
