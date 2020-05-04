@@ -1,35 +1,75 @@
 {% extends 'base.html' %}
     {% load static %}
     {% block content %}
-    <div class="table-responsive container" style="height:700px; width:700px; overflow:scroll;">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Team</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for values in players %}
+    <br/>
+    <br/>
+    <div class="form-check" id="form_selector" style="font-size:14px;">
+        <div class="table-responsive container" style="width:70%;">
+            <div class="row">
+                <h4> Cast your vote for MVP </h4>
+                <div class="form-group col-3 mx-sm-3"> 
+                    <button class="btn btn-primary" id="submit_vote" style="font-size:14px;">Vote</button>
+                </div>
+            </div>
+            <br/>
+            <table class="table table-sm">
+                <thead>
                     <tr>
-                        <td>
-                            <a class="image_hover" href="/basketball/team/{{values.4}}"> 
-                                <img style="max-height:45px;max-width:45px;" src="{% static values.3 %}"></img> 
-                            </a>
-                        </td> 
-                        <td> 
-                            <a href='/basketball/player/{{ values.0 }}'> <b>{{values.1}}</b> </a> 
-                        </td>
-                        <td>{{values.2}}</td>
+                        <th scope="col"></th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Team</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    
+                </thead>
+                <tbody>
+                    {% for values in players %}
+                        <tr>
+                            <td>
+                                <a class="image_hover" href="/basketball/team/{{values.4}}"> 
+                                    <img style="max-height:30px;max-width:30px;" src="{% static values.3 %}"></img> 
+                                </a>
+                            </td> 
+                            <td> 
+                                <a href='/basketball/player/{{ values.0 }}'> <b>{{values.1}}</b> </a> 
+                            </td>
+                            <td>{{values.2}}</td>
+                            <td>
+                                <input class="form-check-input" type="radio" name="exampleRadios" value="{{values.0}}">
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
     <br/>
     <br/>
+    <br/>
+    <br/>
+
+    <script>
+
+        $( "#submit_vote" ).click(function() {
+            var selected = $('#form_selector input:radio:checked').val();
+            alert(selected);
+            if (selected == undefined) {
+                alert("Please select Player before submitting");
+            } else {
+                alert("here");
+                $.ajax({
+                    type: "POST",
+                    url: "/basketball/mvp_vote/cast",
+                    data: {
+                        "player_id": selected // from form
+                    },
+                    success: function () {
+                        alert("Sent Post data");
+                    }
+                });
+                return false;
+            }
+        });
+
+    </script>
 
 
     {% endblock %}

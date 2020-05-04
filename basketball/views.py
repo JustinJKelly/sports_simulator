@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, reverse
 from nba_api.stats.endpoints import commonplayerinfo
 from nba_api.stats.endpoints import playercareerstats
 from nba_api.stats.static import players, teams
@@ -7,6 +7,7 @@ import requests
 from .models import Player, Game, Team, MVPPoll
 # importing datetime module 
 import datetime
+from sports_simulator import views as home_views
 '''
 # creating an instance of  
 # datetime.date 
@@ -929,6 +930,19 @@ def mvp_vote(request):
     
     return render(request,'basketball/mvp_vote.html',context)
     
+def mvp_vote_cast(request):
+    print('here')
+    if request == "POST":
+        if not request.POST['player_id']:
+            return redirect('basketball/mvp_vote.html')
+        else:
+            mvp_poll = MVPPoll.objects.all().first()
+            data = mvp_poll.data
+            
+            data[request.POST['player_id']]['votes']+=1
+            return reverse(home_views.home)
+    else:
+        return redirect('basketball/mvp_vote.html')    
 
 
 def find_team_logos(team1, team2):
