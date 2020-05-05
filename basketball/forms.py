@@ -7,7 +7,6 @@ class MVPVoteForm(forms.Form):
     CHOICES = []
     for player in mvp_poll:
         CHOICES.append( (player.player_id,(player.player_name + '    ' + player.team_abv)) )
-    #print(CHOICES)
     VOTE_FOR_MVP = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='')
     
     

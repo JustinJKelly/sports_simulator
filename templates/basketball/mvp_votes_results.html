@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
     {% load static %}
     {% block content %}
+        <style>
+            a:hover.img_hover {
+                color: transparent;
+            }
+        </style>
         <div class="container" style="width: 75%;">
             <br/>
             <h2 style="text-align:center;"> <b>MVP Race: Top Ten Players </b> </h2>
@@ -45,13 +50,13 @@
                         <th scope="col">Votes</th>
                     </tr>
                 </thead>
-                <!--player.player_name, player.team_abv, player.votes, team_image, team_id, player.player_id-->
+                <!--[player.player_name,player.team_abv,team_id,str(player.votes),str(team_image),player.player_id]-->
                 <tbody style="font-size:14px">
                     {% for player in top_players %}
                         <tr>
                             <td>  
-                                <a class="img_hover" href='/basketball/team/{{ player.3 }}'>
-                                    <img style="max-height:35px;max-width:35px;" src={% static player.4 %} </img>
+                                <a href='/basketball/team/{{ player.2 }}'>
+                                    <img class="img_hover" style="max-height:35px;max-width:35px;" src={% static player.4 %}> </img>
                                 </a>  
                             </td>
                             <td> 
@@ -62,7 +67,7 @@
                                 </p>
                             </td>
                             <td>
-                                {{player.2}}
+                                {{player.3}}
                             </td>
                         </tr>
                     {% endfor %}
