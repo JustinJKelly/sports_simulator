@@ -27,11 +27,6 @@
         a:hover.image_hover {
             color: transparent;
         }
-        .series-button{
-            border: solid 2pt 2pt black;
-            background-color: white;
-            color: black;
-        }
         .game-table{
             display: none;
             width:100%; 
@@ -160,6 +155,11 @@
         <br>
         <h3 id="thank_you" style="display: none;">Thanks for voting!<span class="close" style="cursor: pointer; color: white; ">&times;</span></h3>
         <br>
+        <!--Pie-chart-->
+        <div> 
+            <canvas id="myChart" style="display:none; max-height: 500px;"></canvas>
+        </div>
+        <!-- end pie-->
         <div class="row">
             <div i class="col" id="vote_lower_seed">
                 <h6 > {{lower_seed_name}}</h6>
@@ -283,21 +283,21 @@
         <div class="row" style="position: absolute; max-width: 80%; left: 50%; flex-wrap: nowrap; transform: translate(-50%, -50%);">
             <!-- PLACEHOLDER BUTTONS PLEASE CHANGE-->
             <ul>
-                <button class="series-button" style="margin: 10px;"> Game 1</button>
-                <button class="series-button" style="margin: 10px;"> Game 2</button>
-                <button class="series-button" style="margin: 10px;"> Game 3</button>
-                <button class="series-button" style="margin: 10px;"> Game 4</button>
+                <button class="btn btn-primary" style="margin: 10px;"> Game 1</button>
+                <button class="btn btn-primary" style="margin: 10px;"> Game 2</button>
+                <button class="btn btn-primary" style="margin: 10px;"> Game 3</button>
+                <button class="btn btn-primary" style="margin: 10px;"> Game 4</button>
                 {% if series_length == 5 %}
-                <button class="series-button" style="margin: 10px;"> Game 5</button>
+                <button class="btn btn-primary" style="margin: 10px;"> Game 5</button>
                 {% endif %}
                 {% if series_length == 6 %}
-                <button class="series-button" style="margin: 10px;"> Game 5</button>
-                <button class="series-button" style="margin: 10px;"> Game 6</button>
+                <button class="btn btn-primary" style="margin: 10px;"> Game 5</button>
+                <button class="btn btn-primary" style="margin: 10px;"> Game 6</button>
                 {% endif %}
                 {% if series_length == 7 %}
-                <button class="series-button"  style="margin: 10px;"> Game 5</button>
-                <button class="series-button" style="margin: 10px;"> Game 6</button>
-                <button class="series-button" style="margin: 10px;"> Game 7</button>
+                <button class="btn btn-primary"  style="margin: 10px;"> Game 5</button>
+                <button class="btn btn-primary" style="margin: 10px;"> Game 6</button>
+                <button class="btn btn-primary" style="margin: 10px;"> Game 7</button>
                 {% endif %}
             </ul>
         </div>
@@ -1449,7 +1449,7 @@
         {% endif %}
         {% endif %}
 <script>
-        var btn = document.getElementsByClassName("series-button");
+        var btn = document.getElementsByClassName("btn");
         var table = document.getElementsByClassName("game-table");
         btn[0].onclick = function(){
             for(var i=0;i<table.length;i++){
@@ -1494,21 +1494,43 @@
             table[6].style.display = "block";
         }
 </script>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 <script>
+     var config = {
+                type: 'pie',
+                data: {
+                    datasets: [{
+                        label: 'My first dataset',
+                        data:[0, 65, 45, 65, 35, 65, 0],
+                        backgroundColor: [
+                            #AD35BA
+                    ],
+                    borderWidth: 2,
+                    pointBorderColor: "#FFF",
+                    pointBackgroundColor: "rgba(173, 53, 186, 0.1)",
+                    }]
+                },
+                options: {
+                    responsive: true
+                }
+            };
     var voting_high = document.getElementById("vote_higher_seed")
     var voting_low = document.getElementById("vote_lower_seed")
     var voting_or = document.getElementById("voting_or")
     var thanks = document.getElementById("thank_you")
     var prompt = document.getElementById("vote_prompt")
     var close = document.getElementsByClassName("close")
+    var ctx = document.getElementById('myChart').getContext('2d');
     var voting_space = document.getElementsByClassName("voting-series")
+    
     function voting(){
             voting_high.style.display="none";
             voting_low.style.display="none";
             voting_or.style.display="none";
             prompt.style.display="none"
             thanks.style.display="block";
+            ctx.style.display="block";
+            window.myPie = new Chart(ctx, config);
 
     }
     close[0].onclick =function(){
