@@ -130,10 +130,29 @@ class Team(models.Model):
     def __str__(self):
         return str(self.team_name)
 
-class MVPPoll(models.Model):
+'''class MVPPoll(models.Model):
     data = JSONField()
     def __str__(self):
-        return "MVP Poll"
+        return "MVP Poll"'''
+
+
+class MVPPoll(models.Model):
+    data = JSONField()
+    
+    def __str__(self):
+        return self.player.full_name
+
+
+
+class MVPVote(models.Model):
+    player_id = models.IntegerField(null=False)
+    player_name = models.CharField(null=False,max_length=40)
+    team_abv = models.CharField(null=False,max_length=4)
+    votes = models.IntegerField(default=0)
+    points_pg = models.IntegerField(default=0)
+    
+    def __str__(self):
+        return self.player_name
 
 class Series(models.Model):
     votes_higher_seed = models.IntegerField(default=0)

@@ -4,11 +4,11 @@ from nba_api.stats.endpoints import playercareerstats
 from nba_api.stats.static import players, teams
 from bs4 import BeautifulSoup
 import requests
-from .models import Player, Game, Team, MVPPoll
+from .models import Player, Game, Team, MVPVote
 # importing datetime module 
 import datetime
 from sports_simulator import views as home_views
-from .forms import MVPPollForm
+from .forms import MVPVoteForm
 
 '''
 # creating an instance of  
@@ -983,30 +983,32 @@ def series_page(request, matchup):
     return render(request, 'basketball/series.html', context)
 
 def mvp_vote(request):
-    '''mvp_poll = MVPPoll.objects.all().first()
-    data = mvp_poll.data
-    context = {}
-    context['players']= []
-    for key,values in data:
-        context['players'].append([
-            key,values['name'],values['team_abv'],find_team_image(values['team_id']),values['team_id']
-            
-        ])'''
     if request.method == 'POST':
-        form = MVPPollForm(request.POST)
-        
+        form = MVPVoteForm(request.POST)
+        print(form.data)
         if form.is_valid():
-            print(form.data['mvp_players'])
-            mvp_poll = MVPPoll.objects.all().first()
-            data = mvp_poll.data
-            
-            data[form.data['mvp_players']]['votes']+=1
-            return HttpResponse("Thanks for voting")
+            mvp_player = MVPVote.objects.get(player_id=form.data['VOTE_FOR_MVP'])
+            print(mvp_player)
+            mvp_player.votes+=1
+                    
+            return redirect('/basketball/mvp_results',player_chosen={'player_id':mvp_player.player_id})
     #return render(request,'basketball/mvp_vote.html',context)
-    form = MVPPollForm()
+    form = MVPVoteForm()
     print("here")
     return render(request,'basketball/mvp_vote.html', {"form":form})  
 
+def mvp_results(request):
+    print("Request:",request)
+    mvp_poll = MVPVote.objects.all().order_by('-votes','-points_pg')[:10]
+    labels=[]
+    data=[]
+    
+    for player in mvp_poll:
+        labels.append(player.player_name)
+        data.append(player.votes+3)
+    
+    return render(request,'basketball/mvp_votes_results.html',context={'labels': labels,'data': data,})
+    
 
 def find_team_logos(team1, team2):
     return_list = []

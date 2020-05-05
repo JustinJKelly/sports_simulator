@@ -15,4 +15,5 @@ urlpatterns = [
     path('playoffs', views.playoffs_page, name="playoffs_page"),
     path('playoffs/series/<matchup>', views.series_page, name="series_page"),
     path('mvp_vote', views.mvp_vote, name="mvp_vote"),
+    path('mvp_results', views.mvp_results, name="mvp_results"),
 ]

@@ -1,13 +1,21 @@
 from django import forms
-from .models import MVPPoll
+from .models import MVPVote
 from . import views
 
-class MVPPollForm(forms.Form):
-    mvp_poll = MVPPoll.objects.all().first()
-    data = mvp_poll.data
+class MVPVoteForm(forms.Form):
+    mvp_poll = MVPVote.objects.all().order_by('-votes','-points_pg')
     CHOICES = []
-    for key,values in data:
-        CHOICES.append( (key,[values['name'],values['team_abv'],values['team_image'],values['team_id'],values['player_id']]) )
+    for player in mvp_poll:
+        CHOICES.append( (player.player_id,(player.player_name + '    ' + player.team_abv)) )
     #print(CHOICES)
-    VOTE_FOR_MVP = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
+    VOTE_FOR_MVP = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='')
     
+    
+    def __init__(self, *args, **kwargs):
+        super(MVPVoteForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+            visible.field.widget.attrs['style'] = 'width:30%; height=25px;'
+            visible.field.widget.attrs['onfocus'] = "this.size=15;"
+            visible.field.widget.attrs['onblur'] = "this.size=1;"
+            visible.field.widget.attrs['onchange'] = "this.size=1; this.blur();"
