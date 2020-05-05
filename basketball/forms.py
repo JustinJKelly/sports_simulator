@@ -15,7 +15,7 @@ class MVPVoteForm(forms.Form):
         super(MVPVoteForm, self).__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'form-control'
-            visible.field.widget.attrs['style'] = 'width:30%; height=25px;'
+            visible.field.widget.attrs['style'] = 'width:45%;'
             visible.field.widget.attrs['onfocus'] = "this.size=15;"
             visible.field.widget.attrs['onblur'] = "this.size=1;"
             visible.field.widget.attrs['onchange'] = "this.size=1; this.blur();"

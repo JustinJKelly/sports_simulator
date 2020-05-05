@@ -3,7 +3,7 @@
     {% block content %}
         <div class="container" style="width: 75%;">
             <br/>
-            <h2 style="text-align:center;"> <b> Player Votes</b> </h2>
+            <h2 style="text-align:center;"> <b>MVP Race: Top Ten Players </b> </h2>
             <br/>
             <canvas id="pie-chart"></canvas>
         </div>
@@ -36,6 +36,41 @@
 
         </script>
 
+        <div class="table-responsive container" style="height:300px; overflow:scroll;">
+            <table class="table table-striped table-light table-sm" >
+                <thead style="font-size:15px">
+                    <tr>
+                        <th scope="col">Team</th>
+                        <th scope="col">Player</th>
+                        <th scope="col">Votes</th>
+                    </tr>
+                </thead>
+                <!--player.player_name, player.team_abv, player.votes, team_image, team_id, player.player_id-->
+                <tbody style="font-size:14px">
+                    {% for player in top_players %}
+                        <tr>
+                            <td>  
+                                <a class="img_hover" href='/basketball/team/{{ player.3 }}'>
+                                    <img style="max-height:35px;max-width:35px;" src={% static player.4 %} </img>
+                                </a>  
+                            </td>
+                            <td> 
+                                <p>
+                                    <a href='/basketball/player/{{ player.5 }}'>
+                                        {{player.0}}
+                                    </a> 
+                                </p>
+                            </td>
+                            <td>
+                                {{player.2}}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
+    <br/>
+    <br/>
 
     {% endblock %}

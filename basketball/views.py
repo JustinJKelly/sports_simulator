@@ -1142,20 +1142,34 @@ def mvp_vote(request):
             return redirect('/basketball/mvp_results',player_chosen={'player_id':mvp_player.player_id})
     #return render(request,'basketball/mvp_vote.html',context)
     form = MVPVoteForm()
-    print("here")
-    return render(request,'basketball/mvp_vote.html', {"form":form})  
-
-def mvp_results(request):
-    print("Request:",request)
-    mvp_poll = MVPVote.objects.all().order_by('-votes','-points_pg')[:10]
     labels=[]
     data=[]
+    mvp_poll = MVPVote.objects.all().order_by('-votes','-points_pg')[:3]
     
     for player in mvp_poll:
         labels.append(player.player_name)
         data.append(player.votes+3)
+    print("here")
+    return render(request,'basketball/mvp_vote.html', {"form":form,'labels': labels,'data': data, })  
+
+def mvp_results(request):
+    #print("Request:",request)
+    mvp_poll = MVPVote.objects.all().order_by('-votes','-points_pg')
+    labels=[]
+    data=[]
     
-    return render(request,'basketball/mvp_votes_results.html',context={'labels': labels,'data': data,})
+    for player in mvp_poll[:10]:
+        labels.append(player.player_name)
+        data.append(player.votes+3)
+    
+    top_hundred = []
+    for player in mvp_poll[:100]:
+        team_id = Player.objects.get(player_id=player.player_id).team_id
+        team_image=find_team_image(team_id)
+        top_hundred.append([player.player_name,player.team_abv,player.votes,team_image,team_id,player.player_id])
+        
+    print(top_hundred)
+    return render(request,'basketball/mvp_votes_results.html',context={'labels': labels,'data': data,'top_players':top_hundred})
     
 
 def find_team_logos(team1, team2):

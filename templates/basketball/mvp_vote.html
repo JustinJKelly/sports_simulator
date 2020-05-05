@@ -9,56 +9,55 @@
             width:50%;
         }
     </style>
-    <div class="container" style="font-size:25px;">
-        <h3> Vote For the MVP of the 2019-2020 Season </h3>
-        <br/>
-        <form action="{% url 'mvp_vote' %}" method="post">
-            {% csrf_token %}
-            {{form}}
-            <!--<select style="width:50%;"class="form-control form-control-lg" onfocus="this.size=15;" onblur="this.size=1;" onchange="this.size=1; this.blur();">
-                {% for value, text in form.fields.VOTE_FOR_MVP.choices %}
-                    <option type='radio' value="{{ value }}">{{ text }}</option>
-                {% endfor %}
-            </select>-->
-            <input class="btn btn-primary" type="submit" value="Submit">
-        </form>
-    </div>
-    <!--<div class="form-check" id="form_selector" style="font-size:14px;">{% csrf_token %}
-        <div class="table-responsive container" style="width:70%;">
-            <div class="row">
-                <h4> Cast your vote for MVP </h4>
-                <div class="form-group col-3 mx-sm-3">
-                    <button class="btn btn-primary" id="submit_vote" style="font-size:14px;">Vote</button>
-                </div>
+    <div class="container" style="font-size:22px;">
+        <div class="row">
+            <div class="col">
+                <br/>
+                <h3> Vote For the MVP of the 2019-2020 Season </h3>
+                <br/>
+                <form action="{% url 'mvp_vote' %}" method="post">
+                    {% csrf_token %}
+                    {{form}}
+                    <input class="btn btn-primary" type="submit" value="Submit">
+                </form>
             </div>
-            <br/>
-            <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Team</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for values in players %}
-                        <tr>
-                            <td>
-                                <a class="image_hover" href="/basketball/team/{{values.4}}"> 
-                                    <img style="max-height:30px;max-width:30px;" src="{% static values.3 %}"></img> 
-                                </a>
-                            </td> 
-                            <td> 
-                                <a href='/basketball/player/{{ values.0 }}'> <b>{{values.1}}</b> </a> 
-                            </td>
-                            <td>{{values.2}}</td>
-                            <td>
-                                <input class="form-check-input" type="radio" name="exampleRadios" value="{{values.0}}">
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+
+            <div class="col" style="width: 75%;">
+                <br/>
+                <h2 style="text-align:center;"> <b>Current MVP Vote Leaders</b> </h2>
+                <br/>
+                <canvas id="pie-chart"></canvas>
+            </div>
         </div>
-    </div>-->
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+        <script>
+            var config = {
+                type: 'pie',
+                data: {
+                    datasets: [{
+                    data: {{ data|safe }},
+                    backgroundColor: [
+                        '#32a840', '#e6db12', '#1235e6', '#C0C0C0', '#362f34',
+                        '#e61232', '#11b1f0', '#f09711', '#adf011', '#f011bc'
+
+                    ],
+                    label: 'Population'
+                    }],
+                    labels: {{ labels|safe }}
+                },
+                options: {
+                    responsive: true
+                }
+            };
+
+            window.onload = function() {
+                var ctx = document.getElementById('pie-chart').getContext('2d');
+                window.myPie = new Chart(ctx, config);
+            };
+
+        </script>
+    </div>
+    <br/>
+    <br/>
     {% endblock %}
