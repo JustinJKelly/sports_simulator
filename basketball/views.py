@@ -885,6 +885,144 @@ def playoffs_page(request):
     return render(request,'basketball/playoffs.html', context)
 
 
+def get_series_averages(playoff_games_data, num_games, high_id, low_id):
+    team_averages = {
+        'higher_seed':{
+            'FGM':0,'FGA':0,'FGP':0,'3FGM':0,'3FGA':0,'3FGP':0,
+            'FTM':0,'FTA':0,'FTP':0,'OREB':0,'DREB':0,
+            'REB':0,'AST':0,'STL':0,'BLK':0,
+            'TOV':0,'PF':0,'PTS':0
+        },
+        'lower_seed':{
+            'FGM':0,'FGA':0,'FGP':0,'3FGM':0,'3FGA':0,'3FGP':0,
+            'FTM':0,'FTA':0,'FTP':0,'OREB':0,'DREB':0,
+            'REB':0,'AST':0,'STL':0,'BLK':0,
+            'TOV':0,'PF':0,'PTS':0
+        }
+    }
+    for i in range(0, num_games):
+        team_1_data = playoff_games_data["game"+str(i)].data['team_stats'][0]
+        team_2_data = playoff_games_data["game"+str(i)].data['team_stats'][0]
+        if playoff_games_data["game"+str(i)].data['team_stats'][0]['team_id'] == high_id:
+            
+            team_averages['higher_seed']['FGM']+=team_1_data['FG_made']
+            team_averages['higher_seed']['FGA']+=team_1_data['FG_attempted']
+            team_averages['higher_seed']['FGP']+=(team_1_data['FG_made']/team_1_data['FG_attempted'])
+            team_averages['higher_seed']['3FGM']+=team_1_data['3P_made']
+            team_averages['higher_seed']['3FGA']+=team_1_data['3P_attempted']
+            team_averages['higher_seed']['3FGP']+=(team_1_data['3P_made']/team_1_data['3P_attempted'])
+            team_averages['higher_seed']['FTM']+=team_1_data['FT_made']
+            team_averages['higher_seed']['FTA']+=team_1_data['FT_attempted']
+            team_averages['higher_seed']['FTP']+=(team_1_data['FT_made']/team_1_data['FT_attempted'])
+            team_averages['higher_seed']['OREB']+=team_1_data['off_rebounds']
+            team_averages['higher_seed']['DREB']+=team_1_data['def_rebounds']
+            team_averages['higher_seed']['REB']+=team_1_data['def_rebounds']+team_1_data['def_rebounds']
+            team_averages['higher_seed']['AST']+=team_1_data['assists']
+            team_averages['higher_seed']['STL']+=team_1_data['steals']
+            team_averages['higher_seed']['BLK']+=team_1_data['blocks']
+            team_averages['higher_seed']['TOV']+=team_1_data['turnovers']
+            team_averages['higher_seed']['PF']+=team_1_data['turnovers']
+            team_averages['higher_seed']['PTS']+=playoff_games_data["game"+str(i)].home_team_score#THIS ONE MAY BE WRONG
+
+            team_averages['lower_seed']['FGM']+=team_2_data['FG_made']
+            team_averages['lower_seed']['FGA']+=team_2_data['FG_attempted']
+            team_averages['lower_seed']['FGP']+=(team_2_data['FG_made']/team_2_data['FG_attempted'])
+            team_averages['lower_seed']['3FGM']+=team_2_data['3P_made']
+            team_averages['lower_seed']['3FGA']+=team_2_data['3P_attempted']
+            team_averages['lower_seed']['3FGP']+=(team_2_data['3P_made']/team_2_data['3P_attempted'])
+            team_averages['lower_seed']['FTM']+=team_2_data['FT_made']
+            team_averages['lower_seed']['FTA']+=team_2_data['FT_attempted']
+            team_averages['lower_seed']['FTP']+=(team_2_data['FT_made']/team_2_data['FT_attempted'])
+            team_averages['lower_seed']['OREB']+=team_2_data['off_rebounds']
+            team_averages['lower_seed']['DREB']+=team_2_data['def_rebounds']
+            team_averages['lower_seed']['REB']+=team_2_data['def_rebounds']+team_2_data['def_rebounds']
+            team_averages['lower_seed']['AST']+=team_2_data['assists']
+            team_averages['lower_seed']['STL']+=team_2_data['steals']
+            team_averages['lower_seed']['BLK']+=team_2_data['blocks']
+            team_averages['lower_seed']['TOV']+=team_2_data['turnovers']
+            team_averages['lower_seed']['PF']+=team_2_data['turnovers']
+            team_averages['lower_seed']['PF']+=playoff_games_data["game"+str(i)].away_team_score#THIS MAY BE WRONG
+        else:
+            team_averages['lower_seed']['FGM']+=team_1_data['FG_made']
+            team_averages['lower_seed']['FGA']+=team_1_data['FG_attempted']
+            team_averages['lower_seed']['FGP']+=(team_1_data['FG_made']/team_2_data['FG_attempted'])
+            team_averages['lower_seed']['3FGM']+=team_1_data['3P_made']
+            team_averages['lower_seed']['3FGA']+=team_1_data['3P_attempted']
+            team_averages['lower_seed']['3FGP']+=(team_1_data['3P_made']/team_2_data['3P_attempted'])
+            team_averages['lower_seed']['FTM']+=team_1_data['FT_made']
+            team_averages['lower_seed']['FTA']+=team_1_data['FT_attempted']
+            team_averages['lower_seed']['FTP']+=(team_1_data['FT_made']/team_2_data['FT_attempted'])
+            team_averages['lower_seed']['OREB']+=team_1_data['off_rebounds']
+            team_averages['lower_seed']['DREB']+=team_1_data['def_rebounds']
+            team_averages['lower_seed']['REB']+=team_1_data['def_rebounds']+team_2_data['def_rebounds']
+            team_averages['lower_seed']['AST']+=team_1_data['assists']
+            team_averages['lower_seed']['STL']+=team_1_data['steals']
+            team_averages['lower_seed']['BLK']+=team_1_data['blocks']
+            team_averages['lower_seed']['TOV']+=team_1_data['turnovers']
+            team_averages['lower_seed']['PF']+=team_1_data['turnovers']
+            team_averages['lower_seed']['PF']+=playoff_games_data["game"+str(i)].away_team_score#THIS MAY BE WRONG
+
+            team_averages['higher_seed']['FGM']+=team_2_data['FG_made']
+            team_averages['higher_seed']['FGA']+=team_2_data['FG_attempted']
+            team_averages['higher_seed']['FGP']+=(team_2_data['FG_made']/team_1_data['FG_attempted'])
+            team_averages['higher_seed']['3FGM']+=team_2_data['3P_made']
+            team_averages['higher_seed']['3FGA']+=team_2_data['3P_attempted']
+            team_averages['higher_seed']['3FGP']+=(team_2_data['3P_made']/team_1_data['3P_attempted'])
+            team_averages['higher_seed']['FTM']+=team_2_data['FT_made']
+            team_averages['higher_seed']['FTA']+=team_2_data['FT_attempted']
+            team_averages['higher_seed']['FTP']+=(team_2_data['FT_made']/team_1_data['FT_attempted'])
+            team_averages['higher_seed']['OREB']+=team_2_data['off_rebounds']
+            team_averages['higher_seed']['DREB']+=team_2_data['def_rebounds']
+            team_averages['higher_seed']['REB']+=team_2_data['def_rebounds']+team_1_data['def_rebounds']
+            team_averages['higher_seed']['AST']+=team_2_data['assists']
+            team_averages['higher_seed']['STL']+=team_2_data['steals']
+            team_averages['higher_seed']['BLK']+=team_2_data['blocks']
+            team_averages['higher_seed']['TOV']+=team_2_data['turnovers']
+            team_averages['higher_seed']['PF']+=team_2_data['turnovers']
+            team_averages['higher_seed']['PTS']+=playoff_games_data["game"+str(i)].home_team_score#THIS ONE MAY BE WRONG
+        
+    #exit for loop
+    team_averages['higher_seed']['FGM']/=num_games
+    team_averages['higher_seed']['FGA']/=num_games
+    team_averages['higher_seed']['FGP']/=num_games
+    team_averages['higher_seed']['3FGM']/=num_games
+    team_averages['higher_seed']['3FGA']/=num_games
+    team_averages['higher_seed']['3FGP']/=num_games
+    team_averages['higher_seed']['FTM']/=num_games
+    team_averages['higher_seed']['FTA']/=num_games
+    team_averages['higher_seed']['FTP']/=num_games
+    team_averages['higher_seed']['OREB']/=num_games
+    team_averages['higher_seed']['DREB']/=num_games
+    team_averages['higher_seed']['REB']/=num_games
+    team_averages['higher_seed']['AST']/=num_games
+    team_averages['higher_seed']['STL']/=num_games
+    team_averages['higher_seed']['BLK']/=num_games
+    team_averages['higher_seed']['TOV']/=num_games
+    team_averages['higher_seed']['PF']/=num_games
+    team_averages['higher_seed']['PTS']/=num_games
+
+    team_averages['lower_seed']['FGM']/=num_games
+    team_averages['lower_seed']['FGA']/=num_games
+    team_averages['lower_seed']['FGP']/=num_games
+    team_averages['lower_seed']['3FGM']/=num_games
+    team_averages['lower_seed']['3FGA']/=num_games
+    team_averages['lower_seed']['3FGP']/=num_games
+    team_averages['lower_seed']['FTM']/=num_games
+    team_averages['lower_seed']['FTA']/=num_games
+    team_averages['lower_seed']['FTP']/=num_games
+    team_averages['lower_seed']['OREB']/=num_games
+    team_averages['lower_seed']['DREB']/=num_games
+    team_averages['lower_seed']['REB']/=num_games
+    team_averages['lower_seed']['AST']/=num_games
+    team_averages['lower_seed']['STL']/=num_games
+    team_averages['lower_seed']['BLK']/=num_games
+    team_averages['lower_seed']['TOV']/=num_games
+    team_averages['lower_seed']['PF']/=num_games
+    team_averages['lower_seed']['PTS']/=num_games
+
+    return team_averages
+
+
 def series_page(request, matchup):
     # I pass the two team's IDs as the /basketball/playoff/series/matchup
     first_round_matchups={
@@ -927,23 +1065,32 @@ def series_page(request, matchup):
     higher_seed_wins = 0
     num_games = len(playoff_game_data)
     count = 1
-    higher_seed_averages={
-        'FG':0,'FGP':0,'3FG':0,'3FGP':0,
-        'FT':0,'FTP':0,'OREB':0,'DREB':0,
-        'REB':0,'AST':0,'STL':0,'BLK':0,
-        'TOV':0,'PF':0,'PTS':0
-    }
-    lower_seed_averages={
-        'FG':0,'FGP':0,'3FG':0,'3FGP':0,
-        'FT':0,'FTP':0,'OREB':0,'DREB':0,
-        'REB':0,'AST':0,'STL':0,'BLK':0,
-        'TOV':0,'PF':0,'PTS':0
-    }
+    
+    #calculate each teams average per game.
+    
+    if num_games > 0:
+        team_averages = get_series_averages(playoff_game_data, num_games, higher_seed_id, lower_seed_id)
+    else:
+        team_averages = {
+            'higher_seed':{
+                'FGM':0,'FGA':0,'FGP':0,'3FGM':0,'3FGA':0,'3FGP':0,
+                'FTM':0,'FTA':0,'FTP':0,'OREB':0,'DREB':0,
+                'REB':0,'AST':0,'STL':0,'BLK':0,
+                'TOV':0,'PF':0,'PTS':0
+            },
+            'lower_seed':{
+                'FGM':0,'FGA':0,'FGP':0,'3FGM':0,'3FGA':0,'3FGP':0,
+                'FTM':0,'FTA':0,'FTP':0,'OREB':0,'DREB':0,
+                'REB':0,'AST':0,'STL':0,'BLK':0,
+                'TOV':0,'PF':0,'PTS':0
+            }
+        }
     #unfortunately have to count backwards
     while num_games > 0:
         #print("Game ", count, ": \n", playoff_game_data[num_games])
         home_team_games_scores.append(playoff_game_data["game"+str(count)].home_team_score)
         away_team_games_scores.append(playoff_game_data["game"+str(count)].away_team_score)
+        
         if playoff_game_data["game"+str(count)].home_team_score > playoff_game_data["game"+str(count)].away_team_score:
             higher_seed_wins+=1
         else:
@@ -977,10 +1124,11 @@ def series_page(request, matchup):
         "higher_seed_rank":home_team_rank,
         "lower_seed_rank":away_team_rank,
         "playoff_games_data":playoff_game_data,
-        "higher_seed_averages":higher_seed_averages,
-        "lower_seed_averages":lower_seed_averages
+        "higher_seed_averages":team_averages['higher_seed'],
+        "lower_seed_averages":team_averages['lower_seed']
     }
     return render(request, 'basketball/series.html', context)
+
 
 def mvp_vote(request):
     if request.method == 'POST':
