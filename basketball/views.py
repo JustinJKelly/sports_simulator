@@ -1215,7 +1215,7 @@ def get_team_playoff_rank(team_id):
         1610612755:"5th",#PHI
         1610612754:"6th",#IND
         1610612751:"7th",#BKN
-        1610612764:"8th",#WAS
+        1610612753:"8th",#ORL
     }
     return playoff_teams[team_id]
 
