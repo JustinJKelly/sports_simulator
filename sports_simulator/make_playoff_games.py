@@ -11,51 +11,77 @@ def make_playoff_games():
     higher_seed_wins = 0
     lower_seed_wins = 0
     games_count = 0
-    while games_count < 7 and (higher_seed_wins < 4) and lower_seed_wins < 4:# plays seven games
-        games_count+=1
-        low_seed = "New Orleans"
-        high_seed = "L.A. Lakers"
-        if games_count < 3 :
-            team_home_id = get_team(high_seed.lower())
-            team_away_id = get_team(low_seed.lower())
-            print('Away team: %s %s' % (low_seed, team_away_id))
-            print('Home team: %s %s' % (high_seed, team_home_id))
-        elif games_count >= 3 and games_count < 6:
-            team_home_id = get_team(low_seed.lower())
-            team_away_id = get_team(high_seed.lower())
-            print('Away team: %s %s' % (high_seed, team_away_id))
-            print('Home team: %s %s' % (low_seed, team_home_id))
-        else:
-            team_home_id = get_team(high_seed.lower())
-            team_away_id = get_team(low_seed.lower())
-            print('Away team: %s %s' % (low_seed, team_away_id))
-            print('Home team: %s %s' % (high_seed, team_home_id))
-        curr = str(current)
-        game_date = date(int(curr[0:4]),int(curr[4:6]),int(curr[6:]))
-        current+=1
-        temp = calculate_stats(list(),list(),team_home_id,team_away_id,game_date)
-        if games_count < 3:
-            if temp[team_away_id] < temp[team_home_id]:
-                higher_seed_wins+=1
-            else:
-                lower_seed_wins+=1
-        elif games_count >=3 and games_count < 6:
-            if temp[team_away_id] > temp[team_home_id]:
-                higher_seed_wins+=1
-            else:
-                lower_seed_wins+=1
-        else:
-            if temp[team_away_id] < temp[team_home_id]:
-                higher_seed_wins+=1
-            else:
-                lower_seed_wins+=1
+    hundred =0
+    series_data = {
+        'higher_seed_series_wins':0,
+        'lower_seed_series_wins':0,
+        'game_seven':0,
+        'higher_seed_sweeps':0,
+        'lower_seed_sweeps':0
+    }
+    low_seed = "Orlando"
+    high_seed = "Milwaukee"
+    team_home_id = get_team(high_seed.lower())
+    team_away_id = get_team(low_seed.lower())
+    while hundred < 100:
+        games_count=0
+        higher_seed_wins=0
+        lower_seed_wins=0
+        hundred+=1
+        while games_count < 7 and (higher_seed_wins < 4) and lower_seed_wins < 4:# plays seven games
+            games_count+=1
             
-        print("AWAY: ", temp[team_away_id], "\n")
-        print("HOME: ", temp[team_home_id], "\n")
-        print("Lakers wins:", higher_seed_wins,"\n")
-        print("Pelicans wins:", lower_seed_wins,"\n")
-
-
+            if games_count < 3 :
+                print('Away team: %s %s' % (low_seed, team_away_id))
+                print('Home team: %s %s' % (high_seed, team_home_id))
+            elif games_count >= 3 and games_count < 6:
+                team_home_id = get_team(low_seed.lower())
+                team_away_id = get_team(high_seed.lower())
+                print('Away team: %s %s' % (high_seed, team_away_id))
+                print('Home team: %s %s' % (low_seed, team_home_id))
+            else:
+                team_home_id = get_team(high_seed.lower())
+                team_away_id = get_team(low_seed.lower())
+                print('Away team: %s %s' % (low_seed, team_away_id))
+                print('Home team: %s %s' % (high_seed, team_home_id))
+            curr = str(current)
+            game_date = date(int(curr[0:4]),int(curr[4:6]),int(curr[6:]))
+            #current+=1
+            temp = calculate_stats(list(),list(),team_home_id,team_away_id,game_date)
+            if games_count < 3:
+                if temp[team_away_id] < temp[team_home_id]:
+                    higher_seed_wins+=1
+                else:
+                    lower_seed_wins+=1
+            elif games_count >=3 and games_count < 6:
+                if temp[team_away_id] > temp[team_home_id]:
+                    higher_seed_wins+=1
+                else:
+                    lower_seed_wins+=1
+            else:
+                if temp[team_away_id] < temp[team_home_id]:
+                    higher_seed_wins+=1
+                else:
+                    lower_seed_wins+=1
+                
+            print("AWAY: ", temp[team_away_id], "\n")
+            print("HOME: ", temp[team_home_id], "\n")
+            print("Lakers: ", higher_seed_wins,"\n")
+            print("Pelicans: ", lower_seed_wins,"\n")
+        if(higher_seed_wins > lower_seed_wins):
+            series_data['higher_seed_series_wins']+=1
+            if lower_seed_wins == 0:
+                series_data['higher_seed_sweeps']+=1
+            elif lower_seed_wins == 3:
+                series_data['game_seven']+=1
+        else:
+            series_data['lower_seed_series_wins']+=1
+            if higher_seed_wins ==0:
+                series_data['lower_seed_sweeps']+=1
+            elif higher_seed_wins==3:
+                series_data['game_seven']+=1
+    
+          
 
 
 
@@ -126,12 +152,9 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
     home_opp_point_pg = round(team_home.opponent_points_total/team_home.games_played,1)
 
     if home_points_pg > away_opp_point_pg:
-        overall_bias_home = random.uniform(1.00,1.02)# slightly increase home team scoring
+        overall_bias_home = random.uniform(1.00,1.05)# slightly increase home team scoring
     else:
         overall_bias_home = random.uniform(0.98,1.00)# slightly decrease away team scoring
-
-    # Incase we need to reset the overall bias
-    #overall_bias_home=1
 
 
 
@@ -154,6 +177,8 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
         'personal_fouls': round((home_stats['personal_fouls_per_game'])+ random.uniform(home_bias_list[26],home_bias_list[27])*overall_bias_home),
         #'points': (((biases['home_points_bias']+home_stats['points_per_game'])+(biases['home_points_per_game_bias']+home_stats['points_per_game']))/2)+random.uniform(home_bias_list[28],home_bias_list[29]),
     }
+
+
     home_game_stats['field_goals_made'] = round(home_game_stats['field_goals_attempted']*(home_game_stats['field_goals_percentage']/100)) 
     home_game_stats['free_throws_made'] = round((home_game_stats['free_throws_percentage']/100)*home_game_stats['free_throws_attempted'])
     home_game_stats['three_point_made'] = round((home_game_stats['three_point_percentage']/100)*home_game_stats['three_point_attempted'])
@@ -163,10 +188,14 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
     home_game_stats['rebounds'] = home_game_stats['off_rebounds']+home_game_stats['def_rebounds']
     total_points_home = (home_game_stats['three_point_made']*3)+((home_game_stats['field_goals_made']-home_game_stats['three_point_made'])*2) + home_game_stats['free_throws_made']
 
+    pprint.pprint(home_game_stats)
+
+
     if away_points_pg > home_opp_point_pg:
         overall_bias_away = random.uniform(1.0,1.02)# slightly boost away team scoring
     else:
-        overall_bias_away = random.uniform(0.98,1.00)# slightly decrease away team scoring.
+        overall_bias_away = random.uniform(0.95,1.00)# slightly decrease away team scoring.
+
 
     #overall_bias_away=1
 
@@ -753,8 +782,8 @@ def compute_player_stats(stats,score,tid, other_team_score):
                 fg_att_min -= 0.02
                 fg_made_max -= 0.03
                 fg_made_min -= 0.01
-                three_pt_made_min += 0.01
-                three_pt_made_max += 0.08
+                three_pt_made_min -= 0.01
+                three_pt_made_max -= 0.08
                 
             #Dallas
             if tid == 1610612742:
@@ -1023,7 +1052,7 @@ def compute_player_stats(stats,score,tid, other_team_score):
 
     #print()
     #pprint.pprint(player_stats)
-    #pprint.pprint(team_stat)
+    pprint.pprint(team_stat)
 
     return [player_stats,team_stat]
 
@@ -1100,7 +1129,7 @@ def compute_points_by_quarter(total_points_home, total_points_away, num_ots):
 
 def get_bias_home(team_id):
     team_list_dist = {
-        1610612749:[0.91, 1.18, -4, 5, 0.88, 1.11, -5, 5.5, 0.9, 1.05, -5, 7, -4, 5, -2, 3, -4, 5, -3, 3, -2, 3, -2, 3, -3, 3, -3, 3, -10, 10],#MIL
+        1610612749:[0.96, 1.18, -4, 5, 0.9, 1.11, -5, 5.5, 0.9, 1.05, -5, 7, -4, 5, -2, 3, -4, 5, -3, 3, -2, 3, -2, 3, -3, 3, -3, 3, -10, 10],#MIL
         1610612747:[0.95, 1.16, -4, 5, 0.9, 1.12, -5, 5.4, 0.87, 1.02, -5, 7, -4, 5, -2, 4, -3, 6, -4, 5, -3, 4, -2, 3, -3, 3, -3, 3, -7, 7], #LAL
         1610612738:[0.9, 1.14, -4, 5, 0.87, 1.1, -5.2, 5.5, 0.9, 1.03, -5, 6, -4, 4, -2, 2, -3, 3, -4, 6, -2, 3, -2, 3, -3, 2, -3, 3, -7, 10],#BOS
         1610612751:[0.87, 1.12, -4, 4.3, 0.87, 1.1, -5.2, 5, 0.9, 1.02, -5, 5, -4, 5, -3, 4, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#BKN
@@ -1112,7 +1141,7 @@ def get_bias_home(team_id):
         1610612748:[0.91, 1.16, -4, 5.3, 0.88, 1.15, -5, 5.8, 0.94, 1.02, -5, 5, -3, 4, -4, 5, -3, 4, -3, 4, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#MIA
         1610612740:[0.85, 1.08, -4, 4.5, 0.83, 1.08, -5, 5, 0.91, 1.02, -5, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#NOR
         1610612760:[0.89, 1.16, -4, 6, 0.88, 1.13, -5, 5, 0.9, 1.02, -5, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#OKC
-        1610612753:[0.88, 1.12, -4, 4.2, 0.87, 1.1, -5, 5, 0.88, 1.02, -5, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#ORL
+        1610612753:[0.85, 1.1, -4, 4.2, 0.82, 1.08, -5, 5, 0.88, 1.02, -5, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#ORL
         1610612755:[0.93, 1.2, -4, 5, 0.87, 1.1, -5, 5, 0.9, 1.02, -4, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#PHI
         1610612761:[0.91, 1.17, -4, 5.2, 0.87, 1.12, -5, 6, 0.88, 1.02, -5, 5, -4, 5, -4, 5, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#TOR
         1610612762:[0.9, 1.14, -4, 5.2, 0.87, 1.13, -5, 5.5, 0.88, 1.02, -5, 5, -3, 5, -4, 5, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#UTA
@@ -1121,7 +1150,7 @@ def get_bias_home(team_id):
 
 def get_bias_away(team_id):
     team_list_dist = {
-        1610612749:[0.9, 1.15, -4, 5, 0.88, 1.11, -5, 5.5, 0.89, 1.05, -5, 7, -3, 5, -3, 4, -3, 4, -3, 3, -2, 2, -2, 3, -2, 1, -3, -3, -10, 10],#MIL
+        1610612749:[0.91, 1.15, -4, 5, 0.88, 1.11, -5, 5.5, 0.89, 1.05, -5, 7, -3, 5, -3, 4, -3, 4, -3, 3, -2, 2, -2, 3, -2, 1, -3, -3, -10, 10],#MIL
         1610612747:[0.9, 1.15, -4, 5, 0.88, 1.11, -5, 5.4, 0.86, 1.02, -5, 7, -4, 5, -2, 4, -3, 4, -4, 5, -3, 4, -2, 3, -1, 1, -3, 3, -7, 7], #LAL
         1610612738:[0.88, 1.12, -4, 5, 0.86, 1.1, -5.2, 5.5, 0.89, 1.03, -5, 5, -4, 4, -2, 2, -3, 3, -3, 5, -1, 3, -2, 3, -3, 2, -3, 3, -7, 10],#BOS
         1610612751:[0.86, 1.1, -4, 4.3, 0.85, 1.1, -5, 5, 0.89, 1.02, -5, 5, -3, 5, -4, 5, -3, 3, -3, 3, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#BKN
@@ -1133,7 +1162,7 @@ def get_bias_away(team_id):
         1610612748:[0.9, 1.13, -4, 5.3, 0.91, 1.12, -5, 5.8, 0.93, 1.02, -5, 5, -3, 4, -4, 5, -3, 4, -3, 4, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#MIA
         1610612740:[0.78, 1.06, -4, 4.5, 0.78, 1.06, -5, 5, 0.9, 1.02, -5, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#NOR
         1610612760:[0.88, 1.14, -4, 5, 0.88, 1.13, -5, 5, 0.89, 1.02, -5, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#OKC
-        1610612753:[0.87, 1.1, -4, 4.2, 0.85, 1.1, -5, 5, 0.87, 1.02, -5, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#ORL
+        1610612753:[0.8, 1.1, -4, 4.2, 0.8, 1.1, -5, 5, 0.87, 1.02, -5, 5, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#ORL
         1610612755:[0.88, 1.12, -4, 5, 0.85, 1.1, -4, 4, 0.89, 1.02, -4, 4, -3, 4, -4, 3, -3, 3, -2, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#PHI
         1610612761:[0.9, 1.14, -4, 5.3, 0.88, 1.12, -5, 6, 0.88, 1.03, -5, 5, -4, 5, -4, 5, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#TOR
         1610612762:[0.89, 1.14, -4, 5.3, 0.88, 1.12, -5, 5.5, 0.87, 1.02, -5, 5, -4, 5, -4, 5, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10],#UTA
@@ -1152,7 +1181,8 @@ def get_team(team1):
         "indiana":1610612754,
         "l.a. clippers":1610612746,
         "l.a. lakers":1610612747,        
-        "miami":1610612748,        
+        "miami":1610612748,
+        'milwaukee':1610612749,        
         "new orleans":1610612740,       
         "oklahoma city":1610612760,
         "orlando":1610612753,
