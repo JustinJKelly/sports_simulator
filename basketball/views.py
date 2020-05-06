@@ -8,8 +8,9 @@ from .models import Player, Game, Team, MVPVote, GamePreview
 # importing datetime module 
 import datetime
 from sports_simulator import views as home_views
-from .forms import MVPVoteForm
+from .forms import MVPVoteForm, GamePreviewForm
 from pytz import timezone, utc
+import basketball.forms as this_form
 
 '''
 # creating an instance of  
@@ -26,7 +27,7 @@ from django.contrib import messages
 def home(request):
     #print(request.POST['date'])
     if request.method == 'GET':
-        game_date = datetime.date.today()
+        game_date = get_pst_time()
     elif not request.POST['date']:
         messages.add_message(request, messages.ERROR, 'No date specified')
         game_date = datetime.date.today()
@@ -77,9 +78,8 @@ def get_pst_time():
     return date
 
 def get_games_date(request,game_date):
-
+    
     #date(year, month, day)
-    print('here')
     try:
         if request.method == 'POST' and request.POST['date']:
             print("here1")
@@ -88,6 +88,7 @@ def get_games_date(request,game_date):
             
             return redirect('/basketball/games/'+(date_attr[2]+date_attr[0]+date_attr[1]))
             #game_date = datetime.date(int(date_attr[2]),int(date_attr[0]),int(date_attr[1]))
+            
         else:
             print("here2")
             date_attr = str(game_date)
@@ -108,7 +109,6 @@ def get_games_date(request,game_date):
     context['games'] = []
     context['date']='%s/%s/%s' % (game_date.month,game_date.day,game_date.year)
     if today < game_date:
-        print("hefiehdie")
         game_previews = GamePreview.objects.filter(game_date=game_date)
         for game in game_previews:
             previous_playoff_games = (Game.objects.filter(home_team=game.home_team_id,away_team=game.away_team_id,date__gte=datetime.date(2020,5,1))
@@ -121,7 +121,6 @@ def get_games_date(request,game_date):
                     home_series_wins += 1
                 else:
                     away_series_wins += 1
-            print('here92839283')
             this_game = [
                 game.home_team_name,
                 game.away_team_name,
@@ -342,8 +341,18 @@ def player_page(request,id):
     time = models.TimeField(default=None, null=True)
     data = JSONField()'''
 def game_page(request, id):
+    
+    if request.method == 'POST' and 'form' in request.POST:
+        data = request.POST['form'].split(' ')
+        team_voted_for = data[0]
+        game_id = data[1]
+        print(team_voted_for)
+        print(game_id)
+        messages.add_message(request, messages.SUCCESS, 'Thanks for Voting')
+        return preview_game_page(request,game_id,False)
+    
     if id < 10000:
-        return preview_game_page(request,id)
+        return preview_game_page(request,id,True)
     game = Game.objects.get(game_id=id)
 
     player_stats = game.data['player_stats']
@@ -448,7 +457,7 @@ def game_page(request, id):
 
     return render(request,'basketball/game_page.html',context)
 
-def preview_game_page(request,id):
+def preview_game_page(request,id,add_form):
     game = GamePreview.objects.get(game_preview_id=id)
     if game.game_date <= get_pst_time():
         return HttpResponse("Nothing to see here")
@@ -550,10 +559,13 @@ def preview_game_page(request,id):
     context['away_team_image']=find_team_image(game.away_team_id)
     context['home_team_name']=game.home_team_name
     context['away_team_name']=game.away_team_name
+    this_form.gid=game.game_preview_id
+    form = GamePreviewForm()
+    if add_form:
+        context['form']=form
     
     return render(request,'basketball/game_preview.html',context)
     
-     
 
 def get_game(request):
     #print(request.POST['date'])
