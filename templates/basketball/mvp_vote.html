@@ -18,6 +18,7 @@
                 <form action="{% url 'mvp_vote' %}" method="post">
                     {% csrf_token %}
                     {{form}}
+                    <br/>
                     <input class="btn btn-primary" type="submit" value="Submit">
                 </form>
             </div>

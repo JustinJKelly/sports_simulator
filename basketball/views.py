@@ -4,11 +4,12 @@ from nba_api.stats.endpoints import playercareerstats
 from nba_api.stats.static import players, teams
 from bs4 import BeautifulSoup
 import requests
-from .models import Player, Game, Team, MVPVote
+from .models import Player, Game, Team, MVPVote, GamePreview
 # importing datetime module 
 import datetime
 from sports_simulator import views as home_views
 from .forms import MVPVoteForm
+from pytz import timezone, utc
 
 '''
 # creating an instance of  
@@ -70,6 +71,10 @@ def home(request):
 
     return render(request, 'basketball/games.html', context)
 
+def get_pst_time():
+    date = datetime.datetime.now(tz=utc)
+    date = date.astimezone(timezone('US/Pacific')).date()
+    return date
 
 def get_games_date(request,game_date):
 
@@ -80,6 +85,7 @@ def get_games_date(request,game_date):
             print("here1")
             print(request.POST['date'])
             date_attr = request.POST['date'].split('/')
+            
             return redirect('/basketball/games/'+(date_attr[2]+date_attr[0]+date_attr[1]))
             #game_date = datetime.date(int(date_attr[2]),int(date_attr[0]),int(date_attr[1]))
         else:
@@ -95,37 +101,74 @@ def get_games_date(request,game_date):
         game_date = datetime.date.today()
         return render(request, 'basketball/games.html')
 
-    games = Game.objects.filter(date=game_date) 
+    today = get_pst_time()
+    print(today)
+    print(game_date)
     context = {}
-    context['date']='%s/%s/%s' % (game_date.month,game_date.day,game_date.year)
     context['games'] = []
+    context['date']='%s/%s/%s' % (game_date.month,game_date.day,game_date.year)
+    if today < game_date:
+        print("hefiehdie")
+        game_previews = GamePreview.objects.filter(game_date=game_date)
+        for game in game_previews:
+            previous_playoff_games = (Game.objects.filter(home_team=game.home_team_id,away_team=game.away_team_id,date__gte=datetime.date(2020,5,1))
+                            | Game.objects.filter(away_team=game.home_team_id,home_team=game.away_team_id,date__gte=datetime.date(2020,5,1))).order_by('date')
+            
+            home_series_wins = 0
+            away_series_wins = 0
+            for g in previous_playoff_games:
+                if g.winning_team_id == game.home_team_id:
+                    home_series_wins += 1
+                else:
+                    away_series_wins += 1
+            print('here92839283')
+            this_game = [
+                game.home_team_name,
+                game.away_team_name,
+                game.votes_home_team,
+                game.votes_home_away,
+                game.game_preview_id,
+                find_team_image(game.home_team_id),
+                find_team_image(game.away_team_id),
+                Team.objects.get(team_id=game.home_team_id).team_abv,
+                Team.objects.get(team_id=game.away_team_id).team_abv,
+                home_series_wins,
+                away_series_wins,
+                game.home_team_id,
+                game.away_team_id
+            ]
+            context['games'].append(this_game)
+        
+        return render(request, 'basketball/game_previews.html',context)
+            
+    else:
+        games = Game.objects.filter(date=game_date) 
+        ''' [ game_id, home_team_abv, away_team_abv, home_team_img, away_team_img, away_team_score,
+                home_team_score, top_scorer_home_name, top_scorer_home_points, top_scorer_away_name,
+                top_scorer_away_score
+            ]
+        '''
+        for game in games:
+            this_game = [
+                game.game_id,
+                Team.objects.get(team_id=game.home_team).team_abv,
+                Team.objects.get(team_id=game.away_team).team_abv,
+                find_team_image(game.home_team),
+                find_team_image(game.away_team),
+                game.top_scorer_home,
+                Player.objects.get(player_id=game.top_scorer_home).full_name,
+                game.top_scorer_home_points,
+                game.top_scorer_away,
+                Player.objects.get(player_id=game.top_scorer_away).full_name,
+                game.top_scorer_away_points,
+                game.home_team_score,
+                game.away_team_score,
+                game.home_team,
+                game.away_team
+            ]
+            context['games'].append(this_game)
 
-    ''' [ game_id, home_team_abv, away_team_abv, home_team_img, away_team_img, away_team_score,
-            home_team_score, top_scorer_home_name, top_scorer_home_points, top_scorer_away_name,
-            top_scorer_away_score
-        ]
-    '''
-    for game in games:
-        this_game = [
-            game.game_id,
-            Team.objects.get(team_id=game.home_team).team_abv,
-            Team.objects.get(team_id=game.away_team).team_abv,
-            find_team_image(game.home_team),
-            find_team_image(game.away_team),
-            game.top_scorer_home,
-            Player.objects.get(player_id=game.top_scorer_home).full_name,
-            game.top_scorer_home_points,
-            game.top_scorer_away,
-            Player.objects.get(player_id=game.top_scorer_away).full_name,
-            game.top_scorer_away_points,
-            game.home_team_score,
-            game.away_team_score,
-            game.home_team,
-            game.away_team
-        ]
-        context['games'].append(this_game)
-
-    return render(request, 'basketball/games.html',context)
+        return render(request, 'basketball/games.html',context)
     
 
 #height,weight,jersey_number,player_age, team_name
@@ -299,6 +342,8 @@ def player_page(request,id):
     time = models.TimeField(default=None, null=True)
     data = JSONField()'''
 def game_page(request, id):
+    if id < 10000:
+        return preview_game_page(request,id)
     game = Game.objects.get(game_id=id)
 
     player_stats = game.data['player_stats']
@@ -383,8 +428,6 @@ def game_page(request, id):
             count +=1
     num_ots = count-4
 
-    #DOESNT HAVE OVERTIME POINTS BY QUARTER
-    #AND IT ONLY WANT 10 PLAYERS(SOME GAMES HAVE 12+) CAN JUST do home_team_player_stats[:10]
     context = {
         "home_team_name": game.home_team_name,"game_id":game.game_id,"away_team_name": game.away_team_name,
         "home_team_image":find_team_image(game.home_team),"away_team_image":find_team_image(game.away_team),
@@ -405,7 +448,112 @@ def game_page(request, id):
 
     return render(request,'basketball/game_page.html',context)
 
+def preview_game_page(request,id):
+    game = GamePreview.objects.get(game_preview_id=id)
+    if game.game_date <= get_pst_time():
+        return HttpResponse("Nothing to see here")
+     
+    previous_playoff_games = (Game.objects.filter(home_team=game.home_team_id,away_team=game.away_team_id,date__gte=datetime.date(2020,5,1))
+                            | Game.objects.filter(away_team=game.home_team_id,home_team=game.away_team_id,date__gte=datetime.date(2020,5,1))).order_by('date')
+            
+    home_series_wins = 0
+    away_series_wins = 0
+    for g in previous_playoff_games:
+        if g.winning_team_id == game.home_team_id:
+            home_series_wins += 1
+        else:
+            away_series_wins += 1
+    
+    previous_games = (Game.objects.filter(home_team=game.home_team_id,away_team=game.away_team_id,date__lte=datetime.date(2020,5,1))
+                            | Game.objects.filter(away_team=game.home_team_id,home_team=game.away_team_id,date__lte=datetime.date(2020,5,1))).order_by('-date')
+    
+    previous_game_scores = []
+    for g in previous_games:
+        previous_game_scores.append([g.home_team_score,
+                                     g.away_team_score,
+                                     Team.objects.get(team_id=g.home_team).team_abv,
+                                     Team.objects.get(team_id=g.away_team).team_abv,
+                                     game.home_team_id,
+                                     game.away_team_id,
+                                     g.game_id,
+                                     '%s/%s/%s' % (g.date.month,g.date.day,g.date.year),
+                                     find_team_image(g.home_team),
+                                     find_team_image(g.away_team)
+        ]),
 
+        
+    team_away = Team.objects.get(team_id=game.away_team_id)
+    away_abv = team_away.team_abv
+    away_team_stats = [ 
+        team_away.team_name,team_away.team_abv,
+        team_away.team_wins,team_away.team_losses,
+        round(team_away.points_total/team_away.games_played,1),
+        round(team_away.assists_total/team_away.games_played,1),
+        round(team_away.offensive_rebounds_total/team_away.games_played,1),
+        round(team_away.defensive_rebounds_total/team_away.games_played,1),
+        round(team_away.rebounds_total/team_away.games_played,1),
+        round(team_away.blocks_total/team_away.games_played,1),
+        round(team_away.steals_total/team_away.games_played,1),
+        round(team_away.turnovers_total/team_away.games_played,1),
+        round(team_away.personal_fouls_total/team_away.games_played,1),
+        round(team_away.free_throws_made/team_away.games_played,1),
+        round(team_away.free_throws_attempted/team_away.games_played,1),
+        round((team_away.free_throws_made/team_away.free_throws_attempted)*100,1),
+        round(team_away.field_goals_made/team_away.games_played,1),
+        round(team_away.field_goals_attempted/team_away.games_played,1),
+        round((team_away.field_goals_made/team_away.field_goals_attempted)*100,1),
+        round(team_away.three_point_made/team_away.games_played,1),
+        round(team_away.three_point_attempted/team_away.games_played,1),
+        round((team_away.three_point_made/team_away.three_point_attempted)*100,1),
+        round((team_away.points_total/team_away.games_played),1),
+        team_away.games_played,
+    ]
+    
+    team_home = Team.objects.get(team_id=game.home_team_id)
+    home_abv = team_home.team_abv
+    home_team_stats = [ 
+        team_home.team_name,team_home.team_abv,
+        team_home.team_wins,team_home.team_losses,
+        round(team_home.points_total/team_home.games_played,1),
+        round(team_home.assists_total/team_home.games_played,1),
+        round(team_home.offensive_rebounds_total/team_home.games_played,1),
+        round(team_home.defensive_rebounds_total/team_home.games_played,1),
+        round(team_home.rebounds_total/team_home.games_played,1),
+        round(team_home.blocks_total/team_home.games_played,1),
+        round(team_home.steals_total/team_home.games_played,1),
+        round(team_home.turnovers_total/team_home.games_played,1),
+        round(team_home.personal_fouls_total/team_home.games_played,1),
+        round(team_home.free_throws_made/team_home.games_played,1),
+        round(team_home.free_throws_attempted/team_home.games_played,1),
+        round((team_home.free_throws_made/team_home.free_throws_attempted)*100,1),
+        round(team_home.field_goals_made/team_home.games_played,1),
+        round(team_home.field_goals_attempted/team_home.games_played,1),
+        round((team_home.field_goals_made/team_home.field_goals_attempted)*100,1),
+        round(team_home.three_point_made/team_home.games_played,1),
+        round(team_home.three_point_attempted/team_home.games_played,1),
+        round((team_home.three_point_made/team_home.three_point_attempted)*100,1),
+        round((team_home.points_total/team_home.games_played),1),
+        team_home.games_played,
+    ]
+    
+    context={}
+    context['away_team_stats']=away_team_stats
+    context['home_team_stats']=home_team_stats
+    context['home_series_wins']=home_series_wins
+    context['away_series_wins']=away_series_wins
+    context['prev_games']=previous_game_scores
+    context['home_team_id']=game.home_team_id
+    context['away_team_id']=game.away_team_id
+    context['home_abv']=home_abv
+    context['away_abv']=away_abv
+    context['home_team_image']=find_team_image(game.home_team_id)
+    context['away_team_image']=find_team_image(game.away_team_id)
+    context['home_team_name']=game.home_team_name
+    context['away_team_name']=game.away_team_name
+    
+    return render(request,'basketball/game_preview.html',context)
+    
+     
 
 def get_game(request):
     #print(request.POST['date'])
