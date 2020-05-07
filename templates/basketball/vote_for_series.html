@@ -17,7 +17,7 @@
                 <form method="post">
                     {% csrf_token %}
                     {% for field in form %}
-                        {{field.label}}
+                        <b style="font-size:16px;">{{field.label}}</b>
                         <br/>
                         {{field}}
                         <br/>
