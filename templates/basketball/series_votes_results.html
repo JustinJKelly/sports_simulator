@@ -1,13 +1,14 @@
   {% extends 'base.html' %}
     {% load static %}
     {% block content %}
-        <style>
-            a:hover.img_hover {
-                color: transparent;
-            }
+    <style>
+        a:hover.img_hover {
+            color: transparent;
+        }
 
 
-        </style>
+    </style>
+    <div>
         <div class="container" style="font-size:16px;">
             <br/>
             <h2 style="text-align:center;"> <b>Series Votes</b> </h2>
@@ -15,14 +16,14 @@
             <div class="row">
                 <div class="col-lg">
                     {% if data1 %}
-                        <canvas style="border:1px solid;" id="pie-chart1"></canvas>
+                        <canvas style="border:1px solid; background-color:#cdd4cf;" id="pie-chart1"></canvas>
                     {% endif %}
                 </div>
                 <br/>
                 <br/>
                 <div class="col-lg">
                     {% if data2 %}
-                        <canvas style="border:1px solid;" id="pie-chart2"></canvas>
+                        <canvas style="border:1px solid; background-color:#cdd4cf;" id="pie-chart2"></canvas>
                     {% endif %}
                 </div>
             </div>
@@ -31,14 +32,14 @@
             <div class="row">
                 <div class="col-lg">
                     {% if data3%}
-                        <canvas style="border:1px solid;" id="pie-chart3"></canvas>
+                        <canvas style="border:1px solid; background-color:#cdd4cf;" id="pie-chart3"></canvas>
                     {% endif %}
                 </div>
                 <br/>
                 <br/>
                 <div class="col-lg">
                     {% if data4 %}
-                        <canvas style="border:1px solid;" id="pie-chart4"></canvas>
+                        <canvas style="border:1px solid; background-color:#cdd4cf;" id="pie-chart4"></canvas>
                     {% endif %}
                 </div>
             </div>
@@ -47,14 +48,14 @@
            <div class="row">
                 <div class="col-lg">
                     {% if data5 %}
-                        <canvas style="border:1px solid;" id="pie-chart5"></canvas>
+                        <canvas style="border:1px solid; background-color:#cdd4cf;" id="pie-chart5"></canvas>
                     {% endif %}
                 </div>
                 <br/>
                 <br/>
                 <div class="col-lg">
                     {% if data6 %}
-                        <canvas style="border:1px solid;" id="pie-chart6"></canvas>
+                        <canvas style="border:1px solid; background-color:#cdd4cf;" id="pie-chart6"></canvas>
                     {% endif %}
                 </div>
             </div>
@@ -63,21 +64,21 @@
              <div class="row">
                 <div class="col-lg">
                     {% if data7 %}
-                        <canvas style="border:1px solid;" id="pie-chart7"></canvas>
+                        <canvas style="border:1px solid; background-color:#cdd4cf;" id="pie-chart7"></canvas>
                     {% endif %}
                 </div>
                 <br/>
                 <br/>
                 <div class="col-lg">
                     {% if data8 %}
-                        <canvas style="border:1px solid;" id="pie-chart8"></canvas>
+                        <canvas style="border:1px solid; background-color:#cdd4cf;" id="pie-chart8"></canvas>
                     {% endif %}
                 </div>
             </div>
                 <br/>
                 <br/>
         </div>
-
+    </div>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
         <script>
             var config = {
