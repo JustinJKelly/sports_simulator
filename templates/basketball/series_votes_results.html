@@ -6,66 +6,82 @@
                 color: transparent;
             }
 
+
         </style>
-        <div class="container" style="width: 50%;">
+        <div class="container" style="font-size:16px;">
             <br/>
             <h2 style="text-align:center;"> <b>Series Votes</b> </h2>
             <br/>
-            <div class="col">
-                <div class="row">
+            <div class="row">
+                <div class="col-lg">
                     {% if data1 %}
-                        <canvas id="pie-chart1"></canvas>
+                        <canvas style="border:1px solid;" id="pie-chart1"></canvas>
                     {% endif %}
-                    <br/>
-                    <br/>
+                </div>
+                <br/>
+                <br/>
+                <div class="col-lg">
                     {% if data2 %}
-                        <canvas id="pie-chart2"></canvas>
+                        <canvas style="border:1px solid;" id="pie-chart2"></canvas>
                     {% endif %}
                 </div>
-                <br/>
-                <br/>
-                <div class="row">
-                    {% if data3 %}
-                        <canvas id="pie-chart3"></canvas>
-                    {% endif %}
-                    <br/>
-                    <br/>
-                    {% if data4 %}
-                        <canvas id="pie-chart4"></canvas>
-                    {% endif %}
-                </div>
-                <br/>
-                <br/>
-                <div class="row">
-                    {% if data5 %}
-                        <canvas id="pie-chart5"></canvas>
-                    {% endif %}
-                    <br/>
-                    <br/>
-                    {% if data6 %}
-                        <canvas id="pie-chart6"></canvas>
-                    {% endif %}
-                </div>
-                <br/>
-                <br/>
-                <div class="row">
-                    {% if data7 %}
-                        <canvas id="pie-chart7"></canvas>
-                    {% endif %}
-                    <br/>
-                    {% if data8 %}
-                        <canvas id="pie-chart8"></canvas>
-                    {% endif %}
-                </div>
-                <br/>
-                <br/>
             </div>
+            <br/>
+            <br/>
+            <div class="row">
+                <div class="col-lg">
+                    {% if data3%}
+                        <canvas style="border:1px solid;" id="pie-chart3"></canvas>
+                    {% endif %}
+                </div>
+                <br/>
+                <br/>
+                <div class="col-lg">
+                    {% if data4 %}
+                        <canvas style="border:1px solid;" id="pie-chart4"></canvas>
+                    {% endif %}
+                </div>
+            </div>
+            <br/>
+            <br/>
+           <div class="row">
+                <div class="col-lg">
+                    {% if data5 %}
+                        <canvas style="border:1px solid;" id="pie-chart5"></canvas>
+                    {% endif %}
+                </div>
+                <br/>
+                <br/>
+                <div class="col-lg">
+                    {% if data6 %}
+                        <canvas style="border:1px solid;" id="pie-chart6"></canvas>
+                    {% endif %}
+                </div>
+            </div>
+            <br/>
+            <br/>
+             <div class="row">
+                <div class="col-lg">
+                    {% if data7 %}
+                        <canvas style="border:1px solid;" id="pie-chart7"></canvas>
+                    {% endif %}
+                </div>
+                <br/>
+                <br/>
+                <div class="col-lg">
+                    {% if data8 %}
+                        <canvas style="border:1px solid;" id="pie-chart8"></canvas>
+                    {% endif %}
+                </div>
+            </div>
+                <br/>
+                <br/>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
         <script>
             var config = {
-                type: 'pie',
+                type: 'doughnut',
                 data: {
                     datasets: [{
                     data: {{ data1|safe }},
@@ -82,7 +98,7 @@
             };
 
             var config2 = {
-                type: 'pie',
+                type: 'doughnut',
                 data: {
                     datasets: [{
                     data: {{ data2|safe }},
@@ -100,7 +116,7 @@
             };
 
             var config3 = {
-                type: 'pie',
+                type: 'doughnut',
                 data: {
                     datasets: [{
                     data: {{ data3|safe }},
@@ -117,7 +133,7 @@
             };
 
              var config4 = {
-                type: 'pie',
+                type: 'doughnut',
                 data: {
                     datasets: [{
                     data: {{ data4|safe }},
@@ -134,7 +150,7 @@
             };
 
              var config5 = {
-                type: 'pie',
+                type: 'doughnut',
                 data: {
                     datasets: [{
                     data: {{ data5|safe }},
@@ -151,7 +167,7 @@
             };
 
              var config6 = {
-                type: 'pie',
+                type: 'doughnut',
                 data: {
                     datasets: [{
                     data: {{ data6|safe }},
@@ -168,7 +184,7 @@
             };
 
              var config7 = {
-                type: 'pie',
+                type: 'doughnut',
                 data: {
                     datasets: [{
                     data: {{ data7|safe }},
@@ -185,7 +201,7 @@
             };
 
             var config8 = {
-                type: 'pie',
+                type: 'doughnut',
                 data: {
                     datasets: [{
                     data: {{ data8|safe }},
@@ -203,6 +219,8 @@
 
             window.onload = function() {
                 var ctx = document.getElementById('pie-chart1').getContext('2d');
+                ctx.height = 200;
+                ctx.width= 200;
                 window.myPie = new Chart(ctx, config);
                 var ctx2 = document.getElementById('pie-chart2').getContext('2d');
                 window.myPie = new Chart(ctx2, config2);

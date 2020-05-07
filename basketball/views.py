@@ -320,7 +320,6 @@ def player_page(request,id):
 def series_vote_results(request):
                 
     series = Serie.objects.all()
-    
     context = {}
     count = 1
     for serie in series:
@@ -345,20 +344,26 @@ def series_vote_results(request):
 def series_vote(request):
     if request.method == 'POST':
         #print(request.POST)
-        name = 'form'
-        count = 1
-        while name in request.POST:
-            items = request.POST[name].split(' ')
-            series = Serie.objects.get(series_id=int(items[1]))
-            if int(items[0])==series.higher_seed_id:
-                series.votes_higher_seed+=1
-                series.save()
-            else:
-                series.votes_lower_seed+=1
-                series.save()
-            name = 'form'+str(count)
-            count += 1
-        return redirect('/basketball/series_vote_results')
+        form = SeriesForm(request.POST)
+        if form.is_valid():
+            name = 'form'
+            count = 1
+            while name in request.POST:
+                items = request.POST[name].split(' ')
+                series = Serie.objects.get(series_id=int(items[1]))
+                if int(items[0])==series.higher_seed_id:
+                    series.votes_higher_seed+=1
+                    series.save()
+                else:
+                    series.votes_lower_seed+=1
+                    series.save()
+                name = 'form'+str(count)
+                count += 1
+            return redirect('/basketball/series_vote_results')
+        else:
+            messages.add_message(request, messages.ERROR, 'Error in processing form data')
+            formset = SeriesForm()
+            return render(request,'basketball/vote_for_series.html',{'form':formset})
         #return HttpResponse("Thanks")
     
     formset = SeriesForm()
@@ -1330,39 +1335,56 @@ def mvp_vote(request):
             mvp_player.votes+=1
             mvp_player.save()
                     
-            return redirect('/basketball/mvp_results',player_chosen={'player_id':mvp_player.player_id})
+            return redirect('/basketball/mvp_results')
     #return render(request,'basketball/mvp_vote.html',context)
     form = MVPVoteForm()
     #print(form.CHOICES)
     labels=[]
     data=[]
+    
+    mvp_poll = MVPVote.objects.all().order_by('-votes','-points_pg')[3:]
+    other_votes = 0
+    for p in mvp_poll:
+        other_votes += p.votes
+        if p.votes == 0:
+            break
+    
     mvp_poll = MVPVote.objects.all().order_by('-votes','-points_pg')[:3]
     
     for player in mvp_poll:
         labels.append(player.player_name)
         data.append(player.votes+3)
+    labels.append('Other')
+    data.append(other_votes)
     print("here")
     return render(request,'basketball/mvp_vote.html', {"form":form,'labels': labels,'data': data, })  
 
 def mvp_results(request):
-    #print("Request:",request)
     mvp_poll = MVPVote.objects.all().order_by('-votes','-points_pg')
     labels=[]
     data=[]
     
     for player in mvp_poll[:10]:
         labels.append(player.player_name)
-        data.append(player.votes+3)
+        data.append(player.votes)
     
-    top_hundred = []
-    for player in mvp_poll[:100]:
+    other_votes = 0
+    for player in mvp_poll[10:]:
+        other_votes += player.votes
+        if player.votes == 0:
+            break
+        
+    labels.append('Other')
+    data.append(other_votes)
+    
+    rest = []
+    for player in mvp_poll:
         team_id = Player.objects.get(player_id=player.player_id).team_id
         team_image=find_team_image(team_id)
-        top_hundred.append([player.player_name,player.team_abv,team_id,str(player.votes),str(team_image),player.player_id])
+        rest.append([player.player_name,player.team_abv,team_id,str(player.votes),str(team_image),player.player_id])
         
-    print(top_hundred)
     return render(request,'basketball/mvp_votes_results.html',context={
-                                                                    'top_players':top_hundred,
+                                                                    'top_players':rest,
                                                                     'labels': labels,
                                                                     'data': data    })
     
