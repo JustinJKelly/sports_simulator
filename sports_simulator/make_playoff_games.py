@@ -19,10 +19,10 @@ def make_playoff_games():
         'higher_seed_sweeps':0,
         'lower_seed_sweeps':0
     }
-    low_seed = "Orlando"
-    high_seed = "Milwaukee"
-    team_home_id = get_team(high_seed.lower())
-    team_away_id = get_team(low_seed.lower())
+    low_seed = "New Orleans"
+    high_seed = "L.A. Lakers"
+    is_hundred = False
+    
     while hundred < 100:
         games_count=0
         higher_seed_wins=0
@@ -30,36 +30,46 @@ def make_playoff_games():
         hundred+=1
         while games_count < 7 and (higher_seed_wins < 4) and lower_seed_wins < 4:# plays seven games
             games_count+=1
-            
             if games_count < 3 :
+                team_home_id = get_team(high_seed.lower())
+                home_team_name = high_seed
+                team_away_id = get_team(low_seed.lower())
+                away_team_name = low_seed
                 print('Away team: %s %s' % (low_seed, team_away_id))
                 print('Home team: %s %s' % (high_seed, team_home_id))
             elif games_count >= 3 and games_count < 6:
                 team_home_id = get_team(low_seed.lower())
+                home_team_name = high_seed
                 team_away_id = get_team(high_seed.lower())
+                away_team_name = low_seed
                 print('Away team: %s %s' % (high_seed, team_away_id))
                 print('Home team: %s %s' % (low_seed, team_home_id))
             else:
                 team_home_id = get_team(high_seed.lower())
+                home_team_name = high_seed
                 team_away_id = get_team(low_seed.lower())
+                away_team_name = low_seed
                 print('Away team: %s %s' % (low_seed, team_away_id))
                 print('Home team: %s %s' % (high_seed, team_home_id))
             curr = str(current)
+            
             game_date = date(int(curr[0:4]),int(curr[4:6]),int(curr[6:]))
             #current+=1
-            temp = calculate_stats(list(),list(),team_home_id,team_away_id,game_date)
+            
+            # game_info contains all relevant information about the game calculated 
+            game_info = calculate_stats(team_home_id,team_away_id,game_date)
             if games_count < 3:
-                if temp[team_away_id] < temp[team_home_id]:
+                if game_info[team_away_id] < game_info[team_home_id]:
                     higher_seed_wins+=1
                 else:
                     lower_seed_wins+=1
             elif games_count >=3 and games_count < 6:
-                if temp[team_away_id] > temp[team_home_id]:
+                if game_info[team_away_id] > game_info[team_home_id]:
                     higher_seed_wins+=1
                 else:
                     lower_seed_wins+=1
             else:
-                if temp[team_away_id] < temp[team_home_id]:
+                if game_info[team_away_id] < game_info[team_home_id]:
                     higher_seed_wins+=1
                 else:
                     lower_seed_wins+=1
@@ -80,13 +90,18 @@ def make_playoff_games():
                 series_data['lower_seed_sweeps']+=1
             elif higher_seed_wins==3:
                 series_data['game_seven']+=1
-    
+    print(" 100 Series Stats")
+    print("HIGHER SEED ", high_seed, " series wins: ", series_data['higher_seed_series_wins'], "\n")
+    print("Higher seed sweeps: ", series_data['higher_seed_sweeps'], "\n")
+    print("LOWER SEED ", low_seed, " series wins: ", series_data['lower_seed_series_wins'], "\n")
+    print("Lower seed sweeps: ", series_data['lower_seed_sweeps'], "\n")
+    print("Game Sevens: ", series_data['game_seven'])
           
 
 
 
 
-def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
+def calculate_stats(home_id,away_id,game_date):
     team_home = Team.objects.get(team_id=home_id)
     team_away = Team.objects.get(team_id=away_id)
     home_stats = {
@@ -188,7 +203,7 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
     home_game_stats['rebounds'] = home_game_stats['off_rebounds']+home_game_stats['def_rebounds']
     total_points_home = (home_game_stats['three_point_made']*3)+((home_game_stats['field_goals_made']-home_game_stats['three_point_made'])*2) + home_game_stats['free_throws_made']
 
-    pprint.pprint(home_game_stats)
+    #pprint.pprint(home_game_stats)
 
 
     if away_points_pg > home_opp_point_pg:
@@ -253,66 +268,66 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
     away_name = away.team_name
 
     # UPDATING AWAY TEAM STATS WE DONT WANT TO DO THIS YET
-    '''
-            team_stat['assists']+=player_stat['assists']
-            team_stat['off_rebounds']+=player_stat['off_rebounds']
-            team_stat['def_rebounds']+=player_stat['def_rebounds']
-            team_stat['rebounds']+=(player_stat['off_rebounds']+player_stat['def_rebounds'])
-            team_stat['blocks']+=player_stat['blocks']
-            team_stat['steals']+=player_stat['steals']
-            team_stat['turnovers']+=player_stat['turnovers']
-            team_stat['personal_fouls']+=player_stat['personal_fouls']
-            team_stat['FT_attempted']+=player_stat['FT_attempted']
-            team_stat['FT_made']+=player_stat['FT_made']
-            team_stat['FG_attempted']+=player_stat['FG_attempted']
-            team_stat['FG_made']+=player_stat['FG_made']
-            team_stat['3P_attempted']+=player_stat['3P_attempted']
-            team_stat['3P_made']+=player_stat['3P_made']
-            team_stat['points']+=player_stat['points']
-    
-    away.points_total += team_away_stats['points']
-    away.assists_total += team_away_stats['assists']
-    away.offensive_rebounds_total += team_away_stats['off_rebounds']
-    away.defensive_rebounds_total += team_away_stats['def_rebounds']
-    away.rebounds_total += team_away_stats['rebounds']
-    away.blocks_total += team_away_stats['blocks']
-    away.steals_total += team_away_stats['steals']
-    away.turnovers_total += team_away_stats['turnovers']
-    away.personal_fouls_total += team_away_stats['personal_fouls']
-    away.free_throws_made += team_away_stats['FT_made']
-    away.free_throws_attempted += team_away_stats['FT_attempted']
-    away.three_point_made += team_away_stats['3P_made']
-    away.three_point_attempted += team_away_stats['3P_attempted']
-    away.field_goals_made += team_away_stats['FG_made']
-    away.field_goals_attempted += team_away_stats['FG_attempted']
-    away.games_played += 1
-    away.opponent_points_total += team_home_stats['points']
-    away.save()
-    '''
 
+    """
+        team_stat['assists']+=player_stat['assists']
+        team_stat['off_rebounds']+=player_stat['off_rebounds']
+        team_stat['def_rebounds']+=player_stat['def_rebounds']
+        team_stat['rebounds']+=(player_stat['off_rebounds']+player_stat['def_rebounds'])
+        team_stat['blocks']+=player_stat['blocks']
+        team_stat['steals']+=player_stat['steals']
+        team_stat['turnovers']+=player_stat['turnovers']
+        team_stat['personal_fouls']+=player_stat['personal_fouls']
+        team_stat['FT_attempted']+=player_stat['FT_attempted']
+        team_stat['FT_made']+=player_stat['FT_made']
+        team_stat['FG_attempted']+=player_stat['FG_attempted']
+        team_stat['FG_made']+=player_stat['FG_made']
+        team_stat['3P_attempted']+=player_stat['3P_attempted']
+        team_stat['3P_made']+=player_stat['3P_made']
+        team_stat['points']+=player_stat['points']
+        
+        away.points_total += team_away_stats['points']
+        away.assists_total += team_away_stats['assists']
+        away.offensive_rebounds_total += team_away_stats['off_rebounds']
+        away.defensive_rebounds_total += team_away_stats['def_rebounds']
+        away.rebounds_total += team_away_stats['rebounds']
+        away.blocks_total += team_away_stats['blocks']
+        away.steals_total += team_away_stats['steals']
+        away.turnovers_total += team_away_stats['turnovers']
+        away.personal_fouls_total += team_away_stats['personal_fouls']
+        away.free_throws_made += team_away_stats['FT_made']
+        away.free_throws_attempted += team_away_stats['FT_attempted']
+        away.three_point_made += team_away_stats['3P_made']
+        away.three_point_attempted += team_away_stats['3P_attempted']
+        away.field_goals_made += team_away_stats['FG_made']
+        away.field_goals_attempted += team_away_stats['FG_attempted']
+        away.games_played += 1
+        away.opponent_points_total += team_home_stats['points']
+        away.save()
+    """
     #UPDATING HOME TEAM STATS WE DONT WANT TO DO THIS YET
-    '''
-    home.points_total += team_home_stats['points']
-    home.assists_total += team_home_stats['assists']
-    home.offensive_rebounds_total += team_home_stats['off_rebounds']
-    home.defensive_rebounds_total += team_home_stats['def_rebounds']
-    home.rebounds_total += team_home_stats['rebounds']
-    home.blocks_total += team_home_stats['blocks']
-    home.steals_total += team_home_stats['steals']
-    home.turnovers_total += team_home_stats['turnovers']
-    home.personal_fouls_total += team_home_stats['personal_fouls']
-    home.free_throws_made += team_home_stats['FT_made']
-    home.free_throws_attempted += team_home_stats['FT_attempted']
-    home.three_point_made += team_home_stats['3P_made']
-    home.three_point_attempted += team_home_stats['3P_attempted']
-    home.field_goals_made += team_home_stats['FG_made']
-    home.field_goals_attempted += team_home_stats['FG_attempted']
-    home.games_played += 1
-    home.opponent_points_total += team_away_stats['points']
-    home.save()
-    '''
+    """
+        home.points_total += team_home_stats['points']
+        home.assists_total += team_home_stats['assists']
+        home.offensive_rebounds_total += team_home_stats['off_rebounds']
+        home.defensive_rebounds_total += team_home_stats['def_rebounds']
+        home.rebounds_total += team_home_stats['rebounds']
+        home.blocks_total += team_home_stats['blocks']
+        home.steals_total += team_home_stats['steals']
+        home.turnovers_total += team_home_stats['turnovers']
+        home.personal_fouls_total += team_home_stats['personal_fouls']
+        home.free_throws_made += team_home_stats['FT_made']
+        home.free_throws_attempted += team_home_stats['FT_attempted']
+        home.three_point_made += team_home_stats['3P_made']
+        home.three_point_attempted += team_home_stats['3P_attempted']
+        home.field_goals_made += team_home_stats['FG_made']
+        home.field_goals_attempted += team_home_stats['FG_attempted']
+        home.games_played += 1
+        home.opponent_points_total += team_away_stats['points']
+        home.save()
+    """
 
-    # UPDATING GAME METADATA
+        # UPDATING GAME METADATA
     if team_away_stats['points'] > team_home_stats['points']:
         winner_team_id = away_id
         winning_name = away_name
@@ -369,7 +384,7 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
     #loser.save() DONT SAVE YET
     # winner.save() DONT SAVE YET
 
-
+    
     # GAME METADATA: TOP SCORERS
     top_scorer_home_team_score = 0
     top_scorer_home_team_id = 0
@@ -387,27 +402,28 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
 
     #UPDATING/ SAVING NEW GAME TO PLAYER MODEL
     # NOT SAVING YET, NO NEED
-    '''
+
+    """
     for p in (player_away_stats+player_home_stats):
         pl = Player.objects.get(player_id=p['player_id'])
         
         player_stat['assists']=0
-                player_stat['off_rebounds']=0
-                player_stat['def_rebounds']=0
-                player_stat['rebounds']=0
-                player_stat['blocks']=0
-                player_stat['steals']=0
-                player_stat['turnovers']=0
-                player_stat['personal_fouls']=0
-                player_stat['FT_attempted']=0
-                player_stat['FT_made']=0
-                player_stat['FG_attempted']=0
-                player_stat['FG_made']=0
-                player_stat['3P_attempted']=0
-                player_stat['3P_made']=0
-                player_stat['points']=0
-                player_stat['min']=0
-                player_stat['comment']="NONE"
+        player_stat['off_rebounds']=0
+        player_stat['def_rebounds']=0
+        player_stat['rebounds']=0
+        player_stat['blocks']=0
+        player_stat['steals']=0
+        player_stat['turnovers']=0
+        player_stat['personal_fouls']=0
+        player_stat['FT_attempted']=0
+        player_stat['FT_made']=0
+        player_stat['FG_attempted']=0
+        player_stat['FG_made']=0
+        player_stat['3P_attempted']=0
+        player_stat['3P_made']=0
+        player_stat['points']=0
+        player_stat['min']=0
+        player_stat['comment']="NONE"
         
         
         pl.assists_total += p['assists']
@@ -430,7 +446,7 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
         pl.points_total += p['points']
         #SAVE PLAYER
         pl.save()
-    '''
+    """
 
     data = {}
     data['points_by_quarter_id'] = {}
@@ -443,7 +459,7 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
     #print(data['team_stats'])
     # SAVING GAME DATA NOT NECESSARY YET
     '''
-    game = Game(home_team=home_id,away_team=away_id,home_team_name=home_name,away_team_name=away_name, 
+        game = Game(home_team=home_id,away_team=away_id,home_team_name=home_name,away_team_name=away_name, 
                 game_id=(Game.objects.all().order_by('-game_id')[0].game_id+1),winning_team_id=winner_team_id,
                 winner_name=winning_name,loser_name=losing_name,losing_team_id=loser_team_id,
                 home_team_score=team_home_stats['points'],away_team_score=team_away_stats['points'],
@@ -455,7 +471,8 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
             )
     '''
     #game.save() DONT SAVE YET
-    return {away_id:team_away_stats['points'], home_id:team_home_stats['points']}
+    # need to return data
+    return data
 
 def sort_func(p):
     return p.points_total/p.games_played
@@ -687,15 +704,65 @@ def compute_player_stats(stats,score,tid, other_team_score):
                 free_throws_att_max = 1.5
                 
             
-            #rockets, Dallas, Heat, Raptors, Lakers, Clippers, Bucks, Lakers, 76ers, Celtics,Nuggets, OKC
-            if tid == 1610612745 or tid == 1610612742 or tid == 1610612748 or tid == 1610612761 or tid == 1610612746 or tid == 1610612749 or tid == 1610612747 or tid == 1610612755 or tid == 1610612738 or tid == 1610612743 or tid == 1610612760:
+
+            #BUCKS 
+            if tid == 1610612749:
+                fg_att_max += 0.08
+                fg_made_max += 0.14
+                fg_made_min+=0.06
+                free_throws_made_max+=0.1
+                free_throws_att_max += 0.1
+                three_pt_att_max += 0.06
+                three_pt_made_max += 0.1
+
+            #LAKERS
+            if tid == 1610612747:
+                fg_made_max += 0.1
+                fg_made_min+=0.1
+                free_throws_made_max+=0.1
+                free_throws_att_max += 0.1
+                three_pt_att_max += 0.06
+                three_pt_made_max += 0.1
+
+            #ROCKETS
+            if tid == 1610612745:
+                three_pt_made_max += 0.12
+                fg_made_max += 0.1
+                fg_made_min+=0.02
+                free_throws_made_max+=0.16
+                free_throws_att_max += 0.1
+                three_pt_att_max += 0.06
+                fg_att_max -= 0.08
+                fg_att_min -= 0.0             
+                three_pt_att_min -= 0.05              
+                three_pt_made_min -= 0.02
+                
+            #76ERS
+            if tid == 1610612755:
+                three_pt_made_min -= 0.02
+                three_pt_made_max -= 0.03
+                fg_made_min += 0.03
+                fg_made_max += 0.05
+                free_throws_att_max += 0.05
+                free_throws_made_max += 0.05
+                three_pt_att_max -= 0.05
+                fg_att_max += 0.08
+                fg_att_min += 0.03
+                three_pt_att_min -= 0.05
+
+            # CLIPPERS
+            if tid == 1610612746:
+                fg_att_min -= 0.14
+                fg_made_max += 0.05
+                fg_made_min += 0.03
+                three_pt_att_min -= 0.02
+                three_pt_made_min -= 0.06
+                three_pt_made_max += 0.04 
                 free_throws_att_max += 0.1
                 free_throws_made_max += 0.1
-                three_pt_att_max += 0.06
-                three_pt_made_max += 0.12
-                
-                
-            #Pacers
+                three_pt_att_max += 0.05
+
+            #PACERS
             if tid == 1610612754:
                 fg_att_max += 0.05
                 fg_att_min += 0.03
@@ -710,110 +777,114 @@ def compute_player_stats(stats,score,tid, other_team_score):
                 three_pt_made_min += 0.05
                 three_pt_made_max += 0.12
             
-            #Raptors
+            #RAPTORS
             if tid == 1610612761:
                 fg_att_min -= 0.04
                 fg_att_max -= 0.04
                 fg_made_min -= 0.02
                 fg_made_max -= 0.01
+                free_throws_att_max += 0.1
+                free_throws_made_max += 0.1
+                three_pt_att_max += 0.06
+                three_pt_made_max += 0.12
                 
-            #Heat
+            #HEAT
             if tid == 1610612748:
-                fg_att_max += 0.06
-                fg_made_max += 0.06
-                free_throws_made_max += 0.032
+                fg_att_max += 0.1
+                fg_att_min+=0.04
+                fg_made_max +=0.1
+                free_throws_made_max += 0.13
                 free_throws_made_min += 0.01
-                free_throws_att_max += 0.04
+                free_throws_att_max += 0.14
                 free_throws_att_min += 0.01
-                three_pt_att_max += 0.05
-                three_pt_made_max += 0.03
-                
-            #Nets, Nuggets, OKC
-            if  tid == 1610612752 or tid == 1610612766 or tid == 1610612751 or tid == 1610612743 or tid == 1610612760 or tid == 1610612765:
+                three_pt_att_max += 0.13
+                three_pt_att_min += 0.06
+                three_pt_made_max += 0.13
+
+            #THUNDER
+            if tid == 1610612760:
+                fg_att_max += 0.135
+                fg_att_min += 0.055
+                fg_made_max += 0.12
+                fg_made_min += 0.06
+                free_throws_made_max += 0.13
+                free_throws_made_min += 0.06
+                free_throws_att_max += 0.15
+                free_throws_att_min += 0.05
+                three_pt_att_min += 0.05
+                three_pt_att_max += 0.14
+                three_pt_made_min += 0.05
+                three_pt_made_max += 0.15
+
+            # PELICANS
+            if tid == 1610612740:
+                fg_att_max -= 0.1
+                fg_att_min -= 0.05
+                fg_made_max -= 0.06
+                fg_made_min -= 0.04
+                three_pt_att_min -= 0.05
+                three_pt_att_max -= 0.1
+                three_pt_made_min -= 0.03
+                three_pt_made_max -= 0.1
+            
+            #NUGGETS
+            if tid == 1610612743:
+                free_throws_att_max += 0.15
+                free_throws_made_max += 0.15
+                three_pt_att_max += 0.12
+                three_pt_made_max += 0.15
                 fg_att_max += 0.1
                 fg_att_min += 0.05
                 fg_made_max += 0.1
                 fg_made_min += 0.05
+                free_throws_made_min += 0.05
+                free_throws_att_min += 0.05
+                three_pt_att_min += 0.05
+                three_pt_made_min += 0.05
+                
+            #NETS
+            if  tid == 1610612751:
+                fg_att_max -= 0.1
+                fg_att_min -= 0.05
+                fg_made_max -= 0.05
+                fg_made_min -= 0.05
                 free_throws_made_max += 0.1
                 free_throws_made_min += 0.05
                 free_throws_att_max += 0.1
                 free_throws_att_min += 0.05
                 three_pt_att_min += 0.05
-                three_pt_att_max += 0.1
+                three_pt_att_max += 0.05
                 three_pt_made_min += 0.05
-                three_pt_made_max += 0.1
-            
-            #OKC
-            if tid == 1610612760:
-                fg_att_max += 0.035
-                fg_att_min += 0.005
-                fg_made_max += 0.02
-                fg_made_min += 0.01
-                free_throws_made_max += 0.03
-                free_throws_made_min += 0.01
+                three_pt_made_max += 0.1            
                 
-            
-            #76ers
-            if tid == 1610612755:
-                three_pt_made_min += 0.04
-                three_pt_made_max += 0.06
-                fg_made_min += 0.02
-                fg_made_max += 0.03
-            
-            #rockets, bucks, lakers
-            if tid == 1610612745 or tid == 1610612749 or tid == 1610612747:
-                three_pt_made_max += 0.06
-                fg_made_max += 0.06
-                
-            #76ers, Pelicans, Rockets
-            if tid == 1610612756 or tid == 1610612755 or tid == 1610612740 or tid == 1610612745:
-                fg_att_max -= 0.08
-                fg_att_min -= 0.03
-                fg_made_max -= 0.06
-                fg_made_min -= 0.03
-                three_pt_att_min -= 0.05
-                three_pt_att_max -= 0.1
-                three_pt_made_min -= 0.02
-                three_pt_made_max -= 0.07
-            
-            #Pelicans
-            if tid == tid == 1610612740:
-                fg_att_max -= 0.04
-                fg_att_min -= 0.02
-                fg_made_max -= 0.03
-                fg_made_min -= 0.01
-                three_pt_made_min -= 0.01
-                three_pt_made_max -= 0.08
-                
-            #Dallas
+            #DALLAS
             if tid == 1610612742:
                 fg_att_max += 0.01
                 fg_att_min -= 0.04
-                fg_made_max += 0.022
-                fg_made_min += 0.012
-        
+                fg_made_max += 0.05
+                fg_made_min += 0.02
+                free_throws_att_max += 0.1
+                free_throws_made_max += 0.1
+                three_pt_att_max += 0.06
+                three_pt_made_max += 0.12
 
-            # Clippers
-            if tid == 1610612746:
-                fg_att_max -= 0.2
-                fg_att_min -= 0.14
-                fg_made_max -= 0.1
-                fg_made_min -= 0.07
-                three_pt_att_min -= 0.08
-                three_pt_att_max -= 0.13
-                three_pt_made_min -= 0.06
-                three_pt_made_max -= 0.08
-            
-            #Celtics, Magic
-            if tid == 1610612764 or tid == 1610612738 or tid == 1610612750 or tid == 1610612753:
-                fg_att_max -= 0.08
-                fg_att_min -= 0.03
-                fg_made_max -= 0.07
-                fg_made_min -= 0.03
-                three_pt_att_min -= 0.03
-                three_pt_att_max -= 0.08
-                three_pt_made_min -= 0.03
-                three_pt_made_max -= 0.7
+            # MAGIC
+            if tid == 1610612753:
+                fg_att_max -=0.05
+                fg_made_max -=0.06
+                free_throws_att_min -=0.06
+                free_throws_made_max -=0.06
+                three_pt_att_max -=0.06
+                three_pt_made_max -=0.06
+
+            #CELTICS
+            if tid == 1610612738:
+                free_throws_att_max += 0.1
+                free_throws_made_max += 0.1
+                three_pt_att_max += 0.06
+                three_pt_made_max += 0.12
+                fg_att_max += 0.1
+                fg_made_max += 0.1
             
             #Jazz
             if tid == 1610612762:
