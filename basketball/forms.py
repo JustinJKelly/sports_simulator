@@ -1,8 +1,8 @@
 from django import forms
-from .models import MVPVote, GamePreview
+from .models import MVPVote, Serie
 from . import views
+from django.forms import formset_factory
 
-global gid
 
 class MVPVoteForm(forms.Form):
     mvp_poll = MVPVote.objects.all().order_by('-votes','-points_pg')
@@ -36,12 +36,38 @@ class MVPVoteForm(forms.Form):
     votes_home_away = models.IntegerField(default=0)
 '''
 
-class GamePreviewForm(forms.Form):
+
+
+class SeriesForm(forms.Form):
+    series = Serie.objects.all()
+    CHOICES = []
+    count = 0
+    for serie in series:
+        CHOICES = []
+        if serie.current:
+            CHOICES.append(
+                (('%s %s' % (serie.higher_seed_id,serie.series_id), serie.higher_seed_name))
+            )
+            CHOICES.append(
+                (('%s %s' % (serie.lower_seed_id,serie.series_id), serie.lower_seed_name))
+            )
+        if count == 0:
+            form = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs. %s' % (serie.higher_seed_abv, serie.lower_seed_abv))
+        elif count == 1:
+            form1 = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs. %s' % (serie.higher_seed_abv, serie.lower_seed_abv))
+        elif count == 2:
+            form2 = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs. %s' % (serie.higher_seed_abv, serie.lower_seed_abv))
+        elif count == 3:
+            form3 = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs. %s' % (serie.higher_seed_abv, serie.lower_seed_abv))
+        elif count == 4:
+            form4 = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs.%s' % (serie.higher_seed_abv, serie.lower_seed_abv))
+        elif count == 5:
+            form5 = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs. %s' % (serie.higher_seed_abv, serie.lower_seed_abv))
+        elif count == 6:
+            form6 = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs. %s' % (serie.higher_seed_abv, serie.lower_seed_abv))
+        elif count == 7:
+            form7 = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs. %s' % (serie.higher_seed_abv, serie.lower_seed_abv))
+        
+        count += 1
     
-    games = GamePreview.objects.all()
-    for game in games:
-        CHOICES = [
-            (('%s %s' % (game.home_team_id,game.game_preview_id)), game.home_team_name), 
-            (('%s %s' % (game.away_team_id,game.game_preview_id)), game.away_team_name,)
-        ]
-    form = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='')
+    

@@ -4,13 +4,14 @@ from nba_api.stats.endpoints import playercareerstats
 from nba_api.stats.static import players, teams
 from bs4 import BeautifulSoup
 import requests
-from .models import Player, Game, Team, MVPVote, GamePreview
+from .models import Player, Game, Team, MVPVote, GamePreview, Serie
 # importing datetime module 
 import datetime
 from sports_simulator import views as home_views
-from .forms import MVPVoteForm, GamePreviewForm
+from .forms import MVPVoteForm, SeriesForm
 from pytz import timezone, utc
-import basketball.forms as this_form
+from django.forms import formset_factory
+import pprint
 
 '''
 # creating an instance of  
@@ -82,17 +83,13 @@ def get_games_date(request,game_date):
     #date(year, month, day)
     try:
         if request.method == 'POST' and request.POST['date']:
-            print("here1")
-            print(request.POST['date'])
             date_attr = request.POST['date'].split('/')
             
             return redirect('/basketball/games/'+(date_attr[2]+date_attr[0]+date_attr[1]))
             #game_date = datetime.date(int(date_attr[2]),int(date_attr[0]),int(date_attr[1]))
             
         else:
-            print("here2")
             date_attr = str(game_date)
-            print(date_attr)
             if len(date_attr) != 8:
                 raise TypeError
             game_date = datetime.date(int(date_attr[0:4]),int(date_attr[4:6]),int(date_attr[6:]))
@@ -315,12 +312,57 @@ def player_page(request,id):
                     this_game_log.append(game.home_team_score)
                     this_game_log.append(game.away_team_score)
 
-            
         this_game_log.append(game.game_id)
         context['game_log'].append(this_game_log)
 
     return render(request,'basketball/player_page.html',context=context)
 
+def series_vote_results(request):
+                
+    series = Serie.objects.all()
+    
+    context = {}
+    count = 1
+    for serie in series:
+        name_l = 'labels'+str(count)
+        name_d = 'data'+str(count)
+        data = [
+            serie.votes_higher_seed+1,
+            serie.votes_lower_seed+1
+        ]
+        labels = [
+            serie.higher_seed_name,
+            serie.lower_seed_name
+        ]
+        context[name_l]=labels
+        context[name_d]=data
+        count +=1
+    
+    pprint.pprint(context)
+    return render(request,'basketball/series_votes_results.html', context)
+    #return HttpResponse("Thanks")
+
+def series_vote(request):
+    if request.method == 'POST':
+        #print(request.POST)
+        name = 'form'
+        count = 1
+        while name in request.POST:
+            items = request.POST[name].split(' ')
+            series = Serie.objects.get(series_id=int(items[1]))
+            if int(items[0])==series.higher_seed_id:
+                series.votes_higher_seed+=1
+                series.save()
+            else:
+                series.votes_lower_seed+=1
+                series.save()
+            name = 'form'+str(count)
+            count += 1
+        return redirect('/basketball/series_vote_results')
+        #return HttpResponse("Thanks")
+    
+    formset = SeriesForm()
+    return render(request,'basketball/vote_for_series.html',{'form':formset})
 
 
 ''' home_team = models.IntegerField(null=False)
@@ -341,15 +383,6 @@ def player_page(request,id):
     time = models.TimeField(default=None, null=True)
     data = JSONField()'''
 def game_page(request, id):
-    
-    if request.method == 'POST' and 'form' in request.POST:
-        data = request.POST['form'].split(' ')
-        team_voted_for = data[0]
-        game_id = data[1]
-        print(team_voted_for)
-        print(game_id)
-        messages.add_message(request, messages.SUCCESS, 'Thanks for Voting')
-        return preview_game_page(request,game_id,False)
     
     if id < 10000:
         return preview_game_page(request,id,True)
@@ -559,13 +592,10 @@ def preview_game_page(request,id,add_form):
     context['away_team_image']=find_team_image(game.away_team_id)
     context['home_team_name']=game.home_team_name
     context['away_team_name']=game.away_team_name
-    this_form.gid=game.game_preview_id
-    form = GamePreviewForm()
-    if add_form:
-        context['form']=form
+    context['date']='%s/%s/%s' % (game.game_date.month,game.game_date.day,game.game_date.year)
     
     return render(request,'basketball/game_preview.html',context)
-    
+
 
 def get_game(request):
     #print(request.POST['date'])
@@ -1303,6 +1333,7 @@ def mvp_vote(request):
             return redirect('/basketball/mvp_results',player_chosen={'player_id':mvp_player.player_id})
     #return render(request,'basketball/mvp_vote.html',context)
     form = MVPVoteForm()
+    #print(form.CHOICES)
     labels=[]
     data=[]
     mvp_poll = MVPVote.objects.all().order_by('-votes','-points_pg')[:3]

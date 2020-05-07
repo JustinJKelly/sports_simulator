@@ -154,13 +154,15 @@ class MVPVote(models.Model):
     def __str__(self):
         return self.player_name
 
-class Series(models.Model):
+class Serie(models.Model):
     votes_higher_seed = models.IntegerField(default=0)
     votes_lower_seed = models.IntegerField(default=0)
     higher_seed_id = models.IntegerField(null=False)
     lower_seed_id = models.IntegerField(null=False)
     higher_seed_name = models.CharField(max_length=35,null=False)
     lower_seed_name = models.CharField(max_length=35,null=False)
+    higher_seed_abv = models.CharField(max_length=4,default='')
+    lower_seed_abv = models.CharField(max_length=4,default='')
     higher_seed_wins = models.IntegerField(default=0)
     lower_seed_wins = models.IntegerField(default=0)
     higher_seed_loses = models.IntegerField(default=0)
@@ -168,6 +170,11 @@ class Series(models.Model):
     games_played = models.IntegerField(default=0)
     playoff_type = models.CharField(max_length=35,null=False) #Quarter=QF,Semi=S,Conference=C,Finals=F
     game_ids = JSONField() #holds ids of games played
+    series_id = models.IntegerField(primary_key=True)
+    current = models.BooleanField(default=True)
+    
+    def __str__(self):
+        return '%s vs. %s' % (self.lower_seed_name, self.higher_seed_name)
     
 
 
@@ -184,7 +191,9 @@ class GamePreview(models.Model):
     game_preview_id = models.IntegerField(primary_key=True)
     votes_home_team = models.IntegerField(default=0)
     votes_home_away = models.IntegerField(default=0)
+    series_id = models.ForeignKey(Serie, on_delete=models.CASCADE)
     
+
 
 
 

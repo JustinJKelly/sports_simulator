@@ -79,6 +79,9 @@
                 </p>
             </div>
             <div class="col-sm-4">
+                <p style="font-size:14px;">
+                    <b> {{date}} </b>
+                </p>
                 <p style="font-size:25px;">
                     {% if home_series_wins > away_series_wins %}
                         {{home_abv}} leads {{home_series_wins}}-{{away_series_wins}}
@@ -97,18 +100,6 @@
                 </p>
             </div>
         </div>
-        {% if form %}
-            <div>
-                <h3> Who will win this Game? </h3>
-                <form method="post">
-                    {% csrf_token %}
-                    {{form}}
-                    <br/>
-                    <br/>
-                    <input class="btn btn-primary" type="submit" value="Submit">
-                </form>
-            </div>
-        {% endif %}
     </div>
     <!--End Header Scorebox-->
     <br/>
