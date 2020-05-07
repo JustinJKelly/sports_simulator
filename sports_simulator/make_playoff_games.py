@@ -32,23 +32,17 @@ def make_playoff_games():
             games_count+=1
             if games_count < 3 :
                 team_home_id = get_team(high_seed.lower())
-                home_team_name = high_seed
                 team_away_id = get_team(low_seed.lower())
-                away_team_name = low_seed
                 print('Away team: %s %s' % (low_seed, team_away_id))
                 print('Home team: %s %s' % (high_seed, team_home_id))
             elif games_count >= 3 and games_count < 6:
                 team_home_id = get_team(low_seed.lower())
-                home_team_name = high_seed
                 team_away_id = get_team(high_seed.lower())
-                away_team_name = low_seed
                 print('Away team: %s %s' % (high_seed, team_away_id))
                 print('Home team: %s %s' % (low_seed, team_home_id))
             else:
                 team_home_id = get_team(high_seed.lower())
-                home_team_name = high_seed
                 team_away_id = get_team(low_seed.lower())
-                away_team_name = low_seed
                 print('Away team: %s %s' % (low_seed, team_away_id))
                 print('Home team: %s %s' % (high_seed, team_home_id))
             curr = str(current)
@@ -56,20 +50,19 @@ def make_playoff_games():
             game_date = date(int(curr[0:4]),int(curr[4:6]),int(curr[6:]))
             #current+=1
             
-            # game_info contains all relevant information about the game calculated 
-            game_info = calculate_stats(team_home_id,team_away_id,game_date)
+            temp = calculate_stats(list(),list(),team_home_id,team_away_id,game_date)
             if games_count < 3:
-                if game_info[team_away_id] < game_info[team_home_id]:
+                if temp[team_away_id] < temp[team_home_id]:
                     higher_seed_wins+=1
                 else:
                     lower_seed_wins+=1
             elif games_count >=3 and games_count < 6:
-                if game_info[team_away_id] > game_info[team_home_id]:
+                if temp[team_away_id] > temp[team_home_id]:
                     higher_seed_wins+=1
                 else:
                     lower_seed_wins+=1
             else:
-                if game_info[team_away_id] < game_info[team_home_id]:
+                if temp[team_away_id] < temp[team_home_id]:
                     higher_seed_wins+=1
                 else:
                     lower_seed_wins+=1
@@ -101,7 +94,7 @@ def make_playoff_games():
 
 
 
-def calculate_stats(home_id,away_id,game_date):
+def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
     team_home = Team.objects.get(team_id=home_id)
     team_away = Team.objects.get(team_id=away_id)
     home_stats = {
@@ -268,8 +261,9 @@ def calculate_stats(home_id,away_id,game_date):
     away_name = away.team_name
 
     # UPDATING AWAY TEAM STATS WE DONT WANT TO DO THIS YET
-
     """
+    if(is_hundred and home_id == 1610612740):
+    
         team_stat['assists']+=player_stat['assists']
         team_stat['off_rebounds']+=player_stat['off_rebounds']
         team_stat['def_rebounds']+=player_stat['def_rebounds']
@@ -304,9 +298,9 @@ def calculate_stats(home_id,away_id,game_date):
         away.games_played += 1
         away.opponent_points_total += team_home_stats['points']
         away.save()
-    """
+    
     #UPDATING HOME TEAM STATS WE DONT WANT TO DO THIS YET
-    """
+    
         home.points_total += team_home_stats['points']
         home.assists_total += team_home_stats['assists']
         home.offensive_rebounds_total += team_home_stats['off_rebounds']
@@ -327,7 +321,7 @@ def calculate_stats(home_id,away_id,game_date):
         home.save()
     """
 
-        # UPDATING GAME METADATA
+    # UPDATING GAME METADATA
     if team_away_stats['points'] > team_home_stats['points']:
         winner_team_id = away_id
         winning_name = away_name
@@ -402,50 +396,51 @@ def calculate_stats(home_id,away_id,game_date):
 
     #UPDATING/ SAVING NEW GAME TO PLAYER MODEL
     # NOT SAVING YET, NO NEED
-
     """
-    for p in (player_away_stats+player_home_stats):
-        pl = Player.objects.get(player_id=p['player_id'])
-        
-        player_stat['assists']=0
-        player_stat['off_rebounds']=0
-        player_stat['def_rebounds']=0
-        player_stat['rebounds']=0
-        player_stat['blocks']=0
-        player_stat['steals']=0
-        player_stat['turnovers']=0
-        player_stat['personal_fouls']=0
-        player_stat['FT_attempted']=0
-        player_stat['FT_made']=0
-        player_stat['FG_attempted']=0
-        player_stat['FG_made']=0
-        player_stat['3P_attempted']=0
-        player_stat['3P_made']=0
-        player_stat['points']=0
-        player_stat['min']=0
-        player_stat['comment']="NONE"
-        
-        
-        pl.assists_total += p['assists']
-        pl.offensive_rebounds_total += p['off_rebounds']
-        pl.defensive_rebounds_total += p['def_rebounds']
-        pl.rebounds_total += p['rebounds']
-        pl.blocks_total += p['blocks']
-        pl.steals_total += p['steals']
-        pl.turnovers_total += p['turnovers']
-        pl.personal_fouls_total += p['personal_fouls']
-        pl.free_throws_made += p['FT_made']
-        pl.free_throws_attempted += p['FT_attempted']
-        pl.minutes_total += p['min']
-        pl.three_point_made += p['3P_made']
-        pl.three_point_attempted += p['3P_attempted']
-        pl.field_goals_made += p['FG_made']
-        pl.field_goals_attempted += p['FG_attempted']
-        if p['comment'] == "OK":
-            pl.games_played += 1
-        pl.points_total += p['points']
-        #SAVE PLAYER
-        pl.save()
+    if(is_hundred and home_id == 1610612740):
+    
+        for p in (player_away_stats+player_home_stats):
+            pl = Player.objects.get(player_id=p['player_id'])
+            
+            player_stat['assists']=0
+            player_stat['off_rebounds']=0
+            player_stat['def_rebounds']=0
+            player_stat['rebounds']=0
+            player_stat['blocks']=0
+            player_stat['steals']=0
+            player_stat['turnovers']=0
+            player_stat['personal_fouls']=0
+            player_stat['FT_attempted']=0
+            player_stat['FT_made']=0
+            player_stat['FG_attempted']=0
+            player_stat['FG_made']=0
+            player_stat['3P_attempted']=0
+            player_stat['3P_made']=0
+            player_stat['points']=0
+            player_stat['min']=0
+            player_stat['comment']="NONE"
+            
+            
+            pl.assists_total += p['assists']
+            pl.offensive_rebounds_total += p['off_rebounds']
+            pl.defensive_rebounds_total += p['def_rebounds']
+            pl.rebounds_total += p['rebounds']
+            pl.blocks_total += p['blocks']
+            pl.steals_total += p['steals']
+            pl.turnovers_total += p['turnovers']
+            pl.personal_fouls_total += p['personal_fouls']
+            pl.free_throws_made += p['FT_made']
+            pl.free_throws_attempted += p['FT_attempted']
+            pl.minutes_total += p['min']
+            pl.three_point_made += p['3P_made']
+            pl.three_point_attempted += p['3P_attempted']
+            pl.field_goals_made += p['FG_made']
+            pl.field_goals_attempted += p['FG_attempted']
+            if p['comment'] == "OK":
+                pl.games_played += 1
+            pl.points_total += p['points']
+            #SAVE PLAYER
+            pl.save()
     """
 
     data = {}
@@ -459,7 +454,7 @@ def calculate_stats(home_id,away_id,game_date):
     #print(data['team_stats'])
     # SAVING GAME DATA NOT NECESSARY YET
     '''
-        game = Game(home_team=home_id,away_team=away_id,home_team_name=home_name,away_team_name=away_name, 
+    game = Game(home_team=home_id,away_team=away_id,home_team_name=home_name,away_team_name=away_name, 
                 game_id=(Game.objects.all().order_by('-game_id')[0].game_id+1),winning_team_id=winner_team_id,
                 winner_name=winning_name,loser_name=losing_name,losing_team_id=loser_team_id,
                 home_team_score=team_home_stats['points'],away_team_score=team_away_stats['points'],
@@ -471,8 +466,7 @@ def calculate_stats(home_id,away_id,game_date):
             )
     '''
     #game.save() DONT SAVE YET
-    # need to return data
-    return data
+    return {away_id:team_away_stats['points'], home_id:team_home_stats['points']}
 
 def sort_func(p):
     return p.points_total/p.games_played
