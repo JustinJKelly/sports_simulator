@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+    {% load static %}
+    {% block content %}
+        {% if messages %}
+            <div class="span12 container text-center" style="color:red; font-size:18px;">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message|safe }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <style>
+            img {
+                max-width: 40px;
+                max-height: 40px;
+            }
+
+            a:hover.img_hover {
+                color:transparent;
+            }
+        </style>
+
+        <br/>
+        <div class="bootstrap-iso container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div >
+                        <!-- Form code begins -->
+                        <form autocomplete="off" class="form-inline" method="post">{% csrf_token %}
+                            <div class="form-group"> <!-- Date input -->
+                                <!--<label class="control-label" for="date">Pick Date</label>-->
+                                <input class="form-control-sm" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+                            </div>
+                            <!-- Submit button -->
+                            <div class="form-group"> 
+                                <button class="btn-sm btn-outline-primary" name="submit" type="submit">Submit</button>
+                            </div>
+                        </form>
+                        <!-- Form code ends --> 
+                    </div>
+                </div>    
+            </div>
+        </div>
+        <br/>
+
+
+        <script>
+            $(document).ready(function() {
+                var date_input=$('input[name="date"]'); //our date input has the name "date"
+                var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+                var options={
+                    format: 'mm/dd/yyyy',
+                    container: container,
+                    todayHighlight: true,
+                    autoclose: true,
+                };
+                date_input.datepicker(options);
+            });
+        </script>
+
+
+        <!--
+            this_game = [
+           0 game.game_id,
+           1 teams.find_team_name_by_id(game.home_team)['abbreviation'],
+           2 teams.find_team_name_by_id(game.away_team)['abbreviation'],
+           3 find_team_image(game.home_team),
+           4 find_team_image(game.away_team),
+           5 game.top_scorer_home,
+           6 players.find_player_by_id(game.top_scorer_home)['full_name'],
+           7 game.top_scorer_home_points,
+           8 game.top_scorer_away,
+           9 players.find_player_by_id(game.top_scorer_away)['full_name'],
+           10 game.top_scorer_away_points,
+           11 game.home_team_score,
+           12 game.away_team_score
+        ]
+        -->
+        
+    <div class="table-responsive container">
+        {% if  games|length  == 0 %}
+            <br/>
+            <br/>
+            <b style="font-size:14px;"> No Games on {{date}}</b>
+        {% else %}
+            <table class="table table-striped table-light">
+                <thead style="font-size:10px">
+                    <tr>
+                        <th scope="col">Matchup ({{date}})</th>
+                        <th scope="col"></th>
+                        <th scope="col">Score</th>
+                        <th scope="col">Top Points Away</th>
+                        <th scope="col">Top Points Home</th>
+                    </tr>
+                </thead>
+                <tbody style="font-size:9px">
+                    {% for game in games %}
+                        <tr>
+                            <td colspan="2"> 
+                                <a class="img_hover" href='/basketball/team/{{game.14}}'><img style="max-height:15px;max-width:15px;" class="card-img" src="{% static game.4 %}" alt="Card image cap"></img> </a>
+                                    {{game.2}}
+                                        @
+                                    {{game.1}}
+                                <a class="img_hover" href='/basketball/team/{{game.13}}'><img style="max-height:15px;max-width:15px;" class="card-img" src="{% static game.3 %}" alt="Card image cap"></img> </a>
+                            </td>
+                            <td style="font-size:8px"> <a href='/basketball/game/{{ game.0 }}'> {{game.2}} {{game.12}},   {{game.11}} {{game.1}}</a> </td>
+                            <td style="font-size:8px"> <a href='/basketball/player/{{ game.8 }}'> {{game.9}} </a> {{game.10}} Pts </td>
+                            <td style="font-size:8px"> <a href='/basketball/player/{{ game.5 }}'> {{game.6}} </a> {{game.7}} Pts </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <br/>
+            <hr style="color:black; border-width: 1px;"></hr>
+        {% endif %} 
+    </div>
+
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+{% endblock %}

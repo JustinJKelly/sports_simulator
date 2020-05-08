@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+    {% load widget_tweaks %}
+    {% load static %}
+    {% block content %}
+
+    <br/>
+    <br/>
+    <div class="container" style="text-align:center;" style="font-size:22px;">
+        <br/>
+        <b style="font-size:14px;"> Vote For the MVP of the 2019-2020 Season </b>
+        <br/>
+        <form action="{% url 'mvp_vote' %}" method="post" style="font-size:12px;">
+            {% csrf_token %}
+            {{form}}
+            <br/>
+            <br/>
+            <input class="btn-sm btn-primary" type="submit" value="Submit">
+        </form>
+            <br/>
+            <br/>
+    
+            <br/>
+            <b style="text-align:center; font-size:14px;"> Current MVP Vote Leaders</b>
+            <br/>
+            <canvas style="font-size:11px;" id="pie-chart"></canvas>
+    </div>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+        <script>
+            var config = {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                    data: {{ data|safe }},
+                    backgroundColor: [
+                        '#32a840', '#e6db12', '#1235e6', '#C0C0C0', '#362f34',
+                        '#e61232', '#11b1f0', '#f09711', '#adf011', '#f011bc'
+
+                    ],
+                    label: 'Votes'
+                    }],
+                    labels: {{ labels|safe }}
+                },
+                options: {
+                    responsive: true
+                }
+            };
+
+            window.onload = function() {
+                var ctx = document.getElementById('pie-chart').getContext('2d');
+                window.myPie = new Chart(ctx, config);
+            };
+
+        </script>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    {% endblock %}
