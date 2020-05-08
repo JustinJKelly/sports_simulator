@@ -26,9 +26,9 @@ from django.contrib import messages
 
 
 def home(request):
-    #print(request.POST['date'])
     if request.method == 'GET':
-        game_date = get_pst_time()
+        #game_date = get_pst_time()
+        game_date = datetime.datetime.now()
     elif not request.POST['date']:
         messages.add_message(request, messages.ERROR, 'No date specified')
         game_date = datetime.date.today()
@@ -99,7 +99,8 @@ def get_games_date(request,game_date):
         game_date = datetime.date.today()
         return render(request, 'basketball/games.html')
 
-    today = get_pst_time()
+    #today = get_pst_time()
+    today = datetime.datetime.now()
     print(today)
     print(game_date)
     context = {}
@@ -497,7 +498,7 @@ def game_page(request, id):
 
 def preview_game_page(request,id,add_form):
     game = GamePreview.objects.get(game_preview_id=id)
-    if game.game_date <= get_pst_time():
+    if game.game_date <= datetime.datetime.now(): #get_pst_time():
         return HttpResponse("Nothing to see here")
      
     previous_playoff_games = (Game.objects.filter(home_team=game.home_team_id,away_team=game.away_team_id,date__gte=datetime.date(2020,5,1))
@@ -950,6 +951,7 @@ def playoffs_page(request):
     all_teams = Team.objects.order_by('-team_wins','team_losses','-divisional_wins','divisional_losses','-conference_wins','conference_losses','team_name')
     western = []
     eastern = []
+    context = {}
 
     count_west = 0
     max_wins_west = 0
@@ -962,7 +964,7 @@ def playoffs_page(request):
             if count_west == 0:
                 max_wins_west=team.team_wins
                 losses_west = team.team_losses
-                print(losses_west)
+                #print(losses_west)
                 games_back = "-"
                 count_west += 1
                 rank=str(count_west)
@@ -987,7 +989,7 @@ def playoffs_page(request):
             if count_east == 0:
                 max_wins_east=team.team_wins
                 losses_east = team.team_losses
-                print(losses_east)
+                #print(losses_east)
                 count_east += 1
                 games_back = "-"
                 rank=str(count_east)
@@ -1008,320 +1010,212 @@ def playoffs_page(request):
                 team.team_id,
                 find_team_image(team.team_id)
             ])
-    post_season_series_west = dict()
-    post_season_series_west['round1']={
-        'series1':{'matchup':'(0 - 0)', 'revmatchup':'(0 - 0)'},
-        'series2':{'matchup':'(0 - 0)', 'revmatchup':'(0 - 0)'},
-        'series3':{'matchup':'(0 - 0)', 'revmatchup':'(0 - 0)'},
-        'series4':{'matchup':'(0 - 0)', 'revmatchup':'(0 - 0)'},
-    }
     
-    first_playoff_date = datetime.date(2020, 4, 17)# first playoff game is scheduled to be 4/18
-    for i in range(0,4):
-        #print("count: ", i)
-        #print("SIZE OF WESTERN OBJ: ", len(western))
-        team_id = western[i][2]
-#            post_season_series_west['round1']['team_id'] =
-        home_team_games = (Game.objects.filter(home_team=team_id) | Game.objects.filter(away_team=team_id)).order_by('date')
-        count_games=1
-        #post_season_series_west['round1']['series'+str(i+1)] =dict()
-        team1_wins = 0
-        team2_wins = 0
-        for playoff_game in home_team_games:
-            if(playoff_game.date > first_playoff_date):
-                post_season_series_west['round1']['series'+str(i+1)]['game'+str(count_games)] = str(playoff_game.home_team_score)+"-"+str(playoff_game.away_team_score)
-                if playoff_game.home_team_score > playoff_game.away_team_score:
-                    team1_wins+=1
-                else:
-                    team2_wins+=1
-                post_season_series_west['round1']['series'+str(i+1)]['matchup']= str(team1_wins)+" : "+str(team2_wins)
-                count_games+=1
-
-    post_season_series_east = dict()
-    post_season_series_east['round1']={
-        'series1':{'matchup':'(0 - 0)', 'revmatchup':'(0 - 0)'},
-        'series2':{'matchup':'(0 - 0)', 'revmatchup':'(0 - 0)'},
-        'series3':{'matchup':'(0 - 0)', 'revmatchup':'(0 - 0)'},
-        'series4':{'matchup':'(0 - 0)', 'revmatchup':'(0 - 0)'},
-    }
-    first_playoff_date = datetime.date(2020, 4, 17)# first playoff game is scheduled to be 4/18
-    for i in range(0,4):
-        #print("count: ", i)
-        #print("SIZE OF WESTERN OBJ: ", len(western))
-        team_id = eastern[i][2]
-#            post_season_series_west['round1']['team_id'] =
-        home_team_games = (Game.objects.filter(home_team=team_id) | Game.objects.filter(away_team=team_id)).order_by('date')
-        count_games=1
-        #post_season_series_east['round1']['series'+str(i+1)] =dict()
-        team1_wins = 0
-        team2_wins = 0
-        for playoff_game in home_team_games:
-            if(playoff_game.date > first_playoff_date):
-                post_season_series_east['round1']['series'+str(i+1)]['game'+str(count_games)] = str(playoff_game.home_team_score)+" - "+str(playoff_game.away_team_score)
-                if playoff_game.home_team_score > playoff_game.away_team_score:
-                    team1_wins+=1
-                else:
-                    team2_wins+=1
-                post_season_series_east['round1']['series'+str(i+1)]['matchup']= str(team1_wins)+" - "+str(team2_wins)
-                count_games+=1
-
+    matchups_west = [
+        [western[0],western[7]],[western[3],western[4]],
+        [western[2],western[5]],[western[1],western[6]]
+    ]
+    matchups_east = [
+        [eastern[0],eastern[7]],[eastern[3],eastern[4]],
+        [eastern[2],eastern[5]],[eastern[1],eastern[6]]
+    ]
+    
+    context['west']= {}
+    context['west']['round1']= {}
+    context['west']['round1']['series1']= {}
+    context['west']['round1']['series2']= {}
+    context['west']['round1']['series3']= {}
+    context['west']['round1']['series4']= {}
+    #round1 West
+    for i in range(1,5):
+        previous_playoff_games = (Game.objects.filter(home_team=matchups_west[i-1][0][2],away_team=matchups_west[i-1][1][2],date__gte=datetime.date(2020,5,1))
+                        | Game.objects.filter(away_team=matchups_west[i-1][0][2],home_team=matchups_west[i-1][1][2],date__gte=datetime.date(2020,5,1))).order_by('date')
+        
+        series = Serie.objects.filter(higher_seed_id=matchups_west[i-1][0][2],lower_seed_id=matchups_west[i-1][1][2])[0]
+        context['west']['round1']['series'+str(i)]['series_id']=series.series_id
+        context['west']['round1']['series'+str(i)]['higher_seed_wins']=series.higher_seed_wins
+        context['west']['round1']['series'+str(i)]['higher_seed_losses']=series.higher_seed_loses
+        context['west']['round1']['series'+str(i)]['lower_seed_wins']=series.lower_seed_wins
+        context['west']['round1']['series'+str(i)]['lower_seed_losses']=series.lower_seed_loses
+        
+        count=1
+        game_str='game'
+        for game in previous_playoff_games:
+            context['west']['round1']['series'+str(i)]['game'+str(count)]={}
+            context['west']['round1']['series'+str(i)]['game'+str(count)]['id']=game.game_id
+            #print(matchups_west[i][0][2])
+            if matchups_west[i-1][0][2] == game.home_team:
+                context['west']['round1']['series'+str(i)]['game'+str(count)]['score_higher_seed']=game.home_team_score
+                context['west']['round1']['series'+str(i)]['game'+str(count)]['score_lower_seed']=game.away_team_score
+            else:
+                context['west']['round1']['series'+str(i)]['game'+str(count)]['score_higher_seed']=game.away_team_score
+                context['west']['round1']['series'+str(i)]['game'+str(count)]['score_lower_seed']=game.home_team_score
+                
+            count += 1
+    
+    context['east']= {}
+    context['east']['round1']= {}
+    context['east']['round1']['series1']= {}
+    context['east']['round1']['series2']= {}
+    context['east']['round1']['series3']= {}
+    context['east']['round1']['series4']= {}
+    #round1 east
+    for i in range(1,5):
+        
+        previous_playoff_games = (Game.objects.filter(home_team=matchups_east[i-1][0][2],away_team=matchups_east[i-1][1][2],date__gte=datetime.date(2020,5,1),is_playoff=True)
+                        | Game.objects.filter(away_team=matchups_east[i-1][0][2],home_team=matchups_east[i-1][1][2],date__gte=datetime.date(2020,5,1),is_playoff=True)).order_by('date')
+        
+        series = Serie.objects.filter(higher_seed_id=matchups_east[i-1][0][2],lower_seed_id=matchups_east[i-1][1][2])[0]
+        context['east']['round1']['series'+str(i)]['series_id']=series.series_id
+        context['east']['round1']['series'+str(i)]['higher_seed_wins']=series.higher_seed_wins
+        context['east']['round1']['series'+str(i)]['higher_seed_losses']=series.higher_seed_loses
+        context['east']['round1']['series'+str(i)]['lower_seed_wins']=series.lower_seed_wins
+        context['east']['round1']['series'+str(i)]['lower_seed_losses']=series.lower_seed_loses
+        
+        count = 1
+        game_str='game'+str(count)
+        for game in previous_playoff_games:
+            context['east']['round1']['series'+str(i)][game_str]={}
+            context['east']['round1']['series'+str(i)][game_str]['series_id']=game.game_id
+            if matchups_east[i-1][0][2] == game.home_team:
+                context['east']['round1']['series'+str(i)][game_str]['score_higher_seed']=game.home_team_score
+                context['east']['round1']['series'+str(i)][game_str]['score_lower_seed']=game.away_team_score
+            else:
+                context['east']['round1']['series'+str(i)][game_str]['score_higher_seed']=game.away_team_score
+                context['east']['round1']['series'+str(i)][game_str]['score_lower_seed']=game.home_team_score
+                
+            count += 1    
                 
         
-    print(post_season_series_west,"\n")
-    print(post_season_series_east,"\n")
-    #print(eastern)
-    #print('%s %s' % (team.team_name,team.team_wins))
-    context = {
-        "eastern_teams":eastern,
-        "western_teams":western,
-        "west_stats":post_season_series_west,
-        "east_stats":post_season_series_east,
-    }
+    print(context['east'],"\n")
+    print(context['west'],"\n")
+
+    context['eastern_teams']=eastern
+    context['western_teams']=western
+
     return render(request,'basketball/playoffs.html', context)
 
 
-def get_series_averages(playoff_games_data, num_games, high_id, low_id):
-    team_averages = {
-        'higher_seed':{
-            'FGM':0,'FGA':0,'FGP':0,'3FGM':0,'3FGA':0,'3FGP':0,
-            'FTM':0,'FTA':0,'FTP':0,'OREB':0,'DREB':0,
-            'REB':0,'AST':0,'STL':0,'BLK':0,
-            'TOV':0,'PF':0,'PTS':0
-        },
-        'lower_seed':{
-            'FGM':0,'FGA':0,'FGP':0,'3FGM':0,'3FGA':0,'3FGP':0,
-            'FTM':0,'FTA':0,'FTP':0,'OREB':0,'DREB':0,
-            'REB':0,'AST':0,'STL':0,'BLK':0,
-            'TOV':0,'PF':0,'PTS':0
-        }
-    }
-    for i in range(0, num_games):
-        team_1_data = playoff_games_data["game"+str(i)].data['team_stats'][0]
-        team_2_data = playoff_games_data["game"+str(i)].data['team_stats'][0]
-        if playoff_games_data["game"+str(i)].data['team_stats'][0]['team_id'] == high_id:
-            
-            team_averages['higher_seed']['FGM']+=team_1_data['FG_made']
-            team_averages['higher_seed']['FGA']+=team_1_data['FG_attempted']
-            team_averages['higher_seed']['FGP']+=(team_1_data['FG_made']/team_1_data['FG_attempted'])
-            team_averages['higher_seed']['3FGM']+=team_1_data['3P_made']
-            team_averages['higher_seed']['3FGA']+=team_1_data['3P_attempted']
-            team_averages['higher_seed']['3FGP']+=(team_1_data['3P_made']/team_1_data['3P_attempted'])
-            team_averages['higher_seed']['FTM']+=team_1_data['FT_made']
-            team_averages['higher_seed']['FTA']+=team_1_data['FT_attempted']
-            team_averages['higher_seed']['FTP']+=(team_1_data['FT_made']/team_1_data['FT_attempted'])
-            team_averages['higher_seed']['OREB']+=team_1_data['off_rebounds']
-            team_averages['higher_seed']['DREB']+=team_1_data['def_rebounds']
-            team_averages['higher_seed']['REB']+=team_1_data['def_rebounds']+team_1_data['def_rebounds']
-            team_averages['higher_seed']['AST']+=team_1_data['assists']
-            team_averages['higher_seed']['STL']+=team_1_data['steals']
-            team_averages['higher_seed']['BLK']+=team_1_data['blocks']
-            team_averages['higher_seed']['TOV']+=team_1_data['turnovers']
-            team_averages['higher_seed']['PF']+=team_1_data['turnovers']
-            team_averages['higher_seed']['PTS']+=playoff_games_data["game"+str(i)].home_team_score#THIS ONE MAY BE WRONG
 
-            team_averages['lower_seed']['FGM']+=team_2_data['FG_made']
-            team_averages['lower_seed']['FGA']+=team_2_data['FG_attempted']
-            team_averages['lower_seed']['FGP']+=(team_2_data['FG_made']/team_2_data['FG_attempted'])
-            team_averages['lower_seed']['3FGM']+=team_2_data['3P_made']
-            team_averages['lower_seed']['3FGA']+=team_2_data['3P_attempted']
-            team_averages['lower_seed']['3FGP']+=(team_2_data['3P_made']/team_2_data['3P_attempted'])
-            team_averages['lower_seed']['FTM']+=team_2_data['FT_made']
-            team_averages['lower_seed']['FTA']+=team_2_data['FT_attempted']
-            team_averages['lower_seed']['FTP']+=(team_2_data['FT_made']/team_2_data['FT_attempted'])
-            team_averages['lower_seed']['OREB']+=team_2_data['off_rebounds']
-            team_averages['lower_seed']['DREB']+=team_2_data['def_rebounds']
-            team_averages['lower_seed']['REB']+=team_2_data['def_rebounds']+team_2_data['def_rebounds']
-            team_averages['lower_seed']['AST']+=team_2_data['assists']
-            team_averages['lower_seed']['STL']+=team_2_data['steals']
-            team_averages['lower_seed']['BLK']+=team_2_data['blocks']
-            team_averages['lower_seed']['TOV']+=team_2_data['turnovers']
-            team_averages['lower_seed']['PF']+=team_2_data['turnovers']
-            team_averages['lower_seed']['PF']+=playoff_games_data["game"+str(i)].away_team_score#THIS MAY BE WRONG
-        else:
-            team_averages['lower_seed']['FGM']+=team_1_data['FG_made']
-            team_averages['lower_seed']['FGA']+=team_1_data['FG_attempted']
-            team_averages['lower_seed']['FGP']+=(team_1_data['FG_made']/team_2_data['FG_attempted'])
-            team_averages['lower_seed']['3FGM']+=team_1_data['3P_made']
-            team_averages['lower_seed']['3FGA']+=team_1_data['3P_attempted']
-            team_averages['lower_seed']['3FGP']+=(team_1_data['3P_made']/team_2_data['3P_attempted'])
-            team_averages['lower_seed']['FTM']+=team_1_data['FT_made']
-            team_averages['lower_seed']['FTA']+=team_1_data['FT_attempted']
-            team_averages['lower_seed']['FTP']+=(team_1_data['FT_made']/team_2_data['FT_attempted'])
-            team_averages['lower_seed']['OREB']+=team_1_data['off_rebounds']
-            team_averages['lower_seed']['DREB']+=team_1_data['def_rebounds']
-            team_averages['lower_seed']['REB']+=team_1_data['def_rebounds']+team_2_data['def_rebounds']
-            team_averages['lower_seed']['AST']+=team_1_data['assists']
-            team_averages['lower_seed']['STL']+=team_1_data['steals']
-            team_averages['lower_seed']['BLK']+=team_1_data['blocks']
-            team_averages['lower_seed']['TOV']+=team_1_data['turnovers']
-            team_averages['lower_seed']['PF']+=team_1_data['turnovers']
-            team_averages['lower_seed']['PF']+=playoff_games_data["game"+str(i)].away_team_score#THIS MAY BE WRONG
-
-            team_averages['higher_seed']['FGM']+=team_2_data['FG_made']
-            team_averages['higher_seed']['FGA']+=team_2_data['FG_attempted']
-            team_averages['higher_seed']['FGP']+=(team_2_data['FG_made']/team_1_data['FG_attempted'])
-            team_averages['higher_seed']['3FGM']+=team_2_data['3P_made']
-            team_averages['higher_seed']['3FGA']+=team_2_data['3P_attempted']
-            team_averages['higher_seed']['3FGP']+=(team_2_data['3P_made']/team_1_data['3P_attempted'])
-            team_averages['higher_seed']['FTM']+=team_2_data['FT_made']
-            team_averages['higher_seed']['FTA']+=team_2_data['FT_attempted']
-            team_averages['higher_seed']['FTP']+=(team_2_data['FT_made']/team_1_data['FT_attempted'])
-            team_averages['higher_seed']['OREB']+=team_2_data['off_rebounds']
-            team_averages['higher_seed']['DREB']+=team_2_data['def_rebounds']
-            team_averages['higher_seed']['REB']+=team_2_data['def_rebounds']+team_1_data['def_rebounds']
-            team_averages['higher_seed']['AST']+=team_2_data['assists']
-            team_averages['higher_seed']['STL']+=team_2_data['steals']
-            team_averages['higher_seed']['BLK']+=team_2_data['blocks']
-            team_averages['higher_seed']['TOV']+=team_2_data['turnovers']
-            team_averages['higher_seed']['PF']+=team_2_data['turnovers']
-            team_averages['higher_seed']['PTS']+=playoff_games_data["game"+str(i)].home_team_score#THIS ONE MAY BE WRONG
-        
-    #exit for loop
-    team_averages['higher_seed']['FGM']/=num_games
-    team_averages['higher_seed']['FGA']/=num_games
-    team_averages['higher_seed']['FGP']/=num_games
-    team_averages['higher_seed']['3FGM']/=num_games
-    team_averages['higher_seed']['3FGA']/=num_games
-    team_averages['higher_seed']['3FGP']/=num_games
-    team_averages['higher_seed']['FTM']/=num_games
-    team_averages['higher_seed']['FTA']/=num_games
-    team_averages['higher_seed']['FTP']/=num_games
-    team_averages['higher_seed']['OREB']/=num_games
-    team_averages['higher_seed']['DREB']/=num_games
-    team_averages['higher_seed']['REB']/=num_games
-    team_averages['higher_seed']['AST']/=num_games
-    team_averages['higher_seed']['STL']/=num_games
-    team_averages['higher_seed']['BLK']/=num_games
-    team_averages['higher_seed']['TOV']/=num_games
-    team_averages['higher_seed']['PF']/=num_games
-    team_averages['higher_seed']['PTS']/=num_games
-
-    team_averages['lower_seed']['FGM']/=num_games
-    team_averages['lower_seed']['FGA']/=num_games
-    team_averages['lower_seed']['FGP']/=num_games
-    team_averages['lower_seed']['3FGM']/=num_games
-    team_averages['lower_seed']['3FGA']/=num_games
-    team_averages['lower_seed']['3FGP']/=num_games
-    team_averages['lower_seed']['FTM']/=num_games
-    team_averages['lower_seed']['FTA']/=num_games
-    team_averages['lower_seed']['FTP']/=num_games
-    team_averages['lower_seed']['OREB']/=num_games
-    team_averages['lower_seed']['DREB']/=num_games
-    team_averages['lower_seed']['REB']/=num_games
-    team_averages['lower_seed']['AST']/=num_games
-    team_averages['lower_seed']['STL']/=num_games
-    team_averages['lower_seed']['BLK']/=num_games
-    team_averages['lower_seed']['TOV']/=num_games
-    team_averages['lower_seed']['PF']/=num_games
-    team_averages['lower_seed']['PTS']/=num_games
-
-    return team_averages
-
-
-def series_page(request, matchup):
-    # I pass the two team's IDs as the /basketball/playoff/series/matchup
-    first_round_matchups={
-        '16106127471610612740':True,
-        '16106127451610612760':True,
-        '16106127431610612762':True,
-        '16106127461610612742':True,
-        '16106127491610612753':True,
-        '16106127481610612755':True,
-        '16106127381610612754':True,
-        '16106127611610612751':True,
-    }
-    if matchup not in first_round_matchups:
+def series_page(request, id):
+    
+    series_check = Serie.objects.filter(series_id=id)
+    if len(series_check) == 0:
         return HttpResponse("Playoff series doesn't exist")
-    # Right now I have the two teams labelled as home_team and away-team
-    # This needs to be changed to high_seed/low_seed
-    higher_seed_id = int(matchup[0:10])
-    lower_seed_id = int(matchup[10:])
-    game_number_list = []#number of games should looks like: [1,2,3,4]
-    higher_seed_team = Team.objects.filter(team_id=higher_seed_id).first()
-    lower_seed_team = Team.objects.filter(team_id=lower_seed_id).first()
-    #print(team_away)
-    home_team_rank = get_team_playoff_rank(higher_seed_id)# created a hardcoded function please check it out
-    away_team_rank = get_team_playoff_rank(lower_seed_id)
-    home_team_games = (Game.objects.filter(home_team=higher_seed_id) | Game.objects.filter(away_team=higher_seed_id)).order_by('date')
-    first_playoff_date = datetime.date(2020, 4, 17)# first playoff game is scheduled to be 4/18
-    playoff_game_data = {}
-    series_length= 0
+
+    series = Serie.objects.get(series_id=id)
+    count=1
+    game_score = 'game_score'
+    game_str = 'game'
+    higher_seed_scores = []
+    lower_seed_scores = []
+    
     # getting all playoff games that the higher seeded team has played
-    for playoff_game in home_team_games:
-        if(playoff_game.date > first_playoff_date and playoff_game.away_team == lower_seed_id):
-            # date is either 4/18 or later and the correct "away_team"
-            series_length+=1
-            playoff_game_data["game" + str(series_length)] = playoff_game
-            game_number_list.append(series_length)
+    context={}
+    higher_seed_stats=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    lower_seed_stats=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    
+    if series.game_ids != "": 
+        for key,this_game_id in series.game_ids.items(): #need to have game1,game2,... in series model
+            context[game_score+str(count)] = ' '
+            game = Game.objects.get(game_id=this_game_id)
+            context[game_str+str(count)] = game.game_id
+            if game.home_team == series.higher_seed_id:
+                lower_seed_scores.append(game.away_team_score)     
+                higher_seed_scores.append(game.home_team_score)
+
+            else:
+                lower_seed_scores.append(game.home_team_score)     
+                higher_seed_scores.append(game.away_team_score)
+            count+=1
             
-    home_team_games_scores= []
-    away_team_games_scores=[]
-    lower_seed_wins = 0
-    higher_seed_wins = 0
-    num_games = len(playoff_game_data)
-    count = 1
-    
-    #calculate each teams average per game.
-    
-    if num_games > 0:
-        team_averages = get_series_averages(playoff_game_data, num_games, higher_seed_id, lower_seed_id)
-    else:
-        team_averages = {
-            'higher_seed':{
-                'FGM':0,'FGA':0,'FGP':0,'3FGM':0,'3FGA':0,'3FGP':0,
-                'FTM':0,'FTA':0,'FTP':0,'OREB':0,'DREB':0,
-                'REB':0,'AST':0,'STL':0,'BLK':0,
-                'TOV':0,'PF':0,'PTS':0
-            },
-            'lower_seed':{
-                'FGM':0,'FGA':0,'FGP':0,'3FGM':0,'3FGA':0,'3FGP':0,
-                'FTM':0,'FTA':0,'FTP':0,'OREB':0,'DREB':0,
-                'REB':0,'AST':0,'STL':0,'BLK':0,
-                'TOV':0,'PF':0,'PTS':0
-            }
-        }
-    #unfortunately have to count backwards
-    while num_games > 0:
-        #print("Game ", count, ": \n", playoff_game_data[num_games])
-        home_team_games_scores.append(playoff_game_data["game"+str(count)].home_team_score)
-        away_team_games_scores.append(playoff_game_data["game"+str(count)].away_team_score)
+            team_stats = game.data['team_stats']
+            higher_seed_team = 1
+            lower_seed_team = 1
+            if team_stats[0]['team_id']==series.higher_seed_id:
+                higher_seed_team = 0
+            else:
+                lower_seed_team = 0
+
+            higher_seed_stats[0] += team_stats[higher_seed_team]['FG_made']
+            higher_seed_stats[1] += team_stats[higher_seed_team]["FG_attempted"]
+            higher_seed_stats[2] += team_stats[higher_seed_team]['3P_made']
+            higher_seed_stats[3] += team_stats[higher_seed_team]["3P_attempted"]
+            higher_seed_stats[4] += team_stats[higher_seed_team]['FT_made']
+            higher_seed_stats[5] += team_stats[higher_seed_team]["FT_attempted"]
+            higher_seed_stats[6] += (team_stats[higher_seed_team]['off_rebounds']+team_stats[higher_seed_team]["def_rebounds"])
+            higher_seed_stats[7] += team_stats[higher_seed_team]['off_rebounds']
+            higher_seed_stats[8] += team_stats[higher_seed_team]["def_rebounds"]
+            higher_seed_stats[9] += team_stats[higher_seed_team]['assists']
+            higher_seed_stats[10] += team_stats[higher_seed_team]['steals']
+            higher_seed_stats[11] += team_stats[higher_seed_team]['blocks']
+            higher_seed_stats[12] += team_stats[higher_seed_team]['turnovers']
+            higher_seed_stats[13] += team_stats[higher_seed_team]['personal_fouls']
+            higher_seed_stats[14] += team_stats[higher_seed_team]['points']
+
+            lower_seed_stats[0] += team_stats[lower_seed_team]['FG_made']
+            lower_seed_stats[1] += team_stats[lower_seed_team]["FG_attempted"]
+            lower_seed_stats[2] += team_stats[lower_seed_team]['3P_made']
+            lower_seed_stats[3] += team_stats[lower_seed_team]["3P_attempted"]
+            lower_seed_stats[4] += team_stats[lower_seed_team]['FT_made']
+            lower_seed_stats[5] += team_stats[lower_seed_team]["FT_attempted"]
+            lower_seed_stats[6] += (team_stats[lower_seed_team]['off_rebounds']+team_stats[lower_seed_team]["def_rebounds"])
+            lower_seed_stats[7] += team_stats[lower_seed_team]['off_rebounds']
+            lower_seed_stats[8] += team_stats[lower_seed_team]["def_rebounds"]
+            lower_seed_stats[9] += team_stats[lower_seed_team]['assists']
+            lower_seed_stats[10] += team_stats[lower_seed_team]['steals']
+            lower_seed_stats[11] += team_stats[lower_seed_team]['blocks']
+            lower_seed_stats[12] += team_stats[lower_seed_team]['turnovers']
+            lower_seed_stats[13] += team_stats[lower_seed_team]['personal_fouls']
+            lower_seed_stats[14] += team_stats[lower_seed_team]['points']
         
-        if playoff_game_data["game"+str(count)].home_team_score > playoff_game_data["game"+str(count)].away_team_score:
-            higher_seed_wins+=1
-        else:
-            lower_seed_wins+=1
-        num_games-=1
-        count+=1
-    while len(home_team_games_scores) < 4:
-        home_team_games_scores.append(0)
-    while len(away_team_games_scores) < 4:
-        away_team_games_scores.append(0)
-    #print(higher_seed_wins, "\n", lower_seed_wins)
+        if series.games_played > 0:    
+            for i in range(0,len(higher_seed_stats)):
+                higher_seed_stats[i]/=series.games_played
+                higher_seed_stats[i]=round(higher_seed_stats[i],1)
+                lower_seed_stats[i]/=series.games_played
+                lower_seed_stats[i]=round(lower_seed_stats[i],1)
+        
+    #home_team_stats.append(round((home_team_stats[home_team]['FG_made']/team_stats[home_team]["FG_attempted"])*100,1))
+    #round((team_stats[home_team]['3P_made']/team_stats[home_team]["3P_attempted"])*100,1),
+    #round((team_stats[home_team]['FT_made']/team_stats[home_team]["FT_attempted"])*100,1),
     
-    #print("Game 1: ", playoff_game_data['game1'].data['team_stats'], "\n")
-    #print("Game 2: ", playoff_game_data['game2'].data['team_stats'], "\n")
-    context=dict()
-    context={
-        "higher_seed_id":higher_seed_id,
-        "lower_seed_id":lower_seed_id,
-        "higher_seed_name":higher_seed_team.team_name,
-        "lower_seed_name":lower_seed_team.team_name,
-        "higher_seed_image":find_team_image(higher_seed_id),
-        "lower_seed_image":find_team_image(lower_seed_id),
-        "series_length":series_length, 
-        "series_games":game_number_list,       
-        "higher_seed_abv":higher_seed_team.team_abv,
-        "lower_seed_abv":lower_seed_team.team_abv,
-        "higher_seed_wins":higher_seed_wins,
-        "lower_seed_wins":lower_seed_wins,
-        "higher_seed_game_score":home_team_games_scores,
-        "lower_seed_game_score":away_team_games_scores,
-        "higher_seed_rank":home_team_rank,
-        "lower_seed_rank":away_team_rank,
-        "playoff_games_data":playoff_game_data,
-        "higher_seed_averages":team_averages['higher_seed'],
-        "lower_seed_averages":team_averages['lower_seed']
-    }
+    higher_seed_teams = Team.objects.filter(conference=Team.objects.get(team_id=series.higher_seed_id).conference).order_by('-team_wins','team_losses','-divisional_wins','divisional_losses','-conference_wins','conference_losses','team_name')
+    higher_seed_rank = 1
+    for t in higher_seed_teams:
+        if t.team_id == series.higher_seed_id:
+            break
+        else:
+            higher_seed_rank += 1
+            
+    lower_seed_teams = Team.objects.filter(conference=Team.objects.get(team_id=series.lower_seed_id).conference).order_by('-team_wins','team_losses','-divisional_wins','divisional_losses','-conference_wins','conference_losses','team_name')
+    lower_seed_rank = 1
+    for t in lower_seed_teams:
+        if t.team_id == series.lower_seed_id:
+            break
+        else:
+            lower_seed_rank += 1
+
+    context["higher_seed_id"]=series.higher_seed_id
+    context["lower_seed_id"]=series.lower_seed_id
+    context["higher_seed_name"]=series.higher_seed_name
+    context["lower_seed_name"]=series.lower_seed_name
+    context["higher_seed_image"]=find_team_image(series.higher_seed_id)
+    context["lower_seed_image"]=find_team_image(series.lower_seed_id)    
+    context["higher_seed_abv"]=series.higher_seed_abv
+    context["lower_seed_abv"]=series.lower_seed_abv
+    context["higher_seed_wins"]=series.higher_seed_wins
+    context["lower_seed_wins"]=series.lower_seed_wins
+    context["higher_seed_losses"]=series.higher_seed_loses
+    context["lower_seed_losses"]=series.lower_seed_loses
+    context["higher_seed_rank"]=higher_seed_rank
+    context["lower_seed_rank"]=lower_seed_rank
+    context["higher_seed_stats"]=higher_seed_stats
+    context["lower_seed_stats"]=lower_seed_stats
+    context["games_played"]=series.games_played
+    context['lower_seed_scores']=lower_seed_scores
+    context['higher_seed_scores']=higher_seed_scores
+        
     return render(request, 'basketball/series.html', context)
 
 

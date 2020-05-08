@@ -1,4 +1,4 @@
-from basketball.models import Game,Team,Player
+from basketball.models import Game,Team,Player, Serie
 from nba_api.stats.endpoints import TeamDashboardByOpponent
 from datetime import date
 import re
@@ -10,20 +10,39 @@ import pprint
 from datetime import date
 import time
 
-
 def make_playoff_games():
-    current = 20200418
-    while current < 20200425:
-        team_away = "New Orleans"
-        team_home = "L.A. Lakers"
-        team_home_id = get_team(team_home.lower())
-        team_away_id = get_team(team_away.lower())
-        print('Away team: %s %s' % (team_away, team_away_id))
-        print('Home team: %s %s' % (team_home, team_home_id))
-        curr = str(current)
-        game_date = date(int(curr[0:4]),int(curr[4:6]),int(curr[6:]))
-        current+=1
-        calculate_stats(list(),list(),team_home_id,team_away_id,game_date)
+    num_wins_higher = 0
+    num_wins_lower = 0
+    team_away = ""
+    team_home = ""
+    higher_id = 1610612761
+    lower_id = 1610612751
+    print('Away team: %s %s' % (team_away, lower_id))
+    print('Home team: %s %s' % (team_home, higher_id))
+    game_day = 7
+    games = 1
+    
+    while num_wins_higher < 4 and num_wins_lower < 4:
+        game_date = date(2020,5,game_day)
+        
+        if games == 1 or games == 2 or games == 6 or games == 7:
+            return_val = calculate_stats(list(),list(),higher_id,lower_id,game_date,'home')
+        else:
+            return_val = calculate_stats(list(),list(),lower_id,higher_id, game_date,'away')
+            
+        if return_val == 'higher':
+            num_wins_higher += 1
+        else:
+            num_wins_lower += 1 
+            
+        print('wins high:',num_wins_higher)
+        print('wins low:',num_wins_lower)
+        
+        game_day += 1
+        games += 1
+    
+  
+    return
 
 
 def make_games():
@@ -98,7 +117,7 @@ def make_games():
             'points_pg':team_matchup_2019_2020[26]/team_matchup_2019_2020[2] 
         }
 '''
-def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
+def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date,higher_seed):
 
     team_home = Team.objects.get(team_id=home_id)
     team_away = Team.objects.get(team_id=away_id)
@@ -330,6 +349,8 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
             team_stat['3P_made']+=player_stat['3P_made']
             team_stat['points']+=player_stat['points']
     '''
+    
+    
     away.points_total += team_away_stats['points']
     away.assists_total += team_away_stats['assists']
     away.offensive_rebounds_total += team_away_stats['off_rebounds']
@@ -347,7 +368,7 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
     away.field_goals_attempted += team_away_stats['FG_attempted']
     away.games_played += 1
     away.opponent_points_total += team_home_stats['points']
-    away.save()
+    #away.save()
 
     #team_home_stats
     home.points_total += team_home_stats['points']
@@ -367,7 +388,7 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
     home.field_goals_attempted += team_home_stats['FG_attempted']
     home.games_played += 1
     home.opponent_points_total += team_away_stats['points']
-    home.save()
+    #home.save()
 
 
     if team_away_stats['points'] > team_home_stats['points']:
@@ -417,8 +438,8 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
             winner.divisional_wins += 1
 
     #SAVE TEAMS
-    loser.save()
-    winner.save()
+    #loser.save()
+    #winner.save()
 
     top_scorer_home_team_score = 0
     top_scorer_home_team_id = 0
@@ -436,25 +457,6 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
 
     for p in (player_away_stats+player_home_stats):
         pl = Player.objects.get(player_id=p['player_id'])
-        '''
-        player_stat['assists']=0
-                player_stat['off_rebounds']=0
-                player_stat['def_rebounds']=0
-                player_stat['rebounds']=0
-                player_stat['blocks']=0
-                player_stat['steals']=0
-                player_stat['turnovers']=0
-                player_stat['personal_fouls']=0
-                player_stat['FT_attempted']=0
-                player_stat['FT_made']=0
-                player_stat['FG_attempted']=0
-                player_stat['FG_made']=0
-                player_stat['3P_attempted']=0
-                player_stat['3P_made']=0
-                player_stat['points']=0
-                player_stat['min']=0
-                player_stat['comment']="NONE"
-        '''
         
         pl.assists_total += p['assists']
         pl.offensive_rebounds_total += p['off_rebounds']
@@ -475,8 +477,7 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
             pl.games_played += 1
         pl.points_total += p['points']
         #SAVE PLAYER
-        pl.save()
-
+        #pl.save()
 
     data = {}
     data['points_by_quarter_id'] = {}
@@ -484,20 +485,49 @@ def calculate_stats(matchup_home,matchup_away,home_id,away_id,game_date):
     data['points_by_quarter_id'][away_id]=points_by_quarter_away
     data['player_stats']=player_home_stats + player_away_stats 
     data['team_stats']=[team_home_stats,team_away_stats]
+    this_game_id = (Game.objects.all().order_by('-game_id')[0].game_id+1)
 
     game = Game(home_team=home_id,away_team=away_id,home_team_name=home_name,away_team_name=away_name, 
-                game_id=(Game.objects.all().order_by('-game_id')[0].game_id+1),winning_team_id=winner_team_id,
+                game_id=this_game_id,winning_team_id=winner_team_id,
                 winner_name=winning_name,loser_name=losing_name,losing_team_id=loser_team_id,
                 home_team_score=team_home_stats['points'],away_team_score=team_away_stats['points'],
                 top_scorer_home=top_scorer_home_team_id ,top_scorer_away=top_scorer_away_team_id,
                 top_scorer_home_points=top_scorer_home_team_score,top_scorer_away_points=top_scorer_away_team_score,
                 date=game_date,home_team_record=(str(home.team_wins)+'-'+str(home.team_losses)),
                 away_team_record=(str(away.team_wins)+'-'+str(away.team_losses)),
-                data=data         
+                data=data, is_playoff=True,playoff_type='QF',is_simulated=True        
             )
+    
+    
+    series = ((Serie.objects.filter(higher_seed_id=home_id,lower_seed_id=away_id)) | (Serie.objects.filter(higher_seed_id=away_id,lower_seed_id=home_id)))[0]
+    series.games_played += 1
+    if series.game_ids == "":
+        series.game_ids = {}
+    series.game_ids['game'+str(series.games_played)]=this_game_id
+    
+    if higher_seed == 'home':
+        if winner_team_id == home_id:
+            return_val = "higher"
+            series.higher_seed_wins+=1
+            series.lower_seed_loses+=1
+        else:
+            return_val = "lower"
+            series.higher_seed_loses+=1
+            series.lower_seed_wins+=1
+    else:
+        if winner_team_id == away_id:
+            return_val = "higher"
+            series.higher_seed_wins+=1
+            series.lower_seed_loses+=1
+        else:
+            return_val = "lower"
+            series.higher_seed_loses+=1
+            series.lower_seed_wins+=1
 
+    series.save()
     game.save()
-    return
+    print(return_val)
+    return return_val
 
 def sort_func(p):
     return p.points_total/p.games_played

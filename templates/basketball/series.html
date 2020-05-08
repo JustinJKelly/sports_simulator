@@ -1,18 +1,50 @@
- <!--context = {
-        "higher_seed_name": game.higher_seed_name,"game_id":game.game_id,"lower_seed_name": game.lower_seed_name,
-        "higher_seed_image":find_team_image(game.higher_seed_id),"lower_seed_image":find_team_image(game.lower_seed_id),
-        "home_team_score":game.home_team_score,"away_team_score":game.away_team_score,
-        "top_scorer_home":game.top_scorer_home,"top_scorer_away":game.top_scorer_away,"attendance":game.attendance,
-        "day":game.date.day, "month":game.date.month,"year":game.date.year,"team_stats":team_stats,
-        "home_team_player_stats":home_team_player_stats, "away_team_player_stats":away_team_player_stats
-        "top_scorer_home_points":game.top_scorer_home_points,"top_scorer_away_points":game.top_scorer_away_points,
-        "top_scorer_home_name":Player.objects.get(player_id=game.top_scorer_home),
-        "top_scorer_away_name":Player.objects.get(player_id=game.top_scorer_away),
-        "away_points_by_quarter":away_points_by_quarter, "home_points_by_quarter": home_points_by_quarter,
-        "home_team_abv":teams.find_team_name_by_id(game.home_team)['abbreviation'],
-        "lower_seed_abv":teams.find_team_name_by_id(game.away_team)['abbreviation']
+<!--
+    context={
+        "higher_seed_id":series.higher_seed_id,
+        "lower_seed_id":series.lower_seed_id,
+        "higher_seed_name":series.higher_seed_team,
+        "lower_seed_name":series.ower_seed_team,
+        "higher_seed_image":find_team_image(series.higher_seed_id),
+        "lower_seed_image":find_team_image(series.lower_seed_id),      
+        "higher_seed_abv":series.higher_seed_abv,
+        "lower_seed_abv":series.lower_seed_abv,
+        "higher_seed_wins":series.higher_seed_wins,
+        "lower_seed_wins":series.lower_seed_wins,
+        "higher_seed_rank":higher_seed_rank,
+        "lower_seed_rank":lower_seed_rank,
+        "higher_seed_stats":higher_seed_stats,
+        "lower_seed_stats":lower_seed_stats
+        "games_played":series.games_played
     }
-    }
+    context['lower_seed_scores']=lower_seed_scores
+    context['higher_seed_scores']=higher_seed_scores
+
+        higher_seed_stats[0] += team_stats[higher_seed_team]['FG_made']
+        higher_seed_stats[1] += team_stats[higher_seed_team]["FG_attempted"]
+        higher_seed_stats[2] += team_stats[higher_seed_team]['3P_made']
+        higher_seed_stats[3] += team_stats[higher_seed_team]["3P_attempted"]
+        higher_seed_stats[4] += team_stats[higher_seed_team]['FT_made']
+        higher_seed_stats[5] += team_stats[higher_seed_team]["FT_attempted"]
+        higher_seed_stats[6] += (team_stats[higher_seed_team]['off_rebounds']+team_stats[higher_seed_team]["def_rebounds"])
+        higher_seed_stats[7] += team_stats[higher_seed_team]['off_rebounds']
+        higher_seed_stats[8] += team_stats[higher_seed_team]["def_rebounds"],
+        higher_seed_stats[9] += team_stats[higher_seed_team]['assists']
+        higher_seed_stats[10] += team_stats[higher_seed_team]['steals']
+        higher_seed_stats[11] += team_stats[higher_seed_team]['blocks'],
+        higher_seed_stats[12] += team_stats[higher_seed_team]['turnovers']
+        higher_seed_stats[13] += team_stats[higher_seed_team]['personal_fouls']
+        higher_seed_stats[14] += team_stats[higher_seed_team]['points']
+
+        game_score = 'game_score'+str(count)
+
+        if game.home_team_id == series.higher_seed_id:
+            context[game_score].append([
+                game.away_team_score,game.home_team_score
+            ])
+        else:
+            context[game_score].append([
+                game.home_team_score,game.away_team_score
+            ])
 -->
 
 {% extends 'base.html' %}
@@ -45,105 +77,79 @@
 
     <br/>
     <!--Header Scorebox-->
-    <div class="container-fluid text-center">
+    <div class="container text-center">
         <div class="row">
-            <div class="col" style="font-size:14px;">
+            <div class="col">
                 <p> 
-                    
+                    <b style="font-size:18px;">({{lower_seed_rank}})</b>
                     <a href="/basketball/team/{{lower_seed_id}}"> <b style="font-size:20px; text-align: center;">{{lower_seed_name}} </b> </a>
-                    <a class="image_hover" href="/basketball/team/{{lower_seed_id}}"> <img style="max-height:150px;max-width:150px;" src="{% static lower_seed_image %}"></img> </a>
+                    <a class="image_hover" href="/basketball/team/{{lower_seed_id}}"> <img style="max-height:80px;max-width:80px;" src="{% static lower_seed_image %}"></img> </a>
                 </p>
-                <p style="font-size:16px;">({{lower_seed_rank}})</p>
             </div>
             <div class="col">
-                <div class="table">
-                    <table class="table table-striped table-light table-sm" style="width:100%; font-size:14px;">
-                        <thead>
-                            {% if series_length == 0 %}
-                            <tr>
-                                <th scope="col"></th>
-                                <th scope="col">Game 1: </th>
-                                <th scope="col">Game 2: </th>
-                                <th scope="col">Game 3: </th>
-                                <th scope="col">Game 4: </th>
-                                <th scope="col">Series: </th>
-                            </tr>
-                            {%endif%}
-                            {% if series_length == 4 %}
+                {% if games_played > 0%}
+                    <div class="table">
+                        <table class="table table-striped table-light table-sm" style="width:100%; font-size:14px;">
+                            <thead>
                                 <tr>
                                     <th scope="col"></th>
-                                    <th scope="col">Game 1: </th>
-                                    <th scope="col">Game 2: </th>
-                                    <th scope="col">Game 3: </th>
-                                    <th scope="col">Game 4: </th>
-                                    <th scope="col">Series: </th>
+                                    {% if game_score1 %}
+                                        <th scope="col">Game 1: </th>
+                                    {% endif %}
+                                    {% if game_score2 %}
+                                        <th scope="col">Game 2: </th>
+                                    {% endif %}
+                                    {% if game_score3 %}
+                                        <th scope="col">Game 3: </th>
+                                    {% endif %}
+                                    {% if game_score4 %}
+                                        <th scope="col">Game 4: </th>
+                                    {% endif %}
+                                    {% if game_score5 %}
+                                        <th scope="col">Game 5: </th>
+                                    {% endif %}
+                                    {% if game_score6 %}
+                                        <th scope="col">Game 6: </th>
+                                    {% endif %}
+                                    {% if game_score7 %}
+                                        <th scope="col">Game 7: </th>
+                                    {% endif %}
+                                    <th scope="col">Series Wins </th>
+                                    <th scope="col">Series Losses </th>
                                 </tr>
-                            {% endif %}
-                            {% if series_length == 5 %}
+                            </thead>
+                            <tbody>
                                 <tr>
-                                    <th scope="col"></th>
-                                    <th scope="col">Game 1: </th>
-                                    <th scope="col">Game 2: </th>
-                                    <th scope="col">Game 3: </th>
-                                    <th scope="col">Game 4: </th>
-                                    <th scope="col">Game 5: </th>
-                                    <th scope="col">Series: </th>
-                            {% endif %}
-                            {% if series_length ==  6 %}
-                                <tr>
-                                    <th scope="col"></th>
-                                    <th scope="col">Game 1: </th>
-                                    <th scope="col">Game 2: </th>
-                                    <th scope="col">Game 3: </th>
-                                    <th scope="col">Game 4: </th>
-                                    <th scope="col">Game 5: </th>
-                                    <th scope="col">Game 6: </th>
-                                    <th scope="col">Series: </th>
+                                    <th scope="row">{{lower_seed_abv}}</th>
+                                        {% for s in lower_seed_scores %}
+                                            <td>{{s}}</td>
+                                        {% endfor %}
+                                        <td>{{lower_seed_wins}}</td>
+                                        <td>{{lower_seed_losses}}</td>
                                 </tr>
-                            {% endif %}
-                            {% if series_length ==  7 %}
                                 <tr>
-                                    <th scope="col"></th>
-                                    <th scope="col">Game 1: </th>
-                                    <th scope="col">Game 2: </th>
-                                    <th scope="col">Game 3: </th>
-                                    <th scope="col">Game 4: </th>
-                                    <th scope="col">Game 5: </th>
-                                    <th scope="col">Game 6: </th>
-                                    <th scope="col">Game 7: </th>
-                                    <th scope="col">Series: </th>
+                                    <th scope="row">{{higher_seed_abv}}</th>
+                                        {% for s in higher_seed_scores%}
+                                        <td>{{s}}</td>
+                                        {% endfor %}  
+                                        <td>{{higher_seed_wins}}</td>
+                                        <td>{{higher_seed_losses}}</td>
                                 </tr>
-                            {% endif %}
-
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">{{lower_seed_abv}}</th>
-                                    {% for p in lower_seed_game_score%}
-                                    <td>{{p}}</td>
-                                    {% endfor %}
-                                    <td>{{higher_seed_wins}}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">{{higher_seed_abv}}</th>
-                                    {% for p in higher_seed_game_score%}
-                                    <td>{{p}}</td>
-                                    {% endfor %}  
-                                    
-                                    <td>{{lower_seed_wins}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <h4> No games played </h4>
+                {% endif %}
             </div>
 
-            <div class="col text-center">
+            <div class="col">
                 <p>
-                    <a class="image_hover" href="/basketball/team/{{higher_seed_id}}"> <img style="max-height:150px;max-width:150px" src="{% static higher_seed_image %}"></img> </a>
+                    <a class="image_hover" href="/basketball/team/{{higher_seed_id}}"> <img style="max-height:80px;max-width:80px" src="{% static higher_seed_image %}"></img> </a>
                     <a href="/basketball/team/{{higher_seed_id}}"> <b style="font-size:20px; text-align: center;">{{higher_seed_name}}</b></a>
                     <!--({{home_team_record}})-->
+                    <b style="font-size:18px;">({{higher_seed_rank}})</b>
                 </p>
-                <p style="font-size:16px;">({{higher_seed_rank}})</p>
             </div>
         </div>
     </div>
@@ -189,80 +195,97 @@
                 <tr>
             </thead>
             <tbody>
+                <!--
+                    higher_seed_stats[0] += team_stats[higher_seed_team]['FG_made']
+                    higher_seed_stats[1] += team_stats[higher_seed_team]["FG_attempted"]
+                    higher_seed_stats[2] += team_stats[higher_seed_team]['3P_made']
+                    higher_seed_stats[3] += team_stats[higher_seed_team]["3P_attempted"]
+                    higher_seed_stats[4] += team_stats[higher_seed_team]['FT_made']
+                    higher_seed_stats[5] += team_stats[higher_seed_team]["FT_attempted"]
+                    higher_seed_stats[6] += (team_stats[higher_seed_team]['off_rebounds']+team_stats[higher_seed_team]["def_rebounds"])
+                    higher_seed_stats[7] += team_stats[higher_seed_team]['off_rebounds']
+                    higher_seed_stats[8] += team_stats[higher_seed_team]["def_rebounds"],
+                    higher_seed_stats[9] += team_stats[higher_seed_team]['assists']
+                    higher_seed_stats[10] += team_stats[higher_seed_team]['steals']
+                    higher_seed_stats[11] += team_stats[higher_seed_team]['blocks'],
+                    higher_seed_stats[12] += team_stats[higher_seed_team]['turnovers']
+                    higher_seed_stats[13] += team_stats[higher_seed_team]['personal_fouls']
+                    higher_seed_stats[14] += team_stats[higher_seed_team]['points']
+                -->
                 <tr>
                     <th scope="row">FG</th>
-                    <td>{{lower_seed_averages.FGM}}-{{lower_seed_averages.FGA}}</td>
-                    <td>{{higher_seed_averages.FGM}}-{{higher_seed_averages.FGA}}</td>
+                    <td>{{lower_seed_stats.0}}-{{lower_seed_stats.1}}</td>
+                    <td>{{higher_seed_stats.0}}-{{higher_seed_stats.1}}</td>
                 </tr>
-                <tr>
+                <!--<tr>
                     <th scope="row">Field Goal %</th>
-                    <td>{{lower_seed_averages.FGP}} %</td>
-                    <td>{{higher_seed_averages.FGP}} %</td>
-                </tr>
+                    <td>{{lower_seed_stats.FGP}} %</td>
+                    <td>{{higher_seed_stats.FGP}} %</td>
+                </tr>-->
                 <tr>
                     <th scope="row">3PT</th>
-                    <td>{{lower_seed_averages.3FGM}}-{{lower_seed_averages.3FGA}}</td>
-                    <td>{{higher_seed_averages.3FGM}}-{{higher_seed_averages.3FGA}}</td>
+                    <td>{{lower_seed_stats.2}}-{{lower_seed_stats.3}}</td>
+                    <td>{{higher_seed_stats.2}}-{{higher_seed_stats.3}}</td>
                 </tr>
-                <tr>
+                <!--<tr>
                     <th scope="row">Three Point %</th>
-                    <td>{{lower_seed_averages.3FGP}}%</td>
-                    <td>{{higher_seed_averages.3FGP}}%</td>
-                </tr>
+                    <td>{{lower_seed_stats.3FGP}}%</td>
+                    <td>{{higher_seed_stats.3FGP}}%</td>
+                </tr>-->
                 <tr>
-                        <th scope="row">FT</th>
-                        <td>{{lower_seed_averages.FTM}}-{{lower_seed_averages.FTA}}</td>
-                        <td>{{higher_seed_averages.FTM}}-{{higher_seed_averages.FTA}}</td>
+                    <th scope="row">FT</th>
+                    <td>{{lower_seed_stats.4}}-{{lower_seed_stats.5}}</td>
+                    <td>{{higher_seed_stats.4}}-{{higher_seed_stats.5}}</td>
                 </tr>
-                <tr>
-                        <th scope="row">Free Throw %</th>
-                        <td>{{lower_seed_averages.FTP}} %</td>
-                        <td>{{higher_seed_averages.FTP}} %</td>
-                </tr>
+                <!--<tr>
+                    <th scope="row">Free Throw %</th>
+                    <td>{{lower_seed_stats.FTP}} %</td>
+                    <td>{{higher_seed_stats.FTP}} %</td>
+                </tr>-->
                 <tr>
                         <th scope="row">Offensive Rebounds</th>
-                        <td>{{lower_seed_averages.OREB}}</td>
-                        <td>{{higher_seed_averages.OREB}}</td>
+                        <td>{{lower_seed_stats.7}}</td>
+                        <td>{{higher_seed_stats.7}}</td>
                 </tr>
                 <tr>
                         <th scope="row">Defensive Rebounds</th>
-                        <td>{{lower_seed_averages.REB}}</td>
-                        <td>{{higher_seed_averages.DREB}}</td>
+                        <td>{{lower_seed_stats.8}}</td>
+                        <td>{{higher_seed_stats.8}}</td>
                 </tr>
                 <tr>    
                         <th scope="row">Rebounds</th>
-                        <td>{{lower_seed_averages.REB}}</td>
-                        <td>{{higher_seed_averages.REB}}</td>
+                        <td>{{lower_seed_stats.6}}</td>
+                        <td>{{higher_seed_stats.6}}</td>
                 </tr>
                 <tr>
                         <th scope="row">Assists</th>
-                        <td>{{lower_seed_averages.AST}}</td>
-                        <td>{{higher_seed_averages.AST}}</td>
+                        <td>{{lower_seed_stats.9}}</td>
+                        <td>{{higher_seed_stats.9}}</td>
                 </tr>
                 <tr>
                         <th scope="row">Steals</th>
-                        <td>{{lower_seed_averages.STL}}</td>
-                        <td>{{higher_seed_averages.STL}}</td>
+                        <td>{{lower_seed_stats.10}}</td>
+                        <td>{{higher_seed_stats.10}}</td>
                 </tr>
                 <tr>
                         <th scope="row">Blocks</th>
-                        <td>{{lower_seed_averages.BLK}}</td>
-                        <td>{{higher_seed_averages.BLK}}</td>
+                        <td>{{lower_seed_stats.11}}</td>
+                        <td>{{higher_seed_stats.11}}</td>
                 </tr>
                 <tr>
                         <th scope="row">Turnovers</th>
-                        <td>{{lower_seed_averages.TOV}}</td>
-                        <td>{{higher_seed_averages.TOV}}</td>
+                        <td>{{lower_seed_stats.12}}</td>
+                        <td>{{higher_seed_stats.12}}</td>
                 </tr>
                 <tr>
                         <th scope="row">Personal Fouls</th>
-                        <td>{{lower_seed_averages.PF}}</td>
-                        <td>{{higher_seed_averages.PF}}</td>
+                        <td>{{lower_seed_stats.13}}</td>
+                        <td>{{higher_seed_stats.13}}</td>
                 </tr>
                 <tr>
                         <th scope="row">Points</th>
-                        <td>{{lower_seed_averages.PTS}}</td>
-                        <td>{{higher_seed_averages.PTS}}</td>
+                        <td>{{lower_seed_stats.14}}</td>
+                        <td>{{higher_seed_stats.14}}</td>
                 </tr>
             </tbody>
         </table>
@@ -274,1175 +297,49 @@
     <br>
     
     <!-- Start series table(s)-->
-    <div class="container" style="flex-wrap: nowrap;"> 
-        <div class="row" style="position: absolute; max-width: 80%; left: 50%; flex-wrap: nowrap; transform: translate(-50%, -50%);">
-            <!-- PLACEHOLDER BUTTONS PLEASE CHANGE-->
-            <ul>
-                <button class="btn btn-primary" style="margin: 10px;"> Game 1</button>
-                <button class="btn btn-primary" style="margin: 10px;"> Game 2</button>
-                <button class="btn btn-primary" style="margin: 10px;"> Game 3</button>
-                <button class="btn btn-primary" style="margin: 10px;"> Game 4</button>
-                {% if series_length == 5 %}
-                <button class="btn btn-primary" style="margin: 10px;"> Game 5</button>
+    <div class="container d-flex justify-content-center"> 
+        <div class="row">
+                <div class-"col">
+                {% if game1 %}
+                    <a href="/basketball/game/{{game1}}" class="btn btn-outline-primary" style="margin: 10px;"> Game 1</a>
                 {% endif %}
-                {% if series_length == 6 %}
-                <button class="btn btn-primary" style="margin: 10px;"> Game 5</button>
-                <button class="btn btn-primary" style="margin: 10px;"> Game 6</button>
+                </div>
+                <div class-"col">
+                {% if game2 %}
+                    <a href="/basketball/game/{{game2}}" class="btn btn-outline-primary" style="margin: 10px;"> Game 2</a>
                 {% endif %}
-                {% if series_length == 7 %}
-                <button class="btn btn-primary"  style="margin: 10px;"> Game 5</button>
-                <button class="btn btn-primary" style="margin: 10px;"> Game 6</button>
-                <button class="btn btn-primary" style="margin: 10px;"> Game 7</button>
+                </div>
+                <div class-"col">
+                {% if game3 %}
+                    <a href="/basketball/game/{{game3}}" class="btn btn-outline-primary" style="margin: 10px;"> Game 3</a>
                 {% endif %}
-            </ul>
+                </div>
+                <div class-"col">
+                {% if game4 %}
+                    <a href="/basketball/game/{{game4}}" class="btn btn-outline-primary" style="margin: 10px;"> Game 4</a>
+                {% endif %}
+                </div>
+                <div class-"col">
+                {% if game5 %}
+                    <a href="/basketball/game/{{game5}}" class="btn btn-outline-primary" style="margin: 10px;"> Game 5</a>
+                {% endif %}
+                </div>
+                <div class-"col">
+                {% if game6 %}
+                    <a href="/basketball/game/{{game6}}" class="btn btn-outline-primary" style="margin: 10px;"> Game 6</a>
+                {% endif %}
+                </div>
+                <div class-"col">
+                {% if game7 %}
+                    <a href="/basketball/game/{{game7}}" class="btn btn-outline-primary" style="margin: 10px;"> Game 7</a>
+                {% endif %}
+                </div>
         </div>
-        <br>
-        <br>
-        {% if playoff_games_data %}
-        <div class="game-table table">
-            <br>
-            <h3 class="text-center">
-                Game 1 Stats
-                <br>
-                {{lower_seed_abv}} @ {{higher_seed_abv}}
-            </h3>
-            <br>
-            <table  class="table table-striped table-light" >
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">FG</th>
-                        <th scope="col">3PT</th>
-                        <th scope="col">FT</th>
-                        <th scope="col">ORB</th>
-                        <th scope="col">DRB</th>
-                        <th scope="col">TRB</th>
-                        <th scope="col">AST</th>
-                        <th scope="col">STL</th>
-                        <th scope="col">BLK</th>
-                        <th scope="col">TOV</th>
-                        <th scope="col">PF</th>
-                        <th scope="col">PTS</th>
-                    </tr>
-                </thead>
-                {% for stats in playoff_games_data.game1.data.team_stats %}
-                <tbody>
-                    <td>
-                        
-                        {% if stats.team_id == higher_seed_id %}
-                        <a class="image_hover" href="/basketball/team/{{higher_seed_id}}"> <img style="max-height:55px;max-width:55px" src="{% static higher_seed_image %}"></img> </a>
-                        </td>
-                        <td scope="col">{{stats.FG_made}}-{{stats.FG_attempted}}</td>
-                        <!-- <td scope="col">{{stats.FG_made}}/{{stats.FG_attempted}}</td>-->
-                        <td scope="col">{{stats.3P_made}}-{{stats.3P_attempted}}</td>
-                        <!--<td scope="col">{{stats.3P_made}}/{{stats.3P_attempted}}</td>-->
-                        <td scope="col">{{stats.FT_made}}-{{stats.FT_attempted}}</td>
-                        <!--<td scope="col">{{stats.FT_made}}/{{stats.FT_attempted}}</td>-->
-                        <td scope="col">{{stats.off_rebounds}}</td>
-                        <td scope="col">{{stats.def_rebounds}}</td>
-                        <td scope="col">{{stats.rebounds}}</td>
-                        <td scope="col">{{stats.assists}}</td>
-                        <td scope="col">{{stats.steals}}</td>
-                        <td scope="col">{{stats.blocks}}</td>
-                        <td scope="col">{{stats.turnovers}}</td>
-                        <td scope="col">{{stats.personal_fouls}}</td>
-                        <td scope="col">{{stats.points}}</td>
-                        {% endif %}
-                        {% if stats.team_id == lower_seed_id %}
-                        <a class="image_hover" href="/basketball/team/{{lower_seed_id}}"> <img style="max-height:55px;max-width:55px" src="{% static lower_seed_image %}"></img> </a>
-                        </td>
-                        <td scope="col">{{stats.FG_made}}-{{stats.FG_attempted}}</td>
-                        <!-- <td scope="col">{{stats.FG_made}}/{{stats.FG_attempted}}</td>-->
-                        <td scope="col">{{stats.3P_made}}-{{stats.3P_attempted}}</td>
-                        <!--<td scope="col">{{stats.3P_made}}/{{stats.3P_attempted}}</td>-->
-                        <td scope="col">{{stats.FT_made}}-{{stats.FT_attempted}}</td>
-                        <!--<td scope="col">{{stats.FT_made}}/{{stats.FT_attempted}}</td>-->
-                        <td scope="col">{{stats.off_rebounds}}</td>
-                        <td scope="col">{{stats.def_rebounds}}</td>
-                        <td scope="col">{{stats.rebounds}}</td>
-                        <td scope="col">{{stats.assists}}</td>
-                        <td scope="col">{{stats.steals}}</td>
-                        <td scope="col">{{stats.blocks}}</td>
-                        <td scope="col">{{stats.turnovers}}</td>
-                        <td scope="col">{{stats.personal_fouls}}</td>
-                        <td scope="col">{{stats.points}}</td>
-                        {% endif %}
-                    
-                </tbody>
-                {% endfor %}
-                
-            </table>
-            <br>
-            
-            <hr style="color:black; border-width: 2px;"></hr>
-            <br>
-            <div class="table">
-                <p style="font-size:16px;"> 
-                    <a href="/basketball/team/{{lower_seed_id}}"> <b>{{lower_seed_name}}</b> </a>
-                    <a class="image_hover" href="/basketball/team/{{lower_seed_id}}"> <img style="max-height:45px;max-width:45px" src="{% static lower_seed_image %}"></img> </a> 
-                </p>
-                <table class="table table-striped table-light">
-                    <thead style="font-size:16px">
-                        <tr>
-                            <th scope="col">Player</th>
-                            <th scope="col">Min</th>
-                            <th scope="col">FG</th>
-                            <th scope="col">3PT</th>
-                            <th scope="col">FT</th>
-                            <th scope="col">OREB</th>
-                            <th scope="col">DREB</th>
-                            <th scope="col">REB</th>
-                            <th scope="col">AST</th>
-                            <th scope="col">BLK</th>
-                            <th scope="col">STL</th>
-                            <th scope="col">PF</th>
-                            <th scope="col">TO</th>
-                            <th scope="col">PTS</th>
-                        </tr>
-                    </thead>
-                    <tbody style="font-size:14px">
-                        {% for p in playoff_games_data.game1.data.player_stats %}
-                        {% if p.team_id == lower_seed_id %}
-                            <tr>
-                                <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
-                                <td>{{p.min}}</td>
-                                <td>{{p.FG_made}}-{{p.FG_attempted}}</td>
-                                <td>{{p.3P_made}}-{{p.3P_attempted}}</td>
-                                <td>{{p.FT_made}}-{{p.FT_attempted}}</td>
-                                <td>{{p.off_rebounds}}</td>
-                                <td>{{p.def_rebounds}}</td>
-                                <td>{{p.rebounds}}</td>
-                                <td>{{p.assists}}</td>
-                                <td>{{p.blocks}}</td>
-                                <td>{{p.steals}}</td>
-                                <td>{{p.personal_fouls}}</td>
-                                <td>{{p.turnovers}}</td>
-                                <td>{{p.points}}</td>
-                            </tr>
-                        {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <br/>
-                <hr style="color:black; border-width: 2px;"></hr>
-            </div>
-            <!--End Away Team Player Stats-->
-            <div class="table">
-                <p style="font-size:16px;"> 
-                    <a href="/basketball/team/{{higher_seed_id}}"> <b>{{higher_seed_name}}</b> </a>
-                    <a class="image_hover" href="/basketball/team/{{higher_seed_id}}"> <img style="max-height:45px;max-width:45px" src="{% static higher_seed_image %}"></img>  </a>
-                </p>
-                <table class="table table-striped table-light">
-                    <thead style="font-size:15px">
-                        <tr>
-                            <th scope="col">Player</th>
-                            <th scope="col">Min</th>
-                            <th scope="col">FG</th>
-                            <th scope="col">3PT</th>
-                            <th scope="col">FT</th>
-                            <th scope="col">OREB</th>
-                            <th scope="col">DREB</th>
-                            <th scope="col">REB</th>
-                            <th scope="col">AST</th>
-                            <th scope="col">BLK</th>
-                            <th scope="col">STL</th>
-                            <th scope="col">PF</th>
-                            <th scope="col">TO</th>
-                            <th scope="col">PTS</th>
-                        </tr>
-                    </thead>
-                    <tbody style="font-size:14px">
-                        {% for p in playoff_games_data.game1.data.player_stats %}
-                        {% if p.team_id == higher_seed_id %}
-                            <tr>
-                                <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
-                                <td>{{p.min}}</td>
-                                <td>{{p.FG_made}}-{{p.FG_attempted}}</td>
-                                <td>{{p.3P_made}}-{{p.3P_attempted}}</td>
-                                <td>{{p.FT_made}}-{{p.FT_attempted}}</td>
-                                <td>{{p.off_rebounds}}</td>
-                                <td>{{p.def_rebounds}}</td>
-                                <td>{{p.rebounds}}</td>
-                                <td>{{p.assists}}</td>
-                                <td>{{p.blocks}}</td>
-                                <td>{{p.steals}}</td>
-                                <td>{{p.personal_fouls}}</td>
-                                <td>{{p.turnovers}}</td>
-                                <td>{{p.points}}</td>
-                            </tr>
-                        {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="game-table table">
-            <br>
-            <h3 class="text-center">
-                Game 2 Stats
-                <br>
-                {{lower_seed_abv}} @ {{higher_seed_abv}}
-            </h3>
-            <br>
-            <table  class="table table-striped table-light" >
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">FG</th>
-                        <th scope="col">3PT</th>
-                        <th scope="col">FT</th>
-                        <th scope="col">ORB</th>
-                        <th scope="col">DRB</th>
-                        <th scope="col">TRB</th>
-                        <th scope="col">AST</th>
-                        <th scope="col">STL</th>
-                        <th scope="col">BLK</th>
-                        <th scope="col">TOV</th>
-                        <th scope="col">PF</th>
-                        <th scope="col">PTS</th>
-                    </tr>
-                </thead>
-                {% for stats in playoff_games_data.game2.data.team_stats %}
-                <tbody>
-                    <td>
-                        
-                        {% if stats.team_id == higher_seed_id %}
-                        <a class="image_hover" href="/basketball/team/{{higher_seed_id}}"> <img style="max-height:55px;max-width:55px" src="{% static higher_seed_image %}"></img> </a>
-                        {% endif %}
-                        {% if stats.team_id == lower_seed_id %}
-                        <a class="image_hover" href="/basketball/team/{{lower_seed_id}}"> <img style="max-height:55px;max-width:55px" src="{% static lower_seed_image %}"></img> </a>
-                        {% endif %}
-                    </td>
-                    <td scope="col">{{stats.FG_made}}-{{stats.FG_attempted}}</td>
-                    <!-- <td scope="col">{{stats.FG_made}}/{{stats.FG_attempted}}</td>-->
-                    <td scope="col">{{stats.3P_made}}-{{stats.3P_attempted}}</td>
-                    <!--<td scope="col">{{stats.3P_made}}/{{stats.3P_attempted}}</td>-->
-                    <td scope="col">{{stats.FT_made}}-{{stats.FT_attempted}}</td>
-                    <!--<td scope="col">{{stats.FT_made}}/{{stats.FT_attempted}}</td>-->
-                    <td scope="col">{{stats.off_rebounds}}</td>
-                    <td scope="col">{{stats.def_rebounds}}</td>
-                    <td scope="col">{{stats.rebounds}}</td>
-                    <td scope="col">{{stats.assists}}</td>
-                    <td scope="col">{{stats.steals}}</td>
-                    <td scope="col">{{stats.blocks}}</td>
-                    <td scope="col">{{stats.turnovers}}</td>
-                    <td scope="col">{{stats.personal_fouls}}</td>
-                    <td scope="col">{{stats.points}}</td>
-                </tbody>
-                {% endfor %}
-                
-            </table>
-            <br>
-            
-            <hr style="color:black; border-width: 2px;"></hr>
-            <br>
-            <div class="table">
-                <p style="font-size:16px;"> 
-                    <a href="/basketball/team/{{lower_seed_id}}"> <b>{{lower_seed_name}}</b> </a>
-                    <a class="image_hover" href="/basketball/team/{{lower_seed_id}}"> <img style="max-height:45px;max-width:45px" src="{% static lower_seed_image %}"></img> </a> 
-                </p>
-                <table class="table table-striped table-light">
-                    <thead style="font-size:16px">
-                        <tr>
-                            <th scope="col">Player</th>
-                            <th scope="col">Min</th>
-                            <th scope="col">FG</th>
-                            <th scope="col">3PT</th>
-                            <th scope="col">FT</th>
-                            <th scope="col">OREB</th>
-                            <th scope="col">DREB</th>
-                            <th scope="col">REB</th>
-                            <th scope="col">AST</th>
-                            <th scope="col">BLK</th>
-                            <th scope="col">STL</th>
-                            <th scope="col">PF</th>
-                            <th scope="col">TO</th>
-                            <th scope="col">PTS</th>
-                        </tr>
-                    </thead>
-                    <tbody style="font-size:14px">
-                        {% for p in playoff_games_data.game2.data.player_stats %}
-                        {% if p.team_id == lower_seed_id %}
-                            <tr>
-                                <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
-                                <td>{{p.min}}</td>
-                                <td>{{p.FG_made}}-{{p.FG_attempted}}</td>
-                                <td>{{p.3P_made}}-{{p.3P_attempted}}</td>
-                                <td>{{p.FT_made}}-{{p.FT_attempted}}</td>
-                                <td>{{p.off_rebounds}}</td>
-                                <td>{{p.def_rebounds}}</td>
-                                <td>{{p.rebounds}}</td>
-                                <td>{{p.assists}}</td>
-                                <td>{{p.blocks}}</td>
-                                <td>{{p.steals}}</td>
-                                <td>{{p.personal_fouls}}</td>
-                                <td>{{p.turnovers}}</td>
-                                <td>{{p.points}}</td>
-                            </tr>
-                        {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <br/>
-                <hr style="color:black; border-width: 2px;"></hr>
-            </div>
-            <!--End Away Team Player Stats-->
-            <div class="table">
-                <p style="font-size:16px;"> 
-                    <a href="/basketball/team/{{higher_seed_id}}"> <b>{{higher_seed_name}}</b> </a>
-                    <a class="image_hover" href="/basketball/team/{{higher_seed_id}}"> <img style="max-height:45px;max-width:45px" src="{% static higher_seed_image %}"></img>  </a>
-                </p>
-                <table class="table table-striped table-light">
-                    <thead style="font-size:15px">
-                        <tr>
-                            <th scope="col">Player</th>
-                            <th scope="col">Min</th>
-                            <th scope="col">FG</th>
-                            <th scope="col">3PT</th>
-                            <th scope="col">FT</th>
-                            <th scope="col">OREB</th>
-                            <th scope="col">DREB</th>
-                            <th scope="col">REB</th>
-                            <th scope="col">AST</th>
-                            <th scope="col">BLK</th>
-                            <th scope="col">STL</th>
-                            <th scope="col">PF</th>
-                            <th scope="col">TO</th>
-                            <th scope="col">PTS</th>
-                        </tr>
-                    </thead>
-                    <tbody style="font-size:14px">
-                        {% for p in playoff_games_data.game2.data.player_stats %}
-                        {% if p.team_id == higher_seed_id %}
-                            <tr>
-                                <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
-                                <td>{{p.min}}</td>
-                                <td>{{p.FG_made}}-{{p.FG_attempted}}</td>
-                                <td>{{p.3P_made}}-{{p.3P_attempted}}</td>
-                                <td>{{p.FT_made}}-{{p.FT_attempted}}</td>
-                                <td>{{p.off_rebounds}}</td>
-                                <td>{{p.def_rebounds}}</td>
-                                <td>{{p.rebounds}}</td>
-                                <td>{{p.assists}}</td>
-                                <td>{{p.blocks}}</td>
-                                <td>{{p.steals}}</td>
-                                <td>{{p.personal_fouls}}</td>
-                                <td>{{p.turnovers}}</td>
-                                <td>{{p.points}}</td>
-                            </tr>
-                        {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="game-table table">
-            <br>
-            <h3 class="text-center">
-                Game 3 Stats
-                <br>
-                {{lower_seed_abv}} @ {{higher_seed_abv}}
-            </h3>
-            <br>
-            <table  class="table table-striped table-light" >
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">FG</th>
-                        <th scope="col">3PT</th>
-                        <th scope="col">FT</th>
-                        <th scope="col">ORB</th>
-                        <th scope="col">DRB</th>
-                        <th scope="col">TRB</th>
-                        <th scope="col">AST</th>
-                        <th scope="col">STL</th>
-                        <th scope="col">BLK</th>
-                        <th scope="col">TOV</th>
-                        <th scope="col">PF</th>
-                        <th scope="col">PTS</th>
-                    </tr>
-                </thead>
-                {% for stats in playoff_games_data.game3.data.team_stats %}
-                <tbody>
-                    <td>
-                        
-                        {% if stats.team_id == higher_seed_id %}
-                        <a class="image_hover" href="/basketball/team/{{higher_seed_id}}"> <img style="max-height:55px;max-width:55px" src="{% static higher_seed_image %}"></img> </a>
-                        {% endif %}
-                        {% if stats.team_id == lower_seed_id %}
-                        <a class="image_hover" href="/basketball/team/{{lower_seed_id}}"> <img style="max-height:55px;max-width:55px" src="{% static lower_seed_image %}"></img> </a>
-                        {% endif %}
-                    </td>
-                    <td scope="col">{{stats.FG_made}}-{{stats.FG_attempted}}</td>
-                    <!-- <td scope="col">{{stats.FG_made}}/{{stats.FG_attempted}}</td>-->
-                    <td scope="col">{{stats.3P_made}}-{{stats.3P_attempted}}</td>
-                    <!--<td scope="col">{{stats.3P_made}}/{{stats.3P_attempted}}</td>-->
-                    <td scope="col">{{stats.FT_made}}-{{stats.FT_attempted}}</td>
-                    <!--<td scope="col">{{stats.FT_made}}/{{stats.FT_attempted}}</td>-->
-                    <td scope="col">{{stats.off_rebounds}}</td>
-                    <td scope="col">{{stats.def_rebounds}}</td>
-                    <td scope="col">{{stats.rebounds}}</td>
-                    <td scope="col">{{stats.assists}}</td>
-                    <td scope="col">{{stats.steals}}</td>
-                    <td scope="col">{{stats.blocks}}</td>
-                    <td scope="col">{{stats.turnovers}}</td>
-                    <td scope="col">{{stats.personal_fouls}}</td>
-                    <td scope="col">{{stats.points}}</td>
-                </tbody>
-                {% endfor %}
-                
-            </table>
-            <br>
-            
-            <hr style="color:black; border-width: 2px;"></hr>
-            <br>
-            <div class="table">
-                <p style="font-size:16px;"> 
-                    <a href="/basketball/team/{{lower_seed_id}}"> <b>{{lower_seed_name}}</b> </a>
-                    <a class="image_hover" href="/basketball/team/{{lower_seed_id}}"> <img style="max-height:45px;max-width:45px" src="{% static lower_seed_image %}"></img> </a> 
-                </p>
-                <table class="table table-striped table-light">
-                    <thead style="font-size:16px">
-                        <tr>
-                            <th scope="col">Player</th>
-                            <th scope="col">Min</th>
-                            <th scope="col">FG</th>
-                            <th scope="col">3PT</th>
-                            <th scope="col">FT</th>
-                            <th scope="col">OREB</th>
-                            <th scope="col">DREB</th>
-                            <th scope="col">REB</th>
-                            <th scope="col">AST</th>
-                            <th scope="col">BLK</th>
-                            <th scope="col">STL</th>
-                            <th scope="col">PF</th>
-                            <th scope="col">TO</th>
-                            <th scope="col">PTS</th>
-                        </tr>
-                    </thead>
-                    <tbody style="font-size:14px">
-                        {% for p in playoff_games_data.game3.data.player_stats %}
-                        {% if p.team_id == lower_seed_id %}
-                            <tr>
-                                <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
-                                <td>{{p.min}}</td>
-                                <td>{{p.FG_made}}-{{p.FG_attempted}}</td>
-                                <td>{{p.3P_made}}-{{p.3P_attempted}}</td>
-                                <td>{{p.FT_made}}-{{p.FT_attempted}}</td>
-                                <td>{{p.off_rebounds}}</td>
-                                <td>{{p.def_rebounds}}</td>
-                                <td>{{p.rebounds}}</td>
-                                <td>{{p.assists}}</td>
-                                <td>{{p.blocks}}</td>
-                                <td>{{p.steals}}</td>
-                                <td>{{p.personal_fouls}}</td>
-                                <td>{{p.turnovers}}</td>
-                                <td>{{p.points}}</td>
-                            </tr>
-                        {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <br/>
-                <hr style="color:black; border-width: 2px;"></hr>
-            </div>
-            <!--End Away Team Player Stats-->
-            <div class="table">
-                <p style="font-size:16px;"> 
-                    <a href="/basketball/team/{{higher_seed_id}}"> <b>{{higher_seed_name}}</b> </a>
-                    <a class="image_hover" href="/basketball/team/{{higher_seed_id}}"> <img style="max-height:45px;max-width:45px" src="{% static higher_seed_image %}"></img>  </a>
-                </p>
-                <table class="table table-striped table-light">
-                    <thead style="font-size:15px">
-                        <tr>
-                            <th scope="col">Player</th>
-                            <th scope="col">Min</th>
-                            <th scope="col">FG</th>
-                            <th scope="col">3PT</th>
-                            <th scope="col">FT</th>
-                            <th scope="col">OREB</th>
-                            <th scope="col">DREB</th>
-                            <th scope="col">REB</th>
-                            <th scope="col">AST</th>
-                            <th scope="col">BLK</th>
-                            <th scope="col">STL</th>
-                            <th scope="col">PF</th>
-                            <th scope="col">TO</th>
-                            <th scope="col">PTS</th>
-                        </tr>
-                    </thead>
-                    <tbody style="font-size:14px">
-                        {% for p in playoff_games_data.game3.data.player_stats %}
-                        {% if p.team_id == higher_seed_id %}
-                            <tr>
-                                <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
-                                <td>{{p.min}}</td>
-                                <td>{{p.FG_made}}-{{p.FG_attempted}}</td>
-                                <td>{{p.3P_made}}-{{p.3P_attempted}}</td>
-                                <td>{{p.FT_made}}-{{p.FT_attempted}}</td>
-                                <td>{{p.off_rebounds}}</td>
-                                <td>{{p.def_rebounds}}</td>
-                                <td>{{p.rebounds}}</td>
-                                <td>{{p.assists}}</td>
-                                <td>{{p.blocks}}</td>
-                                <td>{{p.steals}}</td>
-                                <td>{{p.personal_fouls}}</td>
-                                <td>{{p.turnovers}}</td>
-                                <td>{{p.points}}</td>
-                            </tr>
-                        {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="game-table table">
-            <br>
-            <h3 class="text-center">
-                Game 4 Stats
-                <br>
-                {{lower_seed_abv}} @ {{higher_seed_abv}}
-            </h3>
-            <br>
-            <table  class="table table-striped table-light" >
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">FG</th>
-                        <th scope="col">3PT</th>
-                        <th scope="col">FT</th>
-                        <th scope="col">ORB</th>
-                        <th scope="col">DRB</th>
-                        <th scope="col">TRB</th>
-                        <th scope="col">AST</th>
-                        <th scope="col">STL</th>
-                        <th scope="col">BLK</th>
-                        <th scope="col">TOV</th>
-                        <th scope="col">PF</th>
-                        <th scope="col">PTS</th>
-                    </tr>
-                </thead>
-                {% for stats in playoff_games_data.game4.data.team_stats %}
-                <tbody>
-                    <td>
-                        
-                        {% if stats.team_id == higher_seed_id %}
-                        <a class="image_hover" href="/basketball/team/{{higher_seed_id}}"> <img style="max-height:55px;max-width:55px" src="{% static higher_seed_image %}"></img> </a>
-                        {% endif %}
-                        {% if stats.team_id == lower_seed_id %}
-                        <a class="image_hover" href="/basketball/team/{{lower_seed_id}}"> <img style="max-height:55px;max-width:55px" src="{% static lower_seed_image %}"></img> </a>
-                        {% endif %}
-                    </td>
-                    <td scope="col">{{stats.FG_made}}-{{stats.FG_attempted}}</td>
-                    <!-- <td scope="col">{{stats.FG_made}}/{{stats.FG_attempted}}</td>-->
-                    <td scope="col">{{stats.3P_made}}-{{stats.3P_attempted}}</td>
-                    <!--<td scope="col">{{stats.3P_made}}/{{stats.3P_attempted}}</td>-->
-                    <td scope="col">{{stats.FT_made}}-{{stats.FT_attempted}}</td>
-                    <!--<td scope="col">{{stats.FT_made}}/{{stats.FT_attempted}}</td>-->
-                    <td scope="col">{{stats.off_rebounds}}</td>
-                    <td scope="col">{{stats.def_rebounds}}</td>
-                    <td scope="col">{{stats.rebounds}}</td>
-                    <td scope="col">{{stats.assists}}</td>
-                    <td scope="col">{{stats.steals}}</td>
-                    <td scope="col">{{stats.blocks}}</td>
-                    <td scope="col">{{stats.turnovers}}</td>
-                    <td scope="col">{{stats.personal_fouls}}</td>
-                    <td scope="col">{{stats.points}}</td>
-                </tbody>
-                {% endfor %}
-                
-            </table>
-            <br>
-            
-            <hr style="color:black; border-width: 2px;"></hr>
-            <br>
-            <div class="table">
-                <p style="font-size:16px;"> 
-                    <a href="/basketball/team/{{lower_seed_id}}"> <b>{{lower_seed_name}}</b> </a>
-                    <a class="image_hover" href="/basketball/team/{{lower_seed_id}}"> <img style="max-height:45px;max-width:45px" src="{% static lower_seed_image %}"></img> </a> 
-                </p>
-                <table class="table table-striped table-light">
-                    <thead style="font-size:16px">
-                        <tr>
-                            <th scope="col">Player</th>
-                            <th scope="col">Min</th>
-                            <th scope="col">FG</th>
-                            <th scope="col">3PT</th>
-                            <th scope="col">FT</th>
-                            <th scope="col">OREB</th>
-                            <th scope="col">DREB</th>
-                            <th scope="col">REB</th>
-                            <th scope="col">AST</th>
-                            <th scope="col">BLK</th>
-                            <th scope="col">STL</th>
-                            <th scope="col">PF</th>
-                            <th scope="col">TO</th>
-                            <th scope="col">PTS</th>
-                        </tr>
-                    </thead>
-                    <tbody style="font-size:14px">
-                        {% for p in playoff_games_data.game4.data.player_stats %}
-                        {% if p.team_id == lower_seed_id %}
-                            <tr>
-                                <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
-                                <td>{{p.min}}</td>
-                                <td>{{p.FG_made}}-{{p.FG_attempted}}</td>
-                                <td>{{p.3P_made}}-{{p.3P_attempted}}</td>
-                                <td>{{p.FT_made}}-{{p.FT_attempted}}</td>
-                                <td>{{p.off_rebounds}}</td>
-                                <td>{{p.def_rebounds}}</td>
-                                <td>{{p.rebounds}}</td>
-                                <td>{{p.assists}}</td>
-                                <td>{{p.blocks}}</td>
-                                <td>{{p.steals}}</td>
-                                <td>{{p.personal_fouls}}</td>
-                                <td>{{p.turnovers}}</td>
-                                <td>{{p.points}}</td>
-                            </tr>
-                        {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <br/>
-                <hr style="color:black; border-width: 2px;"></hr>
-            </div>
-            <!--End Away Team Player Stats-->
-            <div class="table">
-                <p style="font-size:16px;"> 
-                    <a href="/basketball/team/{{higher_seed_id}}"> <b>{{higher_seed_name}}</b> </a>
-                    <a class="image_hover" href="/basketball/team/{{higher_seed_id}}"> <img style="max-height:45px;max-width:45px" src="{% static higher_seed_image %}"></img>  </a>
-                </p>
-                <table class="table table-striped table-light">
-                    <thead style="font-size:15px">
-                        <tr>
-                            <th scope="col">Player</th>
-                            <th scope="col">Min</th>
-                            <th scope="col">FG</th>
-                            <th scope="col">3PT</th>
-                            <th scope="col">FT</th>
-                            <th scope="col">OREB</th>
-                            <th scope="col">DREB</th>
-                            <th scope="col">REB</th>
-                            <th scope="col">AST</th>
-                            <th scope="col">BLK</th>
-                            <th scope="col">STL</th>
-                            <th scope="col">PF</th>
-                            <th scope="col">TO</th>
-                            <th scope="col">PTS</th>
-                        </tr>
-                    </thead>
-                    <tbody style="font-size:14px">
-                        {% for p in playoff_games_data.game4.data.player_stats %}
-                        {% if p.team_id == higher_seed_id %}
-                            <tr>
-                                <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
-                                <td>{{p.min}}</td>
-                                <td>{{p.FG_made}}-{{p.FG_attempted}}</td>
-                                <td>{{p.3P_made}}-{{p.3P_attempted}}</td>
-                                <td>{{p.FT_made}}-{{p.FT_attempted}}</td>
-                                <td>{{p.off_rebounds}}</td>
-                                <td>{{p.def_rebounds}}</td>
-                                <td>{{p.rebounds}}</td>
-                                <td>{{p.assists}}</td>
-                                <td>{{p.blocks}}</td>
-                                <td>{{p.steals}}</td>
-                                <td>{{p.personal_fouls}}</td>
-                                <td>{{p.turnovers}}</td>
-                                <td>{{p.points}}</td>
-                            </tr>
-                        {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        {% if playoff_games_data|length > 4 %}
-        <div class="game-table table">
-            <br>
-            <h3 class="text-center">
-                Game 5 Stats
-                <br>
-                {{lower_seed_abv}} @ {{higher_seed_abv}}
-            </h3>
-            <br>
-            <table  class="table table-striped table-light" >
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">FG</th>
-                        <th scope="col">3PT</th>
-                        <th scope="col">FT</th>
-                        <th scope="col">ORB</th>
-                        <th scope="col">DRB</th>
-                        <th scope="col">TRB</th>
-                        <th scope="col">AST</th>
-                        <th scope="col">STL</th>
-                        <th scope="col">BLK</th>
-                        <th scope="col">TOV</th>
-                        <th scope="col">PF</th>
-                        <th scope="col">PTS</th>
-                    </tr>
-                </thead>
-                {% for stats in playoff_games_data.game5.data.team_stats %}
-                <tbody>
-                    <td>
-                        
-                        {% if stats.team_id == higher_seed_id %}
-                        <a class="image_hover" href="/basketball/team/{{higher_seed_id}}"> <img style="max-height:55px;max-width:55px" src="{% static higher_seed_image %}"></img> </a>
-                        {% endif %}
-                        {% if stats.team_id == lower_seed_id %}
-                        <a class="image_hover" href="/basketball/team/{{lower_seed_id}}"> <img style="max-height:55px;max-width:55px" src="{% static lower_seed_image %}"></img> </a>
-                        {% endif %}
-                    </td>
-                    <td scope="col">{{stats.FG_made}}-{{stats.FG_attempted}}</td>
-                    <!-- <td scope="col">{{stats.FG_made}}/{{stats.FG_attempted}}</td>-->
-                    <td scope="col">{{stats.3P_made}}-{{stats.3P_attempted}}</td>
-                    <!--<td scope="col">{{stats.3P_made}}/{{stats.3P_attempted}}</td>-->
-                    <td scope="col">{{stats.FT_made}}-{{stats.FT_attempted}}</td>
-                    <!--<td scope="col">{{stats.FT_made}}/{{stats.FT_attempted}}</td>-->
-                    <td scope="col">{{stats.off_rebounds}}</td>
-                    <td scope="col">{{stats.def_rebounds}}</td>
-                    <td scope="col">{{stats.rebounds}}</td>
-                    <td scope="col">{{stats.assists}}</td>
-                    <td scope="col">{{stats.steals}}</td>
-                    <td scope="col">{{stats.blocks}}</td>
-                    <td scope="col">{{stats.turnovers}}</td>
-                    <td scope="col">{{stats.personal_fouls}}</td>
-                    <td scope="col">{{stats.points}}</td>
-                </tbody>
-                {% endfor %}
-                
-            </table>
-            <br>
-            
-            <hr style="color:black; border-width: 2px;"></hr>
-            <br>
-            <div class="table">
-                <p style="font-size:16px;"> 
-                    <a href="/basketball/team/{{lower_seed_id}}"> <b>{{lower_seed_name}}</b> </a>
-                    <a class="image_hover" href="/basketball/team/{{lower_seed_id}}"> <img style="max-height:45px;max-width:45px" src="{% static lower_seed_image %}"></img> </a> 
-                </p>
-                <table class="table table-striped table-light">
-                    <thead style="font-size:16px">
-                        <tr>
-                            <th scope="col">Player</th>
-                            <th scope="col">Min</th>
-                            <th scope="col">FG</th>
-                            <th scope="col">3PT</th>
-                            <th scope="col">FT</th>
-                            <th scope="col">OREB</th>
-                            <th scope="col">DREB</th>
-                            <th scope="col">REB</th>
-                            <th scope="col">AST</th>
-                            <th scope="col">BLK</th>
-                            <th scope="col">STL</th>
-                            <th scope="col">PF</th>
-                            <th scope="col">TO</th>
-                            <th scope="col">PTS</th>
-                        </tr>
-                    </thead>
-                    <tbody style="font-size:14px">
-                        {% for p in playoff_games_data.game5.data.player_stats %}
-                        {% if p.team_id == lower_seed_id %}
-                            <tr>
-                                <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
-                                <td>{{p.min}}</td>
-                                <td>{{p.FG_made}}-{{p.FG_attempted}}</td>
-                                <td>{{p.3P_made}}-{{p.3P_attempted}}</td>
-                                <td>{{p.FT_made}}-{{p.FT_attempted}}</td>
-                                <td>{{p.off_rebounds}}</td>
-                                <td>{{p.def_rebounds}}</td>
-                                <td>{{p.rebounds}}</td>
-                                <td>{{p.assists}}</td>
-                                <td>{{p.blocks}}</td>
-                                <td>{{p.steals}}</td>
-                                <td>{{p.personal_fouls}}</td>
-                                <td>{{p.turnovers}}</td>
-                                <td>{{p.points}}</td>
-                            </tr>
-                        {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <br/>
-                <hr style="color:black; border-width: 2px;"></hr>
-            </div>
-            <!--End Away Team Player Stats-->
-            <div class="table">
-                <p style="font-size:16px;"> 
-                    <a href="/basketball/team/{{higher_seed_id}}"> <b>{{higher_seed_name}}</b> </a>
-                    <a class="image_hover" href="/basketball/team/{{higher_seed_id}}"> <img style="max-height:45px;max-width:45px" src="{% static higher_seed_image %}"></img>  </a>
-                </p>
-                <table class="table table-striped table-light">
-                    <thead style="font-size:15px">
-                        <tr>
-                            <th scope="col">Player</th>
-                            <th scope="col">Min</th>
-                            <th scope="col">FG</th>
-                            <th scope="col">3PT</th>
-                            <th scope="col">FT</th>
-                            <th scope="col">OREB</th>
-                            <th scope="col">DREB</th>
-                            <th scope="col">REB</th>
-                            <th scope="col">AST</th>
-                            <th scope="col">BLK</th>
-                            <th scope="col">STL</th>
-                            <th scope="col">PF</th>
-                            <th scope="col">TO</th>
-                            <th scope="col">PTS</th>
-                        </tr>
-                    </thead>
-                    <tbody style="font-size:14px">
-                        {% for p in playoff_games_data.game5.data.player_stats %}
-                        {% if p.team_id == higher_seed_id %}
-                            <tr>
-                                <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
-                                <td>{{p.min}}</td>
-                                <td>{{p.FG_made}}-{{p.FG_attempted}}</td>
-                                <td>{{p.3P_made}}-{{p.3P_attempted}}</td>
-                                <td>{{p.FT_made}}-{{p.FT_attempted}}</td>
-                                <td>{{p.off_rebounds}}</td>
-                                <td>{{p.def_rebounds}}</td>
-                                <td>{{p.rebounds}}</td>
-                                <td>{{p.assists}}</td>
-                                <td>{{p.blocks}}</td>
-                                <td>{{p.steals}}</td>
-                                <td>{{p.personal_fouls}}</td>
-                                <td>{{p.turnovers}}</td>
-                                <td>{{p.points}}</td>
-                            </tr>
-                        {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        {% endif %}
-        {% if playoff_games_data|length > 5 %}
-        <div class="game-table table">
-            <br>
-            <h3 class="text-center">
-                Game 6 Stats
-                <br>
-                {{lower_seed_abv}} @ {{higher_seed_abv}}
-            </h3>
-            <br>
-            <table  class="table table-striped table-light" >
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">FG</th>
-                        <th scope="col">3PT</th>
-                        <th scope="col">FT</th>
-                        <th scope="col">ORB</th>
-                        <th scope="col">DRB</th>
-                        <th scope="col">TRB</th>
-                        <th scope="col">AST</th>
-                        <th scope="col">STL</th>
-                        <th scope="col">BLK</th>
-                        <th scope="col">TOV</th>
-                        <th scope="col">PF</th>
-                        <th scope="col">PTS</th>
-                    </tr>
-                </thead>
-                {% for stats in playoff_games_data.game6.data.team_stats %}
-                <tbody>
-                    <td>
-                        
-                        {% if stats.team_id == higher_seed_id %}
-                        <a class="image_hover" href="/basketball/team/{{higher_seed_id}}"> <img style="max-height:55px;max-width:55px" src="{% static higher_seed_image %}"></img> </a>
-                        {% endif %}
-                        {% if stats.team_id == lower_seed_id %}
-                        <a class="image_hover" href="/basketball/team/{{lower_seed_id}}"> <img style="max-height:55px;max-width:55px" src="{% static lower_seed_image %}"></img> </a>
-                        {% endif %}
-                    </td>
-                    <td scope="col">{{stats.FG_made}}-{{stats.FG_attempted}}</td>
-                    <!-- <td scope="col">{{stats.FG_made}}/{{stats.FG_attempted}}</td>-->
-                    <td scope="col">{{stats.3P_made}}-{{stats.3P_attempted}}</td>
-                    <!--<td scope="col">{{stats.3P_made}}/{{stats.3P_attempted}}</td>-->
-                    <td scope="col">{{stats.FT_made}}-{{stats.FT_attempted}}</td>
-                    <!--<td scope="col">{{stats.FT_made}}/{{stats.FT_attempted}}</td>-->
-                    <td scope="col">{{stats.off_rebounds}}</td>
-                    <td scope="col">{{stats.def_rebounds}}</td>
-                    <td scope="col">{{stats.rebounds}}</td>
-                    <td scope="col">{{stats.assists}}</td>
-                    <td scope="col">{{stats.steals}}</td>
-                    <td scope="col">{{stats.blocks}}</td>
-                    <td scope="col">{{stats.turnovers}}</td>
-                    <td scope="col">{{stats.personal_fouls}}</td>
-                    <td scope="col">{{stats.points}}</td>
-                </tbody>
-                {% endfor %}
-                
-            </table>
-            <br>
-            
-            <hr style="color:black; border-width: 2px;"></hr>
-            <br>
-            <div class="table">
-                <p style="font-size:16px;"> 
-                    <a href="/basketball/team/{{lower_seed_id}}"> <b>{{lower_seed_name}}</b> </a>
-                    <a class="image_hover" href="/basketball/team/{{lower_seed_id}}"> <img style="max-height:45px;max-width:45px" src="{% static lower_seed_image %}"></img> </a> 
-                </p>
-                <table class="table table-striped table-light">
-                    <thead style="font-size:16px">
-                        <tr>
-                            <th scope="col">Player</th>
-                            <th scope="col">Min</th>
-                            <th scope="col">FG</th>
-                            <th scope="col">3PT</th>
-                            <th scope="col">FT</th>
-                            <th scope="col">OREB</th>
-                            <th scope="col">DREB</th>
-                            <th scope="col">REB</th>
-                            <th scope="col">AST</th>
-                            <th scope="col">BLK</th>
-                            <th scope="col">STL</th>
-                            <th scope="col">PF</th>
-                            <th scope="col">TO</th>
-                            <th scope="col">PTS</th>
-                        </tr>
-                    </thead>
-                    <tbody style="font-size:14px">
-                        {% for p in playoff_games_data.game6.data.player_stats %}
-                        {% if p.team_id == lower_seed_id %}
-                            <tr>
-                                <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
-                                <td>{{p.min}}</td>
-                                <td>{{p.FG_made}}-{{p.FG_attempted}}</td>
-                                <td>{{p.3P_made}}-{{p.3P_attempted}}</td>
-                                <td>{{p.FT_made}}-{{p.FT_attempted}}</td>
-                                <td>{{p.off_rebounds}}</td>
-                                <td>{{p.def_rebounds}}</td>
-                                <td>{{p.rebounds}}</td>
-                                <td>{{p.assists}}</td>
-                                <td>{{p.blocks}}</td>
-                                <td>{{p.steals}}</td>
-                                <td>{{p.personal_fouls}}</td>
-                                <td>{{p.turnovers}}</td>
-                                <td>{{p.points}}</td>
-                            </tr>
-                        {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <br/>
-                <hr style="color:black; border-width: 2px;"></hr>
-            </div>
-            <!--End Away Team Player Stats-->
-            <div class="table">
-                <p style="font-size:16px;"> 
-                    <a href="/basketball/team/{{higher_seed_id}}"> <b>{{higher_seed_name}}</b> </a>
-                    <a class="image_hover" href="/basketball/team/{{higher_seed_id}}"> <img style="max-height:45px;max-width:45px" src="{% static higher_seed_image %}"></img>  </a>
-                </p>
-                <table class="table table-striped table-light">
-                    <thead style="font-size:15px">
-                        <tr>
-                            <th scope="col">Player</th>
-                            <th scope="col">Min</th>
-                            <th scope="col">FG</th>
-                            <th scope="col">3PT</th>
-                            <th scope="col">FT</th>
-                            <th scope="col">OREB</th>
-                            <th scope="col">DREB</th>
-                            <th scope="col">REB</th>
-                            <th scope="col">AST</th>
-                            <th scope="col">BLK</th>
-                            <th scope="col">STL</th>
-                            <th scope="col">PF</th>
-                            <th scope="col">TO</th>
-                            <th scope="col">PTS</th>
-                        </tr>
-                    </thead>
-                    <tbody style="font-size:14px">
-                        {% for p in playoff_games_data.game6.data.player_stats %}
-                        {% if p.team_id == higher_seed_id %}
-                            <tr>
-                                <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
-                                <td>{{p.min}}</td>
-                                <td>{{p.FG_made}}-{{p.FG_attempted}}</td>
-                                <td>{{p.3P_made}}-{{p.3P_attempted}}</td>
-                                <td>{{p.FT_made}}-{{p.FT_attempted}}</td>
-                                <td>{{p.off_rebounds}}</td>
-                                <td>{{p.def_rebounds}}</td>
-                                <td>{{p.rebounds}}</td>
-                                <td>{{p.assists}}</td>
-                                <td>{{p.blocks}}</td>
-                                <td>{{p.steals}}</td>
-                                <td>{{p.personal_fouls}}</td>
-                                <td>{{p.turnovers}}</td>
-                                <td>{{p.points}}</td>
-                            </tr>
-                        {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        {% endif %}
-        {% if playoff_games_data|length > 5 %}
-        <div class="game-table table">
-            <br>
-            <h3 class="text-center">
-                Game 7 Stats
-                <br>
-                {{lower_seed_abv}} @ {{higher_seed_abv}}
-            </h3>
-            <br>
-            <table  class="table table-striped table-light" >
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">FG</th>
-                        <th scope="col">3PT</th>
-                        <th scope="col">FT</th>
-                        <th scope="col">ORB</th>
-                        <th scope="col">DRB</th>
-                        <th scope="col">TRB</th>
-                        <th scope="col">AST</th>
-                        <th scope="col">STL</th>
-                        <th scope="col">BLK</th>
-                        <th scope="col">TOV</th>
-                        <th scope="col">PF</th>
-                        <th scope="col">PTS</th>
-                    </tr>
-                </thead>
-                {% for stats in playoff_games_data.game7.data.team_stats %}
-                <tbody>
-                    <td>
-                        
-                        {% if stats.team_id == higher_seed_id %}
-                        <a class="image_hover" href="/basketball/team/{{higher_seed_id}}"> <img style="max-height:55px;max-width:55px" src="{% static higher_seed_image %}"></img> </a>
-                        {% endif %}
-                        {% if stats.team_id == lower_seed_id %}
-                        <a class="image_hover" href="/basketball/team/{{lower_seed_id}}"> <img style="max-height:55px;max-width:55px" src="{% static lower_seed_image %}"></img> </a>
-                        {% endif %}
-                    </td>
-                    <td scope="col">{{stats.FG_made}}-{{stats.FG_attempted}}</td>
-                    <!-- <td scope="col">{{stats.FG_made}}/{{stats.FG_attempted}}</td>-->
-                    <td scope="col">{{stats.3P_made}}-{{stats.3P_attempted}}</td>
-                    <!--<td scope="col">{{stats.3P_made}}/{{stats.3P_attempted}}</td>-->
-                    <td scope="col">{{stats.FT_made}}-{{stats.FT_attempted}}</td>
-                    <!--<td scope="col">{{stats.FT_made}}/{{stats.FT_attempted}}</td>-->
-                    <td scope="col">{{stats.off_rebounds}}</td>
-                    <td scope="col">{{stats.def_rebounds}}</td>
-                    <td scope="col">{{stats.rebounds}}</td>
-                    <td scope="col">{{stats.assists}}</td>
-                    <td scope="col">{{stats.steals}}</td>
-                    <td scope="col">{{stats.blocks}}</td>
-                    <td scope="col">{{stats.turnovers}}</td>
-                    <td scope="col">{{stats.personal_fouls}}</td>
-                    <td scope="col">{{stats.points}}</td>
-                </tbody>
-                {% endfor %}
-                
-            </table>
-            <br>
-            
-            <hr style="color:black; border-width: 2px;"></hr>
-            <br>
-            <div class="table">
-                <p style="font-size:16px;"> 
-                    <a href="/basketball/team/{{lower_seed_id}}"> <b>{{lower_seed_name}}</b> </a>
-                    <a class="image_hover" href="/basketball/team/{{lower_seed_id}}"> <img style="max-height:45px;max-width:45px" src="{% static lower_seed_image %}"></img> </a> 
-                </p>
-                <table class="table table-striped table-light">
-                    <thead style="font-size:16px">
-                        <tr>
-                            <th scope="col">Player</th>
-                            <th scope="col">Min</th>
-                            <th scope="col">FG</th>
-                            <th scope="col">3PT</th>
-                            <th scope="col">FT</th>
-                            <th scope="col">OREB</th>
-                            <th scope="col">DREB</th>
-                            <th scope="col">REB</th>
-                            <th scope="col">AST</th>
-                            <th scope="col">BLK</th>
-                            <th scope="col">STL</th>
-                            <th scope="col">PF</th>
-                            <th scope="col">TO</th>
-                            <th scope="col">PTS</th>
-                        </tr>
-                    </thead>
-                    <tbody style="font-size:14px">
-                        {% for p in playoff_games_data.game7.data.player_stats %}
-                        {% if p.team_id == lower_seed_id %}
-                            <tr>
-                                <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
-                                <td>{{p.min}}</td>
-                                <td>{{p.FG_made}}-{{p.FG_attempted}}</td>
-                                <td>{{p.3P_made}}-{{p.3P_attempted}}</td>
-                                <td>{{p.FT_made}}-{{p.FT_attempted}}</td>
-                                <td>{{p.off_rebounds}}</td>
-                                <td>{{p.def_rebounds}}</td>
-                                <td>{{p.rebounds}}</td>
-                                <td>{{p.assists}}</td>
-                                <td>{{p.blocks}}</td>
-                                <td>{{p.steals}}</td>
-                                <td>{{p.personal_fouls}}</td>
-                                <td>{{p.turnovers}}</td>
-                                <td>{{p.points}}</td>
-                            </tr>
-                        {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <br/>
-                <hr style="color:black; border-width: 2px;"></hr>
-            </div>
-            <!--End Away Team Player Stats-->
-            <div class="table">
-                <p style="font-size:16px;"> 
-                    <a href="/basketball/team/{{higher_seed_id}}"> <b>{{higher_seed_name}}</b> </a>
-                    <a class="image_hover" href="/basketball/team/{{higher_seed_id}}"> <img style="max-height:45px;max-width:45px" src="{% static higher_seed_image %}"></img>  </a>
-                </p>
-                <table class="table table-striped table-light">
-                    <thead style="font-size:15px">
-                        <tr>
-                            <th scope="col">Player</th>
-                            <th scope="col">Min</th>
-                            <th scope="col">FG</th>
-                            <th scope="col">3PT</th>
-                            <th scope="col">FT</th>
-                            <th scope="col">OREB</th>
-                            <th scope="col">DREB</th>
-                            <th scope="col">REB</th>
-                            <th scope="col">AST</th>
-                            <th scope="col">BLK</th>
-                            <th scope="col">STL</th>
-                            <th scope="col">PF</th>
-                            <th scope="col">TO</th>
-                            <th scope="col">PTS</th>
-                        </tr>
-                    </thead>
-                    <tbody style="font-size:14px">
-                        {% for p in playoff_games_data.game7.data.player_stats %}
-                        {% if p.team_id == higher_seed_id %}
-                            <tr>
-                                <td> <a href='/basketball/player/{{p.player_id}}'> <b>{{p.name}}</b> </a> </td>
-                                <td>{{p.min}}</td>
-                                <td>{{p.FG_made}}-{{p.FG_attempted}}</td>
-                                <td>{{p.3P_made}}-{{p.3P_attempted}}</td>
-                                <td>{{p.FT_made}}-{{p.FT_attempted}}</td>
-                                <td>{{p.off_rebounds}}</td>
-                                <td>{{p.def_rebounds}}</td>
-                                <td>{{p.rebounds}}</td>
-                                <td>{{p.assists}}</td>
-                                <td>{{p.blocks}}</td>
-                                <td>{{p.steals}}</td>
-                                <td>{{p.personal_fouls}}</td>
-                                <td>{{p.turnovers}}</td>
-                                <td>{{p.points}}</td>
-                            </tr>
-                        {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        {% endif %}
-        {% endif %}
+    </div>
+        <br/>
+        <br/>
+        <br/>
+     
 <script>
         var btn = document.getElementsByClassName("btn");
         var table = document.getElementsByClassName("game-table");

@@ -6,7 +6,7 @@
     <br/>
     <style> 
         select {
-            width:50%;
+            width:55%;
         }
     </style>
     <div class="container" style="font-size:22px;">
@@ -15,9 +15,10 @@
                 <br/>
                 <h3> Vote For the MVP of the 2019-2020 Season </h3>
                 <br/>
-                <form action="{% url 'mvp_vote' %}" method="post">
+                <form action="{% url 'mvp_vote' %}" method="post" style="font-size:18px;">
                     {% csrf_token %}
                     {{form}}
+                    <br/>
                     <br/>
                     <input class="btn btn-primary" type="submit" value="Submit">
                 </form>
