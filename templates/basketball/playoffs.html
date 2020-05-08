@@ -16,7 +16,7 @@
     .tournament{
         display:flex;
         flex-direction:row;
-        width: 70vw;
+        width: 100%;
         height: auto;
         overflow-x: scroll;
     }
@@ -38,7 +38,7 @@
     }
     .tab{
         display: flex;
-        justify-content: space-between;
+        justify-content: right;
     }
     .mi-size{
         font-size: 2vw;
@@ -219,7 +219,14 @@
     <h1>2019-2020 NBA Playoffs Bracket</h1>
     <hr style="height: 2px; background-color: black;">
     <br>
-    <h4 class="tab">Western Conference<span>&nbsp;</span>Eastern Conference</h4>
+    <div class="row">
+        <div class="col-6">
+            <h4>Western Conference</h4> 
+        </div>
+        <div class="col-6" style="text-align: right;">
+            <h4 >Eastern Conference</h4> 
+        </div>
+    </div>
         <div class="tournament">
         <ul class="round round-1">
             <li class="spacer">&nbsp;</li>
