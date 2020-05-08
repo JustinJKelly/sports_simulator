@@ -491,7 +491,7 @@ def game_page(request, id):
         "home_team_abv":teams.find_team_name_by_id(game.home_team)['abbreviation'],
         "away_team_abv":teams.find_team_name_by_id(game.away_team)['abbreviation'],
         "home_team_record":game.home_team_record, "away_team_record":game.away_team_record,
-        "home_team_id":game.home_team,"away_team_id":game.away_team,"num_overtimes":range(1,num_ots+1)
+        "home_team_id":game.home_team,"away_team_id":game.away_team,"num_overtimes":range(1,num_ots+1),
     }
 
     return render(request,'basketball/game_page.html',context)

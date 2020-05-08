@@ -18,6 +18,11 @@
 {% extends 'base.html' %}
     {% load static %}
     {% block content %}
+    <script>
+        if ((typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)) {
+            location.href = "/basketball/game_mobile/{{game_id}}";
+        }
+    </script>
     <style>
         a {
             color: black;
