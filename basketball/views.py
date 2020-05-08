@@ -1075,14 +1075,14 @@ def playoffs_page(request):
         count = 1
         game_str='game'+str(count)
         for game in previous_playoff_games:
-            context['east']['round1']['series'+str(i)][game_str]={}
-            context['east']['round1']['series'+str(i)][game_str]['series_id']=game.game_id
+            context['east']['round1']['series'+str(i)]['game'+str(count)]={}
+            context['east']['round1']['series'+str(i)]['game'+str(count)]['series_id']=game.game_id
             if matchups_east[i-1][0][2] == game.home_team:
-                context['east']['round1']['series'+str(i)][game_str]['score_higher_seed']=game.home_team_score
-                context['east']['round1']['series'+str(i)][game_str]['score_lower_seed']=game.away_team_score
+                context['east']['round1']['series'+str(i)]['game'+str(count)]['score_higher_seed']=game.home_team_score
+                context['east']['round1']['series'+str(i)]['game'+str(count)]['score_lower_seed']=game.away_team_score
             else:
-                context['east']['round1']['series'+str(i)][game_str]['score_higher_seed']=game.away_team_score
-                context['east']['round1']['series'+str(i)][game_str]['score_lower_seed']=game.home_team_score
+                context['east']['round1']['series'+str(i)]['game'+str(count)]['score_higher_seed']=game.away_team_score
+                context['east']['round1']['series'+str(i)]['game'+str(count)]['score_lower_seed']=game.home_team_score
                 
             count += 1    
                 
