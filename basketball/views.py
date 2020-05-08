@@ -1508,7 +1508,7 @@ def team_page_mobile(request,id):
             'team_id':team.team_id
         }
 
-    return render(request,'basketball/team_mobile.html',context)
+    return render(request,'basketball/team_page_mobile.html',context)
 
 
 def playoffs_page_mobile(request):
