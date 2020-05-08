@@ -1,12 +1,6 @@
 {% extends 'base.html' %}
     {% load static %}
     {% block content %}
-
-    <script>
-        if ((typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)) {
-            location.href = "/basketball/team_mobile/{{team_id}}";
-        }
-    </script>
         <!--
             'team_name':team.team_name,'team_abv':team.team_abv,"team_wins":team.team_wins,"team_losses":team.team_losses,
             'conference':team.conference,'division':team.division,'conference_rank':team.conference_rank,
@@ -69,7 +63,7 @@
                                     <br/>
                                     <br/>
                                     <h2 class="mb-5 display-5">
-                                        <span style="font-weight: bold; font-size:55px;">{{team_name}}</span>
+                                        <span style="font-weight: bold; font-size:20px;">{{team_name}}</span>
                                     </h2>
                                 </div>
                             </div>
@@ -106,7 +100,7 @@
         </div>
         
         <div class="table-responsive container">
-            <h4>2019-2020 Season Team Stats</h4>
+            <p style="font-size:10px;">2019-2020 Season Team Stats</h4>
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -143,7 +137,7 @@
             
             <h3>Current Roster</h3>
             <table class="table table-striped table-light">
-                <thead style="font-size: 16px;">
+                <thead style="font-size: 10px;">
                     <tr>
                         <th scope="col">Player</th>
                         <th scope="col">Min</th>
@@ -161,7 +155,7 @@
                         <th scope="col">PTS</th>
                     </tr>
                 </thead>
-                <tbody style="font-size: 16px;">
+                <tbody style="font-size: 10px;">
                     {% for p in players %}
                     <tr>
                         <td> <a href='/basketball/player/{{ p.1 }}'> <b>{{p.0}}</b> </a> </td>
@@ -209,11 +203,11 @@
 
       <!--Game Log Team Stats-->
     <div class="container">
-        <h3> 2019-2020 Game Log </h3>
+        <p style="font-size:10px;"> 2019-2020 Game Log </p>
     </div>
-    <div class="table-responsive container" style="height:700px; overflow:scroll;">
+    <div class="table-responsive container" style="height:200px; overflow:scroll;">
         <table class="table table-striped table-light" >
-            <thead style="font-size:15px">
+            <thead style="font-size:10px;">
                 <tr>
                     <th scope="col">Date</th>
                     <th scope="col">Opp</th>
@@ -232,7 +226,7 @@
                     <th scope="col">PTS</th>
                 </tr>
             </thead>
-            <tbody style="font-size:14px">
+            <tbody style="font-size:10px;">
                 {% for game in game_log %}
                     <tr>
                         <td> <b>{{game.15}}/{{game.16}}</b> </td>
