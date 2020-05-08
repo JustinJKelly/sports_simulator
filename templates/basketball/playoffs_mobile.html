@@ -1,12 +1,8 @@
 {% extends 'base.html' %}
     {% load static %}
     {% block content %}
-    <script>
-        if ((typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)) {
-            location.href = "/basketball/playoffs_mobile";
-        }
-    </script>
     <style>
+
     .container-flex{
         background-color: #ff0000;
         text-align: left;
@@ -28,24 +24,20 @@
         display:flex;
         flex-direction:column;
         justify-content:center;
-        width:200px;
+        width:100px;
         list-style:none;
-        padding-left: 10px;
+        padding-left: 2px;
     }
     .round-right{
         display: flex;
         flex-direction:column;
         justify-content:center;
-        width:200px;
+        width:100px;
         list-style:none;
-        padding-left:10px;
-    }
-    .tab{
-        display: flex;
-        justify-content: right;
+        padding-left:2px;
     }
     .mi-size{
-        font-size: 2vw;
+        font-size: 13px;
     }
     .round .spacer{ flex-grow:2; }
     .round .spacer:first-child,
@@ -66,15 +58,15 @@
         *  General Styles
         */
     li.game{
-        padding-left:15px;
-        font-size: 1.4vw;
+        padding-left:5px;
+        font-size: 8px;
         border-radius:0;
         /*margin-left: 5px*/
     }
 
     li.game-right{
-        padding-right: 8px;
-        font-size: 1.4vw;
+        padding-right: 5px;
+        font-size: 8px;
         border-radius: 0;
         /*margin-right: 5px;*/
     }
@@ -104,7 +96,7 @@
     li.game-spacer{ 
         border-right:1px solid #FF0000;
         min-height:40px;
-        }
+    }
 
     li.game-spacer-right{
         border-left: 1px solid #0000FF;
@@ -122,28 +114,20 @@
         margin-bottom: 5px; 
         color: rgba(255, 0, 0, 0.600);
     }
-    .button{
-        box-shadow: 2px 2px 2px black;
-        border: none;
-        box-sizing: border-box;
-    }
     .ghost-button {
         display: inline-block;
         position: relative;
-        margin-top: 15px;
-        margin-bottom: auto;
+        margin-top: 10px;
         font-weight: bold;
         text-align: center;
         color: red;
-        font-size: 1.5vw;
     }
     .ghost-button-east{
         display: inline-block;
         position: relative;
-        margin-top: 15px;
+        margin-top: 10px;
         font-weight: bold;
         color: blue;
-        font-size: 1.5vw;
     }
     .ghost-button-east:hover,
     .ghost-button-east:active{
@@ -165,7 +149,6 @@
         top: 0;
         width: 100%; /* Full width */
         height: 100%; /* Full height */
-        max-width: 600px;
         overflow: auto; /* Enable scroll if needed */
         background-color: rgb(0,0,0); /* Fallback color */
         background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
@@ -187,7 +170,7 @@
     .modal-content-east{
         background-color: #fefefe;
         margin: auto;
-        padding: 20px;
+        padding: 10px;
         border: 1px solid #888;
         width: 80%;
     }
@@ -195,7 +178,7 @@
     .modal-content {
         background-color: #fefefe;
         margin: auto;
-        padding: 20px;
+        padding: 10px;
         border: 1px solid #888;
         width: 80%;
     }
@@ -220,15 +203,15 @@
 
 <div class="container">
     <br/>
-    <h1>2019-2020 NBA Playoffs Bracket</h1>
+    <h5>2019-2020 NBA Playoffs Bracket</h5>
     <hr style="height: 2px; background-color: black;">
     <br>
     <div class="row">
         <div class="col-6">
-            <h4>Western Conference</h4> 
+            <p style="font-size: 20px;">Western Conference</p> 
         </div>
         <div class="col-6" style="text-align: right;">
-            <h4 >Eastern Conference</h4> 
+            <p style="font-size: 20px;">Eastern Conference</p> 
         </div>
     </div>
         <div class="tournament">
@@ -239,7 +222,7 @@
             <li class="game game-spacer">
                 <!-- info icon-->
                 <!-- <a href=""><i class="material-icons info-west">info</i></a>-->
-                <div class="ghost-button"><i class="material-icons mi-size">info&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i></div>
+                <div class="ghost-button"><i class="material-icons mi-size">info</i></div>
                 <div class="modal">
                     <div class="modal-content text-center">
                         <span class="close">&times;</span>
@@ -256,9 +239,9 @@
                         </div>
                         <br>
                         <br>
-                        <h5 style="font-size: 16px;"> ({{west.round1.series1.higher_seed_wins}}-{{west.round1.series1.higher_seed_losses}})&nbsp;&nbsp;{{western_teams.0.1}} vs {{western_teams.7.1}}&nbsp;&nbsp;({{west.round1.series1.lower_seed_wins}}-{{west.round1.series1.lower_seed_losses}}) </h5>
+                        <h5 style="font-size: 16px;"> ({{west.round1.series1.higher_seed_wins}}-{{west.round1.series1.higher_seed_losses}})&nbsp;&nbsp;{{western_teams.0.1}}<br>vs<br>({{west.round1.series1.lower_seed_wins}}-{{west.round1.series1.lower_seed_losses}})&nbsp;&nbsp;{{western_teams.7.1}} </h5>
                         <hr style="background-color:red; height: 1px; width: 75%;">
-                        <ul class="" style=" list-style-type:none; margin-right: 10px; font-size: 20px;">
+                        <ul class="" style=" list-style-type:none; margin-right: 20px;font-size: 15px;">
                             {% if west.round1.series1.game1 %}
                                 <li> <b> Game 1: </b> {{western_teams.0.0}} {{west.round1.series1.game1.score_higher_seed}}-{{west.round1.series1.game1.score_lower_seed}} {{western_teams.7.0}}</li>
                             {% else %}
@@ -296,7 +279,7 @@
                             {% endif%}
                         </ul>
                         <hr style="background-color: red; height: 1px; width: 75%;"> 
-                        <a href="/basketball/playoffs/series/{{west.round1.series1.series_id}}" style="font-size: 20px;">Series Information</a>
+                        <a href="/basketball/playoffs/series/{{west.round1.series1.series_id}}" style="font-size: 15px;">Series Information</a>
                     </div>
                 </div>
             </li><!-- Contains code for modal-->
@@ -323,10 +306,10 @@
                                 </div>
                             </div>
                         </div>
-                        <h5 style="font-size: 16px;">{{west.round1.series2.higher_seed_wins}}-{{west.round1.series2.lower_seed_wins}}&nbsp;&nbsp;{{western_teams.3.1}} vs {{western_teams.4.1}}&nbsp;&nbsp;{{west.round1.series2.lower_seed_wins}}-{{west.round1.series2.lower_seed_losses}} </h5>
+                        <h5 style="font-size: 16px;">({{west.round1.series2.higher_seed_wins}}-{{west.round1.series2.lower_seed_wins}})&nbsp;&nbsp;{{western_teams.3.1}}<br>vs<br>({{west.round1.series2.lower_seed_wins}}-{{west.round1.series2.lower_seed_losses}})&nbsp;&nbsp;{{western_teams.4.1}}</h5>
                         <hr style="background-color:red; height: 1px; width: 75%;">
                         
-                        <ul style=" list-style-type:none; margin-right: 10px; font-size: 20px;">
+                        <ul style="list-style-type:none; margin-right: 20px;font-size: 15px;">
                             {% if west.round1.series2.game1 %}
                                 <li> <b> Game 1: </b> {{western_teams.3.0}} {{west.round1.series2.game1.score_higher_seed}}-{{west.round1.series2.game1.score_lower_seed}} {{western_teams.4.0}}</li>
                             {% else %}
@@ -364,7 +347,7 @@
                             {% endif%}
                         </ul>
                         <hr style="background-color: red; height: 1px; width: 75%;"> 
-                        <a href="/basketball/playoffs/series/{{west.round1.series2.series_id}}" style="font-size: 20px;">Series Information</a>
+                        <a href="/basketball/playoffs/series/{{west.round1.series2.series_id}}" style="font-size: 15px;">Series Information</a>
                     </div>
                 </div>
             </li>
@@ -391,10 +374,10 @@
                             </div>
                         </div>
                         
-                        <h5 style="font-size: 16px;">{{west.round1.series3.higher_seed_wins}}-{{west.round1.series3.lower_seed_wins}}&nbsp;&nbsp;{{western_teams.2.1}} vs {{western_teams.5.1}}&nbsp;&nbsp;{{west.round1.series3.lower_seed_wins}}-{{west.round1.series3.lower_seed_losses}} </h5>
+                        <h5 style="font-size: 16px;">({{west.round1.series3.higher_seed_wins}}-{{west.round1.series3.lower_seed_wins}})&nbsp;&nbsp;{{western_teams.2.1}}<br>vs<br>({{west.round1.series3.lower_seed_wins}}-{{west.round1.series3.lower_seed_losses}})&nbsp;&nbsp;{{western_teams.5.1}} </h5>
                         <hr style="background-color:red; height: 1px; width: 75%;">
                         
-                       <ul style=" list-style-type:none; margin-right: 10px; font-size: 20px;">
+                       <ul style="list-style-type:none; margin-right: 20px;font-size: 15px;">
                             {% if west.round1.series3.game1 %}
                                 <li> <b> Game 1: </b> {{western_teams.2.0}} {{west.round1.series3.game1.score_higher_seed}}-{{west.round1.series3.game1.score_lower_seed}} {{western_teams.5.0}}</li>
                             {% else %}
@@ -432,7 +415,7 @@
                             {% endif%}
                         </ul>
                         <hr style="background-color: red; height: 1px; width: 75%;"> 
-                        <a href="/basketball/playoffs/series/{{west.round1.series3.series_id}}" style="font-size: 20px;">Series Information</a>
+                        <a href="/basketball/playoffs/series/{{west.round1.series3.series_id}}" style="font-size: 15px;">Series Information</a>
                     </div>
                 </div></li>
             <li class="container-flex game game-bottom">6. {{western_teams.5.0}}<span>{{west.round1.series3.matchup.5}}</span></li>
@@ -457,10 +440,10 @@
                                 </div>
                             </div>
                         </div>
-                        <h5 style="font-size: 16px;">{{west.round1.series4.higher_seed_wins}}-{{west.round1.series4.lower_seed_wins}}&nbsp;&nbsp;{{western_teams.1.1}} vs {{western_teams.6.1}}&nbsp;&nbsp;{{west.round1.series4.lower_seed_wins}}-{{west.round1.series4.lower_seed_losses}} </h5>
+                        <h5 style="font-size: 16px;">({{west.round1.series4.higher_seed_wins}}-{{west.round1.series4.lower_seed_wins}})&nbsp;&nbsp;{{western_teams.1.1}}<br>vs<br>({{west.round1.series4.lower_seed_wins}}-{{west.round1.series4.lower_seed_losses}})&nbsp;&nbsp;{{western_teams.6.1}} </h5>
                         <hr style="background-color:red; height: 1px; width: 75%;">
                         
-                       <ul style=" list-style-type:none; margin-right: 10px; font-size: 20px;">
+                       <ul style="list-style-type:none; margin-right: 20px;font-size: 15px;">
                             {% if west.round1.series4.game1 %}
                                 <li> <b> Game 1: </b> {{western_teams.1.0}} {{west.round1.series4.game1.score_higher_seed}}-{{west.round1.series4.game1.score_lower_seed}} {{western_teams.6.0}}</li>
                             {% else %}
@@ -498,7 +481,7 @@
                             {% endif%}
                         </ul>
                         <hr style="background-color: red; height: 1px; width: 75%;"> 
-                        <a href="/basketball/playoffs/series/{{west.round1.series4.series_id}}" style="font-size: 20px;">Series Information</a>
+                        <a href="/basketball/playoffs/series/{{west.round1.series4.series_id}}" style="font-size: 15px;">Series Information</a>
                     </div>
                 </div></li>
             <li class="container-flex game game-bottom ">7. {{western_teams.6.0}}<span>{{west.round1.series4.matchup.5}}</span></li>
@@ -587,10 +570,10 @@
                             </div>
                         </div>
                         
-                        <h5 style="font-size: 16px;"> {{east.round1.series1.higher_seed_wins}}-{{east.round1.series1.higher_seed_losses}}&nbsp;&nbsp;{{eastern_teams.0.1}} vs {{eastern_teams.7.1}}&nbsp;&nbsp;{{east.round1.series1.lower_seed_wins}}-{{east.round1.series1.lower_seed_losses}} </h5>
+                        <h5 style="font-size: 16px;">({{east.round1.series1.higher_seed_wins}}-{{east.round1.series1.higher_seed_losses}})&nbsp;&nbsp;{{eastern_teams.0.1}}<br>vs<br>({{east.round1.series1.lower_seed_wins}}-{{east.round1.series1.lower_seed_losses}})&nbsp;&nbsp;{{eastern_teams.7.1}} </h5>
                         <hr style="background-color:blue; height: 1px; width: 75%;">
 
-                        <ul style=" list-style-type:none; margin-right: 10px; font-size: 20px;">
+                        <ul style="list-style-type:none; margin-right: 20px;font-size: 15px;">
                             {% if east.round1.series1.game1 %}
                                 <li> <b>Game 1:</b> {{eastern_teams.0.0}} {{east.round1.series1.game1.score_higher_seed}}-{{east.round1.series1.game1.score_lower_seed}} {{eastern_teams.7.0}}  </li>
                             {% else %}
@@ -628,7 +611,7 @@
                             {% endif%}
                         </ul>
                         <hr style="background-color: blue; height: 1px; width: 75%;"> 
-                        <a href="/basketball/playoffs/series/{{east.round1.series1.series_id}}" style="font-size: 20px;">Series Information</a>
+                        <a href="/basketball/playoffs/series/{{east.round1.series1.series_id}}" style="font-size: 15px;">Series Information</a>
                     </div>
                 </div>
             </li>
@@ -654,9 +637,9 @@
                             </div>
                         </div>
                         
-                        <h5 style="font-size: 16px;"> {{east.round1.series2.higher_seed_wins}}-{{east.round1.series2.higher_seed_losses}}&nbsp;&nbsp;{{eastern_teams.3.1}} vs {{eastern_teams.4.1}}&nbsp;&nbsp;{{east.round1.series2.lower_seed_wins}}-{{east.round1.series2.lower_seed_losses}} </h5>
+                        <h5 style="font-size: 16px;"> ({{east.round1.series2.higher_seed_wins}}-{{east.round1.series2.higher_seed_losses}})&nbsp;&nbsp;{{eastern_teams.3.1}} vs ({{east.round1.series2.lower_seed_wins}}-{{east.round1.series2.lower_seed_losses}})&nbsp;&nbsp;{{eastern_teams.4.1}} </h5>
                         <hr style="background-color:blue; height: 1px; width: 75%;">
-                            <ul style=" list-style-type:none; margin-right: 10px; font-size: 20px;">
+                            <ul style="list-style-type:none; margin-right: 20px; font-size: 15px;">
                             {% if east.round1.series2.game1 %}
                                 <li> <b>Game 1:</b> {{eastern_teams.3.0}} {{east.round1.series2.game1.score_higher_seed}}-{{east.round1.series2.game1.score_lower_seed}} {{eastern_teams.4.0}}  </li>
                             {% else %}
@@ -694,7 +677,7 @@
                             {% endif%}
                         </ul>
                         <hr style="background-color: blue; height: 1px; width: 75%;"> 
-                        <a href="/basketball/playoffs/series/{{east.round1.series2.series_id}}" style="font-size: 20px;">Series Information</a>
+                        <a href="/basketball/playoffs/series/{{east.round1.series2.series_id}}" style="font-size: 15px;">Series Information</a>
                     </div>
                 </div>
             </li>
@@ -720,9 +703,9 @@
                             </div>
                         </div>
                         
-                        <h5 style="font-size: 16px;"> {{east.round1.series3.higher_seed_wins}}-{{east.round1.series3.higher_seed_losses}}&nbsp;&nbsp;{{eastern_teams.2.1}} vs {{eastern_teams.5.1}}&nbsp;&nbsp;{{east.round1.series3.lower_seed_wins}}-{{east.round1.series3.lower_seed_losses}} </h5>
+                        <h5 style="font-size: 16px;"> ({{east.round1.series3.higher_seed_wins}}-{{east.round1.series3.higher_seed_losses}})&nbsp;&nbsp;{{eastern_teams.2.1}}<br>vs<br>({{east.round1.series3.lower_seed_wins}}-{{east.round1.series3.lower_seed_losses}})&nbsp;&nbsp;{{eastern_teams.5.1}} </h5>
                         <hr style="background-color:blue; height: 1px; width: 75%;">
-                            <ul style=" list-style-type:none; margin-right: 10px; font-size: 20px;">
+                            <ul style="list-style-type:none; margin-right: 20px; font-size: 15px;">
                             {% if east.round1.series3.game1 %}
                                 <li> <b>Game 1:</b> {{eastern_teams.2.0}} {{east.round1.series3.game1.score_higher_seed}}-{{east.round1.series3.game1.score_lower_seed}} {{eastern_teams.5.0}}  </li>
                             {% else %}
@@ -760,7 +743,7 @@
                             {% endif%}
                         </ul>
                         <hr style="background-color: blue; height: 1px; width: 75%;"> 
-                        <a href="/basketball/playoffs/series/{{east.round1.series3.series_id}}" style="font-size: 20px;">Series Information</a>
+                        <a href="/basketball/playoffs/series/{{east.round1.series3.series_id}}" style="font-size: 15px;">Series Information</a>
                     </div>
                 </div>
             </li>
@@ -786,9 +769,9 @@
                             </div>
                         </div>
                         
-                      <h5 style="font-size: 16px;"> {{east.round1.series4.higher_seed_wins}}-{{east.round1.series4.higher_seed_losses}}&nbsp;&nbsp;{{eastern_teams.1.1}} vs {{eastern_teams.6.1}}&nbsp;&nbsp;{{east.round1.series4.lower_seed_wins}}-{{east.round1.series4.lower_seed_losses}} </h5>
+                      <h5 style="font-size: 16px;"> ({{east.round1.series4.higher_seed_wins}}-{{east.round1.series4.higher_seed_losses}})&nbsp;&nbsp;{{eastern_teams.1.1}}<br>vs<br>({{east.round1.series4.lower_seed_wins}}-{{east.round1.series4.lower_seed_losses}})&nbsp;&nbsp;{{eastern_teams.6.1}} </h5>
                         <hr style="background-color:blue; height: 1px; width: 75%;">
-                            <ul style=" list-style-type:none; margin-right: 10px; font-size: 20px;">
+                            <ul style="list-style-type:none; margin-right: 20px; font-size: 15px;">
                             {% if east.round1.series4.game1 %}
                                 <li> <b>Game 1:</b> {{eastern_teams.1.0}} {{east.round1.series4.game1.score_higher_seed}}-{{east.round1.series4.game1.score_lower_seed}} {{eastern_teams.6.0}}  </li>
                             {% else %}
