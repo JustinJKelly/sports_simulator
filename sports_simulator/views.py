@@ -29,6 +29,9 @@ def home(request):
     
     return render(request, 'base.html', context)
 
+def articles_playoffs(request):
+    return render(request, 'article_playoffs.html')
+
 
 def find_team_image(team_id):
     list_teams = {
