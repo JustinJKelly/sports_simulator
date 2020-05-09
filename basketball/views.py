@@ -1217,6 +1217,7 @@ def series_page(request, id):
     context["games_played"]=series.games_played
     context['lower_seed_scores']=lower_seed_scores
     context['higher_seed_scores']=higher_seed_scores
+    context['series_id']=series.series_id
         
     return render(request, 'basketball/series.html', context)
 
@@ -1779,6 +1780,7 @@ def series_page_mobile(request, id):
     context["games_played"]=series.games_played
     context['lower_seed_scores']=lower_seed_scores
     context['higher_seed_scores']=higher_seed_scores
+    context['series_id']=series.series_id
         
     return render(request, 'basketball/series_mobile.html', context)
 
@@ -2534,7 +2536,7 @@ def series_vote_mobile(request):
                     series.save()
                 name = 'form'+str(count)
                 count += 1
-            return redirect('/basketball/series_vote_results')
+            return redirect('/basketball/series_vote_results_mobile')
         else:
             messages.add_message(request, messages.ERROR, 'Error in processing form data')
             formset = SeriesForm()

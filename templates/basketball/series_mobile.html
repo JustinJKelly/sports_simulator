@@ -1,0 +1,364 @@
+{% extends 'base.html' %}
+    {% load static %}
+    {% block content %}
+
+    <style>
+        a {
+            color: black;
+        }
+        /* make it blend in with background*/
+        a:hover.image_hover {
+            color: transparent;
+        }
+        .game-table{
+            display: none;
+            width:100%; 
+            font-size:15px; 
+           
+        }
+        .voting-series{
+            text-align: center;
+            background-color: grey; 
+            opacity: 70%; 
+            max-height: 300px;
+            color:white;
+            box-shadow: 3px 3px 3px grey; 
+        }
+    </style>
+
+    <br/>
+    <!--Header Scorebox-->
+    <div class="container text-center">
+        <div class="row">
+            <div class="col">
+                <a class="image_hover" href="/basketball/team/{{lower_seed_id}}"> <img style="max-height:35px;max-width:35px;" src="{% static lower_seed_image %}"></img> </a>
+                <br/>
+                <b style="font-size:10px;">({{lower_seed_rank}})</b>
+                <a href="/basketball/team/{{lower_seed_id}}"> <b style="font-size:10px; text-align: center;">{{lower_seed_name}} </b> </a>
+            </div>
+         
+            <div class="col">
+                <a class="image_hover" href="/basketball/team/{{higher_seed_id}}"> <img style="max-height:35px;max-width:35px" src="{% static higher_seed_image %}"></img> </a>
+                <br/>
+                <b style="font-size:10px;">({{higher_seed_rank}})</b>
+                <a href="/basketball/team/{{higher_seed_id}}"> <b style="font-size:10px; text-align: center;">{{higher_seed_name}}</b></a>
+                <!--({{home_team_record}})-->
+            </div>
+        </div>
+
+           <div class="col">
+                {% if games_played > 0%}
+                    <div class="table">
+                        <table class="table table-striped table-light table-sm" style="width:100%; font-size:8px;">
+                            <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    {% if game_score1 %}
+                                        <th scope="col">G1 </th>
+                                    {% endif %}
+                                    {% if game_score2 %}
+                                        <th scope="col">G2 </th>
+                                    {% endif %}
+                                    {% if game_score3 %}
+                                        <th scope="col">G3</th>
+                                    {% endif %}
+                                    {% if game_score4 %}
+                                        <th scope="col">G4</th>
+                                    {% endif %}
+                                    {% if game_score5 %}
+                                        <th scope="col">G5</th>
+                                    {% endif %}
+                                    {% if game_score6 %}
+                                        <th scope="col">G6</th>
+                                    {% endif %}
+                                    {% if game_score7 %}
+                                        <th scope="col">G7</th>
+                                    {% endif %}
+                                    <th scope="col">Wins </th>
+                                    <th scope="col">Losses </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">{{lower_seed_abv}}</th>
+                                        {% for s in lower_seed_scores %}
+                                            <td>{{s}}</td>
+                                        {% endfor %}
+                                        <td>{{lower_seed_wins}}</td>
+                                        <td>{{lower_seed_losses}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">{{higher_seed_abv}}</th>
+                                        {% for s in higher_seed_scores%}
+                                        <td>{{s}}</td>
+                                        {% endfor %}  
+                                        <td>{{higher_seed_wins}}</td>
+                                        <td>{{higher_seed_losses}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <h4> No games played </h4>
+                {% endif %}
+            </div>
+    </div>
+    <!--End Header Scorebox-->
+    <!-- SERIES VOTING-->
+    <!--
+    <div class="voting-series container">
+        <h3 id="vote_prompt"> Vote for who you think will win:<span class="close" style="cursor: pointer; color: white; ">&times;</span></h3>
+        <br>
+        <h3 id="thank_you" style="display: none;">Thanks for voting!<span class="close" style="cursor: pointer; color: white; ">&times;</span></h3>
+        <br>
+        <div class="row">
+            <div i class="col" id="vote_lower_seed">
+                <h6 > {{lower_seed_name}}</h6>
+                <a onclick=voting() class="image_hover" style="cursor: pointer; color: black;"> <img style="max-height:150px;max-width:150px" src="{% static lower_seed_image %}"></img> </a>
+            </div>
+            <div class="col">
+                <h3 id="voting_or">
+                    OR
+                </h3>
+            </div>
+            <div class="col" id="vote_higher_seed">
+                <h6> {{higher_seed_name}}</h6>
+                <a onclick=voting() class="image_hover" style="cursor: pointer;"> <img style="max-height:150px;max-width:150px" src="{% static higher_seed_image %}"></img> </a>
+            </div>
+        </div>
+        <br>
+        
+    </div>
+-->
+    <!-- Team Stats Table-->
+    <div class="table-responsive container" style="text-align:left; margin-left:15%; margin-right:20%">
+        <table class="table-sm table-striped table-light" style="font-size:10px;">
+            <thead>
+                <tr>
+                    <th scope="col"><b>Series Stats</b></th>
+                    <th>
+                        <a class="image_hover" href="/basketball/team/{{lower_seed_id}}"> <img style="max-height:25px;max-width:25px" src="{% static lower_seed_image %}"></img> </a>
+                    </th>
+                    <th>
+                        <a class="image_hover" href="/basketball/team/{{higher_seed_id}}"> <img style="max-height:25px;max-width:25px" src="{% static higher_seed_image %}"></img> </a>
+                    </th>
+                <tr>
+            </thead>
+            <tbody>
+                <!--
+                    higher_seed_stats[0] += team_stats[higher_seed_team]['FG_made']
+                    higher_seed_stats[1] += team_stats[higher_seed_team]["FG_attempted"]
+                    higher_seed_stats[2] += team_stats[higher_seed_team]['3P_made']
+                    higher_seed_stats[3] += team_stats[higher_seed_team]["3P_attempted"]
+                    higher_seed_stats[4] += team_stats[higher_seed_team]['FT_made']
+                    higher_seed_stats[5] += team_stats[higher_seed_team]["FT_attempted"]
+                    higher_seed_stats[6] += (team_stats[higher_seed_team]['off_rebounds']+team_stats[higher_seed_team]["def_rebounds"])
+                    higher_seed_stats[7] += team_stats[higher_seed_team]['off_rebounds']
+                    higher_seed_stats[8] += team_stats[higher_seed_team]["def_rebounds"],
+                    higher_seed_stats[9] += team_stats[higher_seed_team]['assists']
+                    higher_seed_stats[10] += team_stats[higher_seed_team]['steals']
+                    higher_seed_stats[11] += team_stats[higher_seed_team]['blocks'],
+                    higher_seed_stats[12] += team_stats[higher_seed_team]['turnovers']
+                    higher_seed_stats[13] += team_stats[higher_seed_team]['personal_fouls']
+                    higher_seed_stats[14] += team_stats[higher_seed_team]['points']
+                -->
+                <tr>
+                    <th scope="row">FG</th>
+                    <td>{{lower_seed_stats.0}}-{{lower_seed_stats.1}}</td>
+                    <td>{{higher_seed_stats.0}}-{{higher_seed_stats.1}}</td>
+                </tr>
+                <!--<tr>
+                    <th scope="row">Field Goal %</th>
+                    <td>{{lower_seed_stats.FGP}} %</td>
+                    <td>{{higher_seed_stats.FGP}} %</td>
+                </tr>-->
+                <tr>
+                    <th scope="row">3PT</th>
+                    <td>{{lower_seed_stats.2}}-{{lower_seed_stats.3}}</td>
+                    <td>{{higher_seed_stats.2}}-{{higher_seed_stats.3}}</td>
+                </tr>
+                <!--<tr>
+                    <th scope="row">Three Point %</th>
+                    <td>{{lower_seed_stats.3FGP}}%</td>
+                    <td>{{higher_seed_stats.3FGP}}%</td>
+                </tr>-->
+                <tr>
+                    <th scope="row">FT</th>
+                    <td>{{lower_seed_stats.4}}-{{lower_seed_stats.5}}</td>
+                    <td>{{higher_seed_stats.4}}-{{higher_seed_stats.5}}</td>
+                </tr>
+                <!--<tr>
+                    <th scope="row">Free Throw %</th>
+                    <td>{{lower_seed_stats.FTP}} %</td>
+                    <td>{{higher_seed_stats.FTP}} %</td>
+                </tr>-->
+                <tr>
+                        <th scope="row">Offensive Rebounds</th>
+                        <td>{{lower_seed_stats.7}}</td>
+                        <td>{{higher_seed_stats.7}}</td>
+                </tr>
+                <tr>
+                        <th scope="row">Defensive Rebounds</th>
+                        <td>{{lower_seed_stats.8}}</td>
+                        <td>{{higher_seed_stats.8}}</td>
+                </tr>
+                <tr>    
+                        <th scope="row">Rebounds</th>
+                        <td>{{lower_seed_stats.6}}</td>
+                        <td>{{higher_seed_stats.6}}</td>
+                </tr>
+                <tr>
+                        <th scope="row">Assists</th>
+                        <td>{{lower_seed_stats.9}}</td>
+                        <td>{{higher_seed_stats.9}}</td>
+                </tr>
+                <tr>
+                        <th scope="row">Steals</th>
+                        <td>{{lower_seed_stats.10}}</td>
+                        <td>{{higher_seed_stats.10}}</td>
+                </tr>
+                <tr>
+                        <th scope="row">Blocks</th>
+                        <td>{{lower_seed_stats.11}}</td>
+                        <td>{{higher_seed_stats.11}}</td>
+                </tr>
+                <tr>
+                        <th scope="row">Turnovers</th>
+                        <td>{{lower_seed_stats.12}}</td>
+                        <td>{{higher_seed_stats.12}}</td>
+                </tr>
+                <tr>
+                        <th scope="row">Personal Fouls</th>
+                        <td>{{lower_seed_stats.13}}</td>
+                        <td>{{higher_seed_stats.13}}</td>
+                </tr>
+                <tr>
+                        <th scope="row">Points</th>
+                        <td>{{lower_seed_stats.14}}</td>
+                        <td>{{higher_seed_stats.14}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <br/>
+        <hr style="color:black; border-width:3px;"></hr>
+    </div>
+    <!-- End Team Stats Table-->
+    <br/>
+    <br>
+    
+    <!-- Start series table(s)-->
+    <div class="container d-flex justify-content-center"> 
+        <div class="row">
+                <div class-"col">
+                {% if game1 %}
+                    <a href="/basketball/game/{{game1}}" class="btn btn-outline-primary" style="margin: 10px;"> Game 1</a>
+                {% endif %}
+                </div>
+                <div class-"col">
+                {% if game2 %}
+                    <a href="/basketball/game/{{game2}}" class="btn btn-outline-primary" style="margin: 10px;"> Game 2</a>
+                {% endif %}
+                </div>
+                <div class-"col">
+                {% if game3 %}
+                    <a href="/basketball/game/{{game3}}" class="btn btn-outline-primary" style="margin: 10px;"> Game 3</a>
+                {% endif %}
+                </div>
+                <div class-"col">
+                {% if game4 %}
+                    <a href="/basketball/game/{{game4}}" class="btn btn-outline-primary" style="margin: 10px;"> Game 4</a>
+                {% endif %}
+                </div>
+                <div class-"col">
+                {% if game5 %}
+                    <a href="/basketball/game/{{game5}}" class="btn btn-outline-primary" style="margin: 10px;"> Game 5</a>
+                {% endif %}
+                </div>
+                <div class-"col">
+                {% if game6 %}
+                    <a href="/basketball/game/{{game6}}" class="btn btn-outline-primary" style="margin: 10px;"> Game 6</a>
+                {% endif %}
+                </div>
+                <div class-"col">
+                {% if game7 %}
+                    <a href="/basketball/game/{{game7}}" class="btn btn-outline-primary" style="margin: 10px;"> Game 7</a>
+                {% endif %}
+                </div>
+        </div>
+    </div>
+        <br/>
+        <br/>
+        <br/>
+     
+<script>
+        var btn = document.getElementsByClassName("btn");
+        var table = document.getElementsByClassName("game-table");
+        btn[0].onclick = function(){
+            for(var i=0;i<table.length;i++){
+                table[i].style.display = "none"
+            }
+            table[0].style.display ="block";
+        }
+        btn[1].onclick = function() {
+            for(var i=0;i<table.length;i++){
+                table[i].style.display = "none"
+            }
+            table[1].style.display = "block";
+        }
+        btn[2].onclick = function(){
+            for(var i=0;i<table.length;i++){
+                table[i].style.display = "none"
+            }
+            table[2].style.display ="block";
+        }
+        btn[3].onclick = function() {
+            for(var i=0;i<table.length;i++){
+                table[i].style.display = "none"
+            }
+            table[3].style.display = "block";
+        }
+        btn[4].onclick = function() {
+            for(var i=0;i<table.length;i++){
+                table[i].style.display = "none"
+            }
+            table[4].style.display = "block";
+        }
+        btn[5].onclick = function() {
+            for(var i=0;i<table.length;i++){
+                table[i].style.display = "none"
+            }
+            table[5].style.display = "block";
+        }
+        btn[6].onclick = function() {
+            for(var i=0;i<table.length;i++){
+                table[i].style.display = "none"
+            }
+            table[6].style.display = "block";
+        }
+</script>
+<script>
+    var voting_high = document.getElementById("vote_higher_seed")
+    var voting_low = document.getElementById("vote_lower_seed")
+    var voting_or = document.getElementById("voting_or")
+    var thanks = document.getElementById("thank_you")
+    var prompt = document.getElementById("vote_prompt")
+    var close = document.getElementsByClassName("close")
+    var voting_space = document.getElementsByClassName("voting-series")
+    
+    function voting(){
+            voting_high.style.display="none";
+            voting_low.style.display="none";
+            voting_or.style.display="none";
+            prompt.style.display="none"
+            thanks.style.display="block";
+            
+
+    }
+    close[0].onclick =function(){
+        voting_space[0].style.display="none";
+    }
+    close[1].onclick =function(){
+        voting_space[0].style.display="none";
+    }
+</script>
+{% endblock %}

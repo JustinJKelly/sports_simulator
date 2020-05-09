@@ -57,12 +57,11 @@
                     </div>
                     <br/>
                     <br/>
-                    <div class="col-6">
+                    <div class="col-9">
                         <br/>
-                        <p style="font-weight: bold; font-size:22px;">{{team_name}}</p>
+                        <p style="font-size:18px;">{{team_name}}</p>
                     </div>
                 </div>
-                <br/>
                 <br/>
                
                 <div class="table-responsive" style="font-size:10px;">
@@ -131,7 +130,6 @@
                 </tbody>
             </table>
         </div>
-        <br/>
         <br/>
         <div class="table-responsive container">
             <b style="font-size:11px;">Current Roster</b>
@@ -207,10 +205,9 @@
     -->
 
     <br/>
-    <br/>
       <!--Game Log Team Stats-->
     <div class="container">
-        <b style="font-size:10px;"> 2019-2020 Game Log </b>
+        <b style="font-size:11px;"> 2019-2020 Game Log </b>
     </div>
     <div class="table-responsive container" style="font-size:6px; height:400px; overflow:scroll;">
         <table class="table-sm table-striped table-light" >
@@ -218,6 +215,7 @@
                 <tr style="text-align:left;">
                     <th scope="col">Date</th>
                     <th scope="col">Opp</th>
+                    <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col">Result</th>
@@ -243,31 +241,24 @@
                     <th scope="col">PTS</th>
                 </tr>
             </thead>
-            <tbody style="font-size:6px;">
+            <tbody style="font-size:7px;">
                 {% for game in game_log %}
                     <tr>
                         <td> <b>{{game.15}}/{{game.16}}</b> </td>
-                        <td colspan="3"> 
-                            <p>
-                                {{game.19}}
-                                <a class="img_hover" href='/basketball/team/{{ game.18 }}'>
-                                    <img style="max-height:10px;max-width:10px;" src={% static game.17 %} </img>
-                                </a> 
-                                 <a href='/basketball/team/{{ game.18 }}'>{{game.20}}</a>
-                            </p>
+                        <td colspan="4" style="font-size:6px;"> 
+                            {{game.19}}
+                            <a class="img_hover" href='/basketball/team/{{ game.18 }}'>
+                                <img style="max-height:10px;max-width:10px;" src={% static game.17 %} </img>
+                            </a> 
+                            <a href='/basketball/team/{{ game.18 }}'>{{game.20}}</a>
                         </td>
                         <td colspan="3"> 
                             {% if game.21 == 'W' %}
-                                <p>
-                                    <b style="color:green;">{{game.21}}</b>
-                                    <a href='/basketball/game/{{game.24}}'> {{game.22}}-{{game.23}} </a>
-                                </p>
+                                <b style="color:green;">{{game.21}}</b>
+                                <a href='/basketball/game/{{game.24}}'> {{game.22}}-{{game.23}} </a>
                             {% else %}
-                                <p>
-                                    <b style="color:red;">{{game.21}}</b> 
-                                    <a href='/basketball/game/{{game.24}}'>{{game.22}}-{{game.23}}</a>
-
-                                </p>
+                                <b style="color:red;">{{game.21}}</b> 
+                                <a href='/basketball/game/{{game.24}}'>{{game.22}}-{{game.23}}</a>
                             {% endif %}
                         </td>
                         <td colspan="3">{{game.0}}-{{game.1}}</td>

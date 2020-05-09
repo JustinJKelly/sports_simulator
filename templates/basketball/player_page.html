@@ -2,6 +2,11 @@
     {% load static %}
     {% block content %}
 
+    <script>
+        if ((typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)) {
+            location.href = "/basketball/player_mobile/{{player_id}}";
+        }
+    </script>
     <!--context = {
         "full_name": player.full_name,"player_id":player.player_id,
         "point_per_game":round(player.points_total/player.games_played,1),

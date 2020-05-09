@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+    {% load static %}
+    {% block content %}
+        <!--
+        team.team_name,
+        team.team_wins,
+        team.team_losses,
+        round((team.team_wins/(team.games_played)),3),
+        games_back,
+        round((team.points_total/team.games_played),1),
+        6find_team_image(team.team_id),
+        7rank,
+        8team.team_id,
+        9team.home_wins,
+        10team.away_wins,
+        11team.home_losses,
+        12team.away_losses,
+        13team.conference_wins,
+        14team.conference_losses,
+        15round(team.opponent_points_total,1)
+        16round((team.points_total/team.games_played),1)-round(team.opponent_points_total/team.games_played,1),
+        17team.divisional_wins,
+        18team.divisional_losses
+    -->
+
+    <style>
+        a:hover.img_hover {
+            color:transparent;
+        }
+    </style>
+    <br/>
+    <div class="table-responsive container">
+        <b style="color:blue; font-size:14px;"> Eastern Conference</b>
+        <br/>
+        <table class="table-sm table-striped table-light ">
+            <thead style="font-size:10px">
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col">Wins</th>
+                    <th scope="col">Losses</th>
+                    <th scope="col">PCT</th>
+                    <th scope="col">GB</th>
+                    <th scope="col">Home</th>
+                    <th scope="col">Away</th>
+                    <th scope="col">Division</th>
+                    <th scope="col">Conference</th>
+                    <th scope="col">PPG</th>
+                    <th scope="col">OPPG</th>
+                    <th scope="col">+/-</th>
+                </tr>
+            </thead>
+            <tbody style="font-size:8px">
+                {% for team in eastern_teams %}
+                    <tr>
+                        <td colspan="4"> 
+                            <b style="font-size:9px;"> {{team.7}} </b>
+                            <a class="img_hover" href="/basketball/team/{{ team.8 }}"><img style="max-height:15px;max-width:15px;" src="{% static team.6 %}"></img></a>
+                            <a href="/basketball/team/{{ team.8 }}">{{ team.0 }}</a>
+                        </td>
+                        <td> {{ team.1 }} </td>
+                        <td> {{ team.2 }} </td>
+                        <td> {{ team.3 }} </td>
+                        <td> {{ team.4 }} </td>
+                        <td> {{ team.9}}-{{ team.11}} </td>
+                        <td> {{ team.10}}-{{ team.12}} </td>
+                        <td> {{ team.17}}-{{ team.18}} </td>
+                        <td> {{ team.13}}-{{ team.14}} </td>
+                        <td> {{ team.5 }} </td>
+                        <td> {{ team.15 }} </td>
+                        {% if team.16 < 0 %}
+                            <td>
+                                <p style="color:red">
+                                    {{ team.16 }}
+                                </p>
+                            </td> 
+                        {% else %}
+                            <td>
+                                <p style="color:green">
+                                    +{{ team.16 }}
+                                </p>
+                            </td> 
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <hr style="color:black; border-width: 2px;"></hr>
+    <br/>
+
+
+    <div class="table-responsive container">
+        <b style="color:red; font-size:14px;"> Western Conference</b>
+        <table class="table-sm table-striped table-light">
+            <thead style="font-size:10px">
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col">Wins</th>
+                    <th scope="col">Losses</th>
+                    <th scope="col">PCT</th>
+                    <th scope="col">GB</th>
+                    <th scope="col">Home</th>
+                    <th scope="col">Away</th>
+                    <th scope="col">Division</th>
+                    <th scope="col">Conference</th>
+                    <th scope="col">PPG</th>
+                    <th scope="col">OPPG</th>
+                    <th scope="col">+/-</th>
+                </tr>
+            </thead>
+            <tbody style="font-size:8px">
+                {% for team in western_teams %}
+                    <tr>
+                        <td colspan="5"> 
+                            <b style="font-size:9px;"> {{team.7}} </b>
+                            <a class="img_hover" href="/basketball/team/{{ team.8 }}"><img style="max-height:15px;max-width:15px;" src="{% static team.6 %}"></img></a>
+                            <a href="/basketball/team/{{ team.8 }}">{{ team.0 }}</a>
+                        </td>
+                        <td> {{ team.1 }} </td>
+                        <td> {{ team.2 }} </td>
+                        <td> {{ team.3 }} </td>
+                        <td> {{ team.4 }} </td>
+                        <td> {{ team.9}}-{{ team.11}} </td>
+                        <td> {{ team.10}}-{{ team.12}} </td>
+                        <td> {{ team.17}}-{{ team.18}} </td>
+                        <td> {{ team.13}}-{{ team.14}} </td>
+                        <td> {{ team.5 }} </td>
+                        <td> {{ team.15 }} </td>
+                         {% if team.16 < 0 %}
+                            <td>
+                                <p style="color:red">
+                                    {{ team.16 }}
+                                </p>
+                            </td> 
+                        {% else %}
+                            <td>
+                                <p style="color:green">
+                                    {{ team.16 }}
+                                </p>
+                            </td> 
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+
+    {% endblock %}

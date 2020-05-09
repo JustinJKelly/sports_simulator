@@ -1,0 +1,230 @@
+{% extends 'base.html' %}
+    {% load static %}
+    {% block content %}
+
+    <!--context = {
+        "full_name": player.full_name,"player_id":player.player_id,
+        "point_per_game":round(player.points_total/player.games_played,1),
+        "assists_per_game":round(player.assists_total/player.games_played,1),
+        "rebounds_per_game":round(player.rebounds_total/player.games_played),
+        "blocks_per_game":round(player.blocks_total/player.games_played,1),
+        "steals_per_game":round(player.steals_total/player.games_played,1),
+        "turnovers_per_game":round(player.turnovers_total/player.games_played,1),
+        "personal_fouls_per_game":round(player.personal_fouls_total/player.games_played,1),
+        "free_throw_percentage":round((player.free_throws_attempted/player.free_throws_made)*100,1),
+        "field_goal_percentage":round((player.field_goals_attempted/player.field_goals_made)*100,1),
+        "minutes_per_game":round(player.minutes_total/player.games_played,1),
+        "three_point_percentage":round((player.three_point_attempted/player.three_point_made)*100,1),
+        "games_played":player.games_played,"team_image":"img/nba_logo.png","player_image":player_image
+    }-->
+    <style> 
+        a:hover.img_hover {
+            color: transparent;
+        }
+    </style>
+    <br/>
+   <div class="container bg-light">
+        <div class="bg-light p-3">
+            <div class="row">
+                <img style="max-height:80px;max-width:100px; margin-right:25px;" class="card-img-top img_hover" src={{player_image}}>
+                <div class="col">
+                    <br/>
+                    <p style="font-weight: bold; font-size:20px;">{{full_name}}</p>
+                    <div class="row">
+                        <a href="/basketball/team/{{team_id}}"><img style="max-height:35px;max-width:35px;" src="{% static team_image %}"></img></a>
+                        <p style="font-weight: bold; font-size: 12px;"><a href="/basketball/team/{{team_id}}">{{team_name}}</a> #{{jersey_number}}</p>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="table-responsive" style="font-size:10px;">
+                <table class="table-sm table-striped table" >
+                    <thead>
+                        <tr>
+                            <th scope="col" >Position:</th>
+                            <th scope="col">Age:</th>
+                            <th scope="col">Height:</th>
+                            <th scope="col">Weight:</th>
+                            <th scope="col">Status:</th>
+                        </tr>
+                        <tbody>
+                            <tr>
+                                <td>{{position}}</td>
+                                <td>{{player_age}}</td>
+                                <td>{{height}}</td>
+                                <td>{{weight}}</td>
+                                <td>
+                                    {% if injured %}
+                                        <p style="color:red;"> Injured </p>           
+                                    {% else %}
+                                        <p style="color:green;"> Healthy </p> 
+                                    {% endif %}
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="table-responsive container" style="font-size:7px;">
+        <b style="font-size:12px;">2019-2020 Season Stats</b>
+        <table class="table-sm table-striped table-light text-center">
+            <thead>
+                <tr>
+                    <th data-toggle='tooltip' title="Games Played" scope="col">GP</th>
+                    <th data-toggle='tooltip' title="Minutes Per Game" scope="col">MIN</th>
+                    <th data-toggle='tooltip' title="Field Goal Attempts" scope="col">FG</th>
+                    <th data-toggle='tooltip' title="" scope="col"></th>
+                    <th data-toggle='tooltip' title="" scope="col"></th>
+                    <th data-toggle='tooltip' title="Field Goal Percentage" scope="col">FG%</th>
+                    <th data-toggle='tooltip' title="3pt Attempts" scope="col">3PT</th>
+                    <th data-toggle='tooltip' title="" scope="col"></th>
+                    <th data-toggle='tooltip' title="" scope="col"></th>
+                    <th data-toggle='tooltip' title="3pt Field Goal Percentage" scope="col">3PT%</th>
+                    <th data-toggle='tooltip' title="Free Throws" scope="col">FT</th>
+                    <th data-toggle='tooltip' title="" scope="col"></th>
+                    <th data-toggle='tooltip' title="" scope="col"></th>
+                    <th data-toggle='tooltip' title="Free Throw Percentage" scope="col">FT%</th>
+                    <th data-toggle='tooltip' title="Offensive Rebounds" scope="col">OREB</th>
+                    <th data-toggle='tooltip' title="Defensive Rebounds" scope="col">DREB</th>
+                    <th data-toggle='tooltip' title="Total Rebounds Per Game" scope="col">REB</th>
+                    <th data-toggle='tooltip' title="Assists Per Game" scope="col">AST</th>
+                    <th data-toggle='tooltip' title="Blocks Per Game" scope="col">BLK</th>
+                    <th data-toggle='tooltip' title="Steals Per Game" scope="col">STL</th>
+                    <th data-toggle='tooltip' title="Personal Fouls Per Game" scope="col">PF</th>
+                    <th data-toggle='tooltip' title="Turnovers Per Game" scope="col">TO</th>
+                    <th data-toggle='tooltip' title="Points Per Game" scope="col">PTS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% if injured %}
+                        <td>0</td>
+                    {% else %}
+                        <td>{{games_played}}</td>
+                    {% endif %}
+                    <td>{{minutes_per_game}}</td>
+                    <td colspan="3">{{field_goals_made}}-{{field_goals_attempted}}</td>
+                    <td>{{field_goal_percentage}}%</td>
+                    <td colspan="3">{{three_point_made}}-{{three_point_attempted}}</td>
+                    <td>{{three_point_percentage}}%</td>
+                    <td colspan="3">{{free_throws_made}}-{{free_throws_attempted}}</td>
+                    <td>{{free_throw_percentage}}%</td>
+                    <td>{{offensive_rebounds_per_game}}</td>
+                    <td>{{defensive_rebounds_per_game}}</td>
+                    <td>{{rebounds_per_game}}</td>
+                    <td>{{assists_per_game}}</td>
+                    <td>{{blocks_per_game}}</td>
+                    <td>{{steals_per_game}}</td>
+                    <td>{{personal_fouls_per_game}}</td>
+                    <td>{{turnovers_per_game}}</td>
+                    <td>{{point_per_game}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!--
+        this_game_log = [
+            0p['player_id'],1p['name'],2p['min'],3p['FG_made'],
+            4p['FG_attempted'],5p['3P_made'],6p['3P_attempted'],
+            7p['FT_made'],8p['FT_attempted'],9p['off_rebounds'],
+            10p['def_rebounds'],11p['off_rebounds']+p['def_rebounds'],
+            12p['assists'],13p['steals'],14p['blocks'],15p['turnovers'],
+            16p['personal_fouls'],17p['points'],
+            18game.date.month,19game.date.day,20opp_image,21opp_team_id,
+            22@_or_vs,23team_abv,24WorL,25winningscore,26loserscore
+        ]
+    -->
+    <br/>
+    <br/>
+     <!--Game log Player Stats-->
+    <div class="container">
+        <b style="font-size:12px;">2019-2020 Game Log</b>
+    </div>
+    <div class="table-responsive container" style="height:400px; overflow:scroll; font-size:6px;">
+        <table class="table-sm table-striped table-light" >
+            <thead style="font-size:8px">
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Opp</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col">Result</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col">Min</th>
+                    <th scope="col">FG</th>
+                    <th scope="col"></th>
+                    <th scope="col">3PT</th>
+                    <th scope="col"></th>
+                    <th scope="col">FT</th>
+                    <th scope="col"></th>
+                    <th scope="col">OREB</th>
+                    <th scope="col">DREB</th>
+                    <th scope="col">REB</th>
+                    <th scope="col">AST</th>
+                    <th scope="col">STL</th>
+                    <th scope="col">BLK</th>
+                    <th scope="col">PF</th>
+                    <th scope="col">TO</th>
+                    <th scope="col">PTS</th>
+                </tr>
+            </thead>
+            <tbody style="font-size:7px">
+                {% for game in game_log %}
+                    <tr>
+                        <td> <b>{{game.18}}/{{game.19}}</b> </td>
+                        <td colspan="4"> 
+                            {{game.22}}
+                            <a class="img_hover" href='/basketball/team/{{ game.21 }}'>
+                                <img style="max-height:10px;max-width:10px;" src={% static game.20 %}> </img>
+                            </a> 
+                            <a href='/basketball/team/{{ game.21 }}'>{{game.23}}</a>
+                        </td>
+                        <td colspan="3"> 
+                            {% if game.24 == 'W' %}
+                                <b style="color:green;">{{game.24}}</b>
+                                <a href='/basketball/game/{{game.27}}'> {{game.25}}-{{game.26}} </a>
+                            {% else %}
+                                <b style="color:red;">{{game.24}}</b> 
+                                <a href='/basketball/game/{{game.27}}'>{{game.25}}-{{game.26}}</a>
+                            {% endif %}
+                        </td>
+                        <td>{{game.2}}</td>
+                        <td colspan="2">{{game.3}}-{{game.4}}</td>
+                        <td colspan="2">{{game.5}}-{{game.6}}</td>
+                        <td colspan="2">{{game.7}}-{{game.8}}</td>
+                        <td>{{game.9}}</td>
+                        <td>{{game.10}}</td>
+                        <td>{{game.11}}</td>
+                        <td>{{game.12}}</td>
+                        <td>{{game.13}}</td>
+                        <td>{{game.14}}</td>
+                        <td>{{game.16}}</td>
+                        <td>{{game.15}}</td>
+                        <td>{{game.17}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!--End Game log Player Stats-->
+
+        
+    <script>
+        $(document).ready(function(){
+          $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+
+    {% endblock %}

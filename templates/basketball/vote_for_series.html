@@ -2,6 +2,12 @@
     {% load widget_tweaks %}
     {% load static %}
     {% block content %}
+    <script>
+        if ((typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)) {
+            location.href = "/basketball/series_vote_mobile";
+        }
+    </script>
+
     <br/>
     <style> 
         select {

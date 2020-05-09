@@ -237,26 +237,19 @@
                     <tr>
                         <td> <b>{{game.15}}/{{game.16}}</b> </td>
                         <td> 
-                            <p>
-                                {{game.19}}
-                                <a class="img_hover" href='/basketball/team/{{ game.18 }}'>
-                                    <img style="max-height:35px;max-width:35px;" src={% static game.17 %} </img>
-                                </a> 
-                                 <a href='/basketball/team/{{ game.18 }}'>{{game.20}}</a>
-                            </p>
+                            {{game.19}}
+                            <a class="img_hover" href='/basketball/team/{{ game.18 }}'>
+                                <img style="max-height:35px;max-width:35px;" src={% static game.17 %} </img>
+                            </a> 
+                            <a href='/basketball/team/{{ game.18 }}'>{{game.20}}</a>
                         </td>
                         <td> 
                             {% if game.21 == 'W' %}
-                                <p>
-                                    <b style="color:green;">{{game.21}}</b>
-                                    <a href='/basketball/game/{{game.24}}'> {{game.22}}-{{game.23}} </a>
-                                </p>
+                                <b style="color:green;">{{game.21}}</b>
+                                <a href='/basketball/game/{{game.24}}'> {{game.22}}-{{game.23}} </a>
                             {% else %}
-                                <p>
-                                    <b style="color:red;">{{game.21}}</b> 
-                                    <a href='/basketball/game/{{game.24}}'>{{game.22}}-{{game.23}}</a>
-
-                                </p>
+                                <b style="color:red;">{{game.21}}</b> 
+                                <a href='/basketball/game/{{game.24}}'>{{game.22}}-{{game.23}}</a>
                             {% endif %}
                         </td>
                         <td>{{game.0}}-{{game.1}}</td>
