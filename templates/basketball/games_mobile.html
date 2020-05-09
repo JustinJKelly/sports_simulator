@@ -101,9 +101,17 @@
                                 <a class="img_hover" href='/basketball/team/{{game.13}}'><img style="max-height:15px;max-width:15px;" class="card-img" src="{% static game.3 %}" alt="Card image cap"></img> </a>
                                 {{game.1}}
                             </td>
-                            <td colspan="3" style="font-size:8px"> <a href='/basketball/game/{{ game.0 }}'> {{game.2}} {{game.12}},   {{game.11}} {{game.1}}</a> </td>
-                            <td colspan="3" style="font-size:8px"> <a href='/basketball/player/{{ game.8 }}'> {{game.9}} </a> <br/>{{game.10}} Pts </td>
-                            <td colspan="3" style="font-size:8px"> <a href='/basketball/player/{{ game.5 }}'> {{game.6}} </a> <br/>{{game.7}} Pts </td>
+                            <td colspan="3" style="font-size:8px"> 
+                                <a href='/basketball/game/{{ game.0 }}'> {{game.2}} {{game.12}} <br/>  {{game.1}} {{game.11}}</a> 
+                            </td>
+                            <td colspan="3" style="font-size:8px"> 
+                                <a href='/basketball/player/{{ game.8 }}'> {{game.9}} </a> 
+                                <br/>{{game.10}} Pts
+                            </td>
+                            <td colspan="3" style="font-size:8px"> 
+                                <a href='/basketball/player/{{ game.5 }}'> {{game.6}} </a> 
+                                <br/>{{game.7}} Pts
+                            </td>
                         </tr>
                     {% endfor %}
                 </tbody>

@@ -29,6 +29,10 @@ def home(request):
     if request.method == 'GET':
         #game_date = get_pst_time()
         game_date = datetime.datetime.now().date()
+        game_year = str(game_date.year)
+        game_month = str(game_date.month) if game_date.month > 9 else '0'+str(game_date.month)
+        game_day = str(game_date.day) if game_date.day > 9 else '0'+str(game_date.day)
+        return redirect('/basketball/games/'+('%s%s%s' % (game_year,game_month,game_day)))
     elif not request.POST['date']:
         messages.add_message(request, messages.ERROR, 'No date specified')
         game_date = datetime.date.today()
@@ -1926,8 +1930,11 @@ def team_home_page_mobile(request):
 
 def home_mobile(request):
     if request.method == 'GET':
-        #game_date = get_pst_time()
         game_date = datetime.datetime.now().date()
+        game_year = str(game_date.year)
+        game_month = str(game_date.month) if game_date.month > 9 else '0'+str(game_date.month)
+        game_day = str(game_date.day) if game_date.day > 9 else '0'+str(game_date.day)
+        return redirect('/basketball/games_mobile/'+('%s%s%s' % (game_year,game_month,game_day)))
     elif not request.POST['date']:
         messages.add_message(request, messages.ERROR, 'No date specified')
         game_date = datetime.datetime.now().date()

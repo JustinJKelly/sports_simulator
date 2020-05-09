@@ -42,7 +42,7 @@
             <div class="col-sm-4" style="font-size:14px;">
                 <p> 
                     <!--({{away_team_record}})-->
-                    <a href="/basketball/team/{{away_team_id}}"> <b style="font-size:18px;">{{away_team_name}} </b> </a>
+                    <a style="font-size:20px;" href="/basketball/team/{{away_team_id}}"> {{away_team_name}} </a>
                     <a class="image_hover" href="/basketball/team/{{away_team_id}}"> <img style="max-height:65px;max-width:65px;" src="{% static away_team_image %}"></img> </a>
                     <b style="font-size:30px;">{{away_team_score}}</b>
                 </p>
@@ -50,7 +50,7 @@
             </div>
             <div class="col-sm-4">
                 <div class="table-responsive">
-                    <table class="table table-striped table-light table-sm" style="width:80%; font-size:14px; margin-left:10%; margin-right:10%;">
+                    <table class="table table-striped table-light table-sm" style="width:100%; font-size:14px;">
                         <thead>
                             {% if home_points_by_quarter|length == 4 %}
                                 <tr>
@@ -100,7 +100,7 @@
                 <p>
                     <b style="font-size:30px;">{{home_team_score}}</b>
                     <a class="image_hover" href="/basketball/team/{{home_team_id}}"> <img style=";max-height:65px;max-width:65px" src="{% static home_team_image %}"></img> </a>
-                    <a href="/basketball/team/{{home_team_id}}"> <b style="font-size:18px;">{{home_team_name}}</b> </a>
+                    <a style="font-size:18px;" href="/basketball/team/{{home_team_id}}">{{home_team_name}} </a>
                     <!--({{home_team_record}})-->
                 </p>
                 <p style="font-size:16px;">({{home_team_record}})</p>

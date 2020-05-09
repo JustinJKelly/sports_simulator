@@ -86,11 +86,10 @@
     <div class="container text-center">
         <div class="row">
             <div class="col">
-                <p> 
-                    <b style="font-size:18px;">({{lower_seed_rank}})</b>
-                    <a href="/basketball/team/{{lower_seed_id}}"> <b style="font-size:20px; text-align: center;">{{lower_seed_name}} </b> </a>
-                    <a class="image_hover" href="/basketball/team/{{lower_seed_id}}"> <img style="max-height:80px;max-width:80px;" src="{% static lower_seed_image %}"></img> </a>
-                </p>
+                <a class="image_hover" href="/basketball/team/{{lower_seed_id}}"> <img style="max-height:80px;max-width:80px;" src="{% static lower_seed_image %}"></img> </a>
+                <br/>
+                <a href="/basketball/team/{{lower_seed_id}}"> <b style="font-size:20px; text-align: center;">{{lower_seed_name}} </b> </a>
+                <b style="font-size:18px;">({{lower_seed_rank}})</b>
             </div>
             <div class="col">
                 {% if games_played > 0%}
@@ -150,12 +149,11 @@
             </div>
 
             <div class="col">
-                <p>
-                    <a class="image_hover" href="/basketball/team/{{higher_seed_id}}"> <img style="max-height:80px;max-width:80px" src="{% static higher_seed_image %}"></img> </a>
-                    <a href="/basketball/team/{{higher_seed_id}}"> <b style="font-size:20px; text-align: center;">{{higher_seed_name}}</b></a>
-                    <!--({{home_team_record}})-->
-                    <b style="font-size:18px;">({{higher_seed_rank}})</b>
-                </p>
+                <a class="image_hover" href="/basketball/team/{{higher_seed_id}}"> <img style="max-height:80px;max-width:80px" src="{% static higher_seed_image %}"></img> </a>
+                <br/>
+                <a href="/basketball/team/{{higher_seed_id}}"> <b style="font-size:20px; text-align: center;">{{higher_seed_name}}</b></a>
+                <!--({{home_team_record}})-->
+                <b style="font-size:18px;">({{higher_seed_rank}})</b>
             </div>
         </div>
     </div>
