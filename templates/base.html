@@ -27,7 +27,7 @@
 
     <style>
         a:hover {
-            color: blue;
+            color: inherit;
         }
 
         .Site {
@@ -45,7 +45,7 @@
             flex-wrap: nowrap;
             margin-top: 15px;
             padding: 1.5%;
-
+            
         }
         .card{
             position: relative;
@@ -101,6 +101,7 @@
         <hr style="background-color: grey; height: 1px;">
             <div class="cards">
                 <div class="row">
+                    <a href="/basketball/game/{{games.game1.0}}" style="color:inherit">
                     <div class="card">
                         <div class="card-header">
                             <div class="row">
@@ -122,6 +123,8 @@
                             <a href="/basketball/game/{{games.game1.0}}">Game Summary</a>
                         </div>
                     </div>
+                    </a>
+                    <a href="/basketball/game/{{games.game2.0}}" style="color:inherit">
                     <div class="card">
                         <div class="card-header">
                             <div class="row">
@@ -143,9 +146,11 @@
                             <a href="/basketball/game/{{games.game2.0}}">Game Summary</a>
                         </div>
                     </div>
+                    </a>
                 </div>
 
                 <div class="row">
+                    <a href="/basketball/game/{{games.game3.0}}" style="color:inherit">
                     <div class="card">
                         <div class="card-header">
                             <div class="row">
@@ -167,6 +172,8 @@
                             <a href="/basketball/game/{{games.game3.0}}">Game Summary</a>
                         </div>
                     </div>
+                    </a>
+                    <a href="/basketball/game/{{games.game4.0}}" style="color:inherit">
                     <div class="card">
                         <div class="card-header">
                             <div class="row">
@@ -188,6 +195,7 @@
                             <a href="">Game Summary</a>
                         </div>
                     </div>
+                    </a>
                 </div>
                 <br>
         
@@ -196,45 +204,46 @@
         <br>
         <h4 style="text-align: center;">Articles</h4>
         <hr style="background-color: grey; height: 1px;">
-        <a href="{% url 'articles' 'playoffs' %}">
-            <div class="card col" style="max-height: 800px;">
+        <a href="/articles/playoffs">
+            <div class="card col" style="max-height: 800px; max-width: 95%;">
                 <div class="card-header" style="background-color: white;">
-                    <img class="card-img-top align" src="{% static 'img/playoffs_white.png' %}" style="max-height: 80%">
+                    <img class="card-img-top align" src="/static/img/playoffs_white.png" style="max-height: 80%;">
                 </div>
                 <div class="card-body text-center">
-                    <a href="{% url 'articles' 'playoffs' %}">Catch up with the Postseason Teams</a>
+                    <a href="/articles/playoffs">Catch up with the Postseason Teams</a>
                 </div>
             </div>
         </a>
-        <div class="row">
-            <a href="{% url 'articles' 'voting' %}">
-                <div class="card col">
-                    <div class="card-header" style="background-color: white;">
-                        <img class="card-img-top align" src="{% static 'img/MVP.png' %}" style="max-width: 100%;">
+        <div class="cards"> 
+            <div class="row">
+                <a href="/articles/votes">
+                    <div class="card col">
+                        <div class="card-header" style="background-color: white;">
+                            <img class="card-img-top align" src="/static/img/MVP.png" style="max-width: 100%;">
+                        </div>
+                        <div class="card-body text-center">
+                            <a href="articles/votes">Voting</a>
+                        </div>
                     </div>
-                    <div class="card-body text-center">
-                        <a href="{% url 'articles' 'voting' %}">Voting</a>
+                </a>
+                <a href="/articles/whatissportssim">
+                    <div class="card col">
+                        <div class="card-header" style="background-color: white;">
+                            <img class="card-img-top align" src="/static/img/logo/logo.png" style="max-height: 100px; max-width: 100px;">
+                        </div>
+                        <div class="card-body text-center">
+                            <a href="/articles/whatissportssim">What is Sports Sim?</a>
+                        </div>
                     </div>
-                </div>
-            </a>
-            <a href="{% url 'articles' 'whatissportssim' %}">
-                <div class="card col">
-                    <div class="card-header" style="background-color: white;">
-                        <img class="card-img-top align" src="{% static 'img/logo/logo.png' %}" style="max-height: 100px; max-width: 100px;">
-                    </div>
-                    <div class="card-body text-center">
-                        <a href="{% url 'articles' 'whatissportssim' %}">What is Sports Sim?</a>
-                    </div>
-                </div>
-            </a>
+                </a>
+            </div>
         </div>
-    
     </div>
     {% endblock %}
     </div>
-    <br/>
+
     <!-- Footer -->
-    <footer class="font-small blue pt-4" style="font-size:15px">
+    <footer class="font-small blue pt-4" style="font-size:12px">
 
         <!-- Footer Links -->
         <div class="container container-fluid text-center text-md-left">

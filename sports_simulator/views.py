@@ -32,7 +32,7 @@ def home(request):
 def articles(request, slug):
     if slug == "playoffs":
         return render(request, 'article_playoffs.html')
-    elif slug == "voting":
+    elif slug == "votes":
         return render(request, 'article_voting.html')
     elif slug == "whatissportssim":
         return render(request, 'article_whatissportssim.html')
