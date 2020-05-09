@@ -22,6 +22,11 @@
         17team.divisional_wins,
         18team.divisional_losses
     -->
+    <script>
+        if ((typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)) {
+            location.href = "/basketball/standings_mobile";
+        }
+    </script>
 
     <style>
         a:hover.img_hover {
@@ -36,9 +41,9 @@
                 <tr>
                     <th scope="col"></th>
                     <th scope="col">Wins</th>
-                    <th scope="col">Loses</th>
+                    <th scope="col">Losses</th>
                     <th scope="col">PCT</th>
-                    <th scope="col">Games Back</th>
+                    <th scope="col">GB</th>
                     <th scope="col">Home</th>
                     <th scope="col">Away</th>
                     <th scope="col">Division</th>
@@ -98,7 +103,7 @@
                 <tr>
                     <th scope="col"></th>
                     <th scope="col">Wins</th>
-                    <th scope="col">Loses</th>
+                    <th scope="col">Losses</th>
                     <th scope="col">PCT</th>
                     <th scope="col">Games Back</th>
                     <th scope="col">Home</th>

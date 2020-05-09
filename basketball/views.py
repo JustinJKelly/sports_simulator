@@ -28,7 +28,7 @@ from django.contrib import messages
 def home(request):
     if request.method == 'GET':
         #game_date = get_pst_time()
-        game_date = datetime.datetime.now()
+        game_date = datetime.datetime.now().date()
     elif not request.POST['date']:
         messages.add_message(request, messages.ERROR, 'No date specified')
         game_date = datetime.date.today()
@@ -100,7 +100,7 @@ def get_games_date(request,game_date):
         return render(request, 'basketball/games.html')
 
     #today = get_pst_time()
-    today = datetime.datetime.now()
+    today = datetime.datetime.now().date()
     print(today)
     print(game_date)
     context = {}
@@ -491,14 +491,14 @@ def game_page(request, id):
         "home_team_abv":teams.find_team_name_by_id(game.home_team)['abbreviation'],
         "away_team_abv":teams.find_team_name_by_id(game.away_team)['abbreviation'],
         "home_team_record":game.home_team_record, "away_team_record":game.away_team_record,
-        "home_team_id":game.home_team,"away_team_id":game.away_team,"num_overtimes":range(1,num_ots+1)
+        "home_team_id":game.home_team,"away_team_id":game.away_team,"num_overtimes":range(1,num_ots+1),
     }
 
     return render(request,'basketball/game_page.html',context)
 
 def preview_game_page(request,id,add_form):
     game = GamePreview.objects.get(game_preview_id=id)
-    if game.game_date <= datetime.datetime.now(): #get_pst_time():
+    if game.game_date <= datetime.datetime.now().date(): #get_pst_time():
         return HttpResponse("Nothing to see here")
      
     previous_playoff_games = (Game.objects.filter(home_team=game.home_team_id,away_team=game.away_team_id,date__gte=datetime.date(2020,5,1))
@@ -1217,6 +1217,7 @@ def series_page(request, id):
     context["games_played"]=series.games_played
     context['lower_seed_scores']=lower_seed_scores
     context['higher_seed_scores']=higher_seed_scores
+    context['series_id']=series.series_id
         
     return render(request, 'basketball/series.html', context)
 
@@ -1779,6 +1780,7 @@ def series_page_mobile(request, id):
     context["games_played"]=series.games_played
     context['lower_seed_scores']=lower_seed_scores
     context['higher_seed_scores']=higher_seed_scores
+    context['series_id']=series.series_id
         
     return render(request, 'basketball/series_mobile.html', context)
 
@@ -1925,10 +1927,10 @@ def team_home_page_mobile(request):
 def home_mobile(request):
     if request.method == 'GET':
         #game_date = get_pst_time()
-        game_date = datetime.datetime.now()
+        game_date = datetime.datetime.now().date()
     elif not request.POST['date']:
         messages.add_message(request, messages.ERROR, 'No date specified')
-        game_date = datetime.date.today()
+        game_date = datetime.datetime.now().date()
     else:
         date_attr = request.POST['date'].split('/')
         #date(year, month, day)
@@ -1993,7 +1995,7 @@ def get_games_date_mobile(request,game_date):
         return render(request, 'basketball/games_mobile.html')
 
     #today = get_pst_time()
-    today = datetime.datetime.now()
+    today = datetime.datetime.now().date()
     print(today)
     print(game_date)
     context = {}
@@ -2534,7 +2536,7 @@ def series_vote_mobile(request):
                     series.save()
                 name = 'form'+str(count)
                 count += 1
-            return redirect('/basketball/series_vote_results')
+            return redirect('/basketball/series_vote_results_mobile')
         else:
             messages.add_message(request, messages.ERROR, 'Error in processing form data')
             formset = SeriesForm()

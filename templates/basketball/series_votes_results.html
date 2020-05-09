@@ -1,12 +1,17 @@
   {% extends 'base.html' %}
     {% load static %}
     {% block content %}
+
+    <script>
+        if ((typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)) {
+            location.href = "/basketball/series_vote_results_mobile";
+        }
+    </script>
+
     <style>
         a:hover.img_hover {
             color: transparent;
         }
-
-
     </style>
     <div>
         <div class="container" style="font-size:16px;">

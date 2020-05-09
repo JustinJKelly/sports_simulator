@@ -1,6 +1,12 @@
 {% extends 'base.html' %}
     {% load static %}
     {% block content %}
+
+        <script>
+            if ((typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)) {
+                location.href = "/basketball/mvp_results_mobile";
+            }
+        </script>
         <style>
             a:hover.img_hover {
                 color: transparent;
@@ -10,7 +16,7 @@
             <br/>
             <h2 style="text-align:center;"> <b>MVP Race: Top Ten Players </b> </h2>
             <br/>
-            <canvas id="pie-chart" height="200></canvas>
+            <canvas id="pie-chart"></canvas>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
