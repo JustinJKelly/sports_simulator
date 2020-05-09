@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+    {% load widget_tweaks %}
+    {% load static %}
+    {% block content %}
+    <br>
+    <div class="container">
+        <img src="/static/img/MVP.png" alt="MVP Voting" style="margin-right: auto; margin-left: 5vw; max-height: 500px; max-width: 75%;">
+    </div>
+    <div class="container">
+        <div> 
+            <h2 style="font-weight: 350;">Voting</h2>
+            <hr style="background-color: grey; height: 2px;">
+            <p style="font-weight: 300;">
+                Articles | Written by: Samuel Gibson, Justin Kelly
+            </p>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="container">
+        <br>
+        <section>
+            <p>
+                We added the capability to to vote for who you think will be the MVP of the league. You can select 
+                any player in the league from the dropdown menu. Votes will be tallied, and before the finals, we will announce
+                the winner of the MVP vote. Check it out <a href="/basketball/mvp_vote">here</a>.
+            </p>
+            <br>
+            <br>
+            <p>
+                We also added the ability to vote for who you think will win each series of the playoffs. We will 
+                update this automatically as the playoffs continue. Check it out <a href="basketball/series_vote">here</a>.
+            </p>
+        </section>
+    </div>
+    {% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+    {% load widget_tweaks %}
+    {% load static %}
+    {% block content %}
+    <br>
+    <div class="container">
+        <img src="/static/img/nba_logo.png" alt="MVP Voting" style="float:center; max-height: 500px; max-width: 75%;">
+    </div>
+    <div class="container">
+        <div> 
+            <h2 style="font-weight: 350;">What is SportsSim?</h2>
+            <hr style="background-color: grey; height: 2px;">
+            <p style="font-weight: 300;">
+                Articles | Written by: Samuel Gibson, Justin Kelly
+            </p>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="container">
+        <p style="font-size: 20px;">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SportsSim is the creation of software developers Justin Kelly and Samuel Gibson. The birth of the project is the 
+            culmination of several factors. Our primary drive for creating this website was our passion for sports, specifically,
+            our interest in the National Basketball Association. The idea for this project originally started back in the Fall of 2019,
+            when we created a prototype of the website for our senior capstone project. Our goal was to create a website
+            that would display player stats in an accessible and clear way. We are huge fans of the game of basketball, and felt that
+            many of the current website interfaces aren't very user friendly. We set out to create a stripped back user
+            interface that even individuals who are just jumping into the game of basketball could understand. 
+        </p>
+        <br>
+        <div class="row">
+            <div class="col">
+            <img src="/static/img/NBASTAT.png" style="max-width: 100%">
+            </div>
+            <div class="col">
+                <p style="font-size: 20px;">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The original name of the project was called NBASTAT. Our capstone project focused primarily 
+                    on a creating a *relatively* sleek design. This project was our first real dive
+                    into front end development and design. We wanted to structure the huge amount player data in a way that was easily digestable.
+                    The ultimate goal with our capstone was to make our front page and player pages sleek enough that we wouldn't have to make any
+                    of the other pages that you would expect with a sports data website. After finishing our capstone class, the NBASTAT project was 
+                    dropped, now that it's development wasn't affecting our grade we had little reason to continue the project.
+                     
+                </p>
+            </div>
+            
+        </div>
+    </div>
+    {% endblock %}
