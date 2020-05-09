@@ -109,7 +109,7 @@
             </thead>
             <tbody>
                 <tr>
-                    {% if injured %}
+                    {% if injured and games_playe == 1%}
                         <td>0</td>
                     {% else %}
                         <td>{{games_played}}</td>

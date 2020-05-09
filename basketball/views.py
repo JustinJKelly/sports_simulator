@@ -1329,6 +1329,60 @@ def find_team_logos(team1, team2):
 
     return return_list
 
+def sort_func(p):
+    return p.points_total/p.games_played
+
+def stats_leaders(request):
+    players = Player.objects.all()
+    players = sorted(players, reverse=True, key=sort_func)
+    
+    context = {}
+    context["players"] = []
+    
+    for player in players:
+        if player.games_played > 1:
+            player_stats = {}
+            player_stats['minutes']=round(player.minutes_total/player.games_played,1)
+            player_stats['points']=round(player.points_total/player.games_played,1)
+            player_stats['FG_attempted']=round(player.field_goals_attempted/player.games_played,1)
+            player_stats['FG_made']=round(player.field_goals_made/player.games_played,1)
+            if player.field_goals_attempted > 0:
+                player_stats['FG_percentage']=round(player.field_goals_made/player.field_goals_attempted,1)
+            else:
+                player_stats['FG_percentage']=0.0
+            player_stats['FT_attempted']=round(player.free_throws_attempted/player.games_played,1)
+            player_stats['FT_made']=round(player.free_throws_made/player.games_played,1)
+            if player.free_throws_attempted > 0:
+                player_stats['FT_percentage']=round(player.free_throws_made/player.free_throws_attempted,1)
+            else:
+                player_stats['FT_percentage']=0.0
+            player_stats['3P_attempted']=round(player.three_point_attempted/player.games_played,1)
+            player_stats['3P_made']=round(player.three_point_made/player.games_played,1)
+            if player.three_point_attempted > 0:
+                player_stats['3P_percentage']=round(player.three_point_made/player.three_point_attempted,1)
+            else:
+                player_stats['3P_percentage']=0.0
+            player_stats['assists']=round(player.assists_total/player.games_played,1)
+            player_stats['blocks']=round(player.blocks_total/player.games_played,1)
+            player_stats['steals']=round(player.steals_total/player.games_played,1)
+            player_stats['turnovers']=round(player.turnovers_total/player.games_played,1)
+            player_stats['personal_fouls']=round(player.personal_fouls_total/player.games_played,1)
+            player_stats['offensive_rebounds']=round(player.offensive_rebounds_total/player.games_played,1)
+            player_stats['defensive_rebounds']=round(player.defensive_rebounds_total/player.games_played,1)
+            player_stats['rebounds']=round((player.defensive_rebounds_total+player.offensive_rebounds_total)/player.games_played,1)
+            player_stats['player_id']=player.player_id
+            player_stats['team_id'] = player.team_id
+            player_stats['name'] = player.full_name
+            player_stats['games_played'] = player.games_played
+        
+            if player.team_id == 0:
+                player_stats['team_abv']="FA"
+            else:
+                player_stats['team_abv'] = Team.objects.get(team_id=player.team_id).team_abv
+
+            context['players'].append(player_stats)
+    
+    return render(request,"basketball/stat_leaders.html",context)
 
 
 '''
@@ -1337,6 +1391,48 @@ MOBILE
 
 
 '''
+
+
+def stats_leaders_mobile(request):
+    players = Player.objects.all()
+    
+    context = {}
+    context["players"] = []
+    
+    for player in players:
+        player_stats = {}
+        player_stats['minutes']=player.minutes_total/player.games_played
+        player_stats['points']=player.points_total/player.games_played
+        player_stats['FG_attempted']=player.field_goals_attempted/player.games_played
+        player_stats['FG_made']=player.field_goals_made/player.games_played
+        player_stats['FG_percentage']=player.field_goals_made/player.field_goals_attempted
+        player_stats['FT_attempted']=player.free_throws_attempted/player.games_played
+        player_stats['FT_made']=player.free_throws_made/player.games_played
+        player_stats['FT_percentage']=player.free_throws_attempted/player.free_throws_made
+        player_stats['3P_attempted']=player.three_point_attempted/player.games_played
+        player_stats['3P_made']=player.three_point_made/player.games_played
+        player_stats['3P_percentage']=player.three_point_made/player.three_point_attempted
+        player_stats['assists']=player.assists_total/player.games_played
+        player_stats['blocks']=player.blocks_total/player.games_played
+        player_stats['steals']=player.steals_total/player.games_played
+        player_stats['turnovers']=player.turnovers_total/player.games_played
+        player_stats['personal_fouls']=player.personal_fouls_total/player.games_played
+        player_stats['offensive_rebounds']=player.offensive_rebounds_total/player.games_played
+        player_stats['defensive_rebounds']=player.defensive_rebounds_total/player.games_played
+        player_stats['rebounds']=(player.defensive_rebounds_total+player.offensive_rebounds_total)/player.games_played
+        player_stats['player_id']=player.player_id
+        player_stats['team_id'] = player.team_id
+        player_stats['name'] = player.full_name
+        player_stats['games_played'] = player.games_played
+        
+        if player.team_id == 0:
+            player_stats['team_abv']="FA"
+        else:
+            player_stats['team_abv'] = Team.objects.get(team_id=player.team_id).team_abv
+
+        context['players'].append(player_stats)
+    
+    return render(request,"basketball/stat_leaders_mobile.html",context)
 
 def team_page_mobile(request,id):
     list_teams = {
@@ -1924,8 +2020,6 @@ def team_home_page_mobile(request):
     }
 
     return render(request, 'basketball/teams_mobile.html',context)
-
-
 
 
 def home_mobile(request):
