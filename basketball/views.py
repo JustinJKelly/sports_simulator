@@ -112,7 +112,7 @@ def get_games_date(request,game_date):
     context = {}
     context['games'] = []
     context['date']='%s/%s/%s' % (game_date.month,game_date.day,game_date.year)
-    if today < game_date:
+    if today < game_date or (today < game_date and datetime.datetime.now().hour < 14):
         game_previews = GamePreview.objects.filter(game_date=game_date)
         for game in game_previews:
             previous_playoff_games = (Game.objects.filter(home_team=game.home_team_id,away_team=game.away_team_id,date__gte=datetime.date(2020,5,1))

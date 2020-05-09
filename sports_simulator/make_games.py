@@ -745,13 +745,14 @@ def compute_player_stats(stats,score,tid, other_team_score):
                 free_throws_att_max = 1.5
                 
             
-            #rockets, Dallas, Heat, Raptors, Lakers, Clippers, Bucks, Lakers, 76ers, Celtics,Nuggets, OKC
-            if tid == 1610612745 or tid == 1610612742 or tid == 1610612748 or tid == 1610612761 or tid == 1610612746 or tid == 1610612749 or tid == 1610612747 or tid == 1610612755 or tid == 1610612738 or tid == 1610612743 or tid == 1610612760:
+            #rockets, Dallas, Heat, Raptors, Lakers, Clippers, Bucks, Lakers, 76ers, Celtics, OKC, Nuggets
+            if tid == 1610612745 or tid == 1610612742 or tid == 1610612748 or tid == 1610612761 or tid == 1610612746 or tid == 1610612749 or tid == 1610612747 or tid == 1610612755 or tid == 1610612738 or tid == 1610612760 or tid == 1610612743:
                 free_throws_att_max += 0.1
                 free_throws_made_max += 0.1
                 three_pt_att_max += 0.06
                 three_pt_made_max += 0.12
-                
+            
+            
             #CLE
             if tid == 1610612739:
                 fg_made_min -= 0.04
@@ -789,8 +790,8 @@ def compute_player_stats(stats,score,tid, other_team_score):
                 three_pt_att_max += 0.05
                 three_pt_made_max += 0.03
                 
-            #Knicks, Hornets, Nets, Nuggets, OKC, Pistons
-            if  tid == 1610612752 or tid == 1610612766 or tid == 1610612751 or tid == 1610612743 or tid == 1610612760 or tid == 1610612765:
+            #Knicks, Hornets, Nets, OKC, Pistons
+            if  tid == 1610612752 or tid == 1610612766 or tid == 1610612751 or tid == 1610612760 or tid == 1610612765:
                 fg_att_max += 0.1
                 fg_att_min += 0.05
                 fg_made_max += 0.1
