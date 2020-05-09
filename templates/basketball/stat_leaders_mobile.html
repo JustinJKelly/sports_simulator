@@ -1,6 +1,17 @@
 {% extends 'base.html' %}
     {% load static %}
     {% block content %}
+    {% load render_table from django_tables2 %}
+    <br/>
+    <b style="font-size:12px; margin-left:10px;"> League Leaders </b>
+    <div class="table-sm table-responsive" style="overflow:scroll; margin-left:10px; font-size: 7px;">
+        {% render_table table %}
+    </div>
 
+    <script>
+        $(document).ready(function() {
+            $("#set_more").attr('colspan',3);
+        });
+    </script>
 
     {% endblock %}
