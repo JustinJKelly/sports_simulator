@@ -204,36 +204,34 @@
         <br>
         <h4 style="text-align: center;">Articles</h4>
         <hr style="background-color: grey; height: 1px;">
-        <a href="/articles/playoffs">
-            <div class="card col" style="max-height: 800px; max-width: 95%;">
+        <a href="{% url 'playoffs' %}">
+            <div class="card col" style="max-height: 800px;">
                 <div class="card-header" style="background-color: white;">
                     <img class="card-img-top align" src="/static/img/playoffs_white.png" style="max-height: 80%;">
                 </div>
                 <div class="card-body text-center">
-                    <a href="/articles/playoffs">Catch up with the Postseason Teams</a>
+                    <a href="{% url 'playoffs' %}">Catch up with the Postseason Teams</a>
                 </div>
             </div>
         </a>
-        <div class="cards"> 
-            <div class="row">
-                <a href="/articles/votes">
-                    <div class="card col">
-                        <div class="card-header" style="background-color: white;">
-                            <img class="card-img-top align" src="/static/img/MVP.png" style="max-width: 100%;">
-                        </div>
-                        <div class="card-body text-center">
-                            <a href="articles/votes">Voting</a>
-                        </div>
+        <div class="row">
+            <a href="{% url 'voting' %}">
+                <div class="card col">
+                    <div class="card-header" style="background-color: white;">
+                        <img class="card-img-top align" src="{% static 'img/MVP.png' %}" style="max-width: 100%;">
                     </div>
-                </a>
-                <a href="/articles/whatissportssim">
-                    <div class="card col">
-                        <div class="card-header" style="background-color: white;">
-                            <img class="card-img-top align" src="/static/img/logo/logo.png" style="max-height: 100px; max-width: 100px;">
-                        </div>
-                        <div class="card-body text-center">
-                            <a href="/articles/whatissportssim">What is Sports Sim?</a>
-                        </div>
+                    <div class="card-body text-center">
+                        <a href="{% url 'voting' %}">Voting</a>
+                    </div>
+                </div>
+            </a>
+            <a href="{% url 'whatissportssim' %}">
+                <div class="card col">
+                    <div class="card-header" style="background-color: white;">
+                        <!--<img class="card-img-top align" src="{% static 'img/logo/logo.png' %}" style="max-height: 100px; max-width: 100px;">-->
+                    </div>
+                    <div class="card-body text-center">
+                        <a href="{% url 'whatissportssim' %}">What is Sports Sim?</a>
                     </div>
                 </a>
             </div>

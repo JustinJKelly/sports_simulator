@@ -21,7 +21,9 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name="home"),
-    path('articles/<slug:slug>', views.articles, name="articles"),
+    path('whatissportssim', views.articles_sports_sim, name="whatissportssim"),
+    path('voting', views.articles_voting, name="voting"),
+    path('playoffs', views.articles_playoffs, name="playoffs"),
     path('basketball/',include('basketball.urls')),
     re_path(r'^.*/$',views.path_does_not_exist, name="path_dne")
 ]
