@@ -29,8 +29,15 @@ def home(request):
     
     return render(request, 'base.html', context)
 
-def articles_playoffs(request):
-    return render(request, 'article_playoffs.html')
+def articles(request, slug):
+    if slug == "playoffs":
+        return render(request, 'article_playoffs.html')
+    elif slug == "voting":
+        return render(request, 'article_voting.html')
+    elif slug == "whatissportssim":
+        return render(request, 'article_whatissportssim.html')
+    else:
+        return HttpResponse("Path doesn't exist")
 
 
 def find_team_image(team_id):
