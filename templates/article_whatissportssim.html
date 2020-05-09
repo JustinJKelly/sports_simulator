@@ -18,32 +18,64 @@
     <br>
     <br>
     <div class="container">
-        <p style="font-size: 20px;">
+        <p style="font-size: 18px; line-height: 2.0;">
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SportsSim is the creation of software developers Justin Kelly and Samuel Gibson. The birth of the project is the 
             culmination of several factors. Our primary drive for creating this website was our passion for sports, specifically,
-            our interest in the National Basketball Association. The idea for this project originally started back in the Fall of 2019,
+            our interest in the National Basketball Association. The second factor that led us to begin development on the site, was due 
+            to our dissapointment that the NBA season was indefinitely postponed. The idea for this project originally started back in the Fall of 2019,
             when we created a prototype of the website for our senior capstone project. Our goal was to create a website
             that would display player stats in an accessible and clear way. We are huge fans of the game of basketball, and felt that
             many of the current website interfaces aren't very user friendly. We set out to create a stripped back user
             interface that even individuals who are just jumping into the game of basketball could understand. 
         </p>
         <br>
-        <div class="row">
-            <div class="col">
-            <img src="/static/img/NBASTAT.png" style="max-width: 100%">
-            </div>
-            <div class="col">
-                <p style="font-size: 20px;">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The original name of the project was called NBASTAT. Our capstone project focused primarily 
-                    on a creating a *relatively* sleek design. This project was our first real dive
-                    into front end development and design. We wanted to structure the huge amount player data in a way that was easily digestable.
-                    The ultimate goal with our capstone was to make our front page and player pages sleek enough that we wouldn't have to make any
-                    of the other pages that you would expect with a sports data website. After finishing our capstone class, the NBASTAT project was 
-                    dropped, now that it's development wasn't affecting our grade we had little reason to continue the project.
-                     
-                </p>
-            </div>
-            
+        <div>
+            <img src="/static/img/NBASTAT.png" style="max-width: 50%; float: left; margin-right: 20px; box-shadow: 3px 3px 3px grey;">
+            <p style="font-size: 18px; line-height: 1.8; ">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The original name of the project was called NBASTAT. This project was our first real dive
+                into front end development and design. We wanted to structure the huge amount player data in a way that was easily digestable.
+                The ultimate goal with our capstone was to make our front page and player pages sleek enough that we wouldn't have to make any
+                of the other pages and still get a passing grade. After finishing our capstone class, the NBASTAT project was 
+                dropped, now that it's development wasn't affecting our grade we had little reason to continue the project.  
+            </p>
+        </div>
+        <br>
+        <br>
+        <div>
+            <p style="font-size: 18px; line-height: 2.0;">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Our main motivation to revitalize the project came around late March. After seeing the NBA season was postponed, we felt 
+                that we posessed the know-how to create a simulation of the remaining regular season. As we built our model and the website, we discussed if we wanted to 
+                simulate the postseason games. For the most part regular season games are fairly consistent. Teams try, but its difficult to keep the same 
+                intensity across 82 games. Playoff games are a different story, its infrequent that a team as a whole underpreforms. Sure some players
+                have off games during the playoffs, due to lockdown defense or the pressure getting to them, but ultimately, playoff basketball is the peak
+                of team competition. After some back and forth we decided that we were interested in creating a postseason based on a more fine tuned version 
+                of our regular season model. 
+            </p>
+        </div>
+        <br>
+        <br>
+        <div>
+            <h4>The Sports Sim Model</h4>
+            <hr style="height: 2px; background-color: grey; margin-left: 0px; width: 40%;">
+            <br>
+            <p style="font-size: 18px; line-height: 2.0;">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Using the NBA_API project as our data collection resource, we compiled the data from the last two seasons. We then compiled 
+                all matchups from the last two seasons. Based on machine learning principles, our model will make a prediction on a games possible outcomes. 
+                These predictions are based on multiple factors, such as the two teams previous matchups, the teams realtive preformance this season versus 
+                last season, with a heavier emphasis on this year's performance. We want to be clear that we don't think that this model is perfect. We 
+                will be the first to acknowledge that there is more going on on the the court that just raw statistics. Its irresponsible to weigh a player 
+                purely based just on their raw statistical output. We added personal touches and biases to our model in an attempt to reflect that. However,
+                it is difficult to make an adaptive model that truly reflects what goes on on the basketball court with just a two person development team.
+                <br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Our compromise was to create a model that was a mix of pure calculations with human bias. We felt that there needed to 
+                be some way to distinguish a stat line producer like Russell Westbrook from a on court force Giannis. So we gave individual weights to both players and 
+                teams. We acknowledge that some readers may not like that we placed our own bias into our dataset, so kindly we invite you to create your own model! 
+                When we set out to implement the biases into the calculations we wanted them to be as fair as possible. These biases are are informed are based on 
+                stats from that player/team and their goal is to be as accurate to that individual/team as possible. A great example of our bias coming into play
+                is with a player like Steph Curry. Steph was injured for most of the season and was only able to play 5 games before the season was indefinitely
+                halted. Due to this small sample size his shooting percentages were fairly low, and not indictative of Curry's explsove shooting capabilites. 
+                So we included a bias that took into account Curry's shooting abilities from past seasons. 
         </div>
     </div>
     {% endblock %}
