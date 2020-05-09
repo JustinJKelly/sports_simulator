@@ -13,7 +13,7 @@ from pytz import timezone, utc
 from django.forms import formset_factory
 import pprint
 import django_tables2 as tables
-from django_tables2 import RequestConfig
+from django_tables2 import RequestConfig, A
 
 '''
 # creating an instance of  
@@ -1336,34 +1336,35 @@ def sort_func(p):
 
 
 class PlayerTable(tables.Table):
-    name = tables.Column(orderable=True,attrs={"tr":{"style":{"border-spacing": "60px", "font-size":"9px"}}})
-    GP = tables.Column(orderable=True)
-    MIN = tables.Column(orderable=True)
-    PTS = tables.Column(orderable=True)
-    FGM = tables.Column(orderable=True)
-    FGA = tables.Column(orderable=True)
-    FGP = tables.Column(verbose_name="FG%",orderable=True)
-    TPM = tables.Column(orderable=True)
-    TPA = tables.Column(verbose_name="3PA",orderable=True)
-    TPP = tables.Column(verbose_name="3P%",orderable=True)
-    FTA = tables.Column(orderable=True)
-    FTM = tables.Column(orderable=True)
-    FTP = tables.Column(verbose_name="FT%",orderable=True)
-    ORB = tables.Column(orderable=True)
-    DRB = tables.Column(orderable=True)
-    RB = tables.Column(orderable=True)
-    AST = tables.Column(orderable=True)
-    BLK = tables.Column(orderable=True)
-    STL = tables.Column(orderable=True)
-    TO = tables.Column(orderable=True)
-    PF = tables.Column(orderable=True)
+    name = tables.LinkColumn('player_page',args=[A('player_id')])
+    team_abv = tables.Column(verbose_name="Team",orderable=False)
+    GP = tables.Column()
+    MIN = tables.Column()
+    PTS = tables.Column()
+    FGM = tables.Column()
+    FGA = tables.Column()
+    FGP = tables.Column(verbose_name="FG%")
+    TPM = tables.Column()
+    TPA = tables.Column(verbose_name="3PA")
+    TPP = tables.Column(verbose_name="3P%")
+    FTA = tables.Column()
+    FTM = tables.Column()
+    FTP = tables.Column(verbose_name="FT%")
+    ORB = tables.Column()
+    DRB = tables.Column()
+    RB = tables.Column()
+    AST = tables.Column()
+    BLK = tables.Column()
+    STL = tables.Column()
+    TO = tables.Column()
+    PF = tables.Column()
     
     class Meta:
         attrs = {"class": "table-sm table-striped table-light"}
 
 class PlayerTableMobile(tables.Table):
-    name = tables.Column(verbose_name="Player Name",attrs={"tr":{"style":{"border-spacing": "40px", "font-size":"6px"},"td":{"colspan":"5"}}})
-    a = tables.Column(verbose_name="")
+    name = tables.LinkColumn('player_page',args=[A('player_id')],verbose_name="Player Name",attrs={"th":{"style":{"border-spacing": "40px", "font-size":"6px"},"td":{"colspan":"5"}}})
+    team_abv = tables.Column(verbose_name="Team",orderable=False)
     GP = tables.Column(verbose_name="GP")
     MIN = tables.Column()
     PTS = tables.Column()
@@ -1435,11 +1436,11 @@ def stats_leaders(request):
             else:
                 player_stats['team_abv'] = Team.objects.get(team_id=player.team_id).team_abv
 
-            player_stats['name'] = player_stats['name'] + " " + player_stats['team_abv']
+            #player_stats['name'] = player_stats['name'] + " " + player_stats['team_abv']
             context['players'].append(player_stats)
             
     table=PlayerTable(context['players'])
-    RequestConfig(request).configure(table)
+    RequestConfig(request,paginate={"per_page": 100}).configure(table)
     context['table']=table
     
     return render(request,"basketball/stat_leaders.html",context)
@@ -1505,11 +1506,11 @@ def stats_leaders_mobile(request):
             else:
                 player_stats['team_abv'] = Team.objects.get(team_id=player.team_id).team_abv
 
-            player_stats['name'] = player_stats['name'] + " " + player_stats['team_abv']
+            #player_stats['name'] = player_stats['name'] + " " + player_stats['team_abv']
             context['players'].append(player_stats)
         
     table=PlayerTable(context['players'])
-    RequestConfig(request).configure(table)
+    RequestConfig(request,paginate={"per_page": 25}).configure(table)
     context['table']=table
     
     return render(request,"basketball/stat_leaders_mobile.html",context)

@@ -8,10 +8,37 @@
             location.href = "/basketball/stats_leaders_mobile";
         }
     </script>
+    <style>
+        thead a {
+            color: black;
+        }
+
+        .name a:hover {
+            color: blue;
+        }
+
+        li {
+            padding: 5px;
+        }
+        li a {
+            color: black;
+        }
+    </style>
 
     <div class="container">
         {% render_table table %}
     </div>
+
+
+    <!--<script>
+        $("th").click(function () {
+            var columnNo = $(this).index();
+            window.alert(columnNo);
+            $(this).closest("table")
+                .find("tr td:nth-child(" + (columnNo + 1) + ")")
+                .css("background-color", "#a6cbe0");
+        });
+    </script>-->
 
 
     {% endblock %}

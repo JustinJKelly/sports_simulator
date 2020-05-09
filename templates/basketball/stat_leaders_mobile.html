@@ -3,7 +3,23 @@
     {% block content %}
     {% load render_table from django_tables2 %}
     <br/>
-    <b style="font-size:12px; margin-left:10px;"> League Leaders </b>
+    <style>
+        thead a {
+            color: black;
+        }
+
+        .name a:hover {
+            color: blue;
+        }
+
+        li {
+            padding: 2px;
+        }
+        li a {
+            color: black;
+        }
+    </style>
+    <b style="font-size:12px; margin-left:25px;"> League Leaders </b>
     <div class="table-sm table-responsive" style="overflow:scroll; margin-left:10px; font-size: 7px;">
         {% render_table table %}
     </div>
