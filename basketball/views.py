@@ -12,6 +12,7 @@ from .forms import MVPVoteForm, SeriesForm
 from pytz import timezone, utc
 from django.forms import formset_factory
 import pprint
+import django_tables2 as tables
 
 '''
 # creating an instance of  
@@ -1332,6 +1333,60 @@ def find_team_logos(team1, team2):
 def sort_func(p):
     return p.points_total/p.games_played
 
+
+class PlayerTable(tables.Table):
+    name = tables.Column()
+    GP = tables.Column()
+    MIN = tables.Column()
+    PTS = tables.Column()
+    FGM = tables.Column()
+    FGA = tables.Column()
+    FGP = tables.Column(verbose_name="FG%")
+    TPM = tables.Column()
+    TPA = tables.Column(verbose_name="3PA")
+    TPP = tables.Column(verbose_name="3P%")
+    FTA = tables.Column()
+    FTM = tables.Column()
+    FTP = tables.Column(verbose_name="FT%")
+    ORB = tables.Column()
+    DRB = tables.Column()
+    RB = tables.Column()
+    AST = tables.Column()
+    BLK = tables.Column()
+    STL = tables.Column()
+    TO = tables.Column()
+    PF = tables.Column()
+    
+    class Meta:
+        attrs = {"class": "table-sm table-striped table-light"}
+
+class PlayerTableMobile(tables.Table):
+    name = tables.Column(verbose_name="Player Name",attrs={"tr":{"style":{"border-spacing": "40px", "font-size":"6px"},"td":{"colspan":"5"}}})
+    a = tables.Column(verbose_name="")
+    GP = tables.Column(verbose_name="GP")
+    MIN = tables.Column()
+    PTS = tables.Column()
+    FGM = tables.Column()
+    FGA = tables.Column()
+    FGP = tables.Column(verbose_name="FG%")
+    TPM = tables.Column()
+    TPA = tables.Column(verbose_name="3PA")
+    TPP = tables.Column(verbose_name="3P%")
+    FTA = tables.Column()
+    FTM = tables.Column()
+    FTP = tables.Column(verbose_name="FT%")
+    ORB = tables.Column()
+    DRB = tables.Column()
+    RB = tables.Column()
+    AST = tables.Column()
+    BLK = tables.Column()
+    STL = tables.Column()
+    TO = tables.Column()
+    PF = tables.Column()
+    
+    class Meta:
+        attrs = {"class": "table-sm table-striped table-light"}
+    
 def stats_leaders(request):
     players = Player.objects.all()
     players = sorted(players, reverse=True, key=sort_func)
@@ -1342,48 +1397,49 @@ def stats_leaders(request):
     for player in players:
         if player.games_played > 1:
             player_stats = {}
-            player_stats['minutes']=round(player.minutes_total/player.games_played,1)
-            player_stats['points']=round(player.points_total/player.games_played,1)
-            player_stats['FG_attempted']=round(player.field_goals_attempted/player.games_played,1)
-            player_stats['FG_made']=round(player.field_goals_made/player.games_played,1)
+            player_stats['MIN']=round(player.minutes_total/player.games_played,1)
+            player_stats['PTS']=round(player.points_total/player.games_played,1)
+            player_stats['FGA']=round(player.field_goals_attempted/player.games_played,1)
+            player_stats['FGM']=round(player.field_goals_made/player.games_played,1)
             if player.field_goals_attempted > 0:
-                player_stats['FG_percentage']=round(player.field_goals_made/player.field_goals_attempted,1)
+                player_stats['FGP']=round(player.field_goals_made/player.field_goals_attempted,1)
             else:
-                player_stats['FG_percentage']=0.0
-            player_stats['FT_attempted']=round(player.free_throws_attempted/player.games_played,1)
-            player_stats['FT_made']=round(player.free_throws_made/player.games_played,1)
+                player_stats['FGP']=0.0
+            player_stats['FTA']=round(player.free_throws_attempted/player.games_played,1)
+            player_stats['FTM']=round(player.free_throws_made/player.games_played,1)
             if player.free_throws_attempted > 0:
-                player_stats['FT_percentage']=round(player.free_throws_made/player.free_throws_attempted,1)
+                player_stats['FTP']=round(player.free_throws_made/player.free_throws_attempted,1)
             else:
-                player_stats['FT_percentage']=0.0
-            player_stats['3P_attempted']=round(player.three_point_attempted/player.games_played,1)
-            player_stats['3P_made']=round(player.three_point_made/player.games_played,1)
+                player_stats['FTP']=0.0
+            player_stats['TPA']=round(player.three_point_attempted/player.games_played,1)
+            player_stats['TPM']=round(player.three_point_made/player.games_played,1)
             if player.three_point_attempted > 0:
-                player_stats['3P_percentage']=round(player.three_point_made/player.three_point_attempted,1)
+                player_stats['TPP']=round(player.three_point_made/player.three_point_attempted,1)
             else:
-                player_stats['3P_percentage']=0.0
-            player_stats['assists']=round(player.assists_total/player.games_played,1)
-            player_stats['blocks']=round(player.blocks_total/player.games_played,1)
-            player_stats['steals']=round(player.steals_total/player.games_played,1)
-            player_stats['turnovers']=round(player.turnovers_total/player.games_played,1)
-            player_stats['personal_fouls']=round(player.personal_fouls_total/player.games_played,1)
-            player_stats['offensive_rebounds']=round(player.offensive_rebounds_total/player.games_played,1)
-            player_stats['defensive_rebounds']=round(player.defensive_rebounds_total/player.games_played,1)
-            player_stats['rebounds']=round((player.defensive_rebounds_total+player.offensive_rebounds_total)/player.games_played,1)
+                player_stats['TPP']=0.0
+            player_stats['AST']=round(player.assists_total/player.games_played,1)
+            player_stats['BLK']=round(player.blocks_total/player.games_played,1)
+            player_stats['STL']=round(player.steals_total/player.games_played,1)
+            player_stats['TO']=round(player.turnovers_total/player.games_played,1)
+            player_stats['PF']=round(player.personal_fouls_total/player.games_played,1)
+            player_stats['ORB']=round(player.offensive_rebounds_total/player.games_played,1)
+            player_stats['DRB']=round(player.defensive_rebounds_total/player.games_played,1)
+            player_stats['RB']=round((player.defensive_rebounds_total+player.offensive_rebounds_total)/player.games_played,1)
             player_stats['player_id']=player.player_id
             player_stats['team_id'] = player.team_id
             player_stats['name'] = player.full_name
-            player_stats['games_played'] = player.games_played
-        
+            player_stats['GP'] = player.games_played
             if player.team_id == 0:
                 player_stats['team_abv']="FA"
             else:
                 player_stats['team_abv'] = Team.objects.get(team_id=player.team_id).team_abv
 
+            player_stats['name'] = player_stats['name'] + " " + player_stats['team_abv']
             context['players'].append(player_stats)
+            
+    context['table']=PlayerTable(context['players'])
     
     return render(request,"basketball/stat_leaders.html",context)
-
 
 '''
 
@@ -1395,42 +1451,61 @@ MOBILE
 
 def stats_leaders_mobile(request):
     players = Player.objects.all()
+    players = sorted(players, reverse=True, key=sort_func)
     
     context = {}
     context["players"] = []
     
     for player in players:
-        player_stats = {}
-        player_stats['minutes']=player.minutes_total/player.games_played
-        player_stats['points']=player.points_total/player.games_played
-        player_stats['FG_attempted']=player.field_goals_attempted/player.games_played
-        player_stats['FG_made']=player.field_goals_made/player.games_played
-        player_stats['FG_percentage']=player.field_goals_made/player.field_goals_attempted
-        player_stats['FT_attempted']=player.free_throws_attempted/player.games_played
-        player_stats['FT_made']=player.free_throws_made/player.games_played
-        player_stats['FT_percentage']=player.free_throws_attempted/player.free_throws_made
-        player_stats['3P_attempted']=player.three_point_attempted/player.games_played
-        player_stats['3P_made']=player.three_point_made/player.games_played
-        player_stats['3P_percentage']=player.three_point_made/player.three_point_attempted
-        player_stats['assists']=player.assists_total/player.games_played
-        player_stats['blocks']=player.blocks_total/player.games_played
-        player_stats['steals']=player.steals_total/player.games_played
-        player_stats['turnovers']=player.turnovers_total/player.games_played
-        player_stats['personal_fouls']=player.personal_fouls_total/player.games_played
-        player_stats['offensive_rebounds']=player.offensive_rebounds_total/player.games_played
-        player_stats['defensive_rebounds']=player.defensive_rebounds_total/player.games_played
-        player_stats['rebounds']=(player.defensive_rebounds_total+player.offensive_rebounds_total)/player.games_played
-        player_stats['player_id']=player.player_id
-        player_stats['team_id'] = player.team_id
-        player_stats['name'] = player.full_name
-        player_stats['games_played'] = player.games_played
+        if player.games_played > 1:
+            player_stats = {}
+            player_stats['MIN']=round(player.minutes_total/player.games_played,1)
+            player_stats['PTS']=round(player.points_total/player.games_played,1)
+            player_stats['FGA']=round(player.field_goals_attempted/player.games_played,1)
+            player_stats['FGM']=round(player.field_goals_made/player.games_played,1)
+            if player.field_goals_attempted > 0:
+                player_stats['FGP']=round(player.field_goals_made/player.field_goals_attempted,1)
+            else:
+                player_stats['FGP']=0.0
+            player_stats['FTA']=round(player.free_throws_attempted/player.games_played,1)
+            player_stats['FTM']=round(player.free_throws_made/player.games_played,1)
+            if player.free_throws_attempted > 0:
+                player_stats['FTP']=round(player.free_throws_made/player.free_throws_attempted,1)
+            else:
+                player_stats['FTP']=0.0
+            player_stats['TPA']=round(player.three_point_attempted/player.games_played,1)
+            player_stats['TPM']=round(player.three_point_made/player.games_played,1)
+            if player.three_point_attempted > 0:
+                player_stats['TPP']=round(player.three_point_made/player.three_point_attempted,1)
+            else:
+                player_stats['TPP']=0.0
+            player_stats['AST']=round(player.assists_total/player.games_played,1)
+            player_stats['BLK']=round(player.blocks_total/player.games_played,1)
+            player_stats['STL']=round(player.steals_total/player.games_played,1)
+            player_stats['TO']=round(player.turnovers_total/player.games_played,1)
+            player_stats['PF']=round(player.personal_fouls_total/player.games_played,1)
+            player_stats['ORB']=round(player.offensive_rebounds_total/player.games_played,1)
+            player_stats['DRB']=round(player.defensive_rebounds_total/player.games_played,1)
+            player_stats['RB']=round((player.defensive_rebounds_total+player.offensive_rebounds_total)/player.games_played,1)
+            player_stats['player_id']=player.player_id
+            player_stats['team_id'] = player.team_id
+            player_stats['name'] = player.full_name
+            player_stats['GP'] = player.games_played
+            player_stats['a'] = ' '
+            player_stats['b'] = ' '
+            player_stats['c'] = ' '
+            player_stats['d'] = ' '
+            player_stats['e'] = ' '
         
-        if player.team_id == 0:
-            player_stats['team_abv']="FA"
-        else:
-            player_stats['team_abv'] = Team.objects.get(team_id=player.team_id).team_abv
+            if player.team_id == 0:
+                player_stats['team_abv']="FA"
+            else:
+                player_stats['team_abv'] = Team.objects.get(team_id=player.team_id).team_abv
 
-        context['players'].append(player_stats)
+            player_stats['name'] = player_stats['name'] + " " + player_stats['team_abv']
+            context['players'].append(player_stats)
+        
+    context['table']=PlayerTableMobile(context['players'])
     
     return render(request,"basketball/stat_leaders_mobile.html",context)
 
