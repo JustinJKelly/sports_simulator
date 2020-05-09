@@ -2647,6 +2647,7 @@ def mvp_vote_mobile(request):
     print("here")
     return render(request,'basketball/mvp_vote_mobile.html', {"form":form,'labels': labels,'data': data, })  
 
+
 def mvp_results_mobile(request):
     mvp_poll = MVPVote.objects.all().order_by('-votes','-points_pg')
     labels=[]
@@ -2698,11 +2699,9 @@ def series_vote_results_mobile(request):
     
     pprint.pprint(context)
     return render(request,'basketball/series_votes_results_mobile.html', context)
-    #return HttpResponse("Thanks")
 
 def series_vote_mobile(request):
     if request.method == 'POST':
-        #print(request.POST)
         form = SeriesForm(request.POST)
         if form.is_valid():
             name = 'form'
@@ -2722,7 +2721,7 @@ def series_vote_mobile(request):
         else:
             messages.add_message(request, messages.ERROR, 'Error in processing form data')
             formset = SeriesForm()
-            return render(request,'basketball/vote_for_series.html',{'form':formset})
+            return render(request,'basketball/vote_for_series_mobile.html',{'form':formset})
         #return HttpResponse("Thanks")
     
     formset = SeriesForm()
