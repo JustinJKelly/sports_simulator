@@ -195,6 +195,9 @@ class GamePreview(models.Model):
     is_necessary = models.BooleanField(default=True)
     game_number = models.IntegerField(null=False)
     
+    def __str__(self):
+        return '%s vs. %s Game %d' % (self.lower_seeding_name, self.higher_seeding_name, self.game_number)
+    
 
 
 
