@@ -191,7 +191,8 @@ class GamePreview(models.Model):
     game_preview_id = models.IntegerField(primary_key=True)
     votes_home_team = models.IntegerField(default=0)
     votes_home_away = models.IntegerField(default=0)
-    series_id = models.ForeignKey(Serie, on_delete=models.CASCADE)
+    series = models.ForeignKey(Serie, on_delete=models.CASCADE)
+    is_necessary = models.BooleanField(default=True)
     
 
 

@@ -879,14 +879,14 @@ def compute_player_stats(stats,score,tid, other_team_score):
                 
             # Clippers
             if tid == 1610612746:
-                fg_att_max -= 0.2
-                fg_att_min -= 0.14
-                fg_made_max -= 0.1
-                fg_made_min -= 0.07
-                three_pt_att_min -= 0.08
-                three_pt_att_max -= 0.13
-                three_pt_made_min -= 0.06
-                three_pt_made_max -= 0.08
+                fg_att_max -= 0.14
+                fg_att_min -= 0.08
+                fg_made_max -= 0.06
+                fg_made_min -= 0.03
+                three_pt_att_min -= 0.03
+                three_pt_att_max -= 0.09
+                three_pt_made_min -= 0.03
+                three_pt_made_max -= 0.05
             
             #Washington, Celtics, Minnesota, Magic
             if tid == 1610612764 or tid == 1610612738 or tid == 1610612750 or tid == 1610612753:

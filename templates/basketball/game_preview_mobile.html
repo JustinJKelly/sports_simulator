@@ -1,0 +1,247 @@
+ <!--
+        team_stats.append([ 
+        0 team_home.team_name, 1 team_home.team_abv,
+        2 team_home.team_wins,3 team_home.team_losses,
+        4 round(team_home.points_total/team_home.games_played,1),
+        5round(team_home.assists_total/team_home.games_played,1),
+        6round(team_home.offensive_rebounds_total/team_home.games_played,1),
+        7round(team_home.defensive_rebounds_total/team_home.games_played,1),
+        8round(team_home.rebounds_total/team_home.games_played,1),
+        9round(team_home.blocks_total/team_home.games_played,1),
+        10 round(team_home.steals_total/team_home.games_played,1),
+        11 round(team_home.turnovers_total/team_home.games_played,1),
+        12round(team_home.personal_fouls_total/team_home.games_played,1),
+        13round(team_home.free_throws_made/team_home.games_played,1),
+        14round(team_home.free_throws_attempted/team_home.games_played,1),
+        15round((team_home.free_throws_made/team_home.free_throws_made)*100,1),
+        16round(team_home.field_goals_made/team_home.games_played,1),
+        17round(team_home.field_goals_attempted/team_home.games_played,1),
+        18round((team_home.field_goals_made/team_home.field_goals_attempted)*100,1),
+        19round(team_home.three_point_made/team_home.games_played,1),
+        20round(team_home.three_point_attempted/team_home.games_played,1),
+        21round((team_home.three_point_made/team_home.three_point_attempted)*100,1),
+        22team_home.games_played,
+        23find_team_image(team_home.team_id)
+    ])
+    
+    context={}
+    context['team_stats']=team_stats
+    context['home_series_wins']=home_series_wins
+    context['away_series_wins']=away_series_wins
+    context['prev_games']=previous_game_scores
+    context['home_team_id']=game.home_team_id
+    context['away_team_id']=game.away_team_id
+    }
+    }
+-->
+
+{% extends 'base.html' %}
+    {% load static %}
+    {% block content %}
+
+    {% if messages %}
+        <div class="span12 container text-center" style="color:red; font-size:18px;">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message|safe }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <style>
+        a {
+            color: black;
+        }
+        a.game_hover {
+            color: blue;
+        }
+
+        /* make it blend in with background*/
+        a:hover.image_hover {
+            color: transparent;
+        }
+
+        select {
+            width:20%;
+            height:40px;
+        }
+
+    </style>
+
+    <br/>
+    <!--Header Scorebox-->
+    <div class="container text-center" style="width:100%;">
+        <div class="row">
+            <div class="col-4" style="font-size:14px;">
+                    <!--({{away_team_record}})-->
+                    <a href="/basketball/team_mobile/{{away_team_id}}"> <b style="font-size:12px;">{{away_team_name}} </b> </a>
+                    <br/>
+                    <a class="image_hover" href="/basketball/team_mobile/{{away_team_id}}"> <img style="max-height:25px;max-width:25px;" src="{% static away_team_image %}"></img> </a>
+            </div>
+            <div class="col-4">
+                <p style="font-size:10px;">
+                    <b> Game Date </b>
+                    <br/>
+                    <b> {{date}} </b>
+                </p>
+                <p style="font-size:10px;">
+                    {% if home_series_wins > away_series_wins %}
+                        {{home_abv}} leads {{home_series_wins}}-{{away_series_wins}}
+                    {% elif home_series_wins == away_series_wins %}
+                        Series Tied {{home_series_wins}}-{{away_series_wins}}
+                    {% else %}
+                        {{away_abv}} leads {{away_series_wins}}-{{home_series_wins}}
+                    {% endif %}
+                </p>
+            </div>
+            <div class="col-4" style="font-size:14px;">
+                <a href="/basketball/team_mobile/{{home_team_id}}"> <b style="font-size:12px;">{{home_team_name}}</b> </a>
+                <br/>
+                <a class="image_hover" href="/basketball/team_mobile/{{home_team_id}}"> <img style=";max-height:25px;max-width:25px" src="{% static home_team_image %}"></img> </a>
+                <!--({{home_team_record}})-->
+            </div>
+        </div>
+    </div>
+    <!--End Header Scorebox-->
+    <br/>
+
+    <!-- Team Stats Table-->
+    <div class="table-responsive container">
+        <table class="table-sm table-striped table-light" style="width:100%; font-size:12px;">
+            <thead>
+                <tr>
+                    <th scope="col"><b>Matchup Stats</b></th>
+                    <th>
+                        <a class="image_hover" href="/basketball/team_mobile/{{away_team_id}}"> <img style=";max-height:25px;max-width:25px" src="{% static away_team_image %}"></img> </a>
+                    </th>
+                    <th>
+                        <a class="image_hover" href="/basketball/team_mobile/{{home_team_id}}"> <img style=";max-height:25px;max-width:25px" src="{% static home_team_image %}"></img> </a>
+                    </th>
+                <tr>
+            </thead>
+            <tbody style="font-size:10px;">
+                <tr>
+                    <th scope="row">FG</th>
+                    <td>{{away_team_stats.16}}-{{away_team_stats.17}}</td>
+                    <td>{{home_team_stats.16}}-{{home_team_stats.17}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Field Goal %</th>
+                    <td>{{away_team_stats.18}} %</td>
+                    <td>{{home_team_stats.18}} %</td>
+                </tr>
+                <tr>
+                    <th scope="row">3PT</th>
+                    <td>{{away_team_stats.19}}-{{away_team_stats.20}}</td>
+                    <td>{{home_team_stats.19}}-{{home_team_stats.20}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Three Point %</th>
+                    <td>{{away_team_stats.21}}%</td>
+                    <td>{{home_team_stats.21}}%</td>
+                </tr>
+                <tr>
+                        <th scope="row">FT</th>
+                        <td>{{away_team_stats.13}}-{{away_team_stats.14}}</td>
+                        <td>{{home_team_stats.13}}-{{home_team_stats.14}}</td>
+                </tr>
+                <tr>
+                        <th scope="row">Free Throw %</th>
+                        <td>{{away_team_stats.15}} %</td>
+                        <td>{{home_team_stats.15}} %</td>
+                </tr>
+                <tr>
+                        <th scope="row">Offensive Rebounds</th>
+                        <td>{{away_team_stats.6}}</td>
+                        <td>{{home_team_stats.6}}</td>
+                </tr>
+                <tr>
+                        <th scope="row">Defensive Rebounds</th>
+                        <td>{{away_team_stats.7}}</td>
+                        <td>{{home_team_stats.7}}</td>
+                </tr>
+                <tr>    
+                        <th scope="row">Rebounds</th>
+                        <td>{{away_team_stats.8}}</td>
+                        <td>{{home_team_stats.8}}</td>
+                </tr>
+                <tr>
+                        <th scope="row">Assists</th>
+                        <td>{{away_team_stats.5}}</td>
+                        <td>{{home_team_stats.5}}</td>
+                </tr>
+                <tr>
+                        <th scope="row">Steals</th>
+                        <td>{{away_team_stats.10}}</td>
+                        <td>{{home_team_stats.10}}</td>
+                </tr>
+                <tr>
+                        <th scope="row">Blocks</th>
+                        <td>{{away_team_stats.9}}</td>
+                        <td>{{home_team_stats.9}}</td>
+                </tr>
+                <tr>
+                        <th scope="row">Turnovers</th>
+                        <td>{{away_team_stats.11}}</td>
+                        <td>{{home_team_stats.11}}</td>
+                </tr>
+                <tr>
+                        <th scope="row">Personal Fouls</th>
+                        <td>{{away_team_stats.12}}</td>
+                        <td>{{home_team_stats.12}}</td>
+                </tr>
+                <tr>
+                        <th scope="row">PPG</th>
+                        <td>{{away_team_stats.22}}</td>
+                        <td>{{home_team_stats.22}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <br/>
+        <hr style="color:black; border-width:3px;"></hr>
+    </div>
+    <!-- End Team Stats Table-->
+    <br/>
+    
+    <!--
+        previous_game_scores.append([home_team_score,
+                                     away_team_score,
+                                     Team.objects.get(team_id=game_home).team_abv,
+                                     Team.objects.get(team_id=game_away).team_abv,
+                                     g.game_id,
+                                     '%s/%s/%s' % (g.date.month,g.date.day,g.date.year)])
+    -->
+    <div class="table-responsive container" style="width:100%;">
+        <p style="font-size:14px; font-weight:bold;"> Previous Matchups </p>
+        <table class="table table-striped table-light">
+            <thead style="font-size:12px">
+                <tr>
+                    <th scope="col">Date</th>
+                    <th scope="col">Score</th>
+                </tr>
+            </thead>
+            <tbody style="font-size:9px">
+                {% for game in prev_games %}
+                    <tr>
+                        <th scope="row">{{game.7}}</th>
+                        <th>
+                            <a class="image_hover" href="/basketball/team_mobile/{{game.5}}"> <img style=";max-height:25px;max-width:25px" src="{% static game.9 %}"></img> </a>
+                            <a class='game_hover' href="/basketball/game_mobile/{{game.6}}"> {{game.3}} {{game.1}}-{{game.0}} {{game.2}}</a> 
+                            <a class="image_hover" href="/basketball/team_mobile/{{game.4}}"> <img style=";max-height:25px;max-width:25px" src="{% static game.8 %}"></img> </a>
+                        </th>
+
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br/>
+        <hr style="color:black; border-width: 2px;"></hr>
+    </div>
+   
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+
+
+{% endblock %}

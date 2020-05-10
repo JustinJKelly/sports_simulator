@@ -4,7 +4,7 @@ from nba_api.stats.endpoints import playercareerstats
 from nba_api.stats.static import players, teams
 from bs4 import BeautifulSoup
 import requests
-from .models import Player, Game, Team, MVPVote, GamePreview, Serie
+from .models import Player, Game, Team, MVPVote,  Serie, GamePreview
 # importing datetime module 
 import datetime
 from sports_simulator import views as home_views
@@ -395,7 +395,6 @@ def series_vote(request):
     time = models.TimeField(default=None, null=True)
     data = JSONField()'''
 def game_page(request, id):
-    
     if id < 10000:
         return preview_game_page(request,id,True)
     game = Game.objects.get(game_id=id)
@@ -605,6 +604,7 @@ def preview_game_page(request,id,add_form):
     context['home_team_name']=game.home_team_name
     context['away_team_name']=game.away_team_name
     context['date']='%s/%s/%s' % (game.game_date.month,game.game_date.day,game.game_date.year)
+    context['game_id']=game.game_preview_id
     
     return render(request,'basketball/game_preview.html',context)
 
@@ -2398,7 +2398,8 @@ def player_page_mobile(request,id):
 
 def preview_game_page_mobile(request,id,add_form):
     game = GamePreview.objects.get(game_preview_id=id)
-    if game.game_date <= datetime.datetime.now(): #get_pst_time():
+    print(game.game_date, ' ', datetime.datetime.now().date())
+    if game.game_date < datetime.datetime.now().date() or (game.game_date < datetime.datetime.now().date() and datetime.datetime.now().hour > 14): #get_pst_time():
         return HttpResponse("Nothing to see here")
      
     previous_playoff_games = (Game.objects.filter(home_team=game.home_team_id,away_team=game.away_team_id,date__gte=datetime.date(2020,5,1))
@@ -2504,9 +2505,9 @@ def preview_game_page_mobile(request,id,add_form):
 
 
 def game_page_mobile(request, id):
-    
+    print('here')
     if id < 10000:
-        return preview_game_page(request,id,True)
+        return preview_game_page_mobile(request,id,True)
     game = Game.objects.get(game_id=id)
 
     player_stats = game.data['player_stats']

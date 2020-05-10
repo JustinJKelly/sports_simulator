@@ -38,6 +38,13 @@
 {% extends 'base.html' %}
     {% load static %}
     {% block content %}
+
+    <script>
+        if ((typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)) {
+            location.href = "/basketball/game_mobile/{{game_id}}";
+        }
+    </script>
+
     {% if messages %}
         <div class="span12 container text-center" style="color:red; font-size:18px;">
             {% for message in messages %}
@@ -79,10 +86,12 @@
                 </p>
             </div>
             <div class="col-sm-4">
-                <p style="font-size:14px;">
+                <p style="font-size:15px;">
+                    <b> Game Date </b>
+                    <br/>
                     <b> {{date}} </b>
                 </p>
-                <p style="font-size:25px;">
+                <p style="font-size:20px;">
                     {% if home_series_wins > away_series_wins %}
                         {{home_abv}} leads {{home_series_wins}}-{{away_series_wins}}
                     {% elif home_series_wins == away_series_wins %}

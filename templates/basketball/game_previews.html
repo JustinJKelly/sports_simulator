@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
     {% load static %}
     {% block content %}
+
+        <script>
+            if ((typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)) {
+                location.href = "/basketball/games_mobile";
+            }
+        </script>
+
         {% if messages %}
             <div class="span12 container text-center" style="color:red; font-size:18px;">
                 {% for message in messages %}

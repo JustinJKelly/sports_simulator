@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+    {% load static %}
+    {% block content %}
+        {% if messages %}
+            <div class="span12 container text-center" style="color:red; font-size:18px;">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message|safe }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <style>
+            a:hover.img_hover {
+                color:transparent;
+            }
+        </style>
+
+        <br/>
+       <div class="bootstrap-iso container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div >
+                        <!-- Form code begins -->
+                        <form autocomplete="off" class="form-inline" method="post">{% csrf_token %}
+                            <div class="form-group"> <!-- Date input -->
+                                <!--<label class="control-label" for="date">Pick Date</label>-->
+                                <input class="form-control-sm" id="date" name="date" placeholder="MM/DD/YYY" type="text"/>
+                            </div>
+                            <!-- Submit button -->
+                            <div class="form-group"> 
+                                <button class="btn-sm btn-outline-primary" name="submit" type="submit">Submit</button>
+                            </div>
+                        </form>
+                        <!-- Form code ends --> 
+                    </div>
+                </div>    
+            </div>
+        </div>
+        <br/>
+
+
+        <script>
+            $(document).ready(function() {
+                var date_input=$('input[name="date"]'); //our date input has the name "date"
+                var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+                var options={
+                    format: 'mm/dd/yyyy',
+                    container: container,
+                    todayHighlight: true,
+                    autoclose: true,
+                };
+                date_input.datepicker(options);
+            });
+        </script>
+
+
+        <!--
+            0 game.home_team_name,
+            1 game.away_team_name,
+            2 game.votes_home_team,
+            3 game.votes_home_away,
+            4 game.game_preview_id,
+            5 find_team_image(game.home_team_id),
+            6 find_team_image(game.away_team_id),
+            7 Team.objects.get(team_id=game.home_team_id).team_abv,
+            8 Team.objects.get(team_id=game.away_team_id).team_abv,
+            9 home_series_wins,
+            10 away_series_wins,
+            11 game.home_team_id,
+            12 game.away_team_id
+        -->
+        
+    <div class="table-responsive container">
+        {% if  games|length  == 0 %}
+            <br/>
+            <br/>
+            <h3> No Games on {{date}}</h3>
+        {% else %}
+            <table class="table-sm table-striped table-light" style="width:100%;%">
+                <thead style="font-size:11px">
+                    <tr>
+                        <th scope="col">Matchup ({{date}})</th>
+                        <th scope="col">Series</th>
+                    </tr>
+                </thead>
+                <tbody style="font-size:10px">
+                    {% for game in games %}
+                        <tr>
+                            <td> 
+                                <a class="img_hover" href='/basketball/team/{{game.12}}'><img style="max-height:25px; max-width:25px;" src="{% static game.6 %}" alt="Card image cap"></img> </a>
+                                {{game.8}}
+                                <br/>
+                                <a class="img_hover" href='/basketball/team/{{game.11}}'><img style="max-height:25px; max-width:25px;" src="{% static game.5 %}" alt="Card image cap"></img> </a>
+                                {{game.7}}
+                            </td>
+                            {% if home_series_wins == away_series_wins %}
+                                <td> Series Tied {{game.9}}-{{game.10}}</td>
+                            {% elif home_series_wins > away_series_wins %}
+                                <td> {{game.7}} leads {{game.9}}-{{game.10}}</td>
+                            {% else %}
+                                <td> {{game.8}} leads {{game.10}}-{{game.9}}</td>
+                            {% endif %}
+                            <td>
+                                <a href='/basketball/game_mobile/{{game.4}}'> See Matchup </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <br/>
+            <hr style="color:black; border-width: 2px;"></hr>
+        {% endif %} 
+    </div>
+
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+{% endblock %}
