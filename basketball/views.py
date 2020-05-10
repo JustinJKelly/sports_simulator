@@ -41,7 +41,7 @@ def home(request):
     else:
         date_attr = request.POST['date'].split('/')
         #date(year, month, day)
-        print(date_attr)
+        #print(date_attr)
         game_date = date_attr[2]+date_attr[0]+date_attr[1]#datetime.date(int(date_attr[2]),int(date_attr[0]),int(date_attr[1]))
         return redirect('/basketball/games/'+game_date)
 
@@ -107,8 +107,8 @@ def get_games_date(request,game_date):
 
     #today = get_pst_time()
     today = datetime.datetime.now().date()
-    print(today)
-    print(game_date)
+    #print(today)
+    #print(game_date)
     context = {}
     context['games'] = []
     context['date']='%s/%s/%s' % (game_date.month,game_date.day,game_date.year)
@@ -344,7 +344,7 @@ def series_vote_results(request):
         context[name_d]=data
         count +=1
     
-    pprint.pprint(context)
+    #pprint.pprint(context)
     return render(request,'basketball/series_votes_results.html', context)
     #return HttpResponse("Thanks")
 
@@ -615,6 +615,8 @@ def preview_game_page(request,id,add_form):
     context['away_team_name']=game.away_team_name
     context['date']='%s/%s/%s' % (game.game_date.month,game.game_date.day,game.game_date.year)
     context['game_id']=game.game_preview_id
+    context['game_number']=game.game_number
+    context['is_necessary'] = game.is_necessary
     
     return render(request,'basketball/game_preview.html',context)
 
@@ -879,7 +881,7 @@ def standings_page(request):
             if count_west == 0:
                 max_wins_west=team.team_wins
                 losses_west = team.team_losses
-                print(losses_west)
+                #print(losses_west)
                 games_back = "-"
                 count_west += 1
                 rank=str(count_west)
@@ -919,7 +921,7 @@ def standings_page(request):
             if count_east == 0:
                 max_wins_east=team.team_wins
                 losses_east = team.team_losses
-                print(losses_east)
+                #print(losses_east)
                 count_east += 1
                 games_back = "-"
                 rank=str(count_east)
@@ -930,7 +932,7 @@ def standings_page(request):
                     rank=''
                 else:
                     games_back = round( (abs(max_wins_east-team.team_wins)+abs(team.team_losses-losses_east))/2,1)
-                    print(team.team_name,' ',games_back)
+                    #print(team.team_name,' ',games_back)
                     rank=str(count_east)
             
             
@@ -1018,7 +1020,7 @@ def playoffs_page(request):
                     rank=''
                 else:
                     games_back = round( (abs(max_wins_east-team.team_wins)+abs(team.team_losses-losses_east))/2,1)
-                    print(team.team_name,' ',games_back)
+                    #print(team.team_name,' ',games_back)
                     rank=str(count_east)
             
             
@@ -1105,8 +1107,8 @@ def playoffs_page(request):
             count += 1    
                 
         
-    print(context['east'],"\n")
-    print(context['west'],"\n")
+    #print(context['east'],"\n")
+    #print(context['west'],"\n")
 
     context['eastern_teams']=eastern
     context['western_teams']=western
@@ -1244,10 +1246,10 @@ def series_page(request, id):
 def mvp_vote(request):
     if request.method == 'POST':
         form = MVPVoteForm(request.POST)
-        print(form.data)
+        #print(form.data)
         if form.is_valid():
             mvp_player = MVPVote.objects.get(player_id=form.data['VOTE_FOR_MVP'])
-            print(mvp_player)
+            #print(mvp_player)
             mvp_player.votes+=1
             mvp_player.save()
                     
@@ -1272,7 +1274,6 @@ def mvp_vote(request):
         data.append(player.votes+3)
     labels.append('Other')
     data.append(other_votes)
-    print("here")
     return render(request,'basketball/mvp_vote.html', {"form":form,'labels': labels,'data': data, })  
 
 def mvp_results(request):
@@ -1759,7 +1760,7 @@ def playoffs_page_mobile(request):
                     rank=''
                 else:
                     games_back = round( (abs(max_wins_east-team.team_wins)+abs(team.team_losses-losses_east))/2,1)
-                    print(team.team_name,' ',games_back)
+                    #print(team.team_name,' ',games_back)
                     rank=str(count_east)
             
             
@@ -1846,8 +1847,8 @@ def playoffs_page_mobile(request):
             count += 1    
                 
         
-    print(context['east'],"\n")
-    print(context['west'],"\n")
+    #print(context['east'],"\n")
+    #print(context['west'],"\n")
 
     context['eastern_teams']=eastern
     context['western_teams']=western
@@ -1995,7 +1996,7 @@ def standings_page_mobile(request):
             if count_west == 0:
                 max_wins_west=team.team_wins
                 losses_west = team.team_losses
-                print(losses_west)
+                #print(losses_west)
                 games_back = "-"
                 count_west += 1
                 rank=str(count_west)
@@ -2035,7 +2036,7 @@ def standings_page_mobile(request):
             if count_east == 0:
                 max_wins_east=team.team_wins
                 losses_east = team.team_losses
-                print(losses_east)
+                #print(losses_east)
                 count_east += 1
                 games_back = "-"
                 rank=str(count_east)
@@ -2046,7 +2047,7 @@ def standings_page_mobile(request):
                     rank=''
                 else:
                     games_back = round( (abs(max_wins_east-team.team_wins)+abs(team.team_losses-losses_east))/2,1)
-                    print(team.team_name,' ',games_back)
+                    #print(team.team_name,' ',games_back)
                     rank=str(count_east)
             
             
@@ -2129,7 +2130,7 @@ def home_mobile(request):
     else:
         date_attr = request.POST['date'].split('/')
         #date(year, month, day)
-        print(date_attr)
+        #print(date_attr)
         game_date = date_attr[2]+date_attr[0]+date_attr[1]#datetime.date(int(date_attr[2]),int(date_attr[0]),int(date_attr[1]))
         return redirect('/basketball/games_mobile/'+game_date)
 
@@ -2191,8 +2192,8 @@ def get_games_date_mobile(request,game_date):
 
     #today = get_pst_time()
     today = datetime.datetime.now().date()
-    print(today)
-    print(game_date)
+    #print(today)
+    #print(game_date)
     context = {}
     context['games'] = []
     context['date']='%s/%s/%s' % (game_date.month,game_date.day,game_date.year)
@@ -2411,7 +2412,7 @@ def player_page_mobile(request,id):
 
 def preview_game_page_mobile(request,id,add_form):
     game = GamePreview.objects.get(game_preview_id=id)
-    print(game.game_date, ' ', datetime.datetime.now().date())
+    #print(game.game_date, ' ', datetime.datetime.now().date())
     if game.game_date < datetime.datetime.now().date() or (game.game_date < datetime.datetime.now().date() and datetime.datetime.now().hour > 14): #get_pst_time():
         return HttpResponse("Nothing to see here")
      
@@ -2513,12 +2514,14 @@ def preview_game_page_mobile(request,id,add_form):
     context['home_team_name']=game.home_team_name
     context['away_team_name']=game.away_team_name
     context['date']='%s/%s/%s' % (game.game_date.month,game.game_date.day,game.game_date.year)
+    context['game_number']=game.game_number
+    context['is_necessary'] = game.is_necessary
+    context['game_id']=game.game_preview_id
     
     return render(request,'basketball/game_preview_mobile.html',context)
 
 
 def game_page_mobile(request, id):
-    print('here')
     if id < 10000:
         return preview_game_page_mobile(request,id,True)
     game = Game.objects.get(game_id=id)
@@ -2630,10 +2633,10 @@ def game_page_mobile(request, id):
 def mvp_vote_mobile(request):
     if request.method == 'POST':
         form = MVPVoteForm(request.POST)
-        print(form.data)
+        #print(form.data)
         if form.is_valid():
             mvp_player = MVPVote.objects.get(player_id=form.data['VOTE_FOR_MVP'])
-            print(mvp_player)
+            #print(mvp_player)
             mvp_player.votes+=1
             mvp_player.save()
                     
@@ -2658,7 +2661,6 @@ def mvp_vote_mobile(request):
         data.append(player.votes+3)
     labels.append('Other')
     data.append(other_votes)
-    print("here")
     return render(request,'basketball/mvp_vote_mobile.html', {"form":form,'labels': labels,'data': data, })  
 
 
@@ -2711,7 +2713,7 @@ def series_vote_results_mobile(request):
         context[name_d]=data
         count +=1
     
-    pprint.pprint(context)
+    #pprint.pprint(context)
     return render(request,'basketball/series_votes_results_mobile.html', context)
 
 def series_vote_mobile(request):

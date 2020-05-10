@@ -80,7 +80,11 @@
             </div>
             <div class="col-4">
                 <p style="font-size:10px;">
-                    <b> Game Date </b>
+                    {% if is_necessary %}
+                        <b style="font-size:11px;"> Game {{game_number}} </b>
+                    {% else %}
+                        <b style="font-size:11px;"> Game {{game_number}} (if nec.)</b>
+                    {% endif %}
                     <br/>
                     <b> {{date}} </b>
                 </p>
