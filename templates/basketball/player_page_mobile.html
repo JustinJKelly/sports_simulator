@@ -31,8 +31,8 @@
                     <br/>
                     <p style="font-weight: bold; font-size:20px;">{{full_name}}</p>
                     <div class="row">
-                        <a href="/basketball/team/{{team_id}}"><img style="max-height:35px;max-width:35px;" src="{% static team_image %}"></img></a>
-                        <p style="font-weight: bold; font-size: 12px;"><a href="/basketball/team/{{team_id}}">{{team_name}}</a> #{{jersey_number}}</p>
+                        <a href="/basketball/team_mobile/{{team_id}}"><img style="max-height:35px;max-width:35px;" src="{% static team_image %}"></img></a>
+                        <p style="font-weight: bold; font-size: 12px;"><a href="/basketball/team_mobile/{{team_id}}">{{team_name}}</a> #{{jersey_number}}</p>
                     </div>
                 </div>
             </div>
@@ -181,18 +181,18 @@
                         <td> <b>{{game.18}}/{{game.19}}</b> </td>
                         <td colspan="4"> 
                             {{game.22}}
-                            <a class="img_hover" href='/basketball/team/{{ game.21 }}'>
+                            <a class="img_hover" href='/basketball/team_mobile/{{ game.21 }}'>
                                 <img style="max-height:10px;max-width:10px;" src={% static game.20 %}> </img>
                             </a> 
-                            <a href='/basketball/team/{{ game.21 }}'>{{game.23}}</a>
+                            <a href='/basketball/team_mobile/{{ game.21 }}'>{{game.23}}</a>
                         </td>
                         <td colspan="3"> 
                             {% if game.24 == 'W' %}
                                 <b style="color:green;">{{game.24}}</b>
-                                <a href='/basketball/game/{{game.27}}'> {{game.25}}-{{game.26}} </a>
+                                <a href='/basketball/game_mobile/{{game.27}}'> {{game.25}}-{{game.26}} </a>
                             {% else %}
                                 <b style="color:red;">{{game.24}}</b> 
-                                <a href='/basketball/game/{{game.27}}'>{{game.25}}-{{game.26}}</a>
+                                <a href='/basketball/game_mobile/{{game.27}}'>{{game.25}}-{{game.26}}</a>
                             {% endif %}
                         </td>
                         <td>{{game.2}}</td>

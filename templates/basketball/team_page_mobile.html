@@ -161,7 +161,7 @@
                 <tbody style="font-size: 7px;">
                     {% for p in players %}
                     <tr>
-                        <td> <a href='/basketball/player/{{ p.1 }}'> <b>{{p.0}}</b> </a> </td>
+                        <td> <a href='/basketball/player_mobile/{{ p.1 }}'> <b>{{p.0}}</b> </a> </td>
                         <td>{{p.11}}</td>
                         <td colspan="3">{{p.24}}-{{p.23}}</td>
                         <td colspan="3">{{p.21}}-{{p.20}}</td>
@@ -247,18 +247,18 @@
                         <td> <b>{{game.15}}/{{game.16}}</b> </td>
                         <td colspan="4" style="font-size:6px;"> 
                             {{game.19}}
-                            <a class="img_hover" href='/basketball/team/{{ game.18 }}'>
+                            <a class="img_hover" href='/basketball/team_mobile/{{ game.18 }}'>
                                 <img style="max-height:10px;max-width:10px;" src={% static game.17 %} </img>
                             </a> 
-                            <a href='/basketball/team/{{ game.18 }}'>{{game.20}}</a>
+                            <a href='/basketball/team_mobile/{{ game.18 }}'>{{game.20}}</a>
                         </td>
                         <td colspan="3"> 
                             {% if game.21 == 'W' %}
                                 <b style="color:green;">{{game.21}}</b>
-                                <a href='/basketball/game/{{game.24}}'> {{game.22}}-{{game.23}} </a>
+                                <a href='/basketball/game_mobile/{{game.24}}'> {{game.22}}-{{game.23}} </a>
                             {% else %}
                                 <b style="color:red;">{{game.21}}</b> 
-                                <a href='/basketball/game/{{game.24}}'>{{game.22}}-{{game.23}}</a>
+                                <a href='/basketball/game_mobile/{{game.24}}'>{{game.22}}-{{game.23}}</a>
                             {% endif %}
                         </td>
                         <td colspan="3">{{game.0}}-{{game.1}}</td>

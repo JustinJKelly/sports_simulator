@@ -40,9 +40,9 @@
         <div class="row">
             <div class="col" style="font-size:10px;">
                 <!--({{away_team_record}})-->
-                <a href="/basketball/team/{{away_team_id}}"> <b style="font-size:9px;">{{away_team_name}} </b> </a>
+                <a href="/basketball/team_mobile/{{away_team_id}}"> <b style="font-size:9px;">{{away_team_name}} </b> </a>
                 <br/>
-                <a class="image_hover" href="/basketball/team/{{away_team_id}}"> <img style="max-height:30px;max-width:30px;" src="{% static away_team_image %}"></img> </a>
+                <a class="image_hover" href="/basketball/team_mobile/{{away_team_id}}"> <img style="max-height:30px;max-width:30px;" src="{% static away_team_image %}"></img> </a>
                 <br/>
                 <b style="font-size:11px;">{{away_team_score}}</b>
                 <p style="font-size:8px;">({{away_team_record}})</p>
@@ -96,9 +96,9 @@
                 </div>
             </div>
             <div class="col" style="font-size:10px;">
-                <a href="/basketball/team/{{home_team_id}}"> <b style="font-size:9px;">{{home_team_name}}</b> </a>
+                <a href="/basketball/team_mobile/{{home_team_id}}"> <b style="font-size:9px;">{{home_team_name}}</b> </a>
                 <br/>
-                <a class="image_hover" href="/basketball/team/{{home_team_id}}"> <img style=";max-height:30px;max-width:30px" src="{% static home_team_image %}"></img> </a>
+                <a class="image_hover" href="/basketball/team_mobile/{{home_team_id}}"> <img style=";max-height:30px;max-width:30px" src="{% static home_team_image %}"></img> </a>
                 <br/>
                 <!--({{home_team_record}})-->
                 <b style="font-size:11px;">{{home_team_score}}</b>
@@ -116,10 +116,10 @@
                 <tr>
                     <th scope="col"><b>Matchup</b></th>
                     <th>
-                        <a class="image_hover" href="/basketball/team/{{away_team_id}}"> <img style=";max-height:20px;max-width:20px" src="{% static away_team_image %}"></img> </a>
+                        <a class="image_hover" href="/basketball/team_mobile/{{away_team_id}}"> <img style=";max-height:20px;max-width:20px" src="{% static away_team_image %}"></img> </a>
                     </th>
                     <th>
-                        <a class="image_hover" href="/basketball/team/{{home_team_id}}"> <img style=";max-height:20px;max-width:20px" src="{% static home_team_image %}"></img> </a>
+                        <a class="image_hover" href="/basketball/team_mobile/{{home_team_id}}"> <img style=";max-height:20px;max-width:20px" src="{% static home_team_image %}"></img> </a>
                     </th>
                 <tr>
             </thead>
@@ -209,8 +209,8 @@
     <!--Away Team Player Stats-->
     <div class="table-responsive container">
         <p style="font-size:12px;"> 
-            <a href="/basketball/team/{{away_team_id}}"> <b>{{away_team_name}}</b> </a>
-            <a class="image_hover" href="/basketball/team/{{away_team_id}}"> <img style=";max-height:20px;max-width:20px" src="{% static away_team_image %}"></img> </a> 
+            <a href="/basketball/team_mobile/{{away_team_id}}"> <b>{{away_team_name}}</b> </a>
+            <a class="image_hover" href="/basketball/team_mobile/{{away_team_id}}"> <img style=";max-height:20px;max-width:20px" src="{% static away_team_image %}"></img> </a> 
         </p>
         <table class="table-sm table-striped table-light">
             <thead style="font-size:9px">
@@ -237,7 +237,7 @@
             <tbody style="font-size:8px;">
                 {% for p in away_team_player_stats %}
                     <tr>
-                        <td> <a href='/basketball/player/{{ p.0 }}'> <b>{{p.1}}</b> </a> </td>
+                        <td> <a href='/basketball/player_mobile/{{ p.0 }}'> <b>{{p.1}}</b> </a> </td>
                         <td>{{p.2}}</td>
                         <td colspan="2">{{p.3}}-{{p.4}}</td>
                         <td colspan="2">{{p.5}}-{{p.6}}</td>
@@ -279,8 +279,8 @@
     <!--Home Team Player Stats-->
     <div class="table-responsive container">
         <p style="font-size:12px;"> 
-            <a href="/basketball/team/{{home_team_id}}"> <b>{{home_team_name}}</b> </a>
-            <a class="image_hover" href="/basketball/team/{{home_team_id}}"> <img style=";max-height:20px;max-width:20px" src="{% static home_team_image %}"></img>  </a>
+            <a href="/basketball/team_mobile/{{home_team_id}}"> <b>{{home_team_name}}</b> </a>
+            <a class="image_hover" href="/basketball/team_mobile/{{home_team_id}}"> <img style=";max-height:20px;max-width:20px" src="{% static home_team_image %}"></img>  </a>
         </p>
         <table class="table-sm table-striped table-light">
             <thead style="font-size:9px">
@@ -307,7 +307,7 @@
             <tbody style="font-size:8px">
                 {% for p in home_team_player_stats %}
                     <tr>
-                        <td> <a href='/basketball/player/{{ p.0 }}'> <b>{{p.1}}</b> </a> </td>
+                        <td> <a href='/basketball/player_mobile/{{ p.0 }}'> <b>{{p.1}}</b> </a> </td>
                         <td>{{p.2}}</td>
                         <td colspan="2">{{p.3}}-{{p.4}}</td>
                         <td colspan="2">{{p.5}}-{{p.6}}</td>
