@@ -395,8 +395,16 @@ def series_vote(request):
     time = models.TimeField(default=None, null=True)
     data = JSONField()'''
 def game_page(request, id):
+    
+    if id > 9223372036854775807:
+        return HttpResponse("nothing here")
     if id < 10000:
         return preview_game_page(request,id,True)
+    
+    game = Game.objects.filter(game_id=id)
+    if len(game) == 0:
+        return HttpResponse("Game DNE")
+    
     game = Game.objects.get(game_id=id)
 
     player_stats = game.data['player_stats']
@@ -502,6 +510,8 @@ def game_page(request, id):
     return render(request,'basketball/game_page.html',context)
 
 def preview_game_page(request,id,add_form):
+    if id > 9223372036854775807:
+        return HttpResponse('Nothing here')
     game = GamePreview.objects.get(game_preview_id=id)
     if game.game_date <= datetime.datetime.now().date(): #get_pst_time():
         return HttpResponse("Nothing to see here")
@@ -1106,6 +1116,9 @@ def playoffs_page(request):
 
 
 def series_page(request, id):
+    
+    if id > 9223372036854775807:
+        return HttpResponse("Nothing Here")
     
     series_check = Serie.objects.filter(series_id=id)
     if len(series_check) == 0:
