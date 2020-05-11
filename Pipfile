@@ -14,6 +14,8 @@ pandas = "*"
 jsonfield = "*"
 django-widget-tweaks = "*"
 django = "*"
+gunicorn = "*"
+django-heroku = "*"
 
 [requires]
 python_version = "3.8"
