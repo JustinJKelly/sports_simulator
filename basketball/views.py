@@ -493,8 +493,8 @@ def game_page(request, id):
         "top_scorer_home_name":Player.objects.get(player_id=game.top_scorer_home),
         "top_scorer_away_name":Player.objects.get(player_id=game.top_scorer_away),
         "away_points_by_quarter":away_points_by_quarter[:count], "home_points_by_quarter": home_points_by_quarter[:count],
-        "home_team_abv":teams.find_team_name_by_id(game.home_team)['abbreviation'],
-        "away_team_abv":teams.find_team_name_by_id(game.away_team)['abbreviation'],
+        "home_team_abv": Team.objects.get(team_id=game.home_team).team_abv,
+        "away_team_abv": Team.objects.get(team_id=game.away_team).team_abv,
         "home_team_record":game.home_team_record, "away_team_record":game.away_team_record,
         "home_team_id":game.home_team,"away_team_id":game.away_team,"num_overtimes":range(1,num_ots+1),
     }
@@ -2631,8 +2631,8 @@ def game_page_mobile(request, id):
         "top_scorer_home_name":Player.objects.get(player_id=game.top_scorer_home),
         "top_scorer_away_name":Player.objects.get(player_id=game.top_scorer_away),
         "away_points_by_quarter":away_points_by_quarter[:count], "home_points_by_quarter": home_points_by_quarter[:count],
-        "home_team_abv":teams.find_team_name_by_id(game.home_team)['abbreviation'],
-        "away_team_abv":teams.find_team_name_by_id(game.away_team)['abbreviation'],
+        "home_team_abv":Team.objects.get(team_id=game.home_team).team_abv,
+        "away_team_abv":Team.objects.get(team_id=game.away_team).team_abv,
         "home_team_record":game.home_team_record, "away_team_record":game.away_team_record,
         "home_team_id":game.home_team,"away_team_id":game.away_team,"num_overtimes":range(1,num_ots+1)
     }
