@@ -1,1 +1,1 @@
-web: gunicorn sports_simulator.wsgi --timeout 30 --preload -b 127.0.0.1:8000
+web: gunicorn sports_simulator.wsgi --timeout 30 --preload
