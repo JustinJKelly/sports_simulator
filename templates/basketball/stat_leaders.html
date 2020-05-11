@@ -23,10 +23,15 @@
         li a {
             color: black;
         }
+        #first_col {
+            min-width: 190px;
+            max-width: 190px;
+        }
+
     </style>
 
     <br/>
-    <div class="container">
+    <div class="container" style="border-style:inset;">
         <h3 style="text-align:center;"> League Leaders </h3>
         <br/>
         {% render_table table %}

@@ -4,8 +4,8 @@ from nba_api.stats.static import players, teams
 from django.http import HttpResponse
 
 
-def path_does_not_exist(requests):
-    return HttpResponse("Path doesn't exist")
+def path_does_not_exist(request):
+    return render(request,"error_request.html")
 
 def home(request):
     context= dict()

@@ -183,7 +183,7 @@ def player_page(request,id):
     try:
          player = Player.objects.get(player_id=id)
     except:
-        return HttpResponse("Player does not exist")
+        return render(request,"error_request.html")
     
     if player == None:
         return render("404 player not found")
@@ -397,13 +397,13 @@ def series_vote(request):
 def game_page(request, id):
     
     if id > 9223372036854775807:
-        return HttpResponse("nothing here")
+        return render(request,"error_request.html")
     if id < 10000:
         return preview_game_page(request,id,True)
     
     game = Game.objects.filter(game_id=id)
     if len(game) == 0:
-        return HttpResponse("Game DNE")
+        return render(request,"error_request.html")
     
     game = Game.objects.get(game_id=id)
 
@@ -511,10 +511,10 @@ def game_page(request, id):
 
 def preview_game_page(request,id,add_form):
     if id > 9223372036854775807:
-        return HttpResponse('Nothing here')
+        return render(request,"error_request.html")
     game = GamePreview.objects.get(game_preview_id=id)
     if game.game_date <= datetime.datetime.now().date(): #get_pst_time():
-        return HttpResponse("Nothing to see here")
+        return render(request,"error_request.html")
      
     previous_playoff_games = (Game.objects.filter(home_team=game.home_team_id,away_team=game.away_team_id,date__gte=datetime.date(2020,5,1))
                             | Game.objects.filter(away_team=game.home_team_id,home_team=game.away_team_id,date__gte=datetime.date(2020,5,1))).order_by('date')
@@ -721,11 +721,11 @@ def team_page(request,id):
         1610612764:True,
     }
     if id not in list_teams:
-        return HttpResponse("Team DNE")
+        return render(request,"error_request.html")
     team = Team.objects.get(team_id=id)
 
     if not team:
-        return HttpResponse("Team DNE")
+        return render(request,"error_request.html")
     else:
         get_players = Player.objects.filter(team_id=id)
         team_players = []
@@ -1120,11 +1120,11 @@ def playoffs_page(request):
 def series_page(request, id):
     
     if id > 9223372036854775807:
-        return HttpResponse("Nothing Here")
+        return render(request,"error_request.html")
     
     series_check = Serie.objects.filter(series_id=id)
     if len(series_check) == 0:
-        return HttpResponse("Playoff series doesn't exist")
+        return render(request,"error_request.html")
 
     series = Serie.objects.get(series_id=id)
     count=1
@@ -1350,7 +1350,7 @@ def sort_func(p):
 
 
 class PlayerTable(tables.Table):
-    name = tables.LinkColumn('player_page',args=[A('player_id')])
+    name = tables.LinkColumn('player_page',args=[A('player_id')],attrs={"th":{"id":"first_col"},"td":{"id":"first_col"}})
     team_abv = tables.Column(verbose_name="Team",orderable=False)
     GP = tables.Column()
     MIN = tables.Column()
@@ -1377,7 +1377,7 @@ class PlayerTable(tables.Table):
         attrs = {"class": "table-sm table-striped table-light"}
 
 class PlayerTableMobile(tables.Table):
-    name = tables.LinkColumn('player_page',args=[A('player_id')],verbose_name="Player Name",attrs={"th":{"style":{"border-spacing": "40px", "font-size":"6px"},"td":{"colspan":"5"}}})
+    name = tables.LinkColumn('player_page',args=[A('player_id')],attrs={"th":{"id":"first_col"},"td":{"id":"first_col"}})
     team_abv = tables.Column(verbose_name="Team",orderable=False)
     GP = tables.Column(verbose_name="GP")
     MIN = tables.Column()
@@ -1385,7 +1385,7 @@ class PlayerTableMobile(tables.Table):
     FGM = tables.Column()
     FGA = tables.Column()
     FGP = tables.Column(verbose_name="FG%")
-    TPM = tables.Column()
+    TPM = tables.Column(verbose_name="3PM")
     TPA = tables.Column(verbose_name="3PA")
     TPP = tables.Column(verbose_name="3P%")
     FTA = tables.Column()
@@ -1401,7 +1401,7 @@ class PlayerTableMobile(tables.Table):
     PF = tables.Column()
     
     class Meta:
-        attrs = {"class": "table-sm table-striped table-light"}
+        attrs = {"class": "table-sm table-striped table-light","border-collapse": "separate"}
     
 def stats_leaders(request):
     players = Player.objects.all()
@@ -1418,19 +1418,19 @@ def stats_leaders(request):
             player_stats['FGA']=round(player.field_goals_attempted/player.games_played,1)
             player_stats['FGM']=round(player.field_goals_made/player.games_played,1)
             if player.field_goals_attempted > 0:
-                player_stats['FGP']=round(player.field_goals_made/player.field_goals_attempted,1)
+                player_stats['FGP']=round((player.field_goals_made/player.field_goals_attempted)*100,1)
             else:
                 player_stats['FGP']=0.0
             player_stats['FTA']=round(player.free_throws_attempted/player.games_played,1)
             player_stats['FTM']=round(player.free_throws_made/player.games_played,1)
             if player.free_throws_attempted > 0:
-                player_stats['FTP']=round(player.free_throws_made/player.free_throws_attempted,1)
+                player_stats['FTP']=round((player.free_throws_made/player.free_throws_attempted)*100,1)
             else:
                 player_stats['FTP']=0.0
             player_stats['TPA']=round(player.three_point_attempted/player.games_played,1)
             player_stats['TPM']=round(player.three_point_made/player.games_played,1)
             if player.three_point_attempted > 0:
-                player_stats['TPP']=round(player.three_point_made/player.three_point_attempted,1)
+                player_stats['TPP']=round((player.three_point_made/player.three_point_attempted)*100,1)
             else:
                 player_stats['TPP']=0.0
             player_stats['AST']=round(player.assists_total/player.games_played,1)
@@ -1482,19 +1482,19 @@ def stats_leaders_mobile(request):
             player_stats['FGA']=round(player.field_goals_attempted/player.games_played,1)
             player_stats['FGM']=round(player.field_goals_made/player.games_played,1)
             if player.field_goals_attempted > 0:
-                player_stats['FGP']=round(player.field_goals_made/player.field_goals_attempted,1)
+                player_stats['FGP']=round((player.field_goals_made/player.field_goals_attempted)*100,1)
             else:
                 player_stats['FGP']=0.0
             player_stats['FTA']=round(player.free_throws_attempted/player.games_played,1)
             player_stats['FTM']=round(player.free_throws_made/player.games_played,1)
             if player.free_throws_attempted > 0:
-                player_stats['FTP']=round(player.free_throws_made/player.free_throws_attempted,1)
+                player_stats['FTP']=round((player.free_throws_made/player.free_throws_attempted)*100,1)
             else:
                 player_stats['FTP']=0.0
             player_stats['TPA']=round(player.three_point_attempted/player.games_played,1)
             player_stats['TPM']=round(player.three_point_made/player.games_played,1)
             if player.three_point_attempted > 0:
-                player_stats['TPP']=round(player.three_point_made/player.three_point_attempted,1)
+                player_stats['TPP']=round((player.three_point_made/player.three_point_attempted)*100,1)
             else:
                 player_stats['TPP']=0.0
             player_stats['AST']=round(player.assists_total/player.games_played,1)
@@ -1523,7 +1523,7 @@ def stats_leaders_mobile(request):
             #player_stats['name'] = player_stats['name'] + " " + player_stats['team_abv']
             context['players'].append(player_stats)
         
-    table=PlayerTable(context['players'])
+    table=PlayerTableMobile(context['players'])
     RequestConfig(request,paginate={"per_page": 25}).configure(table)
     context['table']=table
     
@@ -1563,11 +1563,11 @@ def team_page_mobile(request,id):
         1610612764:True,
     }
     if id not in list_teams:
-        return HttpResponse("Team DNE")
+        return render(request,"error_request.html")
     team = Team.objects.get(team_id=id)
 
     if not team:
-        return HttpResponse("Team DNE")
+        return render(request,"error_request.html")
     else:
         get_players = Player.objects.filter(team_id=id)
         team_players = []
@@ -1859,9 +1859,13 @@ def playoffs_page_mobile(request):
 
 def series_page_mobile(request, id):
     
+    if id > 9223372036854775807:
+        return render(request,"error_request.html")
+    
+    
     series_check = Serie.objects.filter(series_id=id)
     if len(series_check) == 0:
-        return HttpResponse("Playoff series doesn't exist")
+        return render(request,"error_request.html")
 
     series = Serie.objects.get(series_id=id)
     count=1
@@ -2268,7 +2272,7 @@ def player_page_mobile(request,id):
     try:
          player = Player.objects.get(player_id=id)
     except:
-        return HttpResponse("Player does not exist")
+        return render(request,"error_request.html")
     
     if player == None:
         return render("404 player not found")
@@ -2411,10 +2415,16 @@ def player_page_mobile(request,id):
 
 
 def preview_game_page_mobile(request,id,add_form):
+    
+    game = GamePreview.objects.filter(game_id=id)
+    if len(game) == 0:
+        return render(request,"error_request.html")
+    
+    
     game = GamePreview.objects.get(game_preview_id=id)
     #print(game.game_date, ' ', datetime.datetime.now().date())
     if game.game_date < datetime.datetime.now().date() or (game.game_date < datetime.datetime.now().date() and datetime.datetime.now().hour > 14): #get_pst_time():
-        return HttpResponse("Nothing to see here")
+        return render(request,"error_request.html")
      
     previous_playoff_games = (Game.objects.filter(home_team=game.home_team_id,away_team=game.away_team_id,date__gte=datetime.date(2020,5,1))
                             | Game.objects.filter(away_team=game.home_team_id,home_team=game.away_team_id,date__gte=datetime.date(2020,5,1))).order_by('date')
@@ -2522,8 +2532,17 @@ def preview_game_page_mobile(request,id,add_form):
 
 
 def game_page_mobile(request, id):
+    
+    if id > 9223372036854775807:
+        return render(request,"error_request.html")
+    
+    game = Game.objects.filter(game_id=id)
+    if len(game) == 0:
+        return render(request,"error_request.html")
+    
     if id < 10000:
         return preview_game_page_mobile(request,id,True)
+    
     game = Game.objects.get(game_id=id)
 
     player_stats = game.data['player_stats']
