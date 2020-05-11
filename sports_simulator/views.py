@@ -1,6 +1,5 @@
 from django.shortcuts import redirect, render
-from basketball.models import Game
-from nba_api.stats.static import players, teams
+from basketball.models import Game,Team
 from django.http import HttpResponse
 
 
@@ -16,8 +15,8 @@ def home(request):
     for game in games:
         context['games']["game"+str(count)]=[
             game.game_id,
-            teams.find_team_name_by_id(game.home_team)['abbreviation'],
-            teams.find_team_name_by_id(game.away_team)['abbreviation'],
+            Team.objects.get(team_id=game.home_team).team_abv,
+            Team.objects.get(team_id=game.away_team).team_abv,
             find_team_image(game.home_team),
             find_team_image(game.away_team),
             game.home_team_score,

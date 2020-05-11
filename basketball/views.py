@@ -1,19 +1,12 @@
-from django.shortcuts import redirect, render, reverse
-from nba_api.stats.endpoints import commonplayerinfo
-from nba_api.stats.endpoints import playercareerstats
-from nba_api.stats.static import players, teams
-from bs4 import BeautifulSoup
-import requests
 from .models import Player, Game, Team, MVPVote,  Serie, GamePreview
-# importing datetime module 
 import datetime
 from sports_simulator import views as home_views
 from .forms import MVPVoteForm, SeriesForm
 from pytz import timezone, utc
-from django.forms import formset_factory
 import pprint
 import django_tables2 as tables
 from django_tables2 import RequestConfig, A
+from django.shortcuts import redirect, render
 
 '''
 # creating an instance of  
@@ -21,7 +14,6 @@ from django_tables2 import RequestConfig, A
 d = datetime(2015, 10, 09, 23, 55, 59, 342380) 
 '''
 
-from random import seed
 from random import randint
 from django.http import HttpResponse
 from django.contrib import messages

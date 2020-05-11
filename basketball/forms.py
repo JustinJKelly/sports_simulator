@@ -1,7 +1,6 @@
 from django import forms
 from .models import MVPVote, Serie
 from . import views
-from django.forms import formset_factory
 
 
 class MVPVoteForm(forms.Form):
