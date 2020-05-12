@@ -14,10 +14,16 @@
             a:hover.img_hover {
                 color:transparent;
             }
+
+            .datepicker,
+            .table-condensed {
+                margin-left: 50px;
+                margin-top: 75px;
+            }
         </style>
 
         <br/>
-       <div class="bootstrap-iso container">
+       <div class="bootstrap-iso container" style="margin-left:10%;">
             <div class="container-fluid">
                 <div class="row">
                     <div >
@@ -71,23 +77,24 @@
             12 game.away_team_id
         -->
         
-    <div class="table-responsive container">
+    <div class="table-responsive container" style="width:100%; overflow:scroll;">
         {% if  games|length  == 0 %}
             <br/>
             <br/>
             <h3> No Games on {{date}}</h3>
         {% else %}
-            <table class="table-sm table-striped table-light" style="width:100%;%">
-                <thead style="font-size:11px">
+            <table class="table-sm table-striped table-light">
+                <thead style="font-size:13px">
                     <tr>
                         <th scope="col">Matchup ({{date}})</th>
                         <th scope="col">Series</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
-                <tbody style="font-size:10px">
+                <tbody style="font-size:12px">
                     {% for game in games %}
                         <tr>
-                            <td> 
+                            <td style="max-width:40px;"> 
                                 <a class="img_hover" href='/basketball/team_mobile/{{game.12}}'><img style="max-height:25px; max-width:25px;" src="{% static game.6 %}" alt="Card image cap"></img> </a>
                                 {{game.8}}
                                 <br/>
@@ -95,7 +102,7 @@
                                 {{game.7}}
                             </td>
                             {% if home_series_wins == away_series_wins %}
-                                <td> Series Tied {{game.9}}-{{game.10}}</td>
+                                <td style="min-width:40px;"> Series Tied {{game.9}}-{{game.10}}</td>
                             {% elif home_series_wins > away_series_wins %}
                                 <td> {{game.7}} leads {{game.9}}-{{game.10}}</td>
                             {% else %}
