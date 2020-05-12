@@ -2408,7 +2408,7 @@ def player_page_mobile(request,id):
 
 def preview_game_page_mobile(request,id,add_form):
     
-    game = GamePreview.objects.filter(game_id=id)
+    game = GamePreview.objects.filter(game_preview_id=id)
     if len(game) == 0:
         return render(request,"error_request.html")
     
@@ -2528,12 +2528,13 @@ def game_page_mobile(request, id):
     if id > 9223372036854775807:
         return render(request,"error_request.html")
     
+    if id < 10000:
+        return preview_game_page_mobile(request,id,True)
+    
     game = Game.objects.filter(game_id=id)
     if len(game) == 0:
         return render(request,"error_request.html")
     
-    if id < 10000:
-        return preview_game_page_mobile(request,id,True)
     
     game = Game.objects.get(game_id=id)
 
