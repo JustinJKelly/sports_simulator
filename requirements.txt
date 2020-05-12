@@ -3,3 +3,5 @@ gunicorn
 django-heroku
 psycopg2
 whitenoise
+django-tables2
+jsonfield
