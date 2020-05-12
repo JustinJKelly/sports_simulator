@@ -497,6 +497,7 @@ def game_page(request, id):
         "away_team_abv": Team.objects.get(team_id=game.away_team).team_abv,
         "home_team_record":game.home_team_record, "away_team_record":game.away_team_record,
         "home_team_id":game.home_team,"away_team_id":game.away_team,"num_overtimes":range(1,num_ots+1),
+        "date": '%s/%s/%s' % (game.date.month,game.date.day,game.date.year)
     }
 
     return render(request,'basketball/game_page.html',context)
@@ -2635,7 +2636,8 @@ def game_page_mobile(request, id):
         "home_team_abv":Team.objects.get(team_id=game.home_team).team_abv,
         "away_team_abv":Team.objects.get(team_id=game.away_team).team_abv,
         "home_team_record":game.home_team_record, "away_team_record":game.away_team_record,
-        "home_team_id":game.home_team,"away_team_id":game.away_team,"num_overtimes":range(1,num_ots+1)
+        "home_team_id":game.home_team,"away_team_id":game.away_team,"num_overtimes":range(1,num_ots+1),
+        "date": '%s/%s/%s' % (game.date.month,game.date.day,game.date.year)
     }
 
     return render(request,'basketball/game_page_mobile.html',context)
