@@ -93,8 +93,8 @@
             }
 
             .img_style {
-                width: 25px;
-                height: 25px;
+                width: 30px;
+                height: 30px;
             }
 
             .card-style {
@@ -172,8 +172,9 @@
                             <img class="card-img-top img_style" src="{% static games.game1.4 %}" alt="team2">
                         </div>
                         <div class="card-title text-center matchup_text">
-                            <p>{{games.game1.1}} @ {{games.game1.2}}</p>
-                            <p> {{games.game1.5}} - {{games.game1.6}} </p>
+                            <br/>
+                            {{games.game1.1}} @ {{games.game1.2}}<br/>
+                            {{games.game1.5}} - {{games.game1.6}}
                         </div>
                         
                     </div>
@@ -190,8 +191,9 @@
                             <img class="card-img-top img_style" src="{% static games.game2.4 %}" alt="team2">
                         </div>
                         <div class="card-title text-center matchup_text">
-                            <p>{{games.game2.1}} @ {{games.game2.2}}</p>
-                            <p> {{games.game2.5}} - {{games.game2.6}} </p>
+                            <br/>
+                            {{games.game2.1}} @ {{games.game2.2}}<br/>
+                            {{games.game2.5}} - {{games.game2.6}}
                         </div>
                         
                     </div>
@@ -204,38 +206,40 @@
 
             <div class="row">
                 <a href="/basketball/game/{{games.game3.0}}" style="color:inherit">
-                <div class="card card-style">
-                    <div class="card-header">
-                        <div class="row">
-                            <img class="card-img-top img_style" src="{% static games.game3.3 %}" alt="team1">
-                            <img class="card-img-top img_style" src="{% static games.game3.4 %}" alt="team2">
+                    <div class="card card-style">
+                        <div class="card-header">
+                            <div class="row">
+                                <img class="card-img-top img_style" src="{% static games.game3.3 %}" alt="team1">
+                                <img class="card-img-top img_style" src="{% static games.game3.4 %}" alt="team2">
+                            </div>
+                            <div class="card-title text-center matchup_text">
+                                <br/>{{games.game3.1}} @ {{games.game3.2}}<br/>
+                                {{games.game3.5}} - {{games.game3.6}}
+                            </div>
+                            
                         </div>
-                        <div class="card-title text-center matchup_text">
-                            <p>{{games.game3.1}} @ {{games.game3.2}}</p>
-                            <p> {{games.game3.5}} - {{games.game3.6}} </p>
+                        <div class="card-body text-center matchup_text">
+                            <a href="/basketball/game/{{games.game3.0}}">Game Summary</a>
                         </div>
-                        
                     </div>
-                    <div class="card-body text-center matchup_text">
-                        <a href="/basketball/game/{{games.game3.0}}">Game Summary</a>
-                    </div>
-                </div>
                 </a>
                 <a href="/basketball/game/{{games.game4.0}}" style="color:inherit">
-                <div class="card card-style">
-                    <div class="card-header">
-                        <img class="card-img-top img_style" src="{% static games.game4.3 %}" alt="team1">
-                        <img class="card-img-top img_style" src="{% static games.game4.4 %}" alt="team2">
-                        <div class="card-title text-center matchup_text">
-                            <p>{{games.game4.1}} @ {{games.game4.2}}</p>
-                            <p> {{games.game4.5}} - {{games.game4.6}} </p>
+                    <div class="card card-style">
+                        <div class="card-header">
+                            <div class="row">
+                                <img class="card-img-top img_style" src="{% static games.game4.3 %}" alt="team1">
+                                <img class="card-img-top img_style" src="{% static games.game4.4 %}" alt="team2">
+                            </div>
+                            <div class="card-title text-center matchup_text">
+                                <br/>{{games.game4.1}} @ {{games.game4.2}}<br/>
+                                {{games.game4.5}} - {{games.game4.6}}
+                            </div>
+                            
                         </div>
-                        
+                        <div class="card-body text-center matchup_text">
+                            <a href="/basketball/game/{{games.game4.0}}">Game Summary</a>
+                        </div>
                     </div>
-                    <div class="card-body text-center matchup_text">
-                        <a href="">Game Summary</a>
-                    </div>
-                </div>
                 </a>
             </div>
             <br>
