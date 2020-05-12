@@ -71,6 +71,48 @@
                 and therefore determined the weights based on player/team statistics. Another illustrative example of our weighted bias coming into play in the model is in the case of Stephen Curry, who was injured
                 for most of the regular season. As he was only able to play 5 games before the season was indefinitely halted, his shooting percentage statistics were fairly low based on such a small
                 sample size. We didn't view these stats as accurately indicative of Curry's explosive shooting capabilites, so we adjusted Curry's bias to take his previous season shooting abilities into account.
+                </p>
         </div>
+        <br>
+        <br>
+        <div>
+            <h4>Playoffs</h4>
+            <figure>
+                <img src="/static/img/playoffs_page.png" alt="Playoff Bracket" style="max-width: 48%; float: right; margin: 25px;" >
+            </figure>
+            <hr style="height: 2px; background-color: grey; margin-left: 0px; width: 40%;">
+            <p style="font-size: 18px; line-height: 2.0;">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;On March 11th the National Basketball Association decided to indefinitely postpone the remainder of the 2019-2020 season. This means that all games from 
+                March 11th to April 15th(the last scheduled regular season games) were not played. Using our model, we simulated all games within this period. If you want a recap of 
+                which teams made the postseason and how they performed in the simulated final stretch of the season, click <a href="{% url 'playoffs' %}">here</a>. We have released all data from the games in 
+                that time period, which are accessible across several different pages. If you wish to see a traditional game page, you can search for the game date and click on the scores to get a 
+                game summary. If you wish to see how a specific player performed in the simulations, you can go to their player page. A player's page can be found on either their respective team's page, or
+                in a game page where their team played. The player page displays the player's primary stats across the season, including a table with all games in which they played during the season.
+                <br>
+                <br> 
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;While we decided to release the regular season results in their entirety, we have decided that in order to keep the hype alive for the playoff games, we will be releasing games on a daily basis. 
+                The first official start day for our playoff schedule will be Wednesday, May 13th. For the first round of the playoffs, every playoff series will have one game played per day. In other words, if a 
+                series only ends up lasting 4 games, that series will be over by the 17th. All games will be released by May 20th at the latest, but may end sooner if no series goes to seven games. In the second
+                round of playoffs,
+                we will change the schedule to alternate between the East and the West conferences. Therefore, on the first day of the second round of playoffs we will release a game from both series in the East. On the
+                following day, we will release a game from both series in the West. Once the Conferenece finals are closer, we will provide more details about our planned schedule for them, but now
+                expect them to start 1-2 days after the conference semi-finals conclude. 
+                <br>
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Be sure to stay updated on how the playoffs are going. Click 
+                <a href="{% url 'playoffs_page' %}">here</a> to check out the playoffs page, which will have up-to-date information about all the playoff series. If you're interested in seeing the
+                matchup history between two teams check out the game page, and check the date of the game to get a preview of how the two teams have matched up against one another. Click here to see how 
+                the <a href="http://sportsim.live/basketball/game/1">Lakers matchup against Pelicans</a>, who will be facing off in the first round.
+               </p>
+         </div>
+         <br>
+         <br>
+         <div>
+             <p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Thanks for reading! We hope you enjoy your stay and be sure to check back everyday to see how the playoffs are going.
+                If you enjoy the content and want to support a couple of unemployed college grads, please feel free to buy us a cup of coffee. 
+                Thank you!
+             </p>
+         </div>
     </div>
     {% endblock %}
