@@ -53,13 +53,67 @@
         }
 
         .card-style {
-            max-height:350px; 
-            max-width:350px;
+            height:300px; 
+            width:300px;
         }
 
         .card-center {
             margin: auto;
-            width: 75% !important; 
+            width: 50% !important; 
+        }
+
+        .matchup_text {
+            font-size: 20px;
+        }
+
+        .article_text {
+            font-size:18px;
+        }
+
+        body {
+            font-size: 16px;
+        }
+
+        .img_style {
+            width: 90px;
+            height: 90px;
+            margin: auto;
+        }
+
+        .article_img {
+            max-height: 80%;
+        }
+
+        @media screen and (max-width: 400px) {
+            body {
+                font-size: calc(10px + 6 * ((100vw - 320px) / 680));
+            }
+            .matchup_text {
+                font-size: 10px;
+            }
+
+            .img_style {
+                width: 25px;
+                height: 25px;
+            }
+
+            .card-style {
+                height:150px; 
+                width:120px;
+            }
+
+            .article_img {
+                height: 40px;
+                margin: auto;
+                width: 100% !important; 
+            }
+
+            .article_text {
+                font-size:9px;
+                margin: auto;
+                width: 100% !important; 
+            }
+
         }
     </style>
   </head>
@@ -114,21 +168,16 @@
                 <div class="card card-style">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col" >
-                                <img class="card-img-top" src="{% static games.game1.3 %}" alt="team1" style="max-width: 200px;">
-                            </div>
-                            
-                            <div class="col">
-                                <img class="card-img-top" src="{% static games.game1.4 %}" alt="team2"style="max-width: 200px;">
-                            </div>
+                            <img class="card-img-top img_style" src="{% static games.game1.3 %}" alt="team1">
+                            <img class="card-img-top img_style" src="{% static games.game1.4 %}" alt="team2">
                         </div>
-                        <div class="card-title text-center" style="font-size:20px;">
+                        <div class="card-title text-center matchup_text">
                             <p>{{games.game1.1}} @ {{games.game1.2}}</p>
                             <p> {{games.game1.5}} - {{games.game1.6}} </p>
                         </div>
                         
                     </div>
-                    <div class="card-body text-center">
+                    <div class="card-body text-center matchup_text">
                         <a href="/basketball/game/{{games.game1.0}}">Game Summary</a>
                     </div>
                 </div>
@@ -137,21 +186,16 @@
                 <div class="card card-style">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col">
-                                <img class="card-img-top" src="{% static games.game2.3 %}" alt="team1" style="max-width: 200px;">
-                            </div>
-                            
-                            <div class="col">
-                                <img class="card-img-top" src="{% static games.game2.4 %}" alt="team2" style="max-width: 200px;">
-                            </div>
+                            <img class="card-img-top img_style" src="{% static games.game2.3 %}" alt="team1">
+                            <img class="card-img-top img_style" src="{% static games.game2.4 %}" alt="team2">
                         </div>
-                        <div class="card-title text-center" style="font-size:20px;">
+                        <div class="card-title text-center matchup_text">
                             <p>{{games.game2.1}} @ {{games.game2.2}}</p>
                             <p> {{games.game2.5}} - {{games.game2.6}} </p>
                         </div>
                         
                     </div>
-                    <div class="card-body text-center">
+                    <div class="card-body text-center matchup_text">
                         <a href="/basketball/game/{{games.game2.0}}">Game Summary</a>
                     </div>
                 </div>
@@ -163,21 +207,16 @@
                 <div class="card card-style">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col">
-                                <img class="card-img-top" src="{% static games.game3.3 %}" alt="team1" style="max-width: 200px;">
-                            </div>
-                            
-                            <div class="col">
-                                <img class="card-img-top" src="{% static games.game3.4 %}" alt="team2" style="max-width: 200px;">
-                            </div>
+                            <img class="card-img-top img_style" src="{% static games.game3.3 %}" alt="team1">
+                            <img class="card-img-top img_style" src="{% static games.game3.4 %}" alt="team2">
                         </div>
-                        <div class="card-title text-center" style="font-size:20px;">
+                        <div class="card-title text-center matchup_text">
                             <p>{{games.game3.1}} @ {{games.game3.2}}</p>
                             <p> {{games.game3.5}} - {{games.game3.6}} </p>
                         </div>
                         
                     </div>
-                    <div class="card-body text-center">
+                    <div class="card-body text-center matchup_text">
                         <a href="/basketball/game/{{games.game3.0}}">Game Summary</a>
                     </div>
                 </div>
@@ -185,22 +224,15 @@
                 <a href="/basketball/game/{{games.game4.0}}" style="color:inherit">
                 <div class="card card-style">
                     <div class="card-header">
-                        <div class="row">
-                            <div class="col">
-                                <img class="card-img-top" src="{% static games.game4.3 %}" alt="team1" style="max-width: 200px;">
-                            </div>
-                            
-                            <div class="col">
-                                <img class="card-img-top" src="{% static games.game4.4 %}" alt="team2" style="max-width: 200px;">
-                            </div>
-                        </div>
-                        <div class="card-title text-center" style="font-size:20px;">
+                        <img class="card-img-top img_style" src="{% static games.game4.3 %}" alt="team1">
+                        <img class="card-img-top img_style" src="{% static games.game4.4 %}" alt="team2">
+                        <div class="card-title text-center matchup_text">
                             <p>{{games.game4.1}} @ {{games.game4.2}}</p>
                             <p> {{games.game4.5}} - {{games.game4.6}} </p>
                         </div>
                         
                     </div>
-                    <div class="card-body text-center">
+                    <div class="card-body text-center matchup_text">
                         <a href="">Game Summary</a>
                     </div>
                 </div>
@@ -224,21 +256,21 @@
                     </div>
                 </a>-->
                 <a href="{% url 'playoffs' %}">
-                    <div class="card col" style="max-height: 800px;">
+                    <div class="card col mobile_style">
                         <div class="card-header" style="background-color: white;">
-                            <img class="card-img-top align" src="/static/img/playoffs_white.png" style="max-height: 80%;">
+                            <img class="card-img-top align article_img" src="/static/img/playoffs_white.png">
                         </div>
-                        <div class="card-body text-center">
+                        <div class="card-body text-center article_text">
                             <a href="{% url 'playoffs' %}">Catch up with the Postseason Teams</a>
                         </div>
                     </div>
                 </a>
                 <a href="{% url 'whatissportssim' %}">
-                    <div class="card col">
+                    <div class="card col mobile_style">
                         <div class="card-header" style="background-color: white;">
-                            <img class="card-img-top align" src="{% static 'img/questionNBA.png' %}" style="left: 50px;">
+                            <img class="card-img-top align article_img" src="{% static 'img/questionNBA.png' %}">
                         </div>
-                        <div class="card-body text-center">
+                        <div class="card-body text-center article_text">
                             <a href="{% url 'whatissportssim' %}">What is Sports Sim?</a>
                         </div>
                     </div>
@@ -250,7 +282,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="font-small blue pt-4" style="font-size:12px">
+    <footer class="font-small blue pt-4">
 
         <!-- Footer Links -->
         <div class="container container-fluid text-center text-md-left">
@@ -262,7 +294,7 @@
                 <div class="col-md-6 mt-md-0 mt-3">
 
                     <!-- Content -->
-                    <b style="font-size:14px;" class="text-uppercase">About Sport Simulator</b>
+                    <b class="text-uppercase">About Sport Simulator</b>
                     <p>Sport Simulator is a project we are doing for fun since we can't actually watch any basketball because of what is going on in the world.</p>
 
                 </div>
@@ -274,7 +306,7 @@
                 <div class="col-md-3 mb-md-0 mb-3">
 
                     <!-- Links -->
-                    <b style="font-size:14px;" class="text-uppercase">Tools</b>
+                    <b class="text-uppercase">Tools</b>
 
                     <ul class="list-unstyled">
                         <li>
@@ -289,7 +321,7 @@
                 <div class="col-md-3 mb-md-0 mb-3">
 
                     <!-- Links -->
-                    <b style="font-size:14px;" class="text-uppercase">Connect with us</b>
+                    <b class="text-uppercase">Connect with us</b>
 
                     <ul class="list-unstyled">
                         <li>
