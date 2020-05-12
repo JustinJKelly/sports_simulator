@@ -11,47 +11,47 @@
             }
         </style>
 
-        <div class="container">
+        <div class="container" style="width:100%;">
             <br/>
-            <b style="font-size:15px;">NBA Teams</b>
+            <b style="font-size:19px;">NBA Teams</b>
             <br/>
             <br/>
             <div class="row">
                  <div class="col" >
                     <!-- Atlantic-->
-                    <b style="font-size:13px;"> Atlantic </b>
-                    <ul style="list-style-type:none; margin-left: 15px; padding:0px;">
+                    <b style="font-size:17px;"> Atlantic </b>
+                    <ul style="list-style-type:none; margin-left: 5px; padding:0px;">
                         {% for team in Atlantic %}
                             <li>
                                 <div class="row">
-                                    <a class="img_hover" href="/basketball/team_mobile/{{team.0}}"> <img class="card-img" style="max-height:30px;max-width:30px;" src="{% static team.3 %}" alt="Card image cap"></img> </a>
-                                    <a style="font-size:10px" href="/basketball/team_mobile/{{team.0}}"> {{team.1}} </a>
+                                    <a class="img_hover" href="/basketball/team_mobile/{{team.0}}"> <img class="card-img" style="max-height:34px;max-width:34px;" src="{% static team.3 %}" alt="Card image cap"></img> </a>
+                                    <a style="font-size:12px" href="/basketball/team_mobile/{{team.0}}"> {{team.1}} </a>
                                 </div>  
                             </li>
                             <hr style="color:black; border-width: 1px;"></hr>
                         {% endfor %}   
                     </ul>
                     <br/>
-                    <b style="font-size:13px;"> Central </b>
-                    <ul style="list-style-type:none; margin-left: 15px; padding:0px;">
+                    <b style="font-size:17px;"> Central </b>
+                    <ul style="list-style-type:none; margin-left: 5px; padding:0px;">
                         {% for team in Central %}
                             <li>
                                 <div class="row">
-                                    <a class="img_hover" href="/basketball/team_mobile/{{team.0}}"> <img class="card-img" style="max-height:30px;max-width:30px;" src="{% static team.3 %}" alt="Card image cap"></img> </a>
-                                    <a style="font-size:10px" href="/basketball/team_mobile/{{team.0}}"> {{team.1}} </a>
+                                    <a class="img_hover" href="/basketball/team_mobile/{{team.0}}"> <img class="card-img" style="max-height:34px;max-width:34px;" src="{% static team.3 %}" alt="Card image cap"></img> </a>
+                                    <a style="font-size:12px" href="/basketball/team_mobile/{{team.0}}"> {{team.1}} </a>
                                 </div> 
                             </li> 
                             <hr style="color:black; border-width: 1px;"></hr>
                         {% endfor %}   
                     </ul>
                     <br/>
-                    <b style="font-size:13px;"> Northwest </b>
-                    <ul style="list-style-type:none; margin-left: 15px; padding:0px;">
+                    <b style="font-size:17px;"> Northwest </b>
+                    <ul style="list-style-type:none; margin-left: 5px; padding:0px;">
                         {% for team in Northwest %}
                             <li>
                                 <div class="row">
-                                    <a class="img_hover" href="/basketball/team_mobile/{{team.0}}"><img class="card-img" style="max-height:30px;max-width:30px;" src="{% static team.3 %}" alt="Card image cap"></img> </a>
-                                    <a style="font-size:10px" href="/basketball/team_mobile/{{team.0}}"> {{team.1}} </a>
+                                    <a class="img_hover" href="/basketball/team_mobile/{{team.0}}"><img class="card-img" style="max-height:34px;max-width:34px;" src="{% static team.3 %}" alt="Card image cap"></img> </a>
+                                    <a style="font-size:12px" href="/basketball/team_mobile/{{team.0}}"> {{team.1}} </a>
                                 </div>  
                             </li>
                             <hr style="color:black; border-width: 1px;"></hr>
@@ -60,39 +60,39 @@
                     <br/>
                 </div>
                 <div class="col" >
-                    <b style="font-size:13px;"> Pacific </b>
-                    <ul style="list-style-type:none; margin-left: 15px; padding:0px;">
+                    <b style="font-size:17px;"> Pacific </b>
+                    <ul style="list-style-type:none; margin-left: 10px; padding:0px;">
                         {% for team in Pacific %}
                             <li>
                                 <div class="row">
-                                    <a class="img_hover" href="/basketball/team_mobile/{{team.0}}"> <img class="card-img" style="max-height:30px;max-width:30px;" src="{% static team.3 %}" alt="Card image cap"></img> </a>
-                                    <a style="font-size:10px" href="/basketball/team_mobile/{{team.0}}"> {{team.1}} </a>
+                                    <a class="img_hover" href="/basketball/team_mobile/{{team.0}}"> <img class="card-img" style="max-height:34px;max-width:34px;" src="{% static team.3 %}" alt="Card image cap"></img> </a>
+                                    <a style="font-size:12px" href="/basketball/team_mobile/{{team.0}}"> {{team.1}} </a>
                                 </div> 
                             </li> 
                             <hr style="color:black; border-width: 1px;"></hr>
                         {% endfor %} 
                     </ul>
                     <br/>
-                    <b style="font-size:13px;"> Southeast </b>
-                    <ul style="list-style-type:none; margin-left: 15px; padding:0px;">
+                    <b style="font-size:17px;"> Southeast </b>
+                    <ul style="list-style-type:none; margin-left: 10px; padding:0px;">
                         {% for team in Southeast %}
                             <li>
                                 <div class="row">
-                                    <a class="img_hover" href="/basketball/team_mobile/{{team.0}}"> <img class="card-img" style="max-height:30px;max-width:30px;" src="{% static team.3 %}" alt="Card image cap"></img> </a>
-                                    <a style="font-size:10px" href="/basketball/team_mobile/{{team.0}}"> {{team.1}} </a>
+                                    <a class="img_hover" href="/basketball/team_mobile/{{team.0}}"> <img class="card-img" style="max-height:34px;max-width:34px;" src="{% static team.3 %}" alt="Card image cap"></img> </a>
+                                    <a style="font-size:12px" href="/basketball/team_mobile/{{team.0}}"> {{team.1}} </a>
                                 </div>  
                             </li>
                             <hr style="color:black; border-width: 1px;"></hr>
                         {% endfor %} 
                     </ul>
                     <br/>
-                    <b style="font-size:13px;"> Southwest </b>
-                    <ul style="list-style-type:none; margin-left: 15px; padding:0px;">
+                    <b style="font-size:17px;"> Southwest </b>
+                    <ul style="list-style-type:none; margin-left: 10px; padding:0px;">
                         <li>
                         {% for team in Southwest %}
                             <div class="row">
-                                <a class="img_hover" href="/basketball/team_mobile/{{team.0}}"><img class="card-img" style="max-height:30px;max-width:30px;" src="{% static team.3 %}" alt="Card image cap"></img></a>
-                                <a style="font-size:10px" href="/basketball/team_mobile/{{team.0}}"> {{team.1}} </a>
+                                <a class="img_hover" href="/basketball/team_mobile/{{team.0}}"><img class="card-img" style="max-height:34px;max-width:34px;" src="{% static team.3 %}" alt="Card image cap"></img></a>
+                                <a style="font-size:12px" href="/basketball/team_mobile/{{team.0}}"> {{team.1}} </a>
                             </div>  
                             <hr style="color:black; border-width: 1px;"></hr>
                         {% endfor %} 

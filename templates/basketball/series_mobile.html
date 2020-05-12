@@ -33,15 +33,15 @@
             <div class="col">
                 <a class="image_hover" href="/basketball/team_mobile/{{lower_seed_id}}"> <img style="max-height:35px;max-width:35px;" src="{% static lower_seed_image %}"></img> </a>
                 <br/>
-                <b style="font-size:10px;">({{lower_seed_rank}})</b>
-                <a href="/basketball/team_mobile/{{lower_seed_id}}"> <b style="font-size:10px; text-align: center;">{{lower_seed_name}} </b> </a>
+                <b style="font-size:12px;">({{lower_seed_rank}})</b>
+                <a href="/basketball/team_mobile/{{lower_seed_id}}"> <b style="font-size:12px; text-align: center;">{{lower_seed_name}} </b> </a>
             </div>
          
             <div class="col">
                 <a class="image_hover" href="/basketball/team_mobile/{{higher_seed_id}}"> <img style="max-height:35px;max-width:35px" src="{% static higher_seed_image %}"></img> </a>
                 <br/>
-                <b style="font-size:10px;">({{higher_seed_rank}})</b>
-                <a href="/basketball/team_mobile/{{higher_seed_id}}"> <b style="font-size:10px; text-align: center;">{{higher_seed_name}}</b></a>
+                <b style="font-size:12px;">({{higher_seed_rank}})</b>
+                <a href="/basketball/team_mobile/{{higher_seed_id}}"> <b style="font-size:13px; text-align: center;">{{higher_seed_name}}</b></a>
                 <!--({{home_team_record}})-->
             </div>
         </div>
@@ -49,7 +49,7 @@
            <div class="col">
                 {% if games_played > 0%}
                     <div class="table">
-                        <table class="table-striped table-light table-sm" style=" width:100%; font-size:8px;">
+                        <table class="table-striped table-light table-sm" style=" width:100%; font-size:11px;">
                             <thead>
                                 <tr>
                                     <th scope="col"></th>
@@ -99,7 +99,7 @@
                         </table>
                     </div>
                 {% else %}
-                    <h4> No games played </h4>
+                    <h5> No games played </h5>
                 {% endif %}
             </div>
     </div>
@@ -133,7 +133,7 @@
     <!-- Team Stats Table-->
     <br/>
     <div class="table-responsive container" style="text-align:left;">
-        <table class="table-sm table-striped table-light" style="font-size:10px; width:100%">
+        <table class="table-sm table-striped table-light" style="font-size:12px; width:100%">
             <thead>
                 <tr>
                     <th scope="col"><b>Series Stats</b></th>

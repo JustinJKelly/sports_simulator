@@ -77,10 +77,10 @@
         {% if  games|length  == 0 %}
             <br/>
             <br/>
-            <b style="font-size:14px;"> No Games on {{date}}</b>
+            <b style="font-size:16px;"> No Games on {{date}}</b>
         {% else %}
             <table class="table-sm table-striped table-light">
-                <thead style="font-size:9px">
+                <thead style="font-size:13px">
                     <tr>
                         <th scope="col">Matchup ({{date}})</th>
                         <th scope="col">Score</th>
@@ -91,24 +91,24 @@
                         <th scope="col"></th>
                     </tr>
                 </thead>
-                <tbody style="font-size:9px">
+                <tbody style="font-size:11px">
                     {% for game in games %}
                         <tr>
                             <td> 
-                                <a class="img_hover" href='/basketball/team_mobile/{{game.14}}'><img style="max-height:15px;max-width:15px;" class="card-img" src="{% static game.4 %}" alt="Card image cap"></img> </a>
+                                <a class="img_hover" href='/basketball/team_mobile/{{game.14}}'><img style="max-height:22px;max-width:22px;" class="card-img" src="{% static game.4 %}" alt="Card image cap"></img> </a>
                                 {{game.2}}
                                 <br/>
-                                <a class="img_hover" href='/basketball/team_mobile/{{game.13}}'><img style="max-height:15px;max-width:15px;" class="card-img" src="{% static game.3 %}" alt="Card image cap"></img> </a>
+                                <a class="img_hover" href='/basketball/team_mobile/{{game.13}}'><img style="max-height:22px;max-width:22px;" class="card-img" src="{% static game.3 %}" alt="Card image cap"></img> </a>
                                 {{game.1}}
                             </td>
-                            <td colspan="3" style="font-size:8px"> 
+                            <td colspan="3" style="font-size:10px"> 
                                 <a href='/basketball/game_mobile/{{ game.0 }}'> {{game.2}} {{game.12}} <br/>  {{game.1}} {{game.11}}</a> 
                             </td>
-                            <td colspan="3" style="font-size:8px"> 
+                            <td colspan="3" style="font-size:10px"> 
                                 <a href='/basketball/player_mobile/{{ game.8 }}'> {{game.9}} </a> 
                                 <br/>{{game.10}} Pts
                             </td>
-                            <td colspan="3" style="font-size:8px"> 
+                            <td colspan="3" style="font-size:10px"> 
                                 <a href='/basketball/player_mobile/{{ game.5 }}'> {{game.6}} </a> 
                                 <br/>{{game.7}} Pts
                             </td>

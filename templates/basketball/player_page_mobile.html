@@ -37,7 +37,7 @@
                 </div>
             </div>
             <br/>
-            <div class="table-responsive" style="font-size:10px;">
+            <div class="table-responsive" style="font-size:12px;">
                 <table class="table-sm table-striped table" >
                     <thead>
                         <tr>
@@ -69,24 +69,18 @@
         </div>
     </div>
     
-    <div class="table-responsive container" style="font-size:7px;">
-        <b style="font-size:12px;">2019-2020 Season Stats</b>
+    <div class="table-responsive container" style="font-size:11px;">
+        <b style="font-size:14px;">2019-2020 Season Stats</b>
         <table class="table-sm table-striped table-light text-center">
             <thead>
-                <tr>
+                <tr style="font-size:12px;">
                     <th data-toggle='tooltip' title="Games Played" scope="col">GP</th>
                     <th data-toggle='tooltip' title="Minutes Per Game" scope="col">MIN</th>
                     <th data-toggle='tooltip' title="Field Goal Attempts" scope="col">FG</th>
-                    <th data-toggle='tooltip' title="" scope="col"></th>
-                    <th data-toggle='tooltip' title="" scope="col"></th>
                     <th data-toggle='tooltip' title="Field Goal Percentage" scope="col">FG%</th>
-                    <th data-toggle='tooltip' title="3pt Attempts" scope="col">3PT</th>
-                    <th data-toggle='tooltip' title="" scope="col"></th>
-                    <th data-toggle='tooltip' title="" scope="col"></th>
-                    <th data-toggle='tooltip' title="3pt Field Goal Percentage" scope="col">3PT%</th>
+                    <th data-toggle='tooltip' title="3pt Attempts" scope="col">3P</th>
+                    <th data-toggle='tooltip' title="3pt Field Goal Percentage" scope="col">3P%</th>
                     <th data-toggle='tooltip' title="Free Throws" scope="col">FT</th>
-                    <th data-toggle='tooltip' title="" scope="col"></th>
-                    <th data-toggle='tooltip' title="" scope="col"></th>
                     <th data-toggle='tooltip' title="Free Throw Percentage" scope="col">FT%</th>
                     <th data-toggle='tooltip' title="Offensive Rebounds" scope="col">OREB</th>
                     <th data-toggle='tooltip' title="Defensive Rebounds" scope="col">DREB</th>
@@ -107,11 +101,11 @@
                         <td>{{games_played}}</td>
                     {% endif %}
                     <td>{{minutes_per_game}}</td>
-                    <td colspan="3">{{field_goals_made}}-{{field_goals_attempted}}</td>
+                    <td style="min-width:65px;">{{field_goals_made}}-{{field_goals_attempted}}</td>
                     <td>{{field_goal_percentage}}%</td>
-                    <td colspan="3">{{three_point_made}}-{{three_point_attempted}}</td>
+                    <td style="min-width:65px;">{{three_point_made}}-{{three_point_attempted}}</td>
                     <td>{{three_point_percentage}}%</td>
-                    <td colspan="3">{{free_throws_made}}-{{free_throws_attempted}}</td>
+                    <td style="min-width:65px;">{{free_throws_made}}-{{free_throws_attempted}}</td>
                     <td>{{free_throw_percentage}}%</td>
                     <td>{{offensive_rebounds_per_game}}</td>
                     <td>{{defensive_rebounds_per_game}}</td>
@@ -143,27 +137,19 @@
     <br/>
      <!--Game log Player Stats-->
     <div class="container">
-        <b style="font-size:12px;">2019-2020 Game Log</b>
+        <b style="font-size:14px;">2019-2020 Game Log</b>
     </div>
     <div class="table-responsive container" style="height:400px; overflow:scroll; font-size:6px;">
         <table class="table-sm table-striped table-light" >
-            <thead style="font-size:8px">
+            <thead style="font-size:11px">
                 <tr>
                     <th scope="col">Date</th>
                     <th scope="col">Opp</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
                     <th scope="col">Result</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
                     <th scope="col">Min</th>
                     <th scope="col">FG</th>
-                    <th scope="col"></th>
                     <th scope="col">3PT</th>
-                    <th scope="col"></th>
                     <th scope="col">FT</th>
-                    <th scope="col"></th>
                     <th scope="col">OREB</th>
                     <th scope="col">DREB</th>
                     <th scope="col">REB</th>
@@ -175,18 +161,18 @@
                     <th scope="col">PTS</th>
                 </tr>
             </thead>
-            <tbody style="font-size:7px">
+            <tbody style="font-size:10px">
                 {% for game in game_log %}
                     <tr>
                         <td> <b>{{game.18}}/{{game.19}}</b> </td>
-                        <td colspan="4"> 
+                        <td style="min-width:85px;"> 
                             {{game.22}}
                             <a class="img_hover" href='/basketball/team_mobile/{{ game.21 }}'>
-                                <img style="max-height:10px;max-width:10px;" src={% static game.20 %}> </img>
+                                <img style="max-height:18px;max-width:18px;" src={% static game.20 %}> </img>
                             </a> 
                             <a href='/basketball/team_mobile/{{ game.21 }}'>{{game.23}}</a>
                         </td>
-                        <td colspan="3"> 
+                        <td style="min-width:65px;"> 
                             {% if game.24 == 'W' %}
                                 <b style="color:green;">{{game.24}}</b>
                                 <a href='/basketball/game_mobile/{{game.27}}'> {{game.25}}-{{game.26}} </a>
@@ -196,11 +182,11 @@
                             {% endif %}
                         </td>
                         <td>{{game.2}}</td>
-                        <td colspan="2">{{game.3}}-{{game.4}}</td>
-                        <td colspan="2">{{game.5}}-{{game.6}}</td>
-                        <td colspan="2">{{game.7}}-{{game.8}}</td>
-                        <td>{{game.9}}</td>
-                        <td>{{game.10}}</td>
+                        <td style="min-width:45px;">{{game.3}}-{{game.4}}</td>
+                        <td style="min-width:45px;">{{game.5}}-{{game.6}}</td>
+                        <td style="min-width:45px;">{{game.7}}-{{game.8}}</td>
+                        <td style="text-align:center;">{{game.9}}</td>
+                        <td style="text-align:center;">{{game.10}}</td>
                         <td>{{game.11}}</td>
                         <td>{{game.12}}</td>
                         <td>{{game.13}}</td>
