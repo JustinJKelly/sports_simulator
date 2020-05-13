@@ -200,6 +200,8 @@ class GamePreview(models.Model):
     
 
 
+class Counter(models.Model):
+    countVisitors = models.IntegerField(default=0)
 
 
     

@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from basketball.models import Game,Team
+from basketball.models import Game,Team, Counter
 from django.http import HttpResponse
 
 
@@ -7,6 +7,9 @@ def path_does_not_exist(request):
     return render(request,"error_request.html")
 
 def home(request):
+    counter = Counter.objects.all()[0]
+    counter.countVisitors += 1
+    counter.save()
     context= dict()
     games = Game.objects.filter().order_by('-date')[0:4]
     print(games)

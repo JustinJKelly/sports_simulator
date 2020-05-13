@@ -8,6 +8,7 @@ import django_tables2 as tables
 from django_tables2 import RequestConfig, A
 from django.shortcuts import redirect, render
 
+
 '''
 # creating an instance of  
 # datetime.date 
