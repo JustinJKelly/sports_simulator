@@ -119,9 +119,11 @@ def get_games_date(request,game_date):
                 else:
                     away_series_wins += 1
                     
-            series = (Serie.objects.filter(higher_seeding_id=game.home_team_id,lower_seeding_id=game.away_team_id)
-                            | Serie.objects.filter(higher_seeding_id=game.away_team_id,lower_seeding_id=game.home_team_id))[0]
+            series = (Serie.objects.filter(higher_seed_id=game.home_team_id,lower_seed_id=game.away_team_id)
+                            | Serie.objects.filter(higher_seed_id=game.away_team_id,lower_seed_id=game.home_team_id))[0]
      
+            print(series.lower_seed_wins)
+            print(series.higher_seed_wins)
             this_game = [
                 game.home_team_name,
                 game.away_team_name,
@@ -133,7 +135,7 @@ def get_games_date(request,game_date):
                 Team.objects.get(team_id=game.home_team_id).team_abv,
                 Team.objects.get(team_id=game.away_team_id).team_abv,
                 series.higher_seed_wins,
-                series.lower_seed_win,
+                series.lower_seed_wins,
                 game.home_team_id,
                 game.away_team_id
             ]
@@ -600,8 +602,8 @@ def preview_game_page(request,id,add_form):
         team_home.games_played,
     ]
     
-    series = (Serie.objects.filter(higher_seeding_id=game.home_team_id,lower_seeding_id=game.away_team_id)
-                            | Serie.objects.filter(higher_seeding_id=game.away_team_id,lower_seeding_id=game.home_team_id))[0]
+    series = (Serie.objects.filter(higher_seed_id=game.home_team_id,lower_seed_id=game.away_team_id)
+                            | Serie.objects.filter(higher_seed_id=game.away_team_id,lower_seed_id=game.home_team_id))[0]
      
     context={}
     context['away_team_stats']=away_team_stats

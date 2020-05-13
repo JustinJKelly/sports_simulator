@@ -101,9 +101,9 @@
                                 <a class="img_hover" href='/basketball/team_mobile/{{game.11}}'><img style="max-height:25px; max-width:25px;" src="{% static game.5 %}" alt="Card image cap"></img> </a>
                                 {{game.7}}
                             </td>
-                            {% if home_series_wins == away_series_wins %}
+                            {% if game.9 == game.10 %}
                                 <td style="min-width:40px;"> Series Tied {{game.9}}-{{game.10}}</td>
-                            {% elif home_series_wins > away_series_wins %}
+                            {% elif game.9 > game.10 %}
                                 <td> {{game.7}} leads {{game.9}}-{{game.10}}</td>
                             {% else %}
                                 <td> {{game.8}} leads {{game.10}}-{{game.9}}</td>
