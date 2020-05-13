@@ -30,10 +30,10 @@
     </style>
     <br/>
     <div class="table-responsive container">
-        <b style="color:blue; font-size:14px;"> Eastern Conference</b>
+        <b style="color:blue; font-size:16px;"> Eastern Conference</b>
         <br/>
         <table class="table-sm table-striped table-light ">
-            <thead style="font-size:10px">
+            <thead style="font-size:12px">
                 <tr>
                     <th scope="col"></th>
                     <th scope="col">Wins</th>
@@ -42,42 +42,42 @@
                     <th scope="col">GB</th>
                     <th scope="col">Home</th>
                     <th scope="col">Away</th>
-                    <th scope="col">Division</th>
-                    <th scope="col">Conference</th>
+                    <th scope="col">DIV</th>
+                    <th scope="col">CONF</th>
                     <th scope="col">PPG</th>
                     <th scope="col">OPPG</th>
                     <th scope="col">+/-</th>
                 </tr>
             </thead>
-            <tbody style="font-size:9px">
+            <tbody style="font-size:12px">
                 {% for team in eastern_teams %}
                     <tr>
-                        <td style="min-width:150px;"> 
-                            <b style="font-size:10px;"> {{team.7}} </b>
-                            <a class="img_hover" href="/basketball/team_mobile/{{ team.8 }}"><img style="max-height:22px;max-width:22px;" src="{% static team.6 %}"></img></a>
+                        <td style="min-width:190px;"> 
+                            <b style="font-size:12px;"> {{team.7}} </b>
+                            <a class="img_hover" href="/basketball/team_mobile/{{ team.8 }}"><img style="max-height:32px;max-width:32px;" src="{% static team.6 %}"></img></a>
                             <a href="/basketball/team_mobile/{{ team.8 }}">{{ team.0 }}</a>
                         </td>
                         <td> {{ team.1 }} </td>
                         <td> {{ team.2 }} </td>
                         <td> {{ team.3 }} </td>
                         <td> {{ team.4 }} </td>
-                        <td> {{ team.9}}-{{ team.11}} </td>
-                        <td> {{ team.10}}-{{ team.12}} </td>
-                        <td> {{ team.17}}-{{ team.18}} </td>
-                        <td> {{ team.13}}-{{ team.14}} </td>
+                        <td style="min-width:50px;"> {{ team.9}}-{{ team.11}} </td>
+                        <td style="min-width:50px;"> {{ team.10}}-{{ team.12}} </td>
+                        <td style="min-width:50px;"> {{ team.17}}-{{ team.18}} </td>
+                        <td style="min-width:50px;"> {{ team.13}}-{{ team.14}} </td>
                         <td> {{ team.5 }} </td>
                         <td> {{ team.15 }} </td>
                         {% if team.16 < 0 %}
                             <td>
-                                <p style="color:red">
+                                <b style="color:red">
                                     {{ team.16 }}
-                                </p>
+                                </b>
                             </td> 
                         {% else %}
                             <td>
-                                <p style="color:green">
+                                <b style="color:green">
                                     +{{ team.16 }}
-                                </p>
+                                </b>
                             </td> 
                         {% endif %}
                     </tr>
@@ -91,9 +91,9 @@
 
 
     <div class="table-responsive container">
-        <b style="color:red; font-size:14px;"> Western Conference</b>
+        <b style="color:red; font-size:16px;"> Western Conference</b>
         <table class="table-sm table-striped table-light">
-            <thead style="font-size:10px">
+            <thead style="font-size:12px">
                 <tr>
                     <th scope="col"></th>
                     <th scope="col">Wins</th>
@@ -102,42 +102,42 @@
                     <th scope="col">GB</th>
                     <th scope="col">Home</th>
                     <th scope="col">Away</th>
-                    <th scope="col">Division</th>
-                    <th scope="col">Conference</th>
+                    <th scope="col">DIV</th>
+                    <th scope="col">CONF</th>
                     <th scope="col">PPG</th>
                     <th scope="col">OPPG</th>
                     <th scope="col">+/-</th>
                 </tr>
             </thead>
-            <tbody style="font-size:9px">
+            <tbody style="font-size:12px">
                 {% for team in western_teams %}
                     <tr>
-                        <td style="min-width:150px;"> 
-                            <b style="font-size:10px;"> {{team.7}} </b>
-                            <a class="img_hover" href="/basketball/team_mobile/{{ team.8 }}"><img style="max-height:22px;max-width:22px;" src="{% static team.6 %}"></img></a>
+                        <td style="min-width:190px;"> 
+                            <b style="font-size:12px;"> {{team.7}} </b>
+                            <a class="img_hover" href="/basketball/team_mobile/{{ team.8 }}"><img style="max-height:32px;max-width:32px;" src="{% static team.6 %}"></img></a>
                             <a href="/basketball/team_mobile/{{ team.8 }}">{{ team.0 }}</a>
                         </td>
                         <td> {{ team.1 }} </td>
                         <td> {{ team.2 }} </td>
                         <td> {{ team.3 }} </td>
                         <td> {{ team.4 }} </td>
-                        <td> {{ team.9}}-{{ team.11}} </td>
-                        <td> {{ team.10}}-{{ team.12}} </td>
-                        <td> {{ team.17}}-{{ team.18}} </td>
-                        <td> {{ team.13}}-{{ team.14}} </td>
+                        <td style="min-width:50px;"> {{ team.9}}-{{ team.11}} </td>
+                        <td style="min-width:50px;"> {{ team.10}}-{{ team.12}} </td>
+                        <td style="min-width:50px;"> {{ team.17}}-{{ team.18}} </td>
+                        <td style="min-width:50px;"> {{ team.13}}-{{ team.14}} </td>
                         <td> {{ team.5 }} </td>
                         <td> {{ team.15 }} </td>
                          {% if team.16 < 0 %}
                             <td>
-                                <p style="color:red">
+                                <b style="color:red">
                                     {{ team.16 }}
-                                </p>
+                                </b>
                             </td> 
                         {% else %}
                             <td>
-                                <p style="color:green">
+                                <b style="color:green">
                                     {{ team.16 }}
-                                </p>
+                                </b>
                             </td> 
                         {% endif %}
                     </tr>

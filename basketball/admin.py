@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Player, Game, Serie, MVPVote,Team, GamePreview
+from .models import Player, Game, Serie, MVPVote,Team, GamePreview, Counter
 
 # Register your models here.
 admin.site.register(Player)
@@ -8,3 +8,4 @@ admin.site.register(Team)
 admin.site.register(Serie)
 admin.site.register(GamePreview)
 admin.site.register(MVPVote)
+admin.site.register(Counter)

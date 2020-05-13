@@ -26,7 +26,7 @@ SECRET_KEY = '=1l2i#a@=)rq%6cz681(3iu-_#9ay%#++y0@gwwmks6qug%4+2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.sportsim.live','arcane-shore-48095.herokuapp.com','0.0.0.0']
+ALLOWED_HOSTS = ['.sportsim.live','arcane-shore-48095.herokuapp.com','0.0.0.0','127.0.0.1', 'localhost']
 
 
 # Application definition

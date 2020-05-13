@@ -8,6 +8,7 @@ import django_tables2 as tables
 from django_tables2 import RequestConfig, A
 from django.shortcuts import redirect, render
 
+
 '''
 # creating an instance of  
 # datetime.date 
@@ -104,7 +105,7 @@ def get_games_date(request,game_date):
     context = {}
     context['games'] = []
     context['date']='%s/%s/%s' % (game_date.month,game_date.day,game_date.year)
-    if today < game_date or (today < game_date and datetime.datetime.now().hour < 14):
+    if today < game_date or (today <= game_date and datetime.datetime.now().hour < 14):
         game_previews = GamePreview.objects.filter(game_date=game_date)
         for game in game_previews:
             previous_playoff_games = (Game.objects.filter(home_team=game.home_team_id,away_team=game.away_team_id,date__gte=datetime.date(2020,5,1))
@@ -117,6 +118,10 @@ def get_games_date(request,game_date):
                     home_series_wins += 1
                 else:
                     away_series_wins += 1
+                    
+            series = (Serie.objects.filter(higher_seeding_id=game.home_team_id,lower_seeding_id=game.away_team_id)
+                            | Serie.objects.filter(higher_seeding_id=game.away_team_id,lower_seeding_id=game.home_team_id))[0]
+     
             this_game = [
                 game.home_team_name,
                 game.away_team_name,
@@ -127,8 +132,8 @@ def get_games_date(request,game_date):
                 find_team_image(game.away_team_id),
                 Team.objects.get(team_id=game.home_team_id).team_abv,
                 Team.objects.get(team_id=game.away_team_id).team_abv,
-                home_series_wins,
-                away_series_wins,
+                series.higher_seed_wins,
+                series.lower_seed_win,
                 game.home_team_id,
                 game.away_team_id
             ]
@@ -390,6 +395,7 @@ def game_page(request, id):
     
     if id > 9223372036854775807:
         return render(request,"error_request.html")
+    
     if id < 10000:
         return preview_game_page(request,id,True)
     
@@ -497,6 +503,7 @@ def game_page(request, id):
         "away_team_abv": Team.objects.get(team_id=game.away_team).team_abv,
         "home_team_record":game.home_team_record, "away_team_record":game.away_team_record,
         "home_team_id":game.home_team,"away_team_id":game.away_team,"num_overtimes":range(1,num_ots+1),
+        "date": '%s/%s/%s' % (game.date.month,game.date.day,game.date.year)
     }
 
     return render(request,'basketball/game_page.html',context)
@@ -505,19 +512,21 @@ def preview_game_page(request,id,add_form):
     if id > 9223372036854775807:
         return render(request,"error_request.html")
     game = GamePreview.objects.get(game_preview_id=id)
-    if game.game_date <= datetime.datetime.now().date(): #get_pst_time():
+    print(game)
+    if game.game_date < datetime.datetime.now().date() or (game.game_date < datetime.datetime.now().date() and datetime.datetime.now().hour > 14): #get_pst_time():
+        print("here")
         return render(request,"error_request.html")
      
-    previous_playoff_games = (Game.objects.filter(home_team=game.home_team_id,away_team=game.away_team_id,date__gte=datetime.date(2020,5,1))
-                            | Game.objects.filter(away_team=game.home_team_id,home_team=game.away_team_id,date__gte=datetime.date(2020,5,1))).order_by('date')
+    #previous_playoff_games = (Game.objects.filter(home_team=game.home_team_id,away_team=game.away_team_id,date__gte=datetime.date(2020,5,1))
+                            #| Game.objects.filter(away_team=game.home_team_id,home_team=game.away_team_id,date__gte=datetime.date(2020,5,1))).order_by('date')
             
-    home_series_wins = 0
-    away_series_wins = 0
-    for g in previous_playoff_games:
-        if g.winning_team_id == game.home_team_id:
-            home_series_wins += 1
-        else:
-            away_series_wins += 1
+    #home_series_wins = 0
+    #away_series_wins = 0
+    #for g in previous_playoff_games:
+    #    if g.winning_team_id == game.home_team_id:
+    #        home_series_wins += 1
+    #    else:
+    #        away_series_wins += 1
     
     previous_games = (Game.objects.filter(home_team=game.home_team_id,away_team=game.away_team_id,date__lte=datetime.date(2020,5,1))
                             | Game.objects.filter(away_team=game.home_team_id,home_team=game.away_team_id,date__lte=datetime.date(2020,5,1))).order_by('-date')
@@ -591,11 +600,14 @@ def preview_game_page(request,id,add_form):
         team_home.games_played,
     ]
     
+    series = (Serie.objects.filter(higher_seeding_id=game.home_team_id,lower_seeding_id=game.away_team_id)
+                            | Serie.objects.filter(higher_seeding_id=game.away_team_id,lower_seeding_id=game.home_team_id))[0]
+     
     context={}
     context['away_team_stats']=away_team_stats
     context['home_team_stats']=home_team_stats
-    context['home_series_wins']=home_series_wins
-    context['away_series_wins']=away_series_wins
+    context['home_series_wins']=series.higher_seed_wins
+    context['away_series_wins']=series.lower_seed_wins
     context['prev_games']=previous_game_scores
     context['home_team_id']=game.home_team_id
     context['away_team_id']=game.away_team_id
@@ -1263,7 +1275,7 @@ def mvp_vote(request):
     
     for player in mvp_poll:
         labels.append(player.player_name)
-        data.append(player.votes+3)
+        data.append(player.votes)
     labels.append('Other')
     data.append(other_votes)
     return render(request,'basketball/mvp_vote.html', {"form":form,'labels': labels,'data': data, })  
@@ -2193,7 +2205,7 @@ def get_games_date_mobile(request,game_date):
     context = {}
     context['games'] = []
     context['date']='%s/%s/%s' % (game_date.month,game_date.day,game_date.year)
-    if today < game_date:
+    if today < game_date or (today <= game_date and datetime.datetime.now().hour < 14):
         game_previews = GamePreview.objects.filter(game_date=game_date)
         for game in game_previews:
             previous_playoff_games = (Game.objects.filter(home_team=game.home_team_id,away_team=game.away_team_id,date__gte=datetime.date(2020,5,1))
@@ -2635,7 +2647,8 @@ def game_page_mobile(request, id):
         "home_team_abv":Team.objects.get(team_id=game.home_team).team_abv,
         "away_team_abv":Team.objects.get(team_id=game.away_team).team_abv,
         "home_team_record":game.home_team_record, "away_team_record":game.away_team_record,
-        "home_team_id":game.home_team,"away_team_id":game.away_team,"num_overtimes":range(1,num_ots+1)
+        "home_team_id":game.home_team,"away_team_id":game.away_team,"num_overtimes":range(1,num_ots+1),
+        "date": '%s/%s/%s' % (game.date.month,game.date.day,game.date.year)
     }
 
     return render(request,'basketball/game_page_mobile.html',context)
@@ -2670,7 +2683,7 @@ def mvp_vote_mobile(request):
     
     for player in mvp_poll:
         labels.append(player.player_name)
-        data.append(player.votes+3)
+        data.append(player.votes)
     labels.append('Other')
     data.append(other_votes)
     return render(request,'basketball/mvp_vote_mobile.html', {"form":form,'labels': labels,'data': data, })  

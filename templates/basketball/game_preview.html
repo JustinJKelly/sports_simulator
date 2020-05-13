@@ -86,11 +86,11 @@
                 </p>
             </div>
             <div class="col-sm-4">
-                <p style="font-size:15px;">
+                <p style="font-size:18px;">
                     {% if is_necessary %}
-                        <b style="font-size:17px;"> Game {{game_number}} </b>
+                        <b style="font-size:19px;"> Game {{game_number}} </b>
                     {% else %}
-                        <b style="font-size:17px;"> Game {{game_number}} (if nec.)</b>
+                        <b style="font-size:19px;"> Game {{game_number}} (if nec.)</b>
                     {% endif %}
                     <br/>
                     <b> {{date}} </b>
@@ -119,10 +119,10 @@
 
     <!-- Team Stats Table-->
     <div class="table-responsive container">
-        <table class="table table-striped table-light" style="width:50%; font-size:15px; margin-left:25%; margin-right:25%;">
+        <table class="table table-striped table-light" style="width:50%; font-size:17px; margin-left:25%; margin-right:25%;">
             <thead>
                 <tr>
-                    <th scope="col"><b>Matchup Stats</b></th>
+                    <th style="font-size:19px;" scope="col"><b>Matchup Stats</b></th>
                     <th>
                         <a class="image_hover" href="/basketball/team/{{away_team_id}}"> <img style=";max-height:65px;max-width:55px" src="{% static away_team_image %}"></img> </a>
                     </th>
@@ -223,7 +223,7 @@
                                      g.game_id,
                                      '%s/%s/%s' % (g.date.month,g.date.day,g.date.year)])
     -->
-    <div class="table-responsive container" style="width:50%;%">
+    <div class="table-responsive container" style="width:50%;">
         <h3> Previous Matchups </h3>
         <table class="table table-striped table-light">
             <thead style="font-size:16px">
@@ -232,7 +232,7 @@
                     <th scope="col">Score</th>
                 </tr>
             </thead>
-            <tbody style="font-size:14px">
+            <tbody style="font-size:15px">
                 {% for game in prev_games %}
                     <tr>
                         <th scope="row">{{game.7}}</th>

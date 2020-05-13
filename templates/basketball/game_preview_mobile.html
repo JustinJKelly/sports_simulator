@@ -88,7 +88,7 @@
                     <br/>
                     <b> {{date}} </b>
                 </p>
-                <p style="font-size:11px;">
+                <p style="font-size:12px;">
                     {% if home_series_wins > away_series_wins %}
                         {{home_abv}} leads {{home_series_wins}}-{{away_series_wins}}
                     {% elif home_series_wins == away_series_wins %}
@@ -111,19 +111,19 @@
 
     <!-- Team Stats Table-->
     <div class="table-responsive container">
-        <table class="table-sm table-striped table-light" style="width:100%; font-size:12px;">
+        <table class="table-sm table-striped table-light" style="width:100%; font-size:14px;">
             <thead>
                 <tr>
                     <th scope="col"><b>Matchup Stats</b></th>
                     <th>
-                        <a class="image_hover" href="/basketball/team_mobile/{{away_team_id}}"> <img style=";max-height:25px;max-width:25px" src="{% static away_team_image %}"></img> </a>
+                        <a class="image_hover" href="/basketball/team_mobile/{{away_team_id}}"> <img style=";max-height:30px;max-width:30px" src="{% static away_team_image %}"></img> </a>
                     </th>
                     <th>
-                        <a class="image_hover" href="/basketball/team_mobile/{{home_team_id}}"> <img style=";max-height:25px;max-width:25px" src="{% static home_team_image %}"></img> </a>
+                        <a class="image_hover" href="/basketball/team_mobile/{{home_team_id}}"> <img style=";max-height:30px;max-width:30px" src="{% static home_team_image %}"></img> </a>
                     </th>
                 <tr>
             </thead>
-            <tbody style="font-size:10px;">
+            <tbody style="font-size:12px;">
                 <tr>
                     <th scope="row">FG</th>
                     <td>{{away_team_stats.16}}-{{away_team_stats.17}}</td>

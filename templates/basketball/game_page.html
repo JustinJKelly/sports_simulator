@@ -107,6 +107,7 @@
             </div>
         </div>
     </div>
+    <p style="font-size:15px; font-weight:bold; text-align:center;"> Game Date: {{date}} </p>
     <!--End Header Scorebox-->
     <br/>
 
@@ -115,7 +116,7 @@
         <table class="table table-striped table-light" style="width:50%; font-size:15px; margin-left:25%; margin-right:25%;">
             <thead>
                 <tr>
-                    <th scope="col"><b>Matchup</b></th>
+                    <th  style="font-size:18px;" scope="col"><b>Matchup</b></th>
                     <th>
                         <a class="image_hover" href="/basketball/team/{{away_team_id}}"> <img style=";max-height:55px;max-width:55px" src="{% static away_team_image %}"></img> </a>
                     </th>
@@ -209,9 +210,9 @@
     <br/>
     <!--Away Team Player Stats-->
     <div class="table-responsive container">
-        <p style="font-size:16px;"> 
+        <p style="font-size:18px;"> 
             <a href="/basketball/team/{{away_team_id}}"> <b>{{away_team_name}}</b> </a>
-            <a class="image_hover" href="/basketball/team/{{away_team_id}}"> <img style=";max-height:45px;max-width:45px" src="{% static away_team_image %}"></img> </a> 
+            <a class="image_hover" href="/basketball/team/{{away_team_id}}"> <img style=";max-height:55px;max-width:55px" src="{% static away_team_image %}"></img> </a> 
         </p>
         <table class="table table-striped table-light">
             <thead style="font-size:16px">
@@ -232,7 +233,7 @@
                     <th scope="col">PTS</th>
                 </tr>
             </thead>
-            <tbody style="font-size:14px">
+            <tbody style="font-size:15px">
                 {% for p in away_team_player_stats %}
                     <tr>
                         <td> <a href='/basketball/player/{{ p.0 }}'> <b>{{p.1}}</b> </a> </td>
@@ -251,7 +252,7 @@
                         <td>{{p.17}}</td>
                     </tr>
                 {% endfor %}
-                <tr>
+                <tr style="font-size:16px;">
                     <td><b>Totals</b></td>
                     <td></td>
                     <td>{{away_team_stats.0}}-{{away_team_stats.1}}</td>
@@ -276,9 +277,9 @@
     <br/>
     <!--Home Team Player Stats-->
     <div class="table-responsive container">
-        <p style="font-size:16px;"> 
+        <p style="font-size:18px;"> 
             <a href="/basketball/team/{{home_team_id}}"> <b>{{home_team_name}}</b> </a>
-            <a class="image_hover" href="/basketball/team/{{home_team_id}}"> <img style=";max-height:45px;max-width:45px" src="{% static home_team_image %}"></img>  </a>
+            <a class="image_hover" href="/basketball/team/{{home_team_id}}"> <img style=";max-height:55px;max-width:55px" src="{% static home_team_image %}"></img>  </a>
         </p>
         <table class="table table-striped table-light">
             <thead style="font-size:15px">
@@ -299,7 +300,7 @@
                     <th scope="col">PTS</th>
                 </tr>
             </thead>
-            <tbody style="font-size:14px">
+            <tbody style="font-size:15px">
                 {% for p in home_team_player_stats %}
                     <tr>
                         <td> <a href='/basketball/player/{{ p.0 }}'> <b>{{p.1}}</b> </a> </td>
@@ -318,7 +319,7 @@
                         <td>{{p.17}}</td>
                     </tr>
                 {% endfor %}
-                <tr>
+                <tr style="font-size:16px;">
                     <td><b>Totals</b></td>
                     <td></td>
                     <td>{{home_team_stats.0}}-{{home_team_stats.1}}</td>
