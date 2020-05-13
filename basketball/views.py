@@ -1264,7 +1264,7 @@ def mvp_vote(request):
     
     for player in mvp_poll:
         labels.append(player.player_name)
-        data.append(player.votes+3)
+        data.append(player.votes)
     labels.append('Other')
     data.append(other_votes)
     return render(request,'basketball/mvp_vote.html', {"form":form,'labels': labels,'data': data, })  
@@ -2672,7 +2672,7 @@ def mvp_vote_mobile(request):
     
     for player in mvp_poll:
         labels.append(player.player_name)
-        data.append(player.votes+3)
+        data.append(player.votes)
     labels.append('Other')
     data.append(other_votes)
     return render(request,'basketball/mvp_vote_mobile.html', {"form":form,'labels': labels,'data': data, })  
