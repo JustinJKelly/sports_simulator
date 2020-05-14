@@ -18,14 +18,14 @@ def home(request):
     for game in games:
         context['games']["game"+str(count)]=[
             game.game_id,
-            Team.objects.get(team_id=game.home_team).team_abv,
             Team.objects.get(team_id=game.away_team).team_abv,
-            find_team_image(game.home_team),
+            Team.objects.get(team_id=game.home_team).team_abv,
             find_team_image(game.away_team),
-            game.home_team_score,
+            find_team_image(game.home_team),
             game.away_team_score,
-            game.home_team,
-            game.away_team
+            game.home_team_score,
+            game.away_team,
+            game.home_team
         ]
         count+=1
     
