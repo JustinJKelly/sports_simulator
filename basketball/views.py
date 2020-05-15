@@ -122,8 +122,6 @@ def get_games_date(request,game_date):
             series = (Serie.objects.filter(higher_seed_id=game.home_team_id,lower_seed_id=game.away_team_id)
                             | Serie.objects.filter(higher_seed_id=game.away_team_id,lower_seed_id=game.home_team_id))[0]
      
-            print(series.lower_seed_wins)
-            print(series.higher_seed_wins)
             this_game = [
                 game.home_team_name,
                 game.away_team_name,
@@ -132,10 +130,14 @@ def get_games_date(request,game_date):
                 game.game_preview_id,
                 find_team_image(game.home_team_id),
                 find_team_image(game.away_team_id),
-                Team.objects.get(team_id=game.home_team_id).team_abv,
-                Team.objects.get(team_id=game.away_team_id).team_abv,
+                Team.objects.get(team_id=game.higher_seeding_id).team_abv,
+                Team.objects.get(team_id=game.lower_seeding_id).team_abv,
                 series.higher_seed_wins,
                 series.lower_seed_wins,
+                game.higher_seeding_id,
+                game.lower_seeding_id,
+                Team.objects.get(team_id=game.home_team_id).team_abv,
+                Team.objects.get(team_id=game.away_team_id).team_abv,
                 game.home_team_id,
                 game.away_team_id
             ]
@@ -608,8 +610,12 @@ def preview_game_page(request,id,add_form):
     context={}
     context['away_team_stats']=away_team_stats
     context['home_team_stats']=home_team_stats
-    context['home_series_wins']=series.higher_seed_wins
-    context['away_series_wins']=series.lower_seed_wins
+    context['higher_seed_wins']=series.higher_seed_wins
+    context['lower_seed_wins']=series.lower_seed_wins
+    context['higher_seed_abv']=series.higher_seed_abv
+    context['lower_seed_abv']=series.lower_seed_abv
+    context['higher_seed_id']=series.higher_seed_id
+    context['lower_seed_id']=series.lower_seed_id
     context['prev_games']=previous_game_scores
     context['home_team_id']=game.home_team_id
     context['away_team_id']=game.away_team_id
@@ -2220,6 +2226,10 @@ def get_games_date_mobile(request,game_date):
                     home_series_wins += 1
                 else:
                     away_series_wins += 1
+            
+            series = (Serie.objects.filter(higher_seed_id=game.home_team_id,lower_seed_id=game.away_team_id)
+                            | Serie.objects.filter(higher_seed_id=game.away_team_id,lower_seed_id=game.home_team_id))[0]        
+            
             this_game = [
                 game.home_team_name,
                 game.away_team_name,
@@ -2228,10 +2238,14 @@ def get_games_date_mobile(request,game_date):
                 game.game_preview_id,
                 find_team_image(game.home_team_id),
                 find_team_image(game.away_team_id),
+                Team.objects.get(team_id=game.higher_seeding_id).team_abv,
+                Team.objects.get(team_id=game.lower_seeding_id).team_abv,
+                series.higher_seed_wins,
+                series.lower_seed_wins,
+                game.higher_seeding_id,
+                game.lower_seeding_id,
                 Team.objects.get(team_id=game.home_team_id).team_abv,
                 Team.objects.get(team_id=game.away_team_id).team_abv,
-                home_series_wins,
-                away_series_wins,
                 game.home_team_id,
                 game.away_team_id
             ]

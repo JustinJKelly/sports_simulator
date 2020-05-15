@@ -96,12 +96,12 @@
                     <b> {{date}} </b>
                 </p>
                 <p style="font-size:20px;">
-                    {% if home_series_wins > away_series_wins %}
-                        {{home_abv}} leads {{home_series_wins}}-{{away_series_wins}}
-                    {% elif home_series_wins == away_series_wins %}
-                        Series Tied {{home_series_wins}}-{{away_series_wins}}
+                    {% if higher_seed_wins > lower_seed_wins %}
+                        {{higher_seed_abv}} leads {{higher_seed_wins}}-{{lower_seed_wins}}
+                    {% elif higher_seed_wins == lower_seed_wins %}
+                        Series Tied {{higher_seed_wins}}-{{lower_seed_wins}}
                     {% else %}
-                        {{away_abv}} leads {{away_series_wins}}-{{home_series_wins}}
+                        {{lower_seed_abv}} leads {{lower_seed_wins}}-{{higher_seed_wins}}
                     {% endif %}
                 </p>
             </div>
