@@ -19,7 +19,7 @@ def make_playoff_single():
             print(game.away_team_name)
             print(game.game_date)
             print(game.game_number)
-            return_val = calculate_stats(list(),list(),game.higher_seeding_id,game.lower_seeding_id,game.game_date,'home')
+            return_val = calculate_stats(list(),list(),game.lower_seeding_id,game.higher_seeding_id,game.game_date,'away')
     
 def make_playoff_games():
     num_wins_higher = 0
@@ -780,15 +780,15 @@ def compute_player_stats(stats,score,tid, other_team_score,home_var):
             
             #Lakers
             if tid == 1610612747:
-                fg_att_max += 0.025
-                fg_made_max += 0.03
-                fg_made_min += 0.015
+                fg_att_max += 0.04
+                fg_made_max += 0.05
+                fg_made_min += 0.025
                 free_throws_made_max += 0.03
-                free_throws_made_min += 0.015
-                free_throws_att_max += 0.03
-                three_pt_att_max += 0.02
-                three_pt_made_max += 0.02
-                three_pt_made_min += 0.015
+                free_throws_made_min += 0.005
+                free_throws_att_max += 0.04
+                three_pt_att_max += 0.03
+                three_pt_made_max += 0.05
+                three_pt_made_min += 0.03
             
             #rockets, Dallas, Heat, Raptors, Clippers, Bucks, Lakers, 76ers, Celtics, OKC, Nuggets
             if tid == 1610612745 or tid == 1610612742 or tid == 1610612748 or tid == 1610612761 or tid == 1610612746 or tid == 1610612749 or tid == 1610612747 or tid == 1610612755 or tid == 1610612738 or tid == 1610612760 or tid == 1610612743:
@@ -804,18 +804,18 @@ def compute_player_stats(stats,score,tid, other_team_score,home_var):
                 
             #Pacers
             if tid == 1610612754:
-                fg_att_max += 0.05
-                fg_att_min += 0.03
-                fg_made_max += 0.05
-                fg_made_min += 0.03
+                fg_att_max += 0.04
+                fg_att_min -= 0.03
+                fg_made_max += 0.055
+                fg_made_min -= 0.01
                 free_throws_made_max += 0.1
                 free_throws_made_min += 0.04
                 free_throws_att_max += 0.1
                 free_throws_att_min += 0.04
                 three_pt_att_min += 0.03
                 three_pt_att_max += 0.05
-                three_pt_made_min += 0.05
-                three_pt_made_max += 0.12
+                three_pt_made_min += 0.07
+                three_pt_made_max += 0.15
             
             #Raptors
             if tid == 1610612761:
@@ -895,12 +895,15 @@ def compute_player_stats(stats,score,tid, other_team_score,home_var):
             
             #Pelicans
             if tid == tid == 1610612740:
-                fg_att_max -= 0.05
-                fg_att_min -= 0.03
-                fg_made_max -= 0.04
-                fg_made_min -= 0.02
-                three_pt_made_min += 0.005
-                three_pt_made_max += 0.04
+                fg_att_max -= 0.07
+                fg_att_min -= 0.04
+                fg_made_max -= 0.055
+                fg_made_min -= 0.03
+                three_pt_made_min += 0.01
+                three_pt_made_max += 0.03
+                three_pt_att_min -= 0.02
+                three_pt_att_max -= 0.03
+                free_throws_made_min -= 0.03
                 
             #Dallas
             if tid == 1610612742:

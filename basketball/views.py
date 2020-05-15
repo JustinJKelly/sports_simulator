@@ -532,8 +532,8 @@ def preview_game_page(request,id,add_form):
     #    else:
     #        away_series_wins += 1
     
-    previous_games = (Game.objects.filter(home_team=game.home_team_id,away_team=game.away_team_id,date__lte=datetime.date(2020,5,1))
-                            | Game.objects.filter(away_team=game.home_team_id,home_team=game.away_team_id,date__lte=datetime.date(2020,5,1))).order_by('-date')
+    previous_games = (Game.objects.filter(home_team=game.home_team_id,away_team=game.away_team_id)
+                            | Game.objects.filter(away_team=game.home_team_id,home_team=game.away_team_id)).order_by('-date')
     
     previous_game_scores = []
     for g in previous_games:
@@ -2457,8 +2457,8 @@ def preview_game_page_mobile(request,id,add_form):
         else:
             away_series_wins += 1
     
-    previous_games = (Game.objects.filter(home_team=game.home_team_id,away_team=game.away_team_id,date__lte=datetime.date(2020,5,1))
-                            | Game.objects.filter(away_team=game.home_team_id,home_team=game.away_team_id,date__lte=datetime.date(2020,5,1))).order_by('-date')
+    previous_games = (Game.objects.filter(home_team=game.home_team_id,away_team=game.away_team_id)
+                            | Game.objects.filter(away_team=game.home_team_id,home_team=game.away_team_id)).order_by('-date')
     
     previous_game_scores = []
     for g in previous_games:
