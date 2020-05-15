@@ -2529,11 +2529,18 @@ def preview_game_page_mobile(request,id,add_form):
         team_home.games_played,
     ]
     
+    series = (Serie.objects.filter(higher_seed_id=game.home_team_id,lower_seed_id=game.away_team_id)
+                            | Serie.objects.filter(higher_seed_id=game.away_team_id,lower_seed_id=game.home_team_id))[0]
+    
     context={}
     context['away_team_stats']=away_team_stats
     context['home_team_stats']=home_team_stats
-    context['home_series_wins']=home_series_wins
-    context['away_series_wins']=away_series_wins
+    context['higher_seed_wins']=series.higher_seed_wins
+    context['lower_seed_wins']=series.lower_seed_wins
+    context['higher_seed_abv']=series.higher_seed_abv
+    context['lower_seed_abv']=series.lower_seed_abv
+    context['higher_seed_id']=series.higher_seed_id
+    context['lower_seed_id']=series.lower_seed_id
     context['prev_games']=previous_game_scores
     context['home_team_id']=game.home_team_id
     context['away_team_id']=game.away_team_id
@@ -2544,9 +2551,9 @@ def preview_game_page_mobile(request,id,add_form):
     context['home_team_name']=game.home_team_name
     context['away_team_name']=game.away_team_name
     context['date']='%s/%s/%s' % (game.game_date.month,game.game_date.day,game.game_date.year)
+    context['game_id']=game.game_preview_id
     context['game_number']=game.game_number
     context['is_necessary'] = game.is_necessary
-    context['game_id']=game.game_preview_id
     
     return render(request,'basketball/game_preview_mobile.html',context)
 
