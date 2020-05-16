@@ -1373,8 +1373,8 @@ class PlayerTable(tables.Table):
     TPM = tables.Column()
     TPA = tables.Column(verbose_name="3PA")
     TPP = tables.Column(verbose_name="3P%")
-    FTA = tables.Column()
     FTM = tables.Column()
+    FTA = tables.Column()
     FTP = tables.Column(verbose_name="FT%")
     ORB = tables.Column()
     DRB = tables.Column()
@@ -1400,8 +1400,8 @@ class PlayerTableMobile(tables.Table):
     TPM = tables.Column(verbose_name="3PM")
     TPA = tables.Column(verbose_name="3PA")
     TPP = tables.Column(verbose_name="3P%")
-    FTA = tables.Column()
     FTM = tables.Column()
+    FTA = tables.Column()
     FTP = tables.Column(verbose_name="FT%")
     ORB = tables.Column()
     DRB = tables.Column()
@@ -1433,8 +1433,8 @@ def stats_leaders(request):
                 player_stats['FGP']=round((player.field_goals_made/player.field_goals_attempted)*100,1)
             else:
                 player_stats['FGP']=0.0
-            player_stats['FTA']=round(player.free_throws_attempted/player.games_played,1)
             player_stats['FTM']=round(player.free_throws_made/player.games_played,1)
+            player_stats['FTA']=round(player.free_throws_attempted/player.games_played,1)
             if player.free_throws_attempted > 0:
                 player_stats['FTP']=round((player.free_throws_made/player.free_throws_attempted)*100,1)
             else:
@@ -1497,8 +1497,8 @@ def stats_leaders_mobile(request):
                 player_stats['FGP']=round((player.field_goals_made/player.field_goals_attempted)*100,1)
             else:
                 player_stats['FGP']=0.0
-            player_stats['FTA']=round(player.free_throws_attempted/player.games_played,1)
             player_stats['FTM']=round(player.free_throws_made/player.games_played,1)
+            player_stats['FTA']=round(player.free_throws_attempted/player.games_played,1)
             if player.free_throws_attempted > 0:
                 player_stats['FTP']=round((player.free_throws_made/player.free_throws_attempted)*100,1)
             else:
