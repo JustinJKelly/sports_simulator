@@ -103,6 +103,10 @@
                             </td>
                             {% if game.9 == game.10 %}
                                 <td style="min-width:40px;"> Series Tied {{game.9}}-{{game.10}}</td>
+                            {% elif game.9 == 4 %}
+                                 <td> {{game.7}} Wins Series {{game.9}}-{{game.10}}</td>
+                            {% elif game.10 == 4 %}
+                                <td> {{game.8}} Wins Series {{game.10}}-{{game.9}}</td>
                             {% elif game.9 > game.10 %}
                                 <td> {{game.7}} leads {{game.9}}-{{game.10}}</td>
                             {% else %}

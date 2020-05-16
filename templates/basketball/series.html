@@ -143,6 +143,17 @@
                             </tbody>
                         </table>
                     </div>
+                    {% if higher_seed_wins == 4 %}
+                        <b>{{higher_seed_abv}} Wins Series {{higher_seed_wins}}-{{lower_seed_wins}}</b>
+                    {% elif lower_seed_wins == 4 %}
+                        <b>{{lower_seed_abv}} Wins Series {{lower_seed_wins}}-{{higher_seed_wins}}</b>
+                    {% elif higher_seed_wins > lower_seed_wins %}
+                        <b>{{higher_seed_abv}} leads {{higher_seed_wins}}-{{lower_seed_wins}}</b>
+                    {% elif higher_seed_wins == lower_seed_wins %}
+                        <b>Series Tied {{higher_seed_wins}}-{{lower_seed_wins}}
+                    {% else %}
+                        <b>{{lower_seed_abv}} leads {{lower_seed_wins}}-{{higher_seed_wins}}</b>
+                    {% endif %}
                 {% else %}
                     <h4> No games played </h4>
                 {% endif %}
@@ -157,6 +168,7 @@
             </div>
         </div>
     </div>
+    <br/>
     <!--End Header Scorebox-->
     <!-- SERIES VOTING-->
     <!--

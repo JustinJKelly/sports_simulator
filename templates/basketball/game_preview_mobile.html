@@ -89,7 +89,11 @@
                     <b> {{date}} </b>
                 </p>
                 <p style="font-size:12px;">
-                    {% if higher_seed_wins > lower_seed_wins %}
+                    {% if higher_seed_wins == 4 %}
+                        {{higher_seed_abv}} Wins Series {{higher_seed_wins}}-{{lower_seed_wins}}
+                    {% elif lower_seed_wins == 4 %}
+                        {{lower_seed_abv}} Wins Series {{lower_seed_wins}}-{{higher_seed_wins}}
+                    {% elif higher_seed_wins > lower_seed_wins %}
                         {{higher_seed_abv}} leads {{higher_seed_wins}}-{{lower_seed_wins}}
                     {% elif higher_seed_wins == lower_seed_wins %}
                         Series Tied {{higher_seed_wins}}-{{lower_seed_wins}}
