@@ -49,23 +49,23 @@ class SeriesForm(forms.Form):
             CHOICES.append(
                 (('%s %s' % (serie.lower_seed_id,serie.series_id), serie.lower_seed_name))
             )
-        if count == 0:
-            form = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs. %s' % (serie.higher_seed_abv, serie.lower_seed_abv))
-        elif count == 1:
-            form1 = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs. %s' % (serie.higher_seed_abv, serie.lower_seed_abv))
-        elif count == 2:
-            form2 = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs. %s' % (serie.higher_seed_abv, serie.lower_seed_abv))
-        elif count == 3:
-            form3 = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs. %s' % (serie.higher_seed_abv, serie.lower_seed_abv))
-        elif count == 4:
-            form4 = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs.%s' % (serie.higher_seed_abv, serie.lower_seed_abv))
-        elif count == 5:
-            form5 = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs. %s' % (serie.higher_seed_abv, serie.lower_seed_abv))
-        elif count == 6:
-            form6 = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs. %s' % (serie.higher_seed_abv, serie.lower_seed_abv))
-        elif count == 7:
-            form7 = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs. %s' % (serie.higher_seed_abv, serie.lower_seed_abv))
-        
-        count += 1
+            if count == 0:
+                form = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs. %s' % (serie.higher_seed_abv, serie.lower_seed_abv))
+            elif count == 1:
+                form1 = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs. %s' % (serie.higher_seed_abv, serie.lower_seed_abv))
+            elif count == 2:
+                form2 = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs. %s' % (serie.higher_seed_abv, serie.lower_seed_abv))
+            elif count == 3:
+                form3 = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs. %s' % (serie.higher_seed_abv, serie.lower_seed_abv))
+            elif count == 4:
+                form4 = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs.%s' % (serie.higher_seed_abv, serie.lower_seed_abv))
+            elif count == 5:
+                form5 = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs. %s' % (serie.higher_seed_abv, serie.lower_seed_abv))
+            elif count == 6:
+                form6 = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs. %s' % (serie.higher_seed_abv, serie.lower_seed_abv))
+            elif count == 7:
+                form7 = forms.ChoiceField(choices=CHOICES, widget=forms.Select, label='%s vs. %s' % (serie.higher_seed_abv, serie.lower_seed_abv))
+            
+            count += 1
     
     
