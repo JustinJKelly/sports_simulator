@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from basketball.models import Game,Team, Counter,GamePreview
 from django.http import HttpResponse
-from datetime import date
+import datetime
 
 
 def path_does_not_exist(request):
@@ -12,7 +12,8 @@ def home(request):
     counter.countVisitors += 1
     counter.save()
     context= dict()
-    today = date.today()
+    today = datetime.date.today()
+    print(datetime.datetime.now().hour)
     if datetime.datetime.now().hour < 14:
         games = GamePreview.objects.filter(game_date=today)
         context['games']=[]
@@ -28,11 +29,11 @@ def home(request):
             ])
             count+=1
     else:
-        played_games = Game.objects.filter(game_date=today)
-        context['games']=[]
+        played_games = Game.objects.filter(date=today)
+        context['played_games']=[]
         count = 1
         for game in played_games:
-            context['games'].append([
+            context['played_games'].append([
                 game.game_id,
                 Team.objects.get(team_id=game.away_team).team_abv,
                 Team.objects.get(team_id=game.home_team).team_abv,
