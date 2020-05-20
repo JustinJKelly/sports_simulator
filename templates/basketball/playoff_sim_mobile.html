@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+    {% load static %}
+    {% block content %}
+    <br/>
+    <style> 
+        select {
+            width:60%;
+        }
+    </style>
+
+     {% if messages %}
+        <div class="span12 container text-center" style="color:red; font-size:12px;">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message|safe }}
+                </div>
+            {% endfor %}
+        </div>
+     {% endif %}
+    <div class="container" style="font-size:12px;">
+        <center class="row">
+            <div class="col">
+                <br/>
+                <h5 style="text-align:center"> Pick the Seeding for each Conference </h5>
+                <br/>
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <b style="font-size:12px; margin-left:0px;">{{field.label}}</b>
+                        <br/>
+                        {{field}}
+                        <br/>
+                        <br/>
+                    {% endfor %}
+                    <input class="btn btn-primary" type="submit" value="Submit">
+                </form>
+            </div>
+
+        </center>
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    {% endblock %}

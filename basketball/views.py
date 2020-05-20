@@ -1,12 +1,13 @@
 from .models import Player, Game, Team, MVPVote,  Serie, GamePreview
 import datetime
 from sports_simulator import views as home_views
-from .forms import MVPVoteForm, SeriesForm
+from .forms import MVPVoteForm, SeriesForm, PlayoffForm
 from pytz import timezone, utc
 import pprint
 import django_tables2 as tables
 from django_tables2 import RequestConfig, A
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, reverse
+from .make_games import make_playoff_games
 
 
 '''
@@ -1117,6 +1118,66 @@ def playoffs_page(request):
                 context['east']['round1']['series'+str(i)]['game'+str(count)]['score_lower_seed']=game.home_team_score
                 
             count += 1    
+        
+    context['east']['round2']={}
+    context['west']['round2']={}
+    context['west']['round2']['series1']={}
+    context['west']['round2']['series2']={}
+    context['east']['round2']['series3']={}
+    context['east']['round2']['series4']={}
+    i = 1
+    for series in Serie.objects.filter(playoff_type="SF").order_by("series_id"):
+        if i == 1 or i == 2:
+            context['west']['round2']['series'+str(i)]['series_id']=series.series_id
+            context['west']['round2']['series'+str(i)]['higher_seed_wins']=series.higher_seed_wins
+            context['west']['round2']['series'+str(i)]['higher_seed_losses']=series.higher_seed_loses
+            context['west']['round2']['series'+str(i)]['lower_seed_wins']=series.lower_seed_wins
+            context['west']['round2']['series'+str(i)]['lower_seed_losses']=series.lower_seed_loses
+            context['west']['round2']['series'+str(i)]['higher_seed_name']=series.higher_seed_name
+            context['west']['round2']['series'+str(i)]['lower_seed_name']=series.lower_seed_name
+            
+            previous_playoff_games = (Game.objects.filter(home_team=series.higher_seed_id,away_team=series.lower_seed_id,date__gte=datetime.date(2020,5,1),is_playoff=True)
+                        | Game.objects.filter(away_team=series.lower_seed_id,home_team=series.higher_seed_id,date__gte=datetime.date(2020,5,1),is_playoff=True)).order_by('date')
+            
+            count = 1
+            for game in previous_playoff_games:
+                context['west']['round2']['series'+str(i)]['game'+str(count)]={}
+                context['west']['round2']['series'+str(i)]['game'+str(count)]['game_id']=game.game_id
+                if series.higher_seed_id == game.home_team:
+                    context['west']['round2']['series'+str(i)]['game'+str(count)]['score_higher_seed']=game.home_team_score
+                    context['west']['round2']['series'+str(i)]['game'+str(count)]['score_lower_seed']=game.away_team_score
+                else:
+                    context['west']['round2']['series'+str(i)]['game'+str(count)]['score_higher_seed']=game.away_team_score
+                    context['west']['round2']['series'+str(i)]['game'+str(count)]['score_lower_seed']=game.home_team_score
+                    
+                count += 1   
+            
+        else:
+            context['east']['round2']['series'+str(i)]['series_id']=series.series_id
+            context['east']['round2']['series'+str(i)]['higher_seed_wins']=series.higher_seed_wins
+            context['east']['round2']['series'+str(i)]['higher_seed_losses']=series.higher_seed_loses
+            context['east']['round2']['series'+str(i)]['lower_seed_wins']=series.lower_seed_wins
+            context['east']['round2']['series'+str(i)]['lower_seed_losses']=series.lower_seed_loses
+            context['east']['round2']['series'+str(i)]['higher_seed_name']=series.higher_seed_name
+            context['east']['round2']['series'+str(i)]['lower_seed_name']=series.lower_seed_name
+            previous_playoff_games = (Game.objects.filter(home_team=series.higher_seed_id,away_team=series.lower_seed_id,date__gte=datetime.date(2020,5,1),is_playoff=True)
+                        | Game.objects.filter(away_team=series.lower_seed_id,home_team=series.higher_seed_id,date__gte=datetime.date(2020,5,1),is_playoff=True)).order_by('date')
+            
+            count = 1
+            for game in previous_playoff_games:
+                context['east']['round2']['series'+str(i)]['game'+str(count)]={}
+                context['east']['round2']['series'+str(i)]['game'+str(count)]['series_id']=game.game_id
+                if series.higher_seed_id == game.home_team:
+                    context['east']['round2']['series'+str(i)]['game'+str(count)]['score_higher_seed']=game.home_team_score
+                    context['east']['round2']['series'+str(i)]['game'+str(count)]['score_lower_seed']=game.away_team_score
+                else:
+                    context['east']['round2']['series'+str(i)]['game'+str(count)]['score_higher_seed']=game.away_team_score
+                    context['east']['round2']['series'+str(i)]['game'+str(count)]['score_lower_seed']=game.home_team_score
+                    
+                count += 1   
+            
+        i += 1 
+        
                 
         
     #print(context['east'],"\n")
@@ -1316,7 +1377,81 @@ def mvp_results(request):
                                                                     'top_players':rest,
                                                                     'labels': labels,
                                                                     'data': data    })
+   
+   
+def make_playoff_sim(request):
+    if request.method == 'POST':
+        form = PlayoffForm(request.POST)
+        if form.is_valid():
+            eastern_teams = []
+            western_teams = []
+            print(form.data)
+            first_seed_west = Team.objects.get(team_id=form.data['first_seed_west']).team_name
+            second_seed_west = Team.objects.get(team_id=form.data['second_seed_west']).team_name
+            third_seed_west = Team.objects.get(team_id=form.data['third_seed_west']).team_name
+            fourth_seed_west = Team.objects.get(team_id=form.data['fourth_seed_west']).team_name
+            fifth_seed_west = Team.objects.get(team_id=form.data['fifth_seed_west']).team_name
+            sixth_seed_west = Team.objects.get(team_id=form.data['sixth_seed_west']).team_name
+            seventh_seed_west = Team.objects.get(team_id=form.data['seventh_seed_west']).team_name
+            eighth_seed_west = Team.objects.get(team_id=form.data['eighth_seed_west']).team_name
+            western_teams = [first_seed_west,second_seed_west,third_seed_west,fourth_seed_west,
+                             fifth_seed_west,sixth_seed_west,seventh_seed_west,eighth_seed_west]
+            
+            first_seed_east = Team.objects.get(team_id=form.data['first_seed_east']).team_name
+            second_seed_east = Team.objects.get(team_id=form.data['second_seed_east']).team_name
+            third_seed_east = Team.objects.get(team_id=form.data['third_seed_east']).team_name
+            fourth_seed_east = Team.objects.get(team_id=form.data['fourth_seed_east']).team_name
+            fifth_seed_east = Team.objects.get(team_id=form.data['fifth_seed_east']).team_name
+            sixth_seed_east = Team.objects.get(team_id=form.data['sixth_seed_east']).team_name
+            seventh_seed_east = Team.objects.get(team_id=form.data['seventh_seed_east']).team_name
+            eighth_seed_east = Team.objects.get(team_id=form.data['eighth_seed_east']).team_name
+            eastern_teams = [first_seed_east,second_seed_east,third_seed_east,fourth_seed_east,
+                             fifth_seed_east,sixth_seed_east,seventh_seed_east,eighth_seed_east]
+            if len(eastern_teams) != len(set(eastern_teams)) or len(western_teams) != len(set(western_teams)):
+                messages.add_message(request, messages.ERROR, "Error: Can't pick same team twice! Please pick different teams for each Conference seeding.")
+                form = PlayoffForm()
+                return render(request,'basketball/playoff_sim.html', {"form":form})
+            
+            print("West\n1.",first_seed_west, " 2.", second_seed_west, " 3.",third_seed_west, " 4.",  fourth_seed_west,
+                  "5.",fifth_seed_west, " 6.", sixth_seed_west, " 7.",seventh_seed_west, " 8.",  eighth_seed_west, "\n\n")
+            
+            
+            print("East\n1.",first_seed_east, " 2.", second_seed_east, " 3.",third_seed_east, " 4.",  fourth_seed_east,
+                  "5.",fifth_seed_east, " 6.", sixth_seed_east, " 7.",seventh_seed_east, " 8.",  eighth_seed_east)
+            
+            context = make_playoff_games(eastern_teams,western_teams)
+            for k,v in context.items():
+                if k != "finals_series":
+                    v.append(Team.objects.get(team_id=v[1]).team_name)
+                    v.append(Team.objects.get(team_id=v[2]).team_name)
+                else:
+                    v.append(Team.objects.get(team_id=v[2]).team_name)
+                    v.append(Team.objects.get(team_id=v[3]).team_name)
+            
+            '''
+                "west_semi_1_8_series": west_semi_1_8_series,
+                "west_semi_4_5_series": west_semi_4_5_series,
+                "west_semi_3_6_series": west_semi_3_6_series,
+                "west_semi_2_7_series": west_semi_2_7_series,
+                "east_semi_1_8_series": east_semi_1_8_series,
+                "east_semi_4_5_series": east_semi_4_5_series,
+                "east_semi_3_6_series": east_semi_3_6_series,
+                "east_semi_2_7_series": east_semi_2_7_series,
+                "west_conf_1_series": west_conf_1_series,
+                "west_conf_2_series": west_conf_2_series,
+                "east_conf_1_series": east_conf_1_series,
+                "east_conf_2_series": east_conf_2_series,
+                "west_finals_series": west_finals_series,
+                "east_finals_series":east_finals_series,
+                "finals_series": finals_series
+            '''
+            return render(request,'basketball/playoff_sim_results.html', context=context)
+        
+    form = PlayoffForm()
     
+    return render(request,"basketball/playoff_sim.html",{"form":form})
+ 
+ 
 
 def find_team_logos(team1, team2):
     return_list = []
@@ -1477,6 +1612,83 @@ MOBILE
 
 
 '''
+
+def make_playoff_sim_mobile(request):
+    if request.method == 'POST':
+        form = PlayoffForm(request.POST)
+        if form.is_valid():
+            eastern_teams = []
+            western_teams = []
+            print(form.data)
+            first_seed_west = Team.objects.get(team_id=form.data['first_seed_west']).team_name
+            second_seed_west = Team.objects.get(team_id=form.data['second_seed_west']).team_name
+            third_seed_west = Team.objects.get(team_id=form.data['third_seed_west']).team_name
+            fourth_seed_west = Team.objects.get(team_id=form.data['fourth_seed_west']).team_name
+            fifth_seed_west = Team.objects.get(team_id=form.data['fifth_seed_west']).team_name
+            sixth_seed_west = Team.objects.get(team_id=form.data['sixth_seed_west']).team_name
+            seventh_seed_west = Team.objects.get(team_id=form.data['seventh_seed_west']).team_name
+            eighth_seed_west = Team.objects.get(team_id=form.data['eighth_seed_west']).team_name
+            western_teams = [first_seed_west,second_seed_west,third_seed_west,fourth_seed_west,
+                             fifth_seed_west,sixth_seed_west,seventh_seed_west,eighth_seed_west]
+            
+            first_seed_east = Team.objects.get(team_id=form.data['first_seed_east']).team_name
+            second_seed_east = Team.objects.get(team_id=form.data['second_seed_east']).team_name
+            third_seed_east = Team.objects.get(team_id=form.data['third_seed_east']).team_name
+            fourth_seed_east = Team.objects.get(team_id=form.data['fourth_seed_east']).team_name
+            fifth_seed_east = Team.objects.get(team_id=form.data['fifth_seed_east']).team_name
+            sixth_seed_east = Team.objects.get(team_id=form.data['sixth_seed_east']).team_name
+            seventh_seed_east = Team.objects.get(team_id=form.data['seventh_seed_east']).team_name
+            eighth_seed_east = Team.objects.get(team_id=form.data['eighth_seed_east']).team_name
+            eastern_teams = [first_seed_east,second_seed_east,third_seed_east,fourth_seed_east,
+                             fifth_seed_east,sixth_seed_east,seventh_seed_east,eighth_seed_east]
+            if len(eastern_teams) != len(set(eastern_teams)) or len(western_teams) != len(set(western_teams)):
+                messages.add_message(request, messages.ERROR, "Error: Can't pick same team twice! Please pick different teams for each Conference seeding.")
+                form = PlayoffForm()
+                return render(request,'basketball/playoff_sim_mobile.html', {"form":form})
+            
+            print("West\n1.",first_seed_west, " 2.", second_seed_west, " 3.",third_seed_west, " 4.",  fourth_seed_west,
+                  "5.",fifth_seed_west, " 6.", sixth_seed_west, " 7.",seventh_seed_west, " 8.",  eighth_seed_west, "\n\n")
+            
+            
+            print("East\n1.",first_seed_east, " 2.", second_seed_east, " 3.",third_seed_east, " 4.",  fourth_seed_east,
+                  "5.",fifth_seed_east, " 6.", sixth_seed_east, " 7.",seventh_seed_east, " 8.",  eighth_seed_east)
+            
+            context = make_playoff_games(eastern_teams,western_teams)
+            for k,v in context.items():
+                if k != "finals_series":
+                    v.append(Team.objects.get(team_id=v[1]).team_name)
+                    v.append(Team.objects.get(team_id=v[2]).team_name)
+                else:
+                    v.append(Team.objects.get(team_id=v[2]).team_name)
+                    v.append(Team.objects.get(team_id=v[3]).team_name)
+            
+            '''
+                "west_semi_1_8_series": west_semi_1_8_series,
+                "west_semi_4_5_series": west_semi_4_5_series,
+                "west_semi_3_6_series": west_semi_3_6_series,
+                "west_semi_2_7_series": west_semi_2_7_series,
+                "east_semi_1_8_series": east_semi_1_8_series,
+                "east_semi_4_5_series": east_semi_4_5_series,
+                "east_semi_3_6_series": east_semi_3_6_series,
+                "east_semi_2_7_series": east_semi_2_7_series,
+                "west_conf_1_series": west_conf_1_series,
+                "west_conf_2_series": west_conf_2_series,
+                "east_conf_1_series": east_conf_1_series,
+                "east_conf_2_series": east_conf_2_series,
+                "west_finals_series": west_finals_series,
+                "east_finals_series":east_finals_series,
+                "finals_series": finals_series
+            '''
+            return render(request,'basketball/playoff_sim_results_mobile.html', context=context)
+        
+    form = PlayoffForm()
+    
+    return render(request,"basketball/playoff_sim_mobile.html",{"form":form})
+ 
+ 
+
+
+
 
 
 def stats_leaders_mobile(request):

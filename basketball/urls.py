@@ -33,4 +33,6 @@ urlpatterns = [
     path('series_vote_results_mobile', views.series_vote_results_mobile, name="series_vote_results_mobile"),
     path('stats_leaders', views.stats_leaders, name="stats_leaders"),
     path('stats_leaders_mobile', views.stats_leaders_mobile, name="stats_leaders_mobile"),
+    path('make_your_own_playoffs', views.make_playoff_sim, name="make_playoff_sim"),
+    path('make_your_own_playoffs_mobile', views.make_playoff_sim_mobile, name="make_playoff_sim_mobile"),
 ]

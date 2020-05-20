@@ -1,5 +1,5 @@
 from django import forms
-from .models import MVPVote, Serie
+from .models import MVPVote, Serie, Team
 from . import views
 
 
@@ -68,4 +68,41 @@ class SeriesForm(forms.Form):
             
             count += 1
     
+    
+class PlayoffForm(forms.Form):
+    eastern_teams = Team.objects.filter(conference="East").order_by("-team_wins")
+    western_teams = Team.objects.filter(conference="West").order_by("-team_wins")
+    
+    #West
+    CHOICES_WEST = []
+    
+    for team in western_teams:
+        CHOICES_WEST.append(
+                    ((team.team_id, team.team_name))
+                )
+    first_seed_west = forms.ChoiceField(choices=CHOICES_WEST, widget=forms.Select,initial=western_teams[0].team_id, label='Pick 1st Seed West')
+    second_seed_west = forms.ChoiceField(choices=CHOICES_WEST, widget=forms.Select,initial=western_teams[1].team_id, label='Pick 2nd Seed West')
+    third_seed_west = forms.ChoiceField(choices=CHOICES_WEST, widget=forms.Select,initial=western_teams[2].team_id, label='Pick 3rd Seed West')
+    fourth_seed_west = forms.ChoiceField(choices=CHOICES_WEST, widget=forms.Select,initial=western_teams[3].team_id, label='Pick 4th Seed West')
+    fifth_seed_west = forms.ChoiceField(choices=CHOICES_WEST, widget=forms.Select,initial=western_teams[4].team_id, label='Pick 5th Seed West')
+    sixth_seed_west = forms.ChoiceField(choices=CHOICES_WEST, widget=forms.Select,initial=western_teams[5].team_id, label='Pick 6th Seed West')
+    seventh_seed_west = forms.ChoiceField(choices=CHOICES_WEST, widget=forms.Select,initial=western_teams[6].team_id, label='Pick 7th Seed West')
+    eighth_seed_west = forms.ChoiceField(choices=CHOICES_WEST, widget=forms.Select,initial=western_teams[7].team_id, label='Pick 8th Seed West')
+
+    
+    #East
+    CHOICES_EAST = []
+    
+    for team in eastern_teams:
+        CHOICES_EAST.append(
+                    ((team.team_id, team.team_name))
+                )
+    first_seed_east = forms.ChoiceField(choices=CHOICES_EAST,initial=eastern_teams[0].team_id, widget=forms.Select, label='Pick 1st Seed East')
+    second_seed_east = forms.ChoiceField(choices=CHOICES_EAST,initial=eastern_teams[1].team_id, widget=forms.Select, label='Pick 2nd Seed East')
+    third_seed_east = forms.ChoiceField(choices=CHOICES_EAST,initial=eastern_teams[2].team_id, widget=forms.Select, label='Pick 3rd Seed East')
+    fourth_seed_east = forms.ChoiceField(choices=CHOICES_EAST,initial=eastern_teams[3].team_id, widget=forms.Select, label='Pick 4th Seed East')
+    fifth_seed_east = forms.ChoiceField(choices=CHOICES_EAST,initial=eastern_teams[4].team_id, widget=forms.Select, label='Pick 5th Seed East')
+    sixth_seed_east = forms.ChoiceField(choices=CHOICES_EAST,initial=eastern_teams[5].team_id, widget=forms.Select, label='Pick 6th Seed East')
+    seventh_seed_east = forms.ChoiceField(choices=CHOICES_EAST,initial=eastern_teams[6].team_id, widget=forms.Select, label='Pick 7th Seed East')
+    eighth_seed_east = forms.ChoiceField(choices=CHOICES_EAST,initial=eastern_teams[7].team_id, widget=forms.Select, label='Pick 8th Seed East')
     

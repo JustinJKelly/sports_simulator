@@ -62,6 +62,10 @@
             width: 50% !important; 
         }
 
+        .h4_text {
+            font-size:26px;
+        }
+
         .matchup_text {
             font-size: 20px;
         }
@@ -87,7 +91,7 @@
         .playoff_image {
             margin: auto;
             width: 100% !important; 
-            height: auto;
+            height: 460px;
             width: 350px;
         }
 
@@ -124,6 +128,10 @@
             .playoff_image {
                 height: 150px;
                 width:100%;
+            }
+
+            .h4_text {
+                font-size:18px;
             }
 
         }
@@ -172,12 +180,15 @@
     <br>
     <div class="container">
         <!-- <img src="/static/img/logo/logo.png" alt="sports_sim Logo" class="center">-->
-        <h4 style="text-align:center;"> <a href="{% url 'playoffs_page' %}"> See Playoff Matchups</a></h4>
+        <p class="h4_text" style="text-align:center;"> <a href="{% url 'playoffs_page' %}"> See Playoff Matchups</a></p>
         <a href="{% url 'playoffs_page' %}"><img class="playoff_image" src="{% static 'img/playoff_image.png' %}"></img></a>
         <br/>
         <br/>
         <br/>
-
+        <p class="h4_text" style="text-align:center;"> <a href="{% url 'make_playoff_sim' %}"> Don't Like the Way the Playoffs are going?<br/> Make your own seeding and see what would have happened!</a></p>
+        <br/>
+        <br/>
+        <br/>
         <h4 style="text-align: center;"> Today's Highlights</h4>
         <hr style="background-color: grey; height: 1px;">
         <div class="cards card-center">

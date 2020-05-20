@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+    {% load static %}
+    {% block content %}
+    <script>
+        if ((typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1)) {
+            location.href = "/basketball/make_your_own_playoffs_mobile";
+        }
+    </script>
+
+    <br/>
+    <style> 
+        select {
+            width:40%;
+        }
+    </style>
+
+     {% if messages %}
+        <div class="span12 container text-center" style="color:red; font-size:25px;">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message|safe }}
+                </div>
+            {% endfor %}
+        </div>
+     {% endif %}
+    <div class="container" style="font-size:22px;">
+        <div class="row">
+            <div class="col">
+                <br/>
+                <h2 style="text-align:center"> Pick the Seeding for each Conference </h2>
+                <br/>
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <b style="font-size:18px;">{{field.label}}</b>
+                        <br/>
+                        {{field}}
+                        <br/>
+                        <br/>
+                    {% endfor %}
+                    <input class="btn btn-primary" type="submit" value="Submit">
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    {% endblock %}
