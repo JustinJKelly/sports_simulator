@@ -13,7 +13,7 @@ def home(request):
     counter.save()
     context= dict()
     today = date.today()
-    if date.hour < 14:
+    if datetime.datetime.now().hour < 14):
         games = GamePreview.objects.filter(game_date=today)
         context['games']=[]
         count = 1
