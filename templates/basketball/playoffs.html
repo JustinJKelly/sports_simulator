@@ -221,6 +221,9 @@
 <div class="container" >
     <br/>
     <h1>2019-2020 NBA Playoffs Bracket</h1>
+    <h4> Second Round Schedule </h4>
+    <h5> Games released daily @ 2pm PST May 20th-27th*</h5>
+    <p style="font-size:16px;">(Schedule may be shorter depending on series length)</p>
     <hr style="height: 2px; background-color: black;">
     <br>
     <div class="row">
@@ -529,47 +532,47 @@
                         </div>
                         <br>
                         <br>
-                        <h5 style="font-size: 16px;">({{west.round2.series1.higher_seed_wins}}-{{west.round2.series1.lower_seed_losses}})&nbsp;&nbsp;{{west.round2.series1.higher_seed_name}} vs {{west.round2.series1.lower_seed_name}}&nbsp;&nbsp;({{west.round2.series1.lower_seed_wins}}-{{west.round2.series1.lower_seed_losses}}) </h5>
+                        <h5 style="font-size: 16px;">({{west.round2.series1.higher_seed_wins}}-{{west.round2.series1.higher_seed_losses}})&nbsp;&nbsp;{{west.round2.series1.higher_seed_name}} vs {{west.round2.series1.lower_seed_name}}&nbsp;&nbsp;({{west.round2.series1.lower_seed_wins}}-{{west.round2.series1.lower_seed_losses}}) </h5>
                         <hr style="background-color:red; height: 1px; width: 75%;">
                         <ul style=" list-style-type:none; margin-right: 10px; font-size: 20px;">
                             {% if west.round2.series1.game1 %}
-                                <li> <b> Game 1: </b> {{western_teams.0.0}} {{west.round2.series2.game1.score_higher_seed}}-{{west.round2.series2.game1.score_lower_seed}} {{western_teams.3.0}}</li>
+                                <li> <b> Game 1: </b> {{western_teams.0.0}} {{west.round2.series1.game1.score_higher_seed}}-{{west.round2.series1.game1.score_lower_seed}} {{western_teams.3.0}}</li>
                             {% else %}
                                 <li> Game 1: N/A</li>
                             {% endif%}
                             {% if west.round2.series1.game2 %}
-                                <li> <b> Game 2: </b> {{western_teams.0.0}} {{west.round2.series2.game2.score_higher_seed}}-{{west.round2.series2.game2.score_lower_seed}} {{western_teams.3.0}}</li>
+                                <li> <b> Game 2: </b> {{western_teams.0.0}} {{west.round2.series1.game2.score_higher_seed}}-{{west.round2.series1.game2.score_lower_seed}} {{western_teams.3.0}}</li>
                             {% else %}
                                 <li> Game 2: N/A</li>
                             {% endif%}
                             {% if west.round2.series1.game3 %}
-                                <li> <b> Game 3: </b> {{western_teams.0.0}} {{west.round2.series2.game3.score_higher_seed}}-{{west.round2.series2.game3.score_lower_seed}} {{western_teams.3.0}}</li>
+                                <li> <b> Game 3: </b> {{western_teams.0.0}} {{west.round2.series1.game3.score_higher_seed}}-{{west.round2.series1.game3.score_lower_seed}} {{western_teams.3.0}}</li>
                             {% else %}
                                 <li> Game 3: N/A</li>
                             {% endif%}
                             {% if west.round2.series1.game4 %}
-                                <li> <b> Game 4: </b> {{western_teams.0.0}} {{west.round2.series2.game4.score_higher_seed}}-{{west.round2.series2.game4.score_lower_seed}} {{western_teams.3.0}}</li>
+                                <li> <b> Game 4: </b> {{western_teams.0.0}} {{west.round2.series1.game4.score_higher_seed}}-{{west.round2.series1.game4.score_lower_seed}} {{western_teams.3.0}}</li>
                             {% else %}
                                 <li> Game 4: N/A</li>
                             {% endif%}
                             {% if west.round2.series1.game5 %}
-                                <li> <b> Game 5: </b> {{western_teams.0.0}} {{west.round2.series2.game5.score_higher_seed}}-{{west.round2.series2.game5.score_lower_seed}} {{western_teams.3.0}}</li>
+                                <li> <b> Game 5: </b> {{western_teams.0.0}} {{west.round2.series1.game5.score_higher_seed}}-{{west.round2.series1.game5.score_lower_seed}} {{western_teams.3.0}}</li>
                             {% else %}
                                 <li> Game 5(if nec.): N/A</li>
                             {% endif%}
                             {% if west.round2.series1.game6 %}
-                                <li> <b> Game 6: </b> {{western_teams.0.0}} {{west.round2.series2.game6.score_higher_seed}}-{{west.round2.series2.game6.score_lower_seed}} {{western_teams.3.0}}</li>
+                                <li> <b> Game 6: </b> {{western_teams.0.0}} {{west.round2.series1.game6.score_higher_seed}}-{{west.round2.series1.game6.score_lower_seed}} {{western_teams.3.0}}</li>
                             {% else %}
                                 <li> Game 6(if nec.): N/A</li>
                             {% endif%}
                             {% if west.round2.series1.game7 %}
-                                <li> <b> Game 7: </b> {{western_teams.0.0}} {{west.round2.series2.game7.score_higher_seed}}-{{west.round2.series2.game7.score_lower_seed}} {{western_teams.3.0}}</li>
+                                <li> <b> Game 7: </b> {{western_teams.0.0}} {{west.round2.series1.game7.score_higher_seed}}-{{west.round2.series1.game7.score_lower_seed}} {{western_teams.3.0}}</li>
                             {% else %}
                                 <li> Game 7(if nec.): N/A</li>
                             {% endif%}
                         </ul>
                         <hr style="background-color: red; height: 1px; width: 75%;"> 
-                        <a href="/basketball/playoffs/series/{{west.round2.series1.series_id}}" style="font-size: 20px;">Series Information Coming Soon</a>
+                        <a href="/basketball/playoffs/series/{{west.round2.series1.series_id}}" style="font-size: 20px;">Series Information</a>
                     </div>
                 </div>
             </li>
@@ -699,7 +702,7 @@
 
                         <ul style=" list-style-type:none; margin-right: 10px; font-size: 20px;">
                             {% if east.round2.series3.game1 %}
-                                <li> <b>Game 1:</b> {{eastern_teams.0.0}} {{east.round2.series3.game1.score_higher_seed}}-{{east.round2.series1.game3.score_lower_seed}} {{eastern_teams.4.0}}  </li>
+                                <li> <b>Game 1:</b> {{eastern_teams.0.0}} {{east.round2.series3.game1.score_higher_seed}}-{{east.round2.series3.game1.score_lower_seed}} {{eastern_teams.4.0}}  </li>
                             {% else %}
                                 <li> Game 1: N/A</li>
                             {% endif%}

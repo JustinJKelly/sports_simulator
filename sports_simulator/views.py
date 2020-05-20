@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
-from basketball.models import Game,Team, Counter
+from basketball.models import Game,Team, Counter,GamePreview
 from django.http import HttpResponse
+from datetime import date
 
 
 def path_does_not_exist(request):
@@ -11,23 +12,35 @@ def home(request):
     counter.countVisitors += 1
     counter.save()
     context= dict()
-    games = Game.objects.filter().order_by('-date')[0:4]
-    print(games)
-    context['games']=dict()
-    count = 1
-    for game in games:
-        context['games']["game"+str(count)]=[
-            game.game_id,
-            Team.objects.get(team_id=game.away_team).team_abv,
-            Team.objects.get(team_id=game.home_team).team_abv,
-            find_team_image(game.away_team),
-            find_team_image(game.home_team),
-            game.away_team_score,
-            game.home_team_score,
-            game.away_team,
-            game.home_team
-        ]
-        count+=1
+    today = date.today()
+    if date.hour < 14:
+        games = GamePreview.objects.filter(game_date=today)
+        context['games']=[]
+        count = 1
+        for game in games:
+            context['games'].append([
+                game.game_preview_id,
+                Team.objects.get(team_id=game.away_team_id).team_abv,
+                Team.objects.get(team_id=game.home_team_id).team_abv,
+                find_team_image(game.away_team_id),
+                find_team_image(game.home_team_id),
+                ("%s/%s/%s" % (today.month,today.day,today.year))
+            ])
+            count+=1
+    else:
+        played_games = Game.objects.filter(game_date=today)
+        context['games']=[]
+        count = 1
+        for game in played_games:
+            context['games'].append([
+                game.game_id,
+                Team.objects.get(team_id=game.away_team).team_abv,
+                Team.objects.get(team_id=game.home_team).team_abv,
+                find_team_image(game.away_team),
+                find_team_image(game.home_team),
+                ("%s/%s/%s" % (today.month,today.day,today.year))
+            ])
+            count+=1
     
     return render(request, 'base.html', context)
 

@@ -207,6 +207,10 @@
 <div class="container">
     <br/>
     <h5>2019-2020 NBA Playoffs Bracket</h5>
+    <h7>2019-2020 NBA Playoffs Bracket</h7>
+    <h8> Second Round Schedule </h8>
+    <h7> Games released daily @ 2pm PST May 20th-27th*</h7>
+    <p style="font-size:10px;">(Schedule may be shorter depending on series length)</p>
     <hr style="height: 2px; background-color: black;">
     <br>
     <div class="row">
@@ -229,7 +233,7 @@
                 <div class="modal">
                     <div class="modal-content text-center">
                         <span class="close">&times;</span>
-                        <h3>Western Conference</h3>
+                        <h4>Western Conference</h4>
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap;">
@@ -298,7 +302,7 @@
                 <div class="modal">
                     <div class="modal-content text-center">
                         <span class="close">&times;</span>
-                        <h3>Western Conference</h3>
+                        <h4>Western Conference</h4>
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap;">
@@ -365,7 +369,7 @@
                 <div class="modal">
                     <div class="modal-content text-center">
                         <span class="close">&times;</span>
-                        <h3>Western Conference</h3>
+                        <h4>Western Conference</h4>
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
@@ -432,7 +436,7 @@
                 <div class="modal">
                     <div class="modal-content text-center">
                         <span class="close">&times;</span>
-                        <h3>Western Conference</h3>
+                        <h4>Western Conference</h4>
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
@@ -502,7 +506,7 @@
                 <div class="modal">
                     <div class="modal-content text-center">
                         <span class="close">&times;</span>
-                        <h3>Western Conference</h3>
+                        <h4>Western Conference</h4>
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap;">
@@ -515,47 +519,47 @@
                         </div>
                         <br>
                         <br>
-                           <h5 style="font-size: 16px;">({{west.round2.series1.higher_seed_wins}}-{{west.round2.series1.lower_seed_losses}})&nbsp;&nbsp;{{west.round2.series1.higher_seed_name}} vs {{west.round2.series1.lower_seed_name}}&nbsp;&nbsp;({{west.round2.series1.lower_seed_wins}}-{{west.round2.series1.lower_seed_losses}}) </h5>
+                           <h5 style="font-size: 16px;">({{west.round2.series1.higher_seed_wins}}-{{west.round2.series1.higher_seed_losses}})&nbsp;&nbsp;{{west.round2.series1.higher_seed_name}}<br>vs<br>{{west.round2.series1.lower_seed_name}}&nbsp;&nbsp;({{west.round2.series1.lower_seed_wins}}-{{west.round2.series1.lower_seed_losses}}) </h5>
                         <hr style="background-color:red; height: 1px; width: 75%;">
-                        <ul style=" list-style-type:none; margin-right: 10px; font-size: 20px;">
+                        <ul style=" list-style-type:none; margin-right: 20px;font-size: 15px;;">
                            {% if west.round2.series1.game1 %}
-                                <li> <b> Game 1: </b> {{western_teams.0.0}} {{west.round2.series2.game1.score_higher_seed}}-{{west.round2.series2.game1.score_lower_seed}} {{western_teams.3.0}}</li>
+                                <li> <b> Game 1: </b> {{western_teams.0.0}} {{west.round2.series1.game1.score_higher_seed}}-{{west.round2.series1.game1.score_lower_seed}} {{western_teams.3.0}}</li>
                             {% else %}
                                 <li> Game 1: N/A</li>
                             {% endif%}
                             {% if west.round2.series1.game2 %}
-                                <li> <b> Game 2: </b> {{western_teams.0.0}} {{west.round2.series2.game2.score_higher_seed}}-{{west.round2.series2.game2.score_lower_seed}} {{western_teams.3.0}}</li>
+                                <li> <b> Game 2: </b> {{western_teams.0.0}} {{west.round2.series1.game2.score_higher_seed}}-{{west.round2.series1.game2.score_lower_seed}} {{western_teams.3.0}}</li>
                             {% else %}
                                 <li> Game 2: N/A</li>
                             {% endif%}
                             {% if west.round2.series1.game3 %}
-                                <li> <b> Game 3: </b> {{western_teams.0.0}} {{west.round2.series2.game3.score_higher_seed}}-{{west.round2.series2.game3.score_lower_seed}} {{western_teams.3.0}}</li>
+                                <li> <b> Game 3: </b> {{western_teams.0.0}} {{west.round2.series1.game3.score_higher_seed}}-{{west.round2.series1.game3.score_lower_seed}} {{western_teams.3.0}}</li>
                             {% else %}
                                 <li> Game 3: N/A</li>
                             {% endif%}
                             {% if west.round2.series1.game4 %}
-                                <li> <b> Game 4: </b> {{western_teams.0.0}} {{west.round2.series2.game4.score_higher_seed}}-{{west.round2.series2.game4.score_lower_seed}} {{western_teams.3.0}}</li>
+                                <li> <b> Game 4: </b> {{western_teams.0.0}} {{west.round2.series1.game4.score_higher_seed}}-{{west.round2.series1.game4.score_lower_seed}} {{western_teams.3.0}}</li>
                             {% else %}
                                 <li> Game 4: N/A</li>
                             {% endif%}
                             {% if west.round2.series1.game5 %}
-                                <li> <b> Game 5: </b> {{western_teams.0.0}} {{west.round2.series2.game5.score_higher_seed}}-{{west.round2.series2.game5.score_lower_seed}} {{western_teams.3.0}}</li>
+                                <li> <b> Game 5: </b> {{western_teams.0.0}} {{west.round2.series1.game5.score_higher_seed}}-{{west.round2.series1.game5.score_lower_seed}} {{western_teams.3.0}}</li>
                             {% else %}
                                 <li> Game 5(if nec.): N/A</li>
                             {% endif%}
                             {% if west.round2.series1.game6 %}
-                                <li> <b> Game 6: </b> {{western_teams.0.0}} {{west.round2.series2.game6.score_higher_seed}}-{{west.round2.series2.game6.score_lower_seed}} {{western_teams.3.0}}</li>
+                                <li> <b> Game 6: </b> {{western_teams.0.0}} {{west.round2.series1.game6.score_higher_seed}}-{{west.round2.series1.game6.score_lower_seed}} {{western_teams.3.0}}</li>
                             {% else %}
                                 <li> Game 6(if nec.): N/A</li>
                             {% endif%}
                             {% if west.round2.series1.game7 %}
-                                <li> <b> Game 7: </b> {{western_teams.0.0}} {{west.round2.series2.game7.score_higher_seed}}-{{west.round2.series2.game7.score_lower_seed}} {{western_teams.3.0}}</li>
+                                <li> <b> Game 7: </b> {{western_teams.0.0}} {{west.round2.series1.game7.score_higher_seed}}-{{west.round2.series1.game7.score_lower_seed}} {{western_teams.3.0}}</li>
                             {% else %}
                                 <li> Game 7(if nec.): N/A</li>
                             {% endif%}
                         </ul>
                         <hr style="background-color: red; height: 1px; width: 75%;"> 
-                        <a href="/basketball/playoffs/series/{{west.round2.series1.series_id}}" style="font-size: 20px;">Series Information</a>
+                        <a href="/basketball/playoffs/series/{{west.round2.series1.series_id}}" style="font-size: 15px;">Series Information</a>
                     </div>
                 </div>
             </li>
@@ -569,7 +573,7 @@
                 <div class="modal">
                     <div class="modal-content text-center">
                         <span class="close">&times;</span>
-                        <h3>Western Conference</h3>
+                        <h4>Western Conference</h4>
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap;">
@@ -582,9 +586,9 @@
                         </div>
                         <br>
                         <br>
-                        <h5 style="font-size: 16px;"> ({{west.round2.series2.higher_seed_wins}}-{{west.round2.series2.higher_seed_losses}})&nbsp;&nbsp;{{west.round2.series2.higher_seed_name}} vs {{west.round2.series2.lower_seed_name}}&nbsp;&nbsp;({{west.round2.series2.lower_seed_wins}}-{{west.round2.series2.lower_seed_losses}}) </h5>
+                        <h5 style="font-size: 16px;"> ({{west.round2.series2.higher_seed_wins}}-{{west.round2.series2.higher_seed_losses}})&nbsp;&nbsp;{{west.round2.series2.higher_seed_name}}<br>vs<br>{{west.round2.series2.lower_seed_name}}&nbsp;&nbsp;({{west.round2.series2.lower_seed_wins}}-{{west.round2.series2.lower_seed_losses}}) </h5>
                         <hr style="background-color:red; height: 1px; width: 75%;">
-                        <ul style=" list-style-type:none; margin-right: 10px; font-size: 20px;">
+                        <ul style=" list-style-type:none; margin-right: 20px;font-size: 15px;">
                             {% if west.round2.series2.game1 %}
                                 <li>  Game 1: {{western_teams.1.0}} {{west.round2.series2.game1.score_higher_seed}}-{{west.round2.series2.game1.score_lower_seed}} {{western_teams.2.0}}</li>
                             {% else %}
@@ -622,7 +626,7 @@
                             {% endif%}
                         </ul>
                         <hr style="background-color: red; height: 1px; width: 75%;"> 
-                        <a href="/basketball/playoffs/series/{{west.round2.series2.series_id}}" style="font-size: 20px;">Series Information</a>
+                        <a href="/basketball/playoffs/series/{{west.round2.series2.series_id}}" style="font-size: 15px;">Series Information</a>
                     </div>
                 </div>
             </li>
@@ -669,7 +673,7 @@
                 <div class="modal-east">
                     <div class="modal-content-east text-center">
                         <span class="close">&times;</span>
-                        <h3>Eastern Conference</h3>
+                        <h4>Eastern Conference</h4>
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
@@ -680,12 +684,12 @@
                                 </div>
                             </div>
                         </div>
-                        <h5 style="font-size: 16px;"> ({{east.round2.series3.higher_seed_wins}}-{{east.round2.series3.higher_seed_losses}})&nbsp;&nbsp;{{east.round2.series3.higher_seed_name}} vs {{east.round2.series3.lower_seed_name}}&nbsp;&nbsp;({{east.round2.series3.lower_seed_wins}}-{{east.round2.series3.lower_seed_losses}}) </h5>
+                        <h5 style="font-size: 16px;"> ({{east.round2.series3.higher_seed_wins}}-{{east.round2.series3.higher_seed_losses}})&nbsp;&nbsp;{{east.round2.series3.higher_seed_name}}<br>vs<br>{{east.round2.series3.lower_seed_name}}&nbsp;&nbsp;({{east.round2.series3.lower_seed_wins}}-{{east.round2.series3.lower_seed_losses}}) </h5>
                         <hr style="background-color:blue; height: 1px; width: 75%;">
 
-                        <ul style=" list-style-type:none; margin-right: 10px; font-size: 20px;">
+                        <ul style=" list-style-type:none; margin-right: 20px;font-size: 15px;">
                              {% if east.round2.series3.game1 %}
-                                <li> <b>Game 1:</b> {{eastern_teams.0.0}} {{east.round2.series3.game1.score_higher_seed}}-{{east.round2.series1.game3.score_lower_seed}} {{eastern_teams.4.0}}  </li>
+                                <li> <b>Game 1:</b> {{eastern_teams.0.0}} {{east.round2.series3.game1.score_higher_seed}}-{{east.round2.series3.game1.score_lower_seed}} {{eastern_teams.4.0}}  </li>
                             {% else %}
                                 <li> Game 1: N/A</li>
                             {% endif%}
@@ -721,7 +725,7 @@
                             {% endif%}
                         </ul>
                         <hr style="background-color: blue; height: 1px; width: 75%;"> 
-                        <a href="/basketball/playoffs/series/{{east.round2.series3.series_id}}" style="font-size: 20px;">Series Information</a>
+                        <a href="/basketball/playoffs/series/{{east.round2.series3.series_id}}" style="font-size: 15px;">Series Information</a>
                     </div>
                 </div>
             </li>
@@ -735,7 +739,7 @@
                 <div class="modal-east">
                     <div class="modal-content-east text-center">
                         <span class="close">&times;</span>
-                        <h3>Eastern Conference</h3>
+                        <h4>Eastern Conference</h4>
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
@@ -746,10 +750,10 @@
                                 </div>
                             </div>
                         </div>
-                        <h5 style="font-size: 16px;"> ({{east.round2.series4.higher_seed_wins}}-{{east.round2.series4.higher_seed_losses}})&nbsp;&nbsp;{{east.round2.series4.higher_seed_name}} vs {{east.round2.series4.lower_seed_name}}&nbsp;&nbsp;({{east.round2.series4.lower_seed_wins}}-{{east.round2.series4.lower_seed_losses}}) </h5>
+                        <h5 style="font-size: 16px;"> ({{east.round2.series4.higher_seed_wins}}-{{east.round2.series4.higher_seed_losses}})&nbsp;&nbsp;{{east.round2.series4.higher_seed_name}}<br>vs<br>{{east.round2.series4.lower_seed_name}}&nbsp;&nbsp;({{east.round2.series4.lower_seed_wins}}-{{east.round2.series4.lower_seed_losses}}) </h5>
                         <hr style="background-color:blue; height: 1px; width: 75%;">
 
-                        <ul style=" list-style-type:none; margin-right: 10px; font-size: 20px;">
+                        <ul style=" list-style-type:none; margin-right: 20px;font-size: 15px;">
                             {% if east.round2.series4.game1 %}
                                 <li> <b>Game 1:</b> {{eastern_teams.1.0}} {{east.round2.series4.game1.score_higher_seed}}-{{east.round2.series4.game1.score_lower_seed}} {{eastern_teams.2.0}}  </li>
                             {% else %}
@@ -787,7 +791,7 @@
                             {% endif%}
                         </ul>
                         <hr style="background-color: blue; height: 1px; width: 75%;"> 
-                        <a href="/basketball/playoffs/series/{{east.round2.series4.series_id}}" style="font-size: 20px;">Series Information</a>
+                        <a href="/basketball/playoffs/series/{{east.round2.series4.series_id}}" style="font-size: 15px;">Series Information</a>
                     </div>
                 </div>
             </li>
@@ -807,7 +811,7 @@
                 <div class="modal-east">
                     <div class="modal-content-east text-center">
                         <span class="close">&times;</span>
-                        <h3>Eastern Conference</h3>
+                        <h4>Eastern Conference</h4>
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
@@ -874,7 +878,7 @@
                 <div class="modal-east">
                     <div class="modal-content-east text-center">
                         <span class="close">&times;</span>
-                        <h3>Eastern Conference</h3>
+                        <h4>Eastern Conference</h4>
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
@@ -940,7 +944,7 @@
                 <div class="modal-east">
                     <div class="modal-content-east text-center">
                         <span class="close">&times;</span>
-                        <h3>Eastern Conference</h3>
+                        <h4>Eastern Conference</h4>
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
@@ -1006,7 +1010,7 @@
                 <div class="modal-east">
                     <div class="modal-content-east text-center">
                         <span class="close">&times;</span>
-                        <h3>Eastern Conference</h3>
+                        <h4>Eastern Conference</h4>
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">

@@ -2045,7 +2045,7 @@ def get_team(team1):
     return list_teams[team1]
 
 
-def get_bias_home(team_id):
+def get_bias_home_other(team_id):
     team_list_dist = {
         1610612749:[0.82, 1.025, -6, 3.5, 0.79, 1.025, -5, 55, 0.85, 1.025, -3, 10, -4, 5, -2, 3, -4, 5, -3, 3, -2, 3, -2, 3, -3, 3, -3, 3, -10, 10],#MIL
         1610612747:[0.84, 1.04, -6, 4.5, 0.79, 1.05, -5, 5, 0.86, 1.05, -3, 10, -4, 5, -2, 4, -3, 6, -4, 5, -3, 4, -2, 3, -3, 3, -3, 3, -7, 7], #LAL
@@ -2080,7 +2080,7 @@ def get_bias_home(team_id):
     }
     return team_list_dist[team_id]
 
-def get_bias_away(team_id):
+def get_bias_away_other(team_id):
     team_list_dist = {
         1610612749:[0.81, 1.025, -5.5, 3, 0.78, 1.02, -5, 4, 0.84, 1.025, -3, 9, -3, 5, -3, 4, -3, 4, -3, 3, -2, 2, -2, 3, -2, 1, -3, -3, -10, 10],#MIL
         1610612747:[0.825, 1.045, -5.5, 4, 0.79, 1.05, -5, 4, 0.83, 1.05, -3, 9, -4, 5, -2, 4, -3, 4, -4, 5, -3, 4, -2, 3, -1, 1, -3, 3, -7, 7], #LAL
@@ -2114,7 +2114,7 @@ def get_bias_away(team_id):
         1610612764:[0.75, 1.04, -6.5, 4.4, 0.75, 1.04, -5, 4.8, 0.83, 1.05, -5, 5, -3, 9, -4, 5, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10]#WIZ
     }
     return team_list_dist[team_id]
-'''
+
 def get_bias_home(team_id):
     team_list_dist = {
         1610612749:[0.91, 1.18, -4, 5, 0.88, 1.11, -5, 5.5, 0.9, 1.1, -3, 10, -4, 5, -2, 3, -4, 5, -3, 3, -2, 3, -2, 3, -3, 3, -3, 3, -10, 10],#MIL
@@ -2184,7 +2184,7 @@ def get_bias_away(team_id):
         1610612764:[0.87, 1.1, -4, 4.6, 0.88, 1.1, -5, 5.8, 0.87, 1.1, -5, 5, -3, 9, -4, 5, -3, 3, -3, 5, -2, 2, -2, 3, -4, 3, -3, 3, -7, 10]#WIZ
     }
     return team_list_dist[team_id]
-'''
+
 
 def get_other_data(team,opponent):
     #print("Team:", team)
@@ -2343,8 +2343,8 @@ def playoff_sim(home_id,away_id):
     #print(biases['home_field_goal_attempt_bias'])
     #print(home_stats['field_goals_attempted_per_game'])
     ####################SAM' BIAS CALCULATIONS############################
-    home_bias_list = get_bias_home(home_id)
-    away_bias_list = get_bias_away(away_id)
+    home_bias_list = get_bias_home_other(home_id)
+    away_bias_list = get_bias_away_other(away_id)
     #print("LOOK:",((biases['home_free_throw_percentage_bias'])+home_stats['free_throw_percentage']))
     '''overall_bias_home = ((biases['home_points_bias']+biases['home_points_per_game_bias'])/10)/2
     if overall_bias_home > 0:
