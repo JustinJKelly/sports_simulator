@@ -26,6 +26,16 @@
     <title>Sports Simulator</title>
 
     <style>
+        .navbar-brand{
+            position: relative;
+            width: 50px;
+            height: 40px;
+            background-size: contain;
+        }
+        .navbar-brand:hover{
+            bottom: 1px;
+        }
+
         a:hover {
             color: inherit;
         }
@@ -155,7 +165,7 @@
   </head>
   <body class="Site">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="{% url 'home' %}">NBA Simulator</a>
+        <a href="{% url 'home' %}" ><img class="navbar-brand hoverable" src="/static/img/SportSimLogoNEG.png" alt="sportsimlogo"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -195,7 +205,13 @@
     {% block content %}
     <br>
     <div class="container">
-        <!-- <img src="/static/img/logo/logo.png" alt="sports_sim Logo" class="center">-->
+        <br>
+        <center>
+            <img src="/static/img/SportSimLogo.png" alt="sports_sim Logo" style="width: 30%;">
+         </center>
+         <br>
+        <hr style="height: 2px; background-color: black;">
+        <br>
         <p class="h4_text" style="text-align:center;"> <a href="{% url 'playoffs_page' %}"> See Playoff Matchups<br/><b class="updated">Playoff Games Updated Daily at 2pm PST</b></a></p>
         <a href="{% url 'playoffs_page' %}"><img class="playoff_image" src="{% static 'img/playoff_image.png' %}"></img></a>
         <br/>
@@ -374,7 +390,7 @@
                 <a href="{% url 'whatissportssim' %}">
                     <div class="card col mobile_style">
                         <div class="card-header" style="background-color: white;">
-                            <img class="card-img-top align article_img" src="{% static 'img/questionNBA.png' %}">
+                            <img class="card-img-top align article_img" src="/static/img/SportSimLogo.png">
                         </div>
                         <div class="card-body text-center article_text">
                             <a href="{% url 'whatissportssim' %}">What is Sports Sim?</a>
