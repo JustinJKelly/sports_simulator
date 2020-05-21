@@ -1180,7 +1180,7 @@ def compute_player_stats(stats,score,tid, other_team_score,home_var):
             blocks_min = 0 if (p.steals_total/p.games_played) < 1.2 else 0.5
             blocks_max = 2.2 if (p.steals_total/p.games_played) < 1.2 else 1.5
             assists_min = 0 if (p.steals_total/p.games_played) < 3 else 0.5
-            assists_max = 1.8 if (p.steals_total/p.games_played) < 3 else 1.5
+            assists_max = 1.6 if (p.steals_total/p.games_played) < 3 else 1.3
             
             if (p.field_goals_attempted/p.games_played) < 5:
                 fg_att_min = 0.4
