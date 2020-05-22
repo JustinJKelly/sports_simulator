@@ -1137,8 +1137,8 @@ def playoffs_page(request):
             context['west']['round2']['series'+str(i)]['lower_seed_name']=series.lower_seed_name
             
             previous_playoff_games = (Game.objects.filter(home_team=series.higher_seed_id,away_team=series.lower_seed_id,date__gte=datetime.date(2020,5,1),is_playoff=True)
-                        | Game.objects.filter(away_team=series.lower_seed_id,home_team=series.higher_seed_id,date__gte=datetime.date(2020,5,1),is_playoff=True)).order_by('date')
-            
+                        | Game.objects.filter(home_team=series.lower_seed_id,away_team=series.higher_seed_id,date__gte=datetime.date(2020,5,1),is_playoff=True)).order_by('date')
+
             count = 1
             for game in previous_playoff_games:
                 context['west']['round2']['series'+str(i)]['game'+str(count)]={}
@@ -1161,8 +1161,8 @@ def playoffs_page(request):
             context['east']['round2']['series'+str(i)]['higher_seed_name']=series.higher_seed_name
             context['east']['round2']['series'+str(i)]['lower_seed_name']=series.lower_seed_name
             previous_playoff_games = (Game.objects.filter(home_team=series.higher_seed_id,away_team=series.lower_seed_id,date__gte=datetime.date(2020,5,1),is_playoff=True)
-                        | Game.objects.filter(away_team=series.lower_seed_id,home_team=series.higher_seed_id,date__gte=datetime.date(2020,5,1),is_playoff=True)).order_by('date')
-            
+                        | Game.objects.filter(home_team=series.lower_seed_id,away_team=series.higher_seed_id,date__gte=datetime.date(2020,5,1),is_playoff=True)).order_by('date')
+
             count = 1
             for game in previous_playoff_games:
                 context['east']['round2']['series'+str(i)]['game'+str(count)]={}
@@ -1178,7 +1178,6 @@ def playoffs_page(request):
             
         i += 1 
         
-                
         
     #print(context['east'],"\n")
     #print(context['west'],"\n")
