@@ -658,7 +658,7 @@
 
         <ul class="round-right round-right-3">
             <li class="spacer-right">&nbsp;</li>
-            <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;TBD<span></span>
+            <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;1. MIL<span></span>
             <li class="game-right game-spacer-right">&nbsp;</li>
             <li class="container-flex-right game-right game-right-bottom">&nbsp;&nbsp;&nbsp;TBD<span></span></li>
             <li class="spacer-right">&nbsp;</li>
@@ -667,7 +667,7 @@
             <!-- EAST ROUND 2-->
             <li class="spacer-right">&nbsp;</li>
             <!-- START OF EAST SERIES 2.1-->
-            <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;&nbsp;1. MIL<span></span></li>
+            <li class="container-flex-right game-right winner game-right-top">&nbsp;&nbsp;&nbsp;&nbsp;1. MIL<span></span></li>
             <li class="game-right game-spacer-right" style="padding-top: 30px;">
                 <div class="ghost-button-east" ><i class="material-icons mi-size">info</i></div>
                 <div class="modal-east">
@@ -709,7 +709,7 @@
                                 <li> Game 4: N/A</li>
                             {% endif%}
                             {% if east.round2.series3.game5 %}
-                                <li> <b>Game 5:</b> {{eastern_teams.0.0}} {{east.round2.series3.game5.score_higher_seed}}-{{east.round2.series3.game5.score_lower_seed}} {{eastern_teams.4.0}}  </li>i>
+                                <li> <b>Game 5:</b> {{eastern_teams.0.0}} {{east.round2.series3.game5.score_higher_seed}}-{{east.round2.series3.game5.score_lower_seed}} {{eastern_teams.4.0}}  </li>
                             {% else %}
                                 <li> Game 5(if nec.): N/A</li>
                             {% endif%}
@@ -729,7 +729,7 @@
                     </div>
                 </div>
             </li>
-            <li class="container-flex-right game-right game-right-bottom">&nbsp;&nbsp;&nbsp;&nbsp;5.PHI<span></span></li>
+            <li class="container-flex-right game-right game-right-bottom" style="opacity:50%;">&nbsp;&nbsp;&nbsp;&nbsp;5.PHI<span></span></li>
             <!-- END OF EAST SERIES 2.1-->
             <li class="spacer-right">&nbsp;</li>
             <!-- START OF EAST SERIES 2.2-->
@@ -775,7 +775,7 @@
                                 <li> Game 4: N/A</li>
                             {% endif%}
                             {% if east.round2.series4.game5 %}
-                                <li> <b>Game 5:</b> {{eastern_teams.1.0}} {{east.round2.series4.game5.score_higher_seed}}-{{east.round1.series4.game5.score_lower_seed}} {{eastern_teams.2.0}}  </li>i>
+                                <li> <b>Game 5:</b> {{eastern_teams.1.0}} {{east.round2.series4.game5.score_higher_seed}}-{{east.round1.series4.game5.score_lower_seed}} {{eastern_teams.2.0}}  </li>
                             {% else %}
                                 <li> Game 5(if nec.): N/A</li>
                             {% endif%}
