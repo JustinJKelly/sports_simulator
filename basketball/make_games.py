@@ -18,7 +18,7 @@ def make_playoff_single():
             print(game.away_team_name)
             print(game.game_date)
             print(game.game_number)
-            return_val = calculate_stats(list(),list(),game.lower_seeding_id,game.higher_seeding_id,game.game_date,'away')
+            return_val = calculate_stats(list(),list(),game.higher_seeding_id,game.lower_seeding_id,game.game_date,'home')
     
 def make_playoff_games(eastern_teams, western_teams):
     
