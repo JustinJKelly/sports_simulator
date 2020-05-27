@@ -637,7 +637,68 @@
         <ul class="round round-3">
             <li class="spacer">&nbsp;</li>
             <li class="container-flex game game-top ">1. LAL&nbsp;&nbsp;<span></span>
-            <li class="game game-spacer">&nbsp;</li>
+                <li class="game game-spacer" style="padding-top: 80px;">
+                    <div class="ghost-button"><i class="material-icons mi-size">info</i></div>
+                    <div class="modal">
+                        <div class="modal-content text-center">
+                            <span class="close">&times;</span>
+                            <h3>Western Conference</h3>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap;">
+                                        <a href="/basketball/team/{{western_teams.0.2}}"><img class="modal-images" src="{% static western_teams.0.3 %}" alt=""></a>
+                                    </div>
+                                    <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
+                                        <a href="/basketball/team/{{western_teams.1.2}}"><img class="modal-images" src="{% static western_teams.1.3%}"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <h5 style="font-size: 16px;"> ({{west.round3.series1.higher_seed_wins}}-{{west.round3.series1.higher_seed_losses}})&nbsp;&nbsp;{{west.round3.series1.higher_seed_name}} vs {{west.round3.series1.lower_seed_name}}&nbsp;&nbsp;({{west.round3.series1.lower_seed_wins}}-{{west.round3.series1.lower_seed_losses}}) </h5>
+                            <hr style="background-color:red; height: 1px; width: 75%;">
+                            <ul style=" list-style-type:none; margin-right: 10px; font-size: 20px;">
+                                {% if west.round3.series1.game1 %}
+                                    <li>  Game 1: {{western_teams.0.0}} {{west.round3.series1.game1.score_higher_seed}}-{{west.round3.series1.game1.score_lower_seed}} {{western_teams.1.0}}</li>
+                                {% else %}
+                                    <li> Game 1: N/A</li>
+                                {% endif%}
+                                {% if west.round3.series1.game2 %}
+                                    <li> <b> Game 2: </b> {{western_teams.0.0}} {{west.round3.series1.game2.score_higher_seed}}-{{west.round3.series1.game2.score_lower_seed}} {{western_teams.1.0}}</li>
+                                {% else %}
+                                    <li> Game 2: N/A</li>
+                                {% endif%}
+                                {% if west.round3.series1.game3 %}
+                                    <li> <b> Game 3: </b> {{western_teams.0.0}} {{west.round3.series1.game3.score_higher_seed}}-{{west.round3.series1.game3.score_lower_seed}} {{western_teams.1.0}}</li>
+                                {% else %}
+                                    <li> Game 3: N/A</li>
+                                {% endif%}
+                                {% if west.round3.series1.game4 %}
+                                    <li> <b> Game 4: </b> {{western_teams.0.0}} {{west.round3.series1.game4.score_higher_seed}}-{{west.round3.series1.game4.score_lower_seed}} {{western_teams.1.0}}</li>
+                                {% else %}
+                                    <li> Game 4: N/A</li>
+                                {% endif%}
+                                {% if west.round3.series1.game5 %}
+                                    <li> <b> Game 5: </b> {{western_teams.0.0}} {{west.round3.series1.game5.score_higher_seed}}-{{west.round3.series1.game5.score_lower_seed}} {{western_teams.1.0}}</li>
+                                {% else %}
+                                    <li> Game 5(if nec.): N/A</li>
+                                {% endif%}
+                                {% if west.round3.series1.game6 %}
+                                    <li> <b> Game 6: </b> {{western_teams.0.0}} {{west.round3.series1.game6.score_higher_seed}}-{{west.round3.series1.game6.score_lower_seed}} {{western_teams.1.0}}</li>
+                                {% else %}
+                                    <li> Game 6(if nec.): N/A</li>
+                                {% endif%}
+                                {% if west.round3.series1.game7 %}
+                                    <li> <b> Game 7: </b> {{western_teams.0.0}} {{west.round3.series1.game7.score_higher_seed}}-{{west.round3.series1.game7.score_lower_seed}} {{western_teams.1.0}}</li>
+                                {% else %}
+                                    <li> Game 7(if nec.): N/A</li>
+                                {% endif%}
+                            </ul>
+                            <hr style="background-color: red; height: 1px; width: 75%;"> 
+                            <a href="/basketball/playoffs/series/{{west.round3.series1.series_id}}" style="font-size: 20px;">Series Information</a>
+                        </div>
+                    </div>
+                </li>
             <li class="container-flex game game-bottom">2. LAC<span></span></li>
             <li class="spacer">&nbsp;</li>
         </ul>    
@@ -658,7 +719,68 @@
         <ul class="round-right round-right-3">
             <li class="spacer-right">&nbsp;</li>
             <li class="container-flex-right game-right game-right-top">&nbsp;&nbsp;&nbsp;1. MIL<span></span>
-            <li class="game-right game-spacer-right">&nbsp;</li>
+                <li class="game-right game-spacer-right" style="padding-top: 80px;">
+                    <div class="ghost-button-east"><i class="material-icons mi-size">info</i></div>
+                    <div class="modal-east">
+                        <div class="modal-content-east text-center">
+                            <span class="close">&times;</span>
+                            <h3>Eastern Conference</h3>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap;">
+                                        <a href="/basketball/team/{{eastern_teams.0.2}}"><img class="modal-images" src="{% static eastern_teams.0.3 %}" alt=""></a>
+                                    </div>
+                                    <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
+                                        <a href="/basketball/team/{{eastern_teams.2.2}}"><img class="modal-images" src="{% static eastern_teams.2.3%}"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <h5 style="font-size: 16px;"> ({{east.round3.series1.higher_seed_wins}}-{{east.round3.series1.higher_seed_losses}})&nbsp;&nbsp;{{east.round3.series1.higher_seed_name}} vs {{east.round3.series1.lower_seed_name}}&nbsp;&nbsp;({{east.round3.series1.lower_seed_wins}}-{{east.round3.series1.lower_seed_losses}}) </h5>
+                            <hr style="background-color:red; height: 1px; width: 75%;">
+                            <ul style=" list-style-type:none; margin-right: 10px; font-size: 20px;">
+                                {% if east.round3.series1.game1 %}
+                                    <li>  Game 1: {{eastern_teams.0.0}} {{east.round3.series1.game1.score_higher_seed}}-{{east.round3.series1.game1.score_lower_seed}} {{eastern_teams.2.0}}</li>
+                                {% else %}
+                                    <li> Game 1: N/A</li>
+                                {% endif%}
+                                {% if east.round3.series1.game2 %}
+                                    <li> <b> Game 2: </b> {{eastern_teams.0.0}} {{east.round3.series1.game2.score_higher_seed}}-{{east.round3.series1.game2.score_lower_seed}} {{eastern_teams.2.0}}</li>
+                                {% else %}
+                                    <li> Game 2: N/A</li>
+                                {% endif%}
+                                {% if east.round3.series1.game3 %}
+                                    <li> <b> Game 3: </b> {{eastern_teams.0.0}} {{east.round3.series1.game3.score_higher_seed}}-{{east.round3.series1.game3.score_lower_seed}} {{eastern_teams.2.0}}</li>
+                                {% else %}
+                                    <li> Game 3: N/A</li>
+                                {% endif%}
+                                {% if east.round3.series1.game4 %}
+                                    <li> <b> Game 4: </b> {{eastern_teams.0.0}} {{east.round3.series1.game4.score_higher_seed}}-{{east.round3.series1.game4.score_lower_seed}} {{eastern_teams.2.0}}</li>
+                                {% else %}
+                                    <li> Game 4: N/A</li>
+                                {% endif%}
+                                {% if east.round3.series1.game5 %}
+                                    <li> <b> Game 5: </b> {{eastern_teams.0.0}} {{east.round3.series1.game5.score_higher_seed}}-{{east.round3.series1.game5.score_lower_seed}} {{eastern_teams.2.0}}</li>
+                                {% else %}
+                                    <li> Game 5(if nec.): N/A</li>
+                                {% endif%}
+                                {% if east.round3.series1.game6 %}
+                                    <li> <b> Game 6: </b> {{eastern_teams.0.0}} {{east.round3.series1.game6.score_higher_seed}}-{{east.round3.series1.game6.score_lower_seed}} {{eastern_teams.2.0}}</li>
+                                {% else %}
+                                    <li> Game 6(if nec.): N/A</li>
+                                {% endif%}
+                                {% if east.round3.series1.game7 %}
+                                    <li> <b> Game 7: </b> {{eastern_teams.0.0}} {{east.round3.series1.game7.score_higher_seed}}-{{east.round3.series1.game7.score_lower_seed}} {{eastern_teams.2.0}}</li>
+                                {% else %}
+                                    <li> Game 7(if nec.): N/A</li>
+                                {% endif%}
+                            </ul>
+                            <hr style="background-color: red; height: 1px; width: 75%;"> 
+                            <a href="/basketball/playoffs/series/{{east.round3.series1.series_id}}" style="font-size: 20px;">Series Information</a>
+                        </div>
+                    </div>
+                </li>
             <li class="container-flex-right game-right game-right-bottom">&nbsp;&nbsp;&nbsp;3. BOS<span></span></li>
             <li class="spacer-right">&nbsp;</li>
         </ul> 
@@ -1100,6 +1222,9 @@
     btn[5].onclick = function(){
         modal[5].style.display = "block";
     }
+    btn[6].onclick = function(){
+        modal[6].style.display = "block";
+    }
     
     btn_east[0].onclick = function() {
       modal_east[0].style.display = "block";
@@ -1118,6 +1243,9 @@
     }
     btn_east[5].onclick = function() {
       modal_east[5].style.display = "block";
+    }
+    btn_east[6].onclick = function() {
+      modal_east[6].style.display = "block";
     }
 
     
@@ -1141,22 +1269,28 @@
         modal[5].style.display = "none";
     }
     span[6].onclick = function(){
-        modal_east[0].style.display = "none";
+        modal[6].style.display = "none";
     }
     span[7].onclick = function(){
-        modal_east[1].style.display = "none";
+        modal_east[0].style.display = "none";
     }
     span[8].onclick = function(){
-        modal_east[2].style.display = "none";
+        modal_east[1].style.display = "none";
     }
     span[9].onclick = function(){
-        modal_east[3].style.display = "none";
+        modal_east[2].style.display = "none";
     }
     span[10].onclick = function(){
-        modal_east[4].style.display = "none";
+        modal_east[3].style.display = "none";
     }
     span[11].onclick = function(){
+        modal_east[4].style.display = "none";
+    }
+    span[12].onclick = function(){
         modal_east[5].style.display = "none";
+    }
+    span[13].onclick = function(){
+        modal_east[6].style.display = "none";
     }
 
     // When the user clicks anywhere outside of the modal, close it
