@@ -1868,32 +1868,32 @@ def compute_points_by_quarter(total_points_home, total_points_away, num_ots):
     quarter_2_home = random.randint(basis_home-6,basis_home+6)
     quarter_3_home = random.randint(basis_home-6,basis_home+6)
     quarter_4_home = total_points_home - (quarter_1_home + quarter_2_home + quarter_3_home)
-    if quarter_4_home < 18:
-        quarter_1_home -= 4
-        quarter_2_home -= 4
+    if quarter_4_home < 26:
+        quarter_1_home -= 3
+        quarter_2_home -= 3
         quarter_3_home -= 4
-        quarter_4_home += 12
-    elif quarter_4_home > 32:
-        quarter_1_home += 4
-        quarter_2_home += 4
-        quarter_3_home += 4
-        quarter_4_home -= 12
+        quarter_4_home += 10
+    elif quarter_4_home > 35:
+        quarter_1_home += 3
+        quarter_2_home += 3
+        quarter_3_home += 2
+        quarter_4_home -= 8
 
     basis_away = int(total_points_away/4)
     quarter_1_away = random.randint(basis_away-6,basis_away+6)
     quarter_2_away = random.randint(basis_away-6,basis_away+6)
     quarter_3_away = random.randint(basis_away-6,basis_away+6)
     quarter_4_away = total_points_away - (quarter_1_away + quarter_2_away + quarter_3_away)
-    if quarter_4_away < 18:
-        quarter_1_away -= 4
-        quarter_2_away -= 4
+    if quarter_4_away < 26:
+        quarter_1_away -= 3
+        quarter_2_away -= 3
         quarter_3_away -= 4
-        quarter_4_away += 12
-    elif quarter_4_away > 32:
-        quarter_1_away += 4
-        quarter_2_away += 4
-        quarter_3_away += 4
-        quarter_4_away -= 12
+        quarter_4_away += 10
+    elif quarter_4_away > 35:
+        quarter_1_away += 3
+        quarter_2_away += 3
+        quarter_3_away += 2
+        quarter_4_away -= 8
 
     if len(overtime_scores_home)>0:
         return  {
