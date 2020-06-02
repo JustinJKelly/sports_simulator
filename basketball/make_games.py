@@ -18,7 +18,7 @@ def make_playoff_single():
             print(game.away_team_name)
             print(game.game_date)
             print(game.game_number)
-            return_val = calculate_stats(list(),list(),game.higher_seeding_id,game.lower_seeding_id,game.game_date,'home')
+            return_val = calculate_stats(list(),list(),game.lower_seeding_id,game.higher_seeding_id,game.game_date,'away')
     
 def make_playoff_games(eastern_teams, western_teams):
     
@@ -1255,12 +1255,12 @@ def compute_player_stats(stats,score,tid, other_team_score,home_var):
                 free_throws_att_max = 1.5
             
             #playoff_adjustment
-            fg_att_max += 0.02
+            '''fg_att_max += 0.02
             fg_made_max += 0.025
             free_throws_made_max += 0.025
             free_throws_att_max += 0.025
             three_pt_att_max += 0.015
-            three_pt_made_max += 0.015
+            three_pt_made_max += 0.015'''
             
             #nuggets
             if tid == 1610612743:
@@ -1278,7 +1278,7 @@ def compute_player_stats(stats,score,tid, other_team_score,home_var):
                 three_pt_made_max += 0.01
             
             #Lakers
-            if tid == 1610612747:
+            '''if tid == 1610612747:
                 fg_att_max += 0.04
                 fg_made_max += 0.05
                 fg_made_min += 0.025
@@ -1287,7 +1287,7 @@ def compute_player_stats(stats,score,tid, other_team_score,home_var):
                 free_throws_att_max += 0.04
                 three_pt_att_max += 0.03
                 three_pt_made_max += 0.05
-                three_pt_made_min += 0.03
+                three_pt_made_min += 0.03'''
             
             #rockets, Dallas, Heat, Raptors, Clippers, Bucks, Lakers, 76ers, Celtics, OKC, Nuggets
             if tid == 1610612745 or tid == 1610612742 or tid == 1610612748 or tid == 1610612761 or tid == 1610612746 or tid == 1610612749 or tid == 1610612747 or tid == 1610612755 or tid == 1610612738 or tid == 1610612760 or tid == 1610612743:
