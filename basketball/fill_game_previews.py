@@ -3,17 +3,14 @@ from datetime import date
 
 def make_game_previews():
     
-    day = 28
-    series = Serie.objects.filter(current=True,playoff_type="CF")
+    day = 5
+    series = Serie.objects.filter(current=True,playoff_type="F")
     
     for serie in series:
         
         for count in range (1,8):
             
-            if day > 31:
-                game_date_start = date(2020,6,day%31)
-            else:
-                game_date_start = date(2020,5,day)
+            game_date_start = date(2020,6,day)
         
             if count == 1 or count == 2 or count == 5 or count == 7:
                 home_team = serie.higher_seed_id
@@ -48,7 +45,7 @@ def make_game_previews():
             game_preview.save()
             day += 1
         
-        day = 28
+        day = 5
         
     
     

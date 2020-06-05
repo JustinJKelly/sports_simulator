@@ -1236,6 +1236,37 @@ def playoffs_page(request):
             
         i += 1 
         
+    
+    #Round 4
+    context['west']['round4']={}
+    context['west']['round4']['series1']={}
+    i = 1
+    for series in Serie.objects.filter(playoff_type="F").order_by("-series_id"):
+        context['west']['round4']['series1']['series_id']=series.series_id
+        context['west']['round4']['series1']['higher_seed_wins']=series.higher_seed_wins
+        context['west']['round4']['series1']['higher_seed_losses']=series.higher_seed_loses
+        context['west']['round4']['series1']['lower_seed_wins']=series.lower_seed_wins
+        context['west']['round4']['series1']['lower_seed_losses']=series.lower_seed_loses
+        context['west']['round4']['series1']['higher_seed_name']=series.higher_seed_name
+        context['west']['round4']['series1']['lower_seed_name']=series.lower_seed_name
+        
+        previous_playoff_games = (Game.objects.filter(home_team=series.higher_seed_id,away_team=series.lower_seed_id,date__gte=datetime.date(2020,5,1),is_playoff=True)
+                        | Game.objects.filter(home_team=series.lower_seed_id,away_team=series.higher_seed_id,date__gte=datetime.date(2020,5,1),is_playoff=True)).order_by('date')
+
+        count = 1
+        for game in previous_playoff_games:
+            context['west']['round4']['series1']['game'+str(count)]={}
+            context['west']['round4']['series1']['game'+str(count)]['game_id']=game.game_id
+            if series.higher_seed_id == game.home_team:
+                context['west']['round4']['series1']['game'+str(count)]['score_higher_seed']=game.home_team_score
+                context['west']['round4']['series1']['game'+str(count)]['score_lower_seed']=game.away_team_score
+            else:
+                context['west']['round4']['series1']['game'+str(count)]['score_higher_seed']=game.away_team_score
+                context['west']['round4']['series1']['game'+str(count)]['score_lower_seed']=game.home_team_score
+                
+            count += 1   
+        
+        
         
     #print(context['east'],"\n")
     #print(context['west'],"\n")
@@ -2244,6 +2275,35 @@ def playoffs_page_mobile(request):
                 count += 1   
             
         i += 1
+    
+    #Round 4
+    context['west']['round4']={}
+    context['west']['round4']['series1']={}
+    i = 1
+    for series in Serie.objects.filter(playoff_type="F").order_by("-series_id"):
+        context['west']['round4']['series1']['series_id']=series.series_id
+        context['west']['round4']['series1']['higher_seed_wins']=series.higher_seed_wins
+        context['west']['round4']['series1']['higher_seed_losses']=series.higher_seed_loses
+        context['west']['round4']['series1']['lower_seed_wins']=series.lower_seed_wins
+        context['west']['round4']['series1']['lower_seed_losses']=series.lower_seed_loses
+        context['west']['round4']['series1']['higher_seed_name']=series.higher_seed_name
+        context['west']['round4']['series1']['lower_seed_name']=series.lower_seed_name
+        
+        previous_playoff_games = (Game.objects.filter(home_team=series.higher_seed_id,away_team=series.lower_seed_id,date__gte=datetime.date(2020,5,1),is_playoff=True)
+                        | Game.objects.filter(home_team=series.lower_seed_id,away_team=series.higher_seed_id,date__gte=datetime.date(2020,5,1),is_playoff=True)).order_by('date')
+
+        count = 1
+        for game in previous_playoff_games:
+            context['west']['round4']['series1']['game'+str(count)]={}
+            context['west']['round4']['series1']['game'+str(count)]['game_id']=game.game_id
+            if series.higher_seed_id == game.home_team:
+                context['west']['round4']['series1']['game'+str(count)]['score_higher_seed']=game.home_team_score
+                context['west']['round4']['series1']['game'+str(count)]['score_lower_seed']=game.away_team_score
+            else:
+                context['west']['round4']['series1']['game'+str(count)]['score_higher_seed']=game.away_team_score
+                context['west']['round4']['series1']['game'+str(count)]['score_lower_seed']=game.home_team_score
+                
+            count += 1   
         
     #print(context['east'],"\n")
     #print(context['west'],"\n")
