@@ -145,6 +145,23 @@
         color: blue;
         font-size: 1.5vw;
     }
+
+    .ghost-button-gold{
+        /* color: #FFDF00; */
+        /* background-color: black; */
+        border-radius: 50%;
+        display: inline-block;
+        position: relative;
+        margin-top: 15px;
+        font-weight: bold;
+        font-size: 1.5vw;
+    }
+    .ghost-button-gold:hover,
+    .ghost-button-gold:active{
+        opacity: 58%;
+        cursor: pointer;
+    }
+
     .ghost-button-east:hover,
     .ghost-button-east:active{
         opacity: 58%;
@@ -722,7 +739,71 @@
             <li class="container-flex game game-top">1. LAL&nbsp;&nbsp;&nbsp;<span></span>
             <li class="spacer">&nbsp;</li>
         </ul>
-        <!-- START OF THE EASTERN CONFERENCE -->
+        <ul class="" style="list-style:none; margin-right: 25px;">
+            <li class="spacer"></li>
+            <li class="game" style="padding-top: 600%;">
+                <div class="ghost-button-gold"><i class="material-icons mi-size">info</i></div>
+                <div class="modal">
+                    <div class="modal-content text-center">
+                        <span class="close">&times;</span>
+                        <h3>Western Conference</h3>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap;">
+                                    <a href="/basketball/team/{{western_teams.0.2}}"><img class="modal-images" src="{% static western_teams.0.3 %}" alt=""></a>
+                                </div>
+                                <div class="col" style="display:flex; justify-content:center; flex-wrap: nowrap; max-width:50%;">
+                                    <a href="/basketball/team/{{eastern_teams.0.2}}"><img class="modal-images" src="{% static eastern_teams.0.3%}"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <h5 style="font-size: 16px;"> ({{west.round4.series1.higher_seed_wins}}-{{west.round4.series1.higher_seed_losses}})&nbsp;&nbsp;{{west.round4.series1.higher_seed_name}} vs {{west.round4.series1.lower_seed_name}}&nbsp;&nbsp;({{west.round4.series1.lower_seed_wins}}-{{west.round4.series1.lower_seed_losses}}) </h5>
+                        <hr style="background-color:red; height: 1px; width: 75%;">
+                        <ul style=" list-style-type:none; margin-right: 10px; font-size: 20px;">
+                            {% if west.round4.series1.game1 %}
+                                <li> <b> Game 1: </b> {{western_teams.0.0}} {{west.round4.series1.game1.score_higher_seed}}-{{west.round4.series1.game1.score_lower_seed}} {{eastern_teams.0.0}}</li>
+                            {% else %}
+                                <li> Game 1: N/A</li>
+                            {% endif%}
+                            {% if west.round4.series1.game2 %}
+                                <li> <b> Game 2: </b> {{western_teams.0.0}} {{west.round4.series1.game2.score_higher_seed}}-{{west.round4.series1.game2.score_lower_seed}} {{eastern_teams.0.0}}</li>
+                            {% else %}
+                                <li> Game 2: N/A</li>
+                            {% endif%}
+                            {% if west.round4.series1.game3 %}
+                                <li> <b> Game 3: </b> {{western_teams.0.0}} {{west.round4.series1.game3.score_higher_seed}}-{{west.round4.series1.game3.score_lower_seed}} {{eastern_teams.0.0}}</li>
+                            {% else %}
+                                <li> Game 3: N/A</li>
+                            {% endif%}
+                            {% if west.round4.series1.game4 %}
+                                <li> <b> Game 4: </b> {{western_teams.0.0}} {{west.round4.series1.game4.score_higher_seed}}-{{west.round4.series1.game4.score_lower_seed}} {{eastern_teams.0.0}}</li>
+                            {% else %}
+                                <li> Game 4: N/A</li>
+                            {% endif%}
+                            {% if west.round4.series1.game5 %}
+                                <li> <b> Game 5: </b> {{western_teams.0.0}} {{west.round4.series1.game5.score_higher_seed}}-{{west.round4.series1.game5.score_lower_seed}} {{eastern_teams.0.0}}</li>
+                            {% else %}
+                                <li> Game 5(if nec.): N/A</li>
+                            {% endif%}
+                            {% if west.round4.series1.game6 %}
+                                <li> <b> Game 6: </b> {{western_teams.0.0}} {{west.round4.series1.game6.score_higher_seed}}-{{west.round4.series1.game6.score_lower_seed}} {{eastern_teams.0.0}}</li>
+                            {% else %}
+                                <li> Game 6(if nec.): N/A</li>
+                            {% endif%}
+                            {% if west.round4.series1.game7 %}
+                                <li> <b> Game 7: </b> {{western_teams.0.0}} {{west.round4.series1.game7.score_higher_seed}}-{{west.round4.series1.game7.score_lower_seed}} {{eastern_teams.0.0}}</li>
+                            {% else %}
+                                <li> Game 7(if nec.): N/A</li>
+                            {% endif%}
+                        </ul>
+                        <hr style="background-color: red; height: 1px; width: 75%;"> 
+                        <a href="/basketball/playoffs/series/{{west.round4.series1.series_id}}" style="font-size: 20px;">Series Information</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
 
         <ul class="round-right round-right-4">
             <li class="spacer-right">&nbsp;</li>
@@ -1156,7 +1237,6 @@
                                 </div>
                             </div>
                         </div>
-                        
                       <h5 style="font-size: 16px;">({{east.round1.series4.higher_seed_wins}}-{{east.round1.series4.higher_seed_losses}})&nbsp;&nbsp;{{eastern_teams.1.1}} vs {{eastern_teams.6.1}}&nbsp;&nbsp;({{east.round1.series4.lower_seed_wins}}-{{east.round1.series4.lower_seed_losses}}) </h5>
                         <hr style="background-color:blue; height: 1px; width: 75%;">
                             <ul style=" list-style-type:none; margin-right: 10px; font-size: 20px;">
@@ -1214,6 +1294,7 @@
     // Get the button that opens the modal
     var btn = document.getElementsByClassName("ghost-button");
     var btn_east = document.getElementsByClassName("ghost-button-east");
+    var btn_finals = document.getElementsByClassName('ghost-button-gold');
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close");
     
@@ -1238,6 +1319,10 @@
     }
     btn[6].onclick = function(){
         modal[6].style.display = "block";
+    }
+
+    btn_finals[0].onclick = function(){
+        modal[7].style.display = "block";
     }
     
     btn_east[0].onclick = function() {
@@ -1286,24 +1371,27 @@
         modal[6].style.display = "none";
     }
     span[7].onclick = function(){
-        modal_east[0].style.display = "none";
+        modal[7].style.display = "none";
     }
     span[8].onclick = function(){
-        modal_east[1].style.display = "none";
+        modal_east[0].style.display = "none";
     }
     span[9].onclick = function(){
-        modal_east[2].style.display = "none";
+        modal_east[1].style.display = "none";
     }
     span[10].onclick = function(){
-        modal_east[3].style.display = "none";
+        modal_east[2].style.display = "none";
     }
     span[11].onclick = function(){
-        modal_east[4].style.display = "none";
+        modal_east[3].style.display = "none";
     }
     span[12].onclick = function(){
-        modal_east[5].style.display = "none";
+        modal_east[4].style.display = "none";
     }
     span[13].onclick = function(){
+        modal_east[5].style.display = "none";
+    }
+    span[14].onclick = function(){
         modal_east[6].style.display = "none";
     }
 
