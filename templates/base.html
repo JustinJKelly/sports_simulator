@@ -93,7 +93,7 @@
         }
 
         .updated {
-            font-size:17px;
+            font-size:26px;
         }
 
         .img_style {
@@ -126,7 +126,7 @@
             }
 
             .updated {
-                font-size:10px;
+                font-size:14px;
             }
 
             .img_style {
@@ -193,9 +193,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'make_playoff_sim' %}">Make Your Own Playoffs</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'mvp_vote' %}">Vote For MVP</a>
-                </li>
                 <!--<li class="nav-item">
                     <a class="nav-link" href="{% url 'series_vote' %}">Vote For Series Matchups</a>
                 </li>-->
@@ -215,7 +212,10 @@
          <br>
         <hr style="height: 2px; background-color: black;">
         <br>
-        <p class="h4_text" style="text-align:center;"> <a href="{% url 'playoffs_page' %}"> See Playoff Matchups<br/><b class="updated" style="font-size:20px;">Playoff Games Updated Daily at 2pm PST (Finals start 6/5)</b></a></p>
+        <p class="updated" style="text-align:center; font-weight:bold;" > Your 2020 NBA Champion is the Milwaukee Bucks, beating the Los Angeles Lakers 4-3 </p>
+        <a href="/basketball/playoffs/series/15"> <center class="updated" style="font-weight:bold; text-align:center;">See the NBA FINALS Boxscore</center> </a>
+        <br/>
+        <a href="{% url 'playoffs_page' %}"> <center class="updated" style="font-weight:bold; text-align:center;">Check out the rest of the Playoffs</center> </a>
         <a href="{% url 'playoffs_page' %}"><img class="playoff_image" src="{% static 'img/playoff_image.png' %}"></img></a>
         <br/>
         <br/>
