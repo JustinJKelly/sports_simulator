@@ -21,7 +21,8 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '=1l2i#a@=)rq%6cz681(3iu-_#9ay%#++y0@gwwmks6qug%4+2'
+SECRET_KEY = os.environ['SECRET_KEY']
+#SECRET_KEY = '=1l2i#a@=)rq%6cz681(3iu-_#9ay%#++y0@gwwmks6qug%4+2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -123,5 +124,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+MEDIA_URL = '/img/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/img')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
