@@ -8,7 +8,7 @@ def path_does_not_exist(request):
     return render(request,"error_request.html")
 
 def home(request):
-    counter = Counter.objects.all()[0]
+    '''counter = Counter.objects.all()[0]
     counter.countVisitors += 1
     counter.save()
     context= dict()
@@ -41,9 +41,9 @@ def home(request):
                 find_team_image(game.home_team),
                 ("%s/%s/%s" % (today.month,today.day,today.year))
             ])
-            count+=1
+            count+=1'''
     
-    return render(request, 'base.html', context)
+    return render(request, 'base.html', {})
 
 def articles_sports_sim(request):
     return render(request, 'article_whatissportssim.html')
