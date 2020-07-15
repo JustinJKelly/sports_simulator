@@ -13,4 +13,4 @@ from django.core.asgi import get_default_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sports_simulator.settings')
 django.setup()
-application = get_asgi_application()
+application = get_default_application()

@@ -74,6 +74,7 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = 'sports_simulator.asgi.application'
 WSGI_APPLICATION = 'sports_simulator.wsgi.application'
 
 
