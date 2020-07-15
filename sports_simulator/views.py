@@ -8,6 +8,7 @@ def path_does_not_exist(request):
     return render(request,"error_request.html")
 
 def home(request):
+    print("here")
     '''counter = Counter.objects.all()[0]
     counter.countVisitors += 1
     counter.save()
