@@ -43,8 +43,8 @@ def home(request):
                 ("%s/%s/%s" % (today.month,today.day,today.year))
             ])
             count+=1'''
-    
-    return render(request, 'base.html', {})
+    return redirect("/basketball/teams")
+    #return render(request, 'base.html', {})
 
 def articles_sports_sim(request):
     return render(request, 'article_whatissportssim.html')
