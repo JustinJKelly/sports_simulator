@@ -44,7 +44,7 @@ def home(request):
             ])
             count+=1'''
     
-    return render(request, 'basketball/base.html', {})
+    return render(request, 'base.html', {})
 
 def articles_sports_sim(request):
     return render(request, 'article_whatissportssim.html')
